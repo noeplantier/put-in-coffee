@@ -1,0 +1,21 @@
+---
+// src/components/WaveDivider.astro
+export interface Props {
+  fill?: string;
+  flip?: boolean;
+  style?: 'wave1' | 'wave2' | 'wave3';
+}
+const { fill = '#060f1e', flip = false, style = 'wave1' } = Astro.props;
+
+const paths = {
+  wave1: 'M0,40 C200,80 400,0 600,40 C800,80 1000,0 1200,40 L1200,80 L0,80 Z',
+  wave2: 'M0,30 C300,60 600,0 900,30 C1050,45 1150,20 1200,30 L1200,60 L0,60 Z',
+  wave3: 'M0,0 C400,60 800,0 1200,0 L1200,60 L0,60 Z',
+};
+---
+
+<div class={`line-height-0 overflow-hidden ${flip ? 'rotate-180' : ''}`} aria-hidden="true">
+  <svg viewBox={`0 0 1200 ${style === 'wave3' ? 60 : 80}`} preserveAspectRatio="none" fill={fill} class="w-full block">
+    <path d={paths[style]}/>
+  </svg>
+</div>

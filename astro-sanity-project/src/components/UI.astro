@@ -1,0 +1,146 @@
+---
+// src/components/UI.astro
+// All small shared UI components in one file
+---
+
+<!-- ── Scroll Progress Bar ─────────────────────────────────── -->
+<div
+  id="scroll-progress"
+  class="fixed top-0 left-0 h-[3px] bg-gradient-to-r from-pc-teal to-pc-gold z-progress w-0 transition-[width] duration-100 linear pointer-events-none"
+  role="progressbar"
+  aria-label="Reading progress"
+></div>
+
+<!-- ── Custom Cursor (desktop only) ──────────────────────── -->
+<div id="cursor-dot" class="fixed w-2 h-2 rounded-full bg-pc-gold z-cursor pointer-events-none -translate-x-1/2 -translate-y-1/2 transition-[width,height] duration-200 hidden md:block" aria-hidden="true"></div>
+<div id="cursor-ring" class="fixed w-10 h-10 rounded-full border border-pc-gold/50 z-cursor-ring pointer-events-none -translate-x-1/2 -translate-y-1/2 transition-[width,height,border-color] duration-300 hidden md:block" aria-hidden="true"></div>
+
+<!-- ── Back to Top ─────────────────────────────────────────── -->
+<button
+  id="back-to-top"
+  class="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-pc-gold text-[#0a0800] flex items-center justify-center text-lg shadow-gold-sm z-floating transition-all duration-300 opacity-0 translate-y-5 pointer-events-none hover:-translate-y-1 hover:shadow-gold-md"
+  aria-label="Back to top"
+>
+  ↑
+</button>
+
+<!-- ── Toast Container ─────────────────────────────────────── -->
+<div
+  id="toast-container"
+  class="fixed top-24 right-4 flex flex-col gap-3 z-toast pointer-events-none"
+  aria-live="polite"
+  aria-atomic="true"
+></div>
+
+<!-- ── Cookie Consent ──────────────────────────────────────── -->
+<div
+  id="cookie-banner"
+  class="fixed bottom-0 left-0 right-0 z-cookie bg-pc-bg2/98 border-t border-white/[0.08] backdrop-blur-xl p-4 md:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 translate-y-full transition-transform duration-500"
+  role="dialog"
+  aria-label="Cookie consent"
+  aria-modal="true"
+>
+  <p class="text-sm text-pc-muted flex-1">
+    🍪 We use cookies to enhance your experience. By continuing, you agree to our
+    <a href="/privacy" class="text-pc-gold underline">Privacy Policy</a> and
+    <a href="/cookies" class="text-pc-gold underline">Cookie Policy</a>.
+  </p>
+  <div class="flex gap-2 flex-shrink-0">
+    <button id="cookie-decline" class="px-4 py-2 rounded-pill border border-white/[0.08] text-pc-muted text-sm hover:border-pc-muted hover:text-pc-cream transition-colors">Essential Only</button>
+    <button id="cookie-accept" class="px-4 py-2 rounded-pill bg-pc-gold text-[#0a0800] font-semibold text-sm hover:shadow-gold-sm transition-shadow">Accept All</button>
+  </div>
+</div>
+
+<script>
+  // ── Scroll progress ──────────────────────────────────────
+  const progressBar = document.getElementById('scroll-progress')!;
+  const btt = document.getElementById('back-to-top')!;
+
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+    progressBar.style.width = Math.min(pct, 100) + '%';
+    const show = window.scrollY > 400;
+    btt.classList.toggle('opacity-0', !show);
+    btt.classList.toggle('translate-y-5', !show);
+    btt.classList.toggle('pointer-events-none', !show);
+  }, { passive: true });
+
+  btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  // ── Custom cursor ────────────────────────────────────────
+  const dot = document.getElementById('cursor-dot')!;
+  const ring = document.getElementById('cursor-ring')!;
+  let rx = 0, ry = 0, tx = 0, ty = 0;
+
+  if (window.matchMedia('(pointer: fine)').matches) {
+    document.addEventListener('mousemove', (e) => {
+      tx = e.clientX; ty = e.clientY;
+      dot.style.left = tx + 'px'; dot.style.top = ty + 'px';
+    }, { passive: true });
+
+    (function anim() {
+      rx += (tx - rx) * 0.12; ry += (ty - ry) * 0.12;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(anim);
+    })();
+
+    // Cursor grow on hover
+    document.addEventListener('mouseover', (e) => {
+      if ((e.target as HTMLElement).closest('a, button')) {
+        ring.classList.add('!w-14', '!h-14', '!border-pc-gold');
+        dot.classList.add('!w-1', '!h-1');
+      } else {
+        ring.classList.remove('!w-14', '!h-14', '!border-pc-gold');
+        dot.classList.remove('!w-1', '!h-1');
+      }
+    });
+  }
+
+  // ── Toast system ─────────────────────────────────────────
+  const toastContainer = document.getElementById('toast-container')!;
+  const ICONS: Record<string, string> = { success: '✅', error: '❌', info: 'ℹ️' };
+  const BORDERS: Record<string, string> = { success: 'border-l-pc-green', error: 'border-l-pc-red', info: 'border-l-pc-gold' };
+
+  window.addEventListener('pc:toast', (e: Event) => {
+    const { type, title, message } = (e as CustomEvent).detail;
+    const toast = document.createElement('div');
+    toast.className = `pointer-events-auto bg-pc-bg3 border border-white/[0.08] border-l-4 ${BORDERS[type] ?? 'border-l-pc-gold'} rounded-xl p-4 min-w-[280px] max-w-sm shadow-card flex items-start gap-3 animate-slide-in-right`;
+    toast.innerHTML = `
+      <span class="text-lg flex-shrink-0">${ICONS[type] ?? 'ℹ️'}</span>
+      <div>
+        <p class="text-sm font-semibold text-pc-cream">${title}</p>
+        <p class="text-xs text-pc-muted mt-0.5">${message}</p>
+      </div>
+    `;
+    toastContainer.appendChild(toast);
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateX(110%)';
+      toast.style.transition = 'all 0.3s ease';
+      setTimeout(() => toast.remove(), 300);
+    }, 5000);
+  });
+
+  // ── Cookie consent ───────────────────────────────────────
+  const cookieBanner = document.getElementById('cookie-banner')!;
+  const cookieAccept = document.getElementById('cookie-accept')!;
+  const cookieDecline = document.getElementById('cookie-decline')!;
+
+  if (!localStorage.getItem('pc_consent')) {
+    setTimeout(() => cookieBanner.classList.remove('translate-y-full'), 2000);
+  }
+
+  cookieAccept.addEventListener('click', () => {
+    localStorage.setItem('pc_consent', 'all');
+    cookieBanner.classList.add('translate-y-full');
+    window.dispatchEvent(new CustomEvent('pc:toast', {
+      detail: { type: 'success', title: 'Preferences saved', message: 'Thank you! Enjoy your visit. ☕' }
+    }));
+  });
+
+  cookieDecline.addEventListener('click', () => {
+    localStorage.setItem('pc_consent', 'essential');
+    cookieBanner.classList.add('translate-y-full');
+  });
+</script>

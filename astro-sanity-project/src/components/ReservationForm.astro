@@ -1,0 +1,273 @@
+---
+// src/components/ReservationForm.astro
+// Uses Netlify Forms — no backend needed.
+// Netlify auto-detects the form on build.
+---
+
+<!-- ══ CONTACT / RESERVATION ════════════════════════════════ -->
+<section class="section bg-pc-bg" id="contact" aria-label="Reserve a table">
+  <div class="container">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+
+      <!-- Left: intro -->
+      <div>
+        <p class="eyebrow mb-3 reveal">Get in Touch</p>
+        <h2 class="text-pc-cream mb-6 reveal">Reserve Your<br>Slice of Paradise</h2>
+        <p class="text-pc-muted leading-relaxed mb-8 reveal">
+          Whether you're planning a sunrise coffee date, a romantic sunset dinner, or a full private event on the beach — we'd love to make it perfect.
+        </p>
+
+        <!-- Social links -->
+        <div class="flex gap-3 reveal">
+          <a href="https://instagram.com/putincoffee" class="social-icon" aria-label="Instagram" target="_blank" rel="noopener" data-event="Instagram Click">📸</a>
+          <a href="https://facebook.com/putincoffee" class="social-icon" aria-label="Facebook" target="_blank" rel="noopener">📘</a>
+          <a
+            id="whatsapp-link"
+            href={`https://wa.me/${import.meta.env.PUBLIC_WHATSAPP_NUMBER ?? '628123456789'}`}
+            class="social-icon"
+            aria-label="WhatsApp"
+            target="_blank"
+            rel="noopener"
+            data-event="WhatsApp Click"
+          >💬</a>
+          <a href="https://tiktok.com/@putincoffee" class="social-icon" aria-label="TikTok" target="_blank" rel="noopener">🎵</a>
+          <button id="share-btn" class="social-icon" aria-label="Share this page">🔗</button>
+        </div>
+      </div>
+
+      <!-- Right: form -->
+      <div class="bg-white/[0.04] border border-white/[0.08] rounded-2xl p-6 md:p-8 reveal-scale">
+        <!--
+          NETLIFY FORMS
+          - data-netlify="true" enables Netlify form detection at build
+          - netlify-honeypot="bot-field" adds spam protection
+          - data-netlify-recaptcha="true" adds reCAPTCHA (enable in Netlify dashboard)
+        -->
+        <form
+          name="reservation"
+          method="POST"
+          data-netlify="true"
+          netlify-honeypot="bot-field"
+          id="reservation-form"
+          novalidate
+        >
+          <!-- Required by Netlify Forms -->
+          <input type="hidden" name="form-name" value="reservation">
+
+          <!-- Honeypot: never shown to real users -->
+          <p class="hidden" aria-hidden="true">
+            <label>Don't fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
+          </p>
+
+          <!-- Row: name + email -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label for="res-name" class="block text-xs tracking-widest uppercase text-pc-muted font-medium mb-1.5">
+                Full Name <span class="text-pc-red">*</span>
+              </label>
+              <input
+                type="text"
+                id="res-name"
+                name="name"
+                class="form-input"
+                placeholder="Your name"
+                required
+                autocomplete="name"
+              >
+            </div>
+            <div>
+              <label for="res-email" class="block text-xs tracking-widest uppercase text-pc-muted font-medium mb-1.5">
+                Email <span class="text-pc-red">*</span>
+              </label>
+              <input
+                type="email"
+                id="res-email"
+                name="email"
+                class="form-input"
+                placeholder="you@email.com"
+                required
+                autocomplete="email"
+              >
+            </div>
+          </div>
+
+          <!-- Row: phone + guests -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label for="res-phone" class="block text-xs tracking-widest uppercase text-pc-muted font-medium mb-1.5">WhatsApp / Phone</label>
+              <input
+                type="tel"
+                id="res-phone"
+                name="phone"
+                class="form-input"
+                placeholder="+62 ..."
+                autocomplete="tel"
+              >
+            </div>
+            <div>
+              <label for="res-guests" class="block text-xs tracking-widest uppercase text-pc-muted font-medium mb-1.5">Guests</label>
+              <select id="res-guests" name="guests" class="form-input">
+                <option value="">Select...</option>
+                <option value="1">1 guest</option>
+                <option value="2">2 guests</option>
+                <option value="3-5">3–5 guests</option>
+                <option value="6-10">6–10 guests</option>
+                <option value="10+">10+ (Private event)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Row: date + time -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label for="res-date" class="block text-xs tracking-widest uppercase text-pc-muted font-medium mb-1.5">Preferred Date</label>
+              <input type="date" id="res-date" name="date" class="form-input" min="">
+            </div>
+            <div>
+              <label for="res-time" class="block text-xs tracking-widest uppercase text-pc-muted font-medium mb-1.5">Preferred Time</label>
+              <select id="res-time" name="time" class="form-input">
+                <option value="">Select...</option>
+                <option value="07:00">7:00 AM — Sunrise</option>
+                <option value="09:00">9:00 AM — Morning</option>
+                <option value="12:00">12:00 PM — Lunch</option>
+                <option value="15:00">3:00 PM — Afternoon</option>
+                <option value="17:30">5:30 PM — Sunset 🌅</option>
+                <option value="19:00">7:00 PM — Dinner</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Message -->
+          <div class="mb-6">
+            <label for="res-message" class="block text-xs tracking-widest uppercase text-pc-muted font-medium mb-1.5">Special Requests</label>
+            <textarea
+              id="res-message"
+              name="message"
+              class="form-input resize-none"
+              rows="3"
+              placeholder="Allergies, celebrations, seating preferences..."
+            ></textarea>
+          </div>
+
+          <!-- Submit -->
+          <button
+            type="submit"
+            id="form-submit"
+            class="btn-primary w-full justify-center text-sm"
+          >
+            <span aria-hidden="true">☕</span>
+            Send Reservation Request
+          </button>
+
+          <p class="text-center text-xs text-pc-muted mt-3">
+            We respond within 2 hours · Free to reserve · No credit card required
+          </p>
+        </form>
+
+        <!-- Success state (hidden by default) -->
+        <div id="form-success" class="hidden text-center py-8">
+          <div class="text-5xl mb-4">🎉</div>
+          <h3 class="text-pc-cream text-xl font-display mb-2">Reservation Received!</h3>
+          <p class="text-pc-muted text-sm">We'll confirm your table within 2 hours via email. See you at the beach!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .social-icon {
+    @apply w-11 h-11 rounded-full bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-lg transition-all duration-300 hover:bg-pc-gold/10 hover:border-pc-gold hover:-translate-y-1;
+  }
+
+  select option { background: #0a1628; }
+  input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1) opacity(0.5); }
+</style>
+
+<script>
+  // Set today as min date for date picker
+  const dateInput = document.getElementById('res-date') as HTMLInputElement;
+  if (dateInput) {
+    const now = new Date();
+    const y = now.getFullYear(), m = String(now.getMonth()+1).padStart(2,'0'), d = String(now.getDate()).padStart(2,'0');
+    dateInput.min = `${y}-${m}-${d}`;
+  }
+
+  // Form submission — AJAX for better UX (Netlify still processes it)
+  const form = document.getElementById('reservation-form') as HTMLFormElement;
+  const submitBtn = document.getElementById('form-submit') as HTMLButtonElement;
+  const formSuccess = document.getElementById('form-success')!;
+
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Validation
+      const name = (document.getElementById('res-name') as HTMLInputElement).value.trim();
+      const email = (document.getElementById('res-email') as HTMLInputElement).value.trim();
+      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+      if (!name) { toast('error', 'Name required', 'Please enter your full name.'); return; }
+      if (!emailOk) { toast('error', 'Invalid email', 'Please enter a valid email address.'); return; }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+
+      try {
+        const res = await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(new FormData(form) as unknown as Record<string, string>).toString(),
+        });
+
+        if (res.ok) {
+          form.classList.add('hidden');
+          formSuccess.classList.remove('hidden');
+          // @ts-ignore
+          if (window.plausible) window.plausible('Reservation Submit');
+          toast('success', 'Reservation Received! 🎉', "We'll confirm your table within 2 hours.");
+        } else {
+          throw new Error('Network error');
+        }
+      } catch {
+        toast('error', 'Something went wrong', 'Please try WhatsApp or email us directly.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = '☕ Send Reservation Request';
+      }
+    });
+  }
+
+  // Web Share API
+  const shareBtn = document.getElementById('share-btn');
+  if (shareBtn) {
+    if (navigator.share) {
+      shareBtn.addEventListener('click', async () => {
+        try {
+          await navigator.share({
+            title: 'Putin Coffee — Beachfront Café Sanur Bali',
+            text: 'The most magical coffee spot on Pantai Biaung ☕🌊',
+            url: window.location.href,
+          });
+          // @ts-ignore
+          if (window.plausible) window.plausible('Share Click');
+        } catch {}
+      });
+    } else {
+      shareBtn.addEventListener('click', () => {
+        navigator.clipboard?.writeText(window.location.href);
+        toast('success', 'Link copied!', 'Share Putin Coffee with your friends ☕');
+      });
+    }
+  }
+
+  // WhatsApp tracking
+  document.getElementById('whatsapp-link')?.addEventListener('click', () => {
+    // @ts-ignore
+    if (window.plausible) window.plausible('WhatsApp Click');
+  });
+
+  // Toast helper (fires global event picked up by Toast component)
+  function toast(type: string, title: string, message: string) {
+    window.dispatchEvent(new CustomEvent('pc:toast', { detail: { type, title, message } }));
+  }
+</script>

@@ -1,0 +1,411 @@
+---
+// src/pages/index.astro
+// ══════════════════════════════════════════════════════════════
+// HOME PAGE — Fetches all data from Sanity at build time,
+// falls back to static data if Sanity isn't configured.
+// ══════════════════════════════════════════════════════════════
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navigation from '../components/Navigation.astro';
+import Hero from '../components/Hero.astro';
+import WaveDivider from '../components/WaveDivider.astro';
+import Menu from '../components/Menu.astro';
+import Reviews from '../components/Reviews.astro';
+import ReservationForm from '../components/ReservationForm.astro';
+import UI from '../components/UI.astro';
+
+import {
+  getSiteSettings,
+  getMenuItems,
+  getReviews,
+  getExperienceFeatures,
+  validateSanityConfig,
+} from '../lib/sanity.ts';
+
+import {
+  fallbackSettings,
+  fallbackMenuItems,
+  fallbackReviews,
+  fallbackFeatures,
+} from '../lib/fallback.ts';
+
+// ── Fetch from Sanity (build time) ──────────────────────────
+const isSanityReady = validateSanityConfig();
+
+const [sanitySettings, sanityMenu, sanityReviews, sanityFeatures] = isSanityReady
+  ? await Promise.all([
+      getSiteSettings(),
+      getMenuItems(),
+      getReviews(),
+      getExperienceFeatures(),
+    ])
+  : [null, [], [], []];
+
+// Merge CMS data with fallbacks
+const settings  = { ...fallbackSettings, ...sanitySettings };
+const menuItems = sanityMenu.length > 0   ? sanityMenu   : fallbackMenuItems;
+const reviews   = sanityReviews.length > 0 ? sanityReviews : fallbackReviews;
+const features  = sanityFeatures.length > 0 ? sanityFeatures : fallbackFeatures;
+---
+
+<BaseLayout
+  title={`${settings.siteName} — Beachfront Café on Pantai Biaung, Sanur Bali`}
+  description={settings.description}
+>
+  <!-- Shared UI: cursor, progress bar, toasts, back-to-top, cookie banner -->
+  <UI />
+
+  <!-- Navigation -->
+  <Navigation />
+
+  <!-- ══ HERO ═════════════════════════════════════════════════ -->
+  <Hero settings={settings} />
+
+  <WaveDivider fill="#0a1628" style="wave1" />
+
+  <!-- ══ ABOUT ════════════════════════════════════════════════ -->
+  <section class="section bg-pc-bg2 relative overflow-hidden" id="about" aria-label="Our story">
+    <!-- Background watermark -->
+    <div class="absolute top-1/2 -left-4 -translate-y-1/2 font-display text-[12rem] font-bold text-white/[0.015] select-none pointer-events-none whitespace-nowrap" aria-hidden="true">COFFEE</div>
+
+    <div class="container relative">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+        <!-- Image column -->
+        <div class="reveal-scale">
+          <div class="relative rounded-xl overflow-hidden aspect-[4/5]">
+            <img
+              src="/hero.jpg"
+              alt="Putin Coffee beachfront atmosphere"
+              class="w-full h-full object-cover"
+              loading="lazy"
+              decoding="async"
+            >
+            <!-- Badge -->
+            <div class="absolute bottom-4 right-4 bg-pc-gold text-[#0a0800] rounded-xl p-4 text-center shadow-card">
+              <span class="block font-display text-3xl font-bold leading-none">2019</span>
+              <span class="text-xs tracking-widest uppercase">Est. Sanur</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Text column -->
+        <div>
+          <p class="eyebrow mb-3 reveal">{settings.aboutEyebrow ?? 'Our Story'}</p>
+          <h2 class="text-pc-cream mb-6 reveal reveal-delay-1">
+            {settings.aboutTitle ?? 'Born from the Waves, Brewed with Soul'}
+          </h2>
+
+          {/* Sanity portable text or fallback */}
+          <div class="prose-beach space-y-4 reveal reveal-delay-2">
+            <p class="text-pc-muted leading-relaxed">
+              Putin Coffee was born from a simple dream: bring world-class specialty coffee to the most breathtaking stretch of Sanur's coastline. On the wild black-sand shores of Pantai Biaung, where fishing boats rest and sunsets turn the sky amber — we built our haven.
+            </p>
+            <p class="text-pc-muted leading-relaxed">
+              Every cup we craft honors the ritual of the sea. Our beans are sourced from Bali's highland farms, roasted in-house, and brewed with the patience of the tides.
+            </p>
+          </div>
+
+          <!-- Stats grid -->
+          <div class="grid grid-cols-2 gap-3 mt-8">
+            {(settings.stats ?? [
+              { value: '5★', label: 'Google Rating' },
+              { value: '127+', label: 'Reviews' },
+              { value: 'Bali', label: 'Highland Beans' },
+              { value: '7am', label: 'Sunrise Opening' },
+            ]).map((stat, i) => (
+              <div
+                class={`card p-4 reveal`}
+                style={`transition-delay: ${100 + i * 80}ms`}
+              >
+                <div class="font-display text-2xl text-pc-gold">{stat.value}</div>
+                <div class="text-xs text-pc-muted mt-1">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <WaveDivider fill="#060f1e" style="wave3" />
+
+  <!-- ══ MENU ══════════════════════════════════════════════════ -->
+  <Menu items={menuItems} />
+
+  <WaveDivider fill="#0e1f35" style="wave2" />
+
+  <!-- ══ EXPERIENCE ════════════════════════════════════════════ -->
+  <section class="section bg-gradient-to-b from-pc-bg3 to-pc-bg2" id="experience" aria-label="The experience">
+    <div class="container">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+
+        <!-- Features list -->
+        <div>
+          <p class="eyebrow mb-3 reveal">Why Come Here</p>
+          <h2 class="text-pc-cream mb-10 reveal reveal-delay-1">The Putin Coffee<br>Experience</h2>
+          <div class="space-y-7">
+            {features.map((feat, i) => (
+              <div class={`flex gap-4 items-start reveal`} style={`transition-delay: ${100 + i * 80}ms`}>
+                <div class="w-12 h-12 flex-shrink-0 rounded-xl bg-pc-gold/10 border border-pc-gold/20 flex items-center justify-center text-xl">
+                  {feat.icon}
+                </div>
+                <div>
+                  <h3 class="text-pc-cream text-base font-medium mb-1">{feat.title}</h3>
+                  <p class="text-pc-muted text-sm leading-relaxed">{feat.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Visual grid -->
+        <div class="grid grid-cols-2 gap-3 reveal-scale">
+          {[
+            { emoji: '🌅', title: 'Sunrise to Sunset', desc: 'Open 7am–10pm, 7 days a week' },
+            { emoji: '📶', title: 'Fast WiFi', desc: '100Mbps for digital nomads' },
+            { emoji: '🌿', title: 'Plant-Based', desc: 'Oat, almond, coconut always' },
+            { emoji: '🐾', title: 'Dog-Friendly', desc: 'Four-pawed guests welcome' },
+          ].map(card => (
+            <div class="card p-5 text-center hover:border-pc-gold/20">
+              <div class="text-3xl mb-2">{card.emoji}</div>
+              <h4 class="text-sm font-semibold text-pc-cream mb-1">{card.title}</h4>
+              <p class="text-xs text-pc-muted">{card.desc}</p>
+            </div>
+          ))}
+          <!-- Span 2 -->
+          <div class="card p-5 text-center col-span-2 bg-gradient-to-br from-pc-gold/5 to-pc-teal/5 hover:border-pc-gold/20">
+            <div class="text-3xl mb-2">🏝️</div>
+            <h4 class="text-sm font-semibold text-pc-cream mb-1">Private Events & Elopements</h4>
+            <p class="text-xs text-pc-muted">Celebrate life's moments with the ocean as your backdrop. Weddings, birthdays, team retreats.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <WaveDivider fill="#060f1e" style="wave1" />
+
+  <!-- ══ REVIEWS ════════════════════════════════════════════ -->
+  <Reviews reviews={reviews} settings={settings} />
+
+  <!-- ══ LOCATION ──────────────────────────────────────────── -->
+  <section class="section bg-pc-bg2" id="location" aria-label="Location and hours">
+    <div class="container">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+        <div>
+          <p class="eyebrow mb-3 reveal">Find Us</p>
+          <h2 class="text-pc-cream mb-8 reveal reveal-delay-1">Come Visit Us<br>on the Shore</h2>
+
+          {[
+            { icon: '📍', label: 'Address', text: settings.address ?? 'Jl. Pantai Biaung, Sanur, Denpasar, Bali 80228' },
+            { icon: '📞', label: 'Phone', text: settings.phone ?? '+62 812 3456 7890' },
+            { icon: '✉️', label: 'Email', text: settings.email ?? 'hello@putincoffee.com' },
+          ].map((item, i) => (
+            <div class={`flex gap-3 items-start pb-5 mb-5 border-b border-white/[0.08] last:border-0 reveal`} style={`transition-delay: ${100 + i * 80}ms`}>
+              <div class="w-10 h-10 rounded-lg bg-pc-gold/10 border border-pc-gold/15 flex items-center justify-center text-base flex-shrink-0">{item.icon}</div>
+              <div>
+                <p class="text-xs tracking-widest uppercase text-pc-muted mb-1">{item.label}</p>
+                <p class="text-sm text-pc-cream">{item.text}</p>
+              </div>
+            </div>
+          ))}
+
+          <!-- Hours -->
+          <div class="reveal">
+            <p class="text-xs tracking-widest uppercase text-pc-muted mb-3">Hours</p>
+            <div class="space-y-2">
+              {(settings.hours ?? [
+                { label: 'Mon – Sun', time: '7:00 AM – 10:00 PM', isToday: true },
+                { label: 'Kitchen closes', time: '9:30 PM' },
+                { label: 'Live Music Fri & Sat', time: '6:00 PM – 9:00 PM' },
+              ]).map(h => (
+                <div class={`flex justify-between text-sm ${h.isToday ? 'text-pc-gold font-medium' : ''}`}>
+                  <span class={h.isToday ? 'text-pc-gold' : 'text-pc-muted'}>{h.label}</span>
+                  <span class={h.isToday ? 'text-pc-gold' : 'text-pc-cream'}>{h.time}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <!-- Map card -->
+        <div class="card aspect-[4/3] flex flex-col items-center justify-center gap-4 reveal-scale text-center p-8">
+          <div class="text-5xl animate-float">📍</div>
+          <h3 class="font-display text-pc-cream text-xl">Putin Coffee</h3>
+          <p class="text-pc-muted text-sm">Pantai Biaung, Sanur<br>Bali, Indonesia</p>
+          <a
+            href={settings.mapLink ?? 'https://www.google.com/maps/place/put.in+coffee+and+beer/data=!4m2!3m1!1s0x0:0x70829e134ab3dd00?sa=X&ved=1t:2428&ictx=111'}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-primary text-sm"
+            data-event="Maps Click"
+          >
+            🗺️ Open in Google Maps
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ RESERVATION FORM ───────────────────────────────────── -->
+  <ReservationForm />
+
+  <!-- ══ NEWSLETTER ─────────────────────────────────────────── -->
+  <section class="section bg-gradient-to-br from-pc-bg3 to-pc-bg2 border-y border-white/[0.08]" id="newsletter">
+    <div class="container">
+      <div class="max-w-xl mx-auto text-center">
+        <p class="eyebrow mb-3 reveal">Stay Connected</p>
+        <h2 class="text-pc-cream mb-4 reveal reveal-delay-1">Get Exclusive Offers<br>& Beach Updates</h2>
+        <p class="text-pc-muted mb-8 reveal reveal-delay-2">New menu launches, sunset events, and Bali travel tips. Unsubscribe anytime.</p>
+
+        <!-- Netlify form: newsletter -->
+        <form
+          name="newsletter"
+          method="POST"
+          data-netlify="true"
+          netlify-honeypot="bot-field"
+          id="newsletter-form"
+          class="flex flex-col sm:flex-row gap-3 reveal reveal-delay-3"
+          novalidate
+        >
+          <input type="hidden" name="form-name" value="newsletter">
+          <p class="hidden" aria-hidden="true"><input name="bot-field" tabindex="-1"></p>
+
+          <input
+            type="email"
+            name="email"
+            placeholder="your@email.com"
+            class="form-input flex-1 rounded-pill px-5"
+            required
+            autocomplete="email"
+          >
+          <button type="submit" class="btn-primary whitespace-nowrap">
+            Subscribe →
+          </button>
+        </form>
+
+        <p class="text-xs text-pc-muted mt-4 reveal reveal-delay-4">
+          🔒 Your data is safe. We never share it.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FOOTER ─────────────────────────────────────────────── -->
+  <footer class="bg-pc-bg border-t border-white/[0.08]" role="contentinfo">
+    <div class="container">
+      <!-- Main grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 py-12 lg:py-16">
+
+        <!-- Brand -->
+        <div class="lg:col-span-1">
+          <div class="flex items-center gap-2 font-display text-xl font-bold text-pc-cream mb-4">
+            <span class="text-2xl">☕</span>
+            Putin<span class="text-pc-gold">Coffee</span>
+          </div>
+          <p class="text-pc-muted text-sm leading-relaxed max-w-xs">
+            Where the ocean meets espresso. Beachfront specialty coffee on Pantai Biaung, Sanur, Bali.
+          </p>
+          <div class="flex gap-2 mt-4">
+            {[
+              { href: settings.instagramUrl ?? '#', icon: '📸', label: 'Instagram' },
+              { href: settings.facebookUrl ?? '#', icon: '📘', label: 'Facebook' },
+              { href: `https://wa.me/${settings.whatsapp ?? '+62 819-1633-4989'}`, icon: '💬', label: 'WhatsApp' },
+              { href: settings.tiktokUrl ?? '#', icon: '🎵', label: 'TikTok' },
+            ].map(s => (
+              <a href={s.href} target="_blank" rel="noopener" aria-label={s.label}
+                class="w-9 h-9 rounded-full bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-sm hover:bg-pc-gold/10 hover:border-pc-gold transition-all duration-300">
+                {s.icon}
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <!-- Explore -->
+        <div>
+          <h4 class="text-xs tracking-[0.2em] uppercase text-pc-muted font-semibold mb-4">Explore</h4>
+          <ul class="space-y-2.5">
+            {[['Our Story', '#about'], ['Menu', '#menu'], ['Experience', '#experience'], ['Reviews', '#reviews']].map(([label, href]) => (
+              <li><a href={href} class="text-sm text-pc-muted hover:text-pc-cream transition-colors">{label}</a></li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Visit -->
+        <div>
+          <h4 class="text-xs tracking-[0.2em] uppercase text-pc-muted font-semibold mb-4">Visit</h4>
+          <ul class="space-y-2.5">
+            {[['Location', '#location'], ['Reservations', '#contact'], ['Private Events', '#contact'], ['Gift Cards', '#contact']].map(([label, href]) => (
+              <li><a href={href} class="text-sm text-pc-muted hover:text-pc-cream transition-colors">{label}</a></li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Connect -->
+        <div>
+          <h4 class="text-xs tracking-[0.2em] uppercase text-pc-muted font-semibold mb-4">Connect</h4>
+          <ul class="space-y-2.5">
+            <li><a href={`tel:${settings.phone}`} class="text-sm text-pc-muted hover:text-pc-cream transition-colors">{settings.phone}</a></li>
+            <li><a href={`mailto:${settings.email}`} class="text-sm text-pc-muted hover:text-pc-cream transition-colors">{settings.email}</a></li>
+            <li><a href={settings.instagramUrl ?? '#'} target="_blank" rel="noopener" class="text-sm text-pc-muted hover:text-pc-cream transition-colors">Instagram</a></li>
+            <li><a href={settings.tiktokUrl ?? '#'} target="_blank" rel="noopener" class="text-sm text-pc-muted hover:text-pc-cream transition-colors">TikTok</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Bottom -->
+      <div class="border-t border-white/[0.08] py-5 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-pc-muted flex-wrap">
+        <span>© {new Date().getFullYear()} Putin Coffee · Pantai Biaung, Sanur, Bali, Indonesia</span>
+        <div class="flex gap-4">
+          <a href="/privacy" class="hover:text-pc-cream transition-colors">Privacy Policy</a>
+          <a href="/terms" class="hover:text-pc-cream transition-colors">Terms</a>
+          <a href="/sitemap-index.xml" class="hover:text-pc-cream transition-colors">Sitemap</a>
+        </div>
+        <span>Made with ☕ in Bali</span>
+      </div>
+    </div>
+  </footer>
+</BaseLayout>
+
+<script>
+  // Newsletter form
+  const nlForm = document.getElementById('newsletter-form') as HTMLFormElement;
+  if (nlForm) {
+    nlForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const emailInput = nlForm.querySelector<HTMLInputElement>('input[type="email"]')!;
+      if (!emailInput.value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value)) {
+        window.dispatchEvent(new CustomEvent('pc:toast', {
+          detail: { type: 'error', title: 'Invalid email', message: 'Please enter a valid email.' }
+        }));
+        return;
+      }
+      try {
+        await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(new FormData(nlForm) as unknown as Record<string,string>).toString(),
+        });
+        window.dispatchEvent(new CustomEvent('pc:toast', {
+          detail: { type: 'success', title: "You're subscribed! 🌊", message: 'Welcome to the Putin Coffee family!' }
+        }));
+        // @ts-ignore
+        if (window.plausible) window.plausible('Newsletter Signup');
+        emailInput.value = '';
+      } catch {
+        window.dispatchEvent(new CustomEvent('pc:toast', {
+          detail: { type: 'error', title: 'Error', message: 'Please try again later.' }
+        }));
+      }
+    });
+  }
+
+  // Maps tracking
+  document.querySelector('[data-event="Maps Click"]')?.addEventListener('click', () => {
+    // @ts-ignore
+    if (window.plausible) window.plausible('Maps Click');
+  });
+</script>

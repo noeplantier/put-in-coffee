@@ -1,0 +1,218 @@
+---
+// src/layouts/BaseLayout.astro
+// ══════════════════════════════════════════════════════════════
+// BASE LAYOUT — Wraps every page
+// Handles: SEO meta, fonts, Plausible, PWA, structured data
+// ══════════════════════════════════════════════════════════════
+
+import '../styles/global.css';
+import { getPlausibleScriptUrl, getPlausibleDomain } from '../lib/analytics.ts';
+import { cloudinary, HERO_IMAGE_ID } from '../lib/cloudinary.ts';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+  noindex?: boolean;
+  schema?: Record<string, unknown>; // JSON-LD override
+}
+
+const {
+  title = 'Putin Coffee — Beachfront Café on Pantai Biaung, Sanur Bali',
+  description = "Sip specialty coffee where the waves meet the sand. Putin Coffee is Sanur's most magical beachfront café on Pantai Biaung — 5-star reviewed, unforgettable vibes. Open daily 7am–10pm.",
+  ogImage = cloudinary.og(HERO_IMAGE_ID),
+  ogType = 'website',
+  noindex = false,
+  schema,
+} = Astro.props;
+
+const canonicalUrl = new URL(Astro.url.pathname, import.meta.env.PUBLIC_SITE_URL || 'https://putincoffee.com').toString();
+const plausibleScript = getPlausibleScriptUrl();
+const plausibleDomain = getPlausibleDomain();
+
+const defaultSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CafeOrCoffeeShop',
+  name: 'Putin Coffee',
+  description,
+  url: 'https://putincoffee.com',
+  telephone: '+62812345678',
+  email: 'hello@putincoffee.com',
+  image: ogImage,
+  currenciesAccepted: 'IDR, USD',
+  priceRange: '$$',
+  servesCuisine: ['Coffee', 'Breakfast', 'Brunch', 'Indonesian'],
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Jl. Pantai Biaung',
+    addressLocality: 'Sanur',
+    addressRegion: 'Bali',
+    postalCode: '80228',
+    addressCountry: 'ID',
+  },
+  geo: { '@type': 'GeoCoordinates', latitude: -8.6932, longitude: 115.2631 },
+  openingHoursSpecification: [{
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'],
+    opens: '07:00', closes: '22:00',
+  }],
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '5.0',
+    bestRating: '5',
+    worstRating: '1',
+    reviewCount: '127',
+  },
+  sameAs: [
+    'https://instagram.com/putincoffee',
+    'https://facebook.com/putincoffee',
+  ],
+};
+
+const finalSchema = schema ?? defaultSchema;
+---
+
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <!-- ── Charset & Viewport ─────────────────────────────────── -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+  <!-- ── Security Headers ──────────────────────────────────── -->
+  <!-- Additional headers live in netlify.toml [[headers]] -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(self)">
+
+  <!-- ── Primary SEO ─────────────────────────────────────────── -->
+  <title>{title}</title>
+  <meta name="description" content={description}>
+  <meta name="author" content="Putin Coffee">
+  {noindex ? <meta name="robots" content="noindex, nofollow"> : <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">}
+  <link rel="canonical" href={canonicalUrl}>
+
+  <!-- ── Open Graph ─────────────────────────────────────────── -->
+  <meta property="og:type" content={ogType}>
+  <meta property="og:url" content={canonicalUrl}>
+  <meta property="og:title" content={title}>
+  <meta property="og:description" content={description}>
+  <meta property="og:image" content={ogImage}>
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="Putin Coffee">
+  <meta property="og:locale" content="en_US">
+
+  <!-- ── Twitter Card ────────────────────────────────────────── -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content={title}>
+  <meta name="twitter:description" content={description}>
+  <meta name="twitter:image" content={ogImage}>
+
+  <!-- ── PWA & Mobile ───────────────────────────────────────── -->
+  <meta name="theme-color" content="#060f1e">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Putin Coffee">
+  <link rel="manifest" href="/manifest.json">
+
+  <!-- ── Performance: Preconnect & DNS Prefetch ─────────────── -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://res.cloudinary.com">
+  <link rel="dns-prefetch" href="https://cdn.sanity.io">
+  <link rel="dns-prefetch" href="https://plausible.io">
+
+  <!-- ── Google Fonts ───────────────────────────────────────── -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- ── Favicon ────────────────────────────────────────────── -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <!-- ── JSON-LD Structured Data ────────────────────────────── -->
+  <script type="application/ld+json" set:html={JSON.stringify(finalSchema)}></script>
+
+  <!-- ── Plausible Analytics (privacy-first, no cookies) ────── -->
+  <script
+    defer
+    data-domain={plausibleDomain}
+    src={plausibleScript}
+  ></script>
+
+  <!-- ── Critical Inline Styles (nav height var) ───────────── -->
+  <style>:root { --nav-h: 80px; } body { margin: 0; }</style>
+</head>
+
+<body class="bg-pc-bg text-pc-text overflow-x-hidden">
+
+  <!-- Accessibility: Skip to main content -->
+  <a
+    href="#main"
+    class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:bg-pc-gold focus:text-black focus:font-bold focus:px-4 focus:py-2 focus:rounded-lg focus:outline-none"
+  >
+    Skip to main content
+  </a>
+
+  <!-- ── Slot: page content ─────────────────────────────────── -->
+  <slot />
+
+  <!-- ── Service Worker registration ──────────────────────── -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js', { scope: '/' })
+          .then(reg => console.log('SW registered:', reg.scope))
+          .catch(err => console.log('SW skipped (local):', err.message));
+      });
+    }
+  </script>
+
+  <!-- ── Global client-side utilities ───────────────────────── -->
+  <script>
+    // Intersection Observer: reveal animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('.reveal, .reveal-scale').forEach(el => observer.observe(el));
+
+    // Smooth anchor scroll with nav offset
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        const href = (link as HTMLAnchorElement).getAttribute('href');
+        if (!href || href === '#') return;
+        const target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+          window.scrollTo({
+            top: (target as HTMLElement).offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // Performance mark
+    if (performance?.mark) {
+      performance.mark('page-interactive');
+      window.addEventListener('load', () => {
+        performance.mark('page-loaded');
+        performance.measure('load', 'page-interactive', 'page-loaded');
+        const [m] = performance.getEntriesByName('load');
+        console.log(`✅ Putin Coffee: ${m?.duration?.toFixed(0)}ms`);
+      });
+    }
+  </script>
+</body>
+</html>

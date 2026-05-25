@@ -1,0 +1,134 @@
+---
+// src/components/Navigation.astro
+import type { NavLink } from '../types/index.ts';
+
+const links: NavLink[] = [
+  { label: 'Our Story', href: '#about' },
+  { label: 'Menu',      href: '#menu' },
+  { label: 'Experience',href: '#experience' },
+  { label: 'Reviews',   href: '#reviews' },
+  { label: 'Find Us',   href: '#location' },
+];
+---
+
+<!-- ══ NAVIGATION ══════════════════════════════════════════════ -->
+<nav
+  id="nav"
+  class="fixed top-0 left-0 right-0 z-nav h-[80px] transition-all duration-500"
+  aria-label="Main navigation"
+>
+  <div class="container h-full flex items-center justify-between">
+
+    <!-- Logo -->
+    <a href="/" class="flex items-center gap-2 font-display text-xl font-bold text-pc-cream no-print" aria-label="Putin Coffee home">
+      <span class="text-2xl" aria-hidden="true">☕</span>
+      <span>Putin<span class="text-pc-gold">Coffee</span></span>
+    </a>
+
+    <!-- Desktop links -->
+    <ul class="hidden md:flex items-center gap-8" role="list">
+      {links.map(link => (
+        <li>
+          <a
+            href={link.href}
+            class="relative text-sm font-medium tracking-wide text-pc-muted hover:text-pc-cream transition-colors duration-300 group"
+          >
+            {link.label}
+            <span class="absolute -bottom-1 left-0 right-0 h-px bg-pc-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <!-- CTA -->
+    <div class="hidden md:flex items-center gap-3">
+      <a href="#contact" class="btn-primary text-sm py-2.5 px-5">
+        Reserve a Table
+      </a>
+    </div>
+
+    <!-- Mobile hamburger -->
+    <button
+      id="hamburger"
+      class="md:hidden flex flex-col gap-[5px] p-2 rounded-lg"
+      aria-label="Open navigation menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <span class="block w-6 h-0.5 bg-pc-cream transition-transform duration-300" id="ham-1"></span>
+      <span class="block w-6 h-0.5 bg-pc-cream transition-opacity duration-300" id="ham-2"></span>
+      <span class="block w-6 h-0.5 bg-pc-cream transition-transform duration-300" id="ham-3"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile menu overlay -->
+<div
+  id="mobile-menu"
+  class="fixed inset-0 z-[99] bg-pc-bg/98 backdrop-blur-xl hidden flex-col items-center justify-center gap-10"
+  role="dialog"
+  aria-label="Navigation menu"
+  aria-modal="true"
+>
+  <button id="mobile-close" class="absolute top-6 right-6 text-3xl text-pc-muted hover:text-pc-cream transition-colors" aria-label="Close menu">✕</button>
+  {links.map(link => (
+    <a
+      href={link.href}
+      class="font-display text-3xl text-pc-cream hover:text-pc-gold transition-colors duration-300 nav-link"
+    >
+      {link.label}
+    </a>
+  ))}
+  <a href="#contact" class="btn-primary mt-4">Reserve a Table</a>
+</div>
+
+<script>
+  // ── Nav scroll effect ──────────────────────────────────────
+  const nav = document.getElementById('nav')!;
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 60) {
+      nav.classList.add('bg-pc-bg/92', 'backdrop-blur-xl', 'shadow-[0_1px_0_rgba(255,255,255,0.06)]');
+    } else {
+      nav.classList.remove('bg-pc-bg/92', 'backdrop-blur-xl', 'shadow-[0_1px_0_rgba(255,255,255,0.06)]');
+    }
+  }, { passive: true });
+
+  // ── Mobile menu ────────────────────────────────────────────
+  const hamburger = document.getElementById('hamburger')!;
+  const mobileMenu = document.getElementById('mobile-menu')!;
+  const mobileClose = document.getElementById('mobile-close')!;
+  const ham1 = document.getElementById('ham-1')!;
+  const ham2 = document.getElementById('ham-2')!;
+  const ham3 = document.getElementById('ham-3')!;
+
+  function openMenu() {
+    mobileMenu.classList.remove('hidden');
+    mobileMenu.classList.add('flex');
+    hamburger.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+    ham1.style.transform = 'translateY(7px) rotate(45deg)';
+    ham2.style.opacity = '0';
+    ham3.style.transform = 'translateY(-7px) rotate(-45deg)';
+  }
+
+  function closeMenu() {
+    mobileMenu.classList.add('hidden');
+    mobileMenu.classList.remove('flex');
+    hamburger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+    ham1.style.transform = '';
+    ham2.style.opacity = '';
+    ham3.style.transform = '';
+  }
+
+  hamburger.addEventListener('click', openMenu);
+  mobileClose.addEventListener('click', closeMenu);
+  mobileMenu.querySelectorAll('.nav-link, a[href="#contact"]').forEach(el => {
+    el.addEventListener('click', closeMenu);
+  });
+
+  // Close on escape
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeMenu();
+  });
+</script>

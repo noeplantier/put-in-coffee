@@ -1,0 +1,155 @@
+---
+// src/components/Menu.astro
+import type { MenuItem, MenuCategory } from '../types/index.ts';
+
+export interface Props {
+  items: MenuItem[];
+}
+
+const { items } = Astro.props;
+
+const categories: { id: MenuCategory | 'all'; label: string }[] = [
+  { id: 'all',       label: '✨ All' },
+  { id: 'coffee',    label: '☕ Coffees' },
+  { id: 'signature', label: '🌅 Signatures' },
+  { id: 'food',      label: '🥗 Food' },
+  { id: 'bowl',      label: '🌅 Bowls' },
+];
+---
+
+<!-- ══ MENU ═══════════════════════════════════════════════════ -->
+<section class="section bg-pc-bg" id="menu" aria-label="Our menu">
+  <div class="container">
+
+    <!-- Header -->
+    <div class="text-center mb-16 reveal">
+      <p class="eyebrow mb-3">What We Brew</p>
+      <h2 class="text-pc-cream mb-4">The Putin Coffee Menu</h2>
+      <p class="text-pc-muted text-lg max-w-md mx-auto">
+        Specialty coffee crafted from Bali highland beans, fresh food made with love.
+      </p>
+    </div>
+
+    <!-- Category tabs -->
+    <div
+      class="flex justify-center gap-2 flex-wrap mb-12 reveal"
+      role="tablist"
+      aria-label="Menu categories"
+    >
+      {categories.map((cat, i) => (
+        <button
+          class="menu-tab px-5 py-2 rounded-pill text-sm font-medium border border-white/[0.08] text-pc-muted transition-all duration-300 hover:bg-pc-gold hover:text-[#0a0800] hover:border-pc-gold"
+          data-category={cat.id}
+          role="tab"
+          aria-selected={i === 0}
+        >
+          {cat.label}
+        </button>
+      ))}
+    </div>
+
+    <!-- Grid -->
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
+      id="menu-grid"
+      role="tabpanel"
+    >
+      {items.map((item, i) => (
+        <article
+          class="card group cursor-default reveal"
+          style={`transition-delay: ${(i % 3) * 100}ms`}
+          data-category={item.category}
+        >
+          <!-- Badge -->
+          {(item.isBestSeller || item.isNew) && (
+            <div class="absolute top-3 right-3 bg-pc-gold text-[#0a0800] text-[10px] font-bold tracking-widest uppercase px-2.5 py-0.5 rounded-pill z-10">
+              {item.isBestSeller ? 'Best Seller' : 'New'}
+            </div>
+          )}
+
+          <!-- Icon area -->
+          <div class="h-40 flex items-center justify-center text-6xl bg-gradient-to-br from-pc-bg3 to-pc-bg2 rounded-t-xl">
+            {item.emoji}
+          </div>
+
+          <!-- Body -->
+          <div class="p-5">
+            <div class="flex items-start justify-between gap-2 mb-2">
+              <h3 class="text-pc-cream text-base font-display font-semibold leading-tight">{item.name}</h3>
+              <div class="flex gap-1 flex-shrink-0 mt-0.5">
+                {item.isVegan && <span title="Vegan" class="text-xs">🌿</span>}
+                {item.isGlutenFree && <span title="Gluten-free" class="text-xs">🌾</span>}
+              </div>
+            </div>
+
+            <p class="text-pc-muted text-sm leading-relaxed mb-4">{item.description}</p>
+
+            <div class="flex items-center justify-between">
+              <span class="font-display text-pc-gold text-lg">{item.price}</span>
+              <button
+                class="w-8 h-8 rounded-full bg-pc-gold/10 text-pc-gold flex items-center justify-center text-xl transition-all duration-300 group-hover:bg-pc-gold group-hover:text-[#0a0800] group-hover:rotate-90"
+                aria-label={`Add ${item.name} to inquiry`}
+                data-item-name={item.name}
+              >
+                +
+              </button>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <!-- Empty state -->
+    <div id="menu-empty" class="hidden text-center py-16 text-pc-muted">
+      <p class="text-4xl mb-4">☕</p>
+      <p>No items in this category yet.</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  // ── Category filter ──────────────────────────────────────
+  const tabs = document.querySelectorAll<HTMLButtonElement>('.menu-tab');
+  const cards = document.querySelectorAll<HTMLElement>('[data-category]');
+  const empty = document.getElementById('menu-empty')!;
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const cat = tab.dataset.category!;
+
+      // Update active tab
+      tabs.forEach(t => {
+        t.classList.remove('bg-pc-gold', 'text-[#0a0800]', 'border-pc-gold');
+        t.setAttribute('aria-selected', 'false');
+      });
+      tab.classList.add('bg-pc-gold', 'text-[#0a0800]', 'border-pc-gold');
+      tab.setAttribute('aria-selected', 'true');
+
+      // Filter cards
+      let visible = 0;
+      cards.forEach(card => {
+        const matches = cat === 'all' || card.dataset.category === cat;
+        card.style.display = matches ? '' : 'none';
+        if (matches) visible++;
+      });
+
+      empty.classList.toggle('hidden', visible > 0);
+    });
+  });
+
+  // Activate first tab
+  tabs[0]?.click();
+
+  // ── Add to inquiry ───────────────────────────────────────
+  document.querySelectorAll<HTMLButtonElement>('[data-item-name]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const name = btn.dataset.itemName!;
+      // @ts-ignore
+      if (window.plausible) window.plausible('Menu Item Click', { props: { item: name } });
+      // Dispatch custom event for Toast component to pick up
+      window.dispatchEvent(new CustomEvent('pc:toast', {
+        detail: { type: 'info', title: '☕ Added!', message: `${name} noted for your visit.` }
+      }));
+    });
+  });
+</script>

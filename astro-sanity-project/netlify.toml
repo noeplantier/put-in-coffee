@@ -1,0 +1,129 @@
+# netlify.toml — Putin Coffee Production Configuration
+
+[build]
+  publish = "dist"
+  command = "npm run build"
+  functions = "netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "20"
+  NPM_FLAGS = "--prefix=/dev/null"
+
+# ── Contexts ─────────────────────────────────────────────────────
+[context.production]
+  command = "npm run build"
+
+[context.deploy-preview]
+  command = "npm run build"
+
+[context.branch-deploy]
+  command = "npm run build"
+
+# ── Dev server ────────────────────────────────────────────────────
+[dev]
+  command = "npm run dev"
+  port = 4321
+  targetPort = 4321
+  autoLaunch = false
+
+# ── Redirects ─────────────────────────────────────────────────────
+[[redirects]]
+  from = "http://putincoffee.com/*"
+  to = "https://putincoffee.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.putincoffee.com/*"
+  to = "https://putincoffee.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.putincoffee.com/*"
+  to = "https://putincoffee.com/:splat"
+  status = 301
+  force = true
+
+# Catch-all: serve 404 page
+[[redirects]]
+  from = "/*"
+  to = "/404"
+  status = 404
+
+# ── Security & Performance Headers ────────────────────────────────
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Security
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(self), payment=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    Content-Security-Policy = """
+      default-src 'self';
+      script-src 'self' 'unsafe-inline' https://plausible.io;
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+      font-src 'self' https://fonts.gstatic.com data:;
+      img-src 'self' data: https://res.cloudinary.com https://cdn.sanity.io;
+      connect-src 'self' https://plausible.io https://*.sanity.io;
+      frame-src 'none';
+      object-src 'none';
+      base-uri 'self';
+      form-action 'self';
+      upgrade-insecure-requests;
+    """
+    # Performance
+    X-DNS-Prefetch-Control = "on"
+
+# Cache static assets aggressively
+[[headers]]
+  for = "/_assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# HTML: no cache (always fresh)
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Service worker: no cache
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Sitemap
+[[headers]]
+  for = "/sitemap*.xml"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+    Content-Type = "application/xml; charset=UTF-8"
+
+# ── Netlify Forms ─────────────────────────────────────────────────
+# Forms are auto-detected from HTML. No config needed here.
+# Add spam filtering:
+[forms]
+  # Fields named "bot-field" act as honeypot automatically
+
+# ── Edge Functions (optional) ─────────────────────────────────────
+# Uncomment when you add A/B testing or geo-routing:
+# [[edge_functions]]
+#   path = "/*"
+#   function = "geo-redirect"
+
+# ── Plugin: Lighthouse CI ─────────────────────────────────────────
+[[plugins]]
+  package = "@netlify/plugin-lighthouse"
+  [plugins.inputs]
+    audits = [
+      { path = "/", thresholds = { performance = 0.9, accessibility = 0.95, "best-practices" = 0.9, seo = 0.95 } }
+    ]

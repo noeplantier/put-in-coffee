@@ -1,0 +1,198 @@
+/* src/styles/global.css */
+/* ══════════════════════════════════════════════════════════════
+   PUTIN COFFEE — Global Styles
+   Tailwind base → custom overrides
+   ══════════════════════════════════════════════════════════════ */
+
+   @tailwind base;
+   @tailwind components;
+   @tailwind utilities;
+   
+   /* ── Base ────────────────────────────────────────────────────── */
+   @layer base {
+     :root {
+       --nav-h: 80px;
+       scroll-behavior: smooth;
+     }
+   
+     html {
+       @apply font-body text-pc-text antialiased;
+       background-color: theme('colors.pc.bg');
+       overflow-x: hidden;
+     }
+   
+     body {
+       @apply bg-pc-bg text-pc-text;
+       cursor: none; /* Custom cursor */
+     }
+   
+     /* Re-enable native cursor on touch devices */
+     @media (hover: none) {
+       body { cursor: auto; }
+       button, a { cursor: pointer; }
+     }
+   
+     /* Headings */
+     h1, h2, h3, h4, h5 {
+       @apply font-display;
+       text-wrap: balance;
+     }
+   
+     h1 { @apply text-4xl md:text-5xl lg:text-6xl; }
+     h2 { @apply text-3xl md:text-4xl; }
+     h3 { @apply text-xl md:text-2xl; }
+   
+     /* Remove default form styles — Tailwind Forms handles it */
+     input, textarea, select, button {
+       @apply font-body;
+     }
+   
+     /* Focus visible — keyboard navigation */
+     :focus-visible {
+       @apply outline-2 outline-offset-2 outline-pc-gold rounded-sm;
+     }
+   
+     /* Scrollbar (Webkit) */
+     ::-webkit-scrollbar { width: 6px; }
+     ::-webkit-scrollbar-track { background: theme('colors.pc.bg2'); }
+     ::-webkit-scrollbar-thumb {
+       background: theme('colors.pc.gold');
+       border-radius: 3px;
+     }
+   
+     /* Selection */
+     ::selection {
+       background: theme('colors.pc.gold');
+       color: #0a0800;
+     }
+   
+     /* Images */
+     img {
+       @apply max-w-full;
+       display: block;
+     }
+   
+     /* Print */
+     @media print {
+       body { background: white; color: black; cursor: auto; }
+       .no-print { display: none !important; }
+       nav, footer, #cookie-banner, #back-to-top { display: none !important; }
+     }
+   
+     /* Reduced motion */
+     @media (prefers-reduced-motion: reduce) {
+       *, *::before, *::after {
+         animation-duration: 0.01ms !important;
+         animation-iteration-count: 1 !important;
+         transition-duration: 0.01ms !important;
+       }
+       .reveal { opacity: 1 !important; transform: none !important; }
+     }
+   }
+   
+   /* ── Components ──────────────────────────────────────────────── */
+   @layer components {
+     /* Container */
+     .container {
+       @apply max-w-container mx-auto px-4 sm:px-6 lg:px-10;
+     }
+   
+     /* Section padding */
+     .section {
+       @apply py-20 lg:py-32;
+     }
+   
+     /* Eyebrow label */
+     .eyebrow {
+       @apply text-xs font-body font-medium tracking-[0.3em] uppercase text-pc-gold;
+     }
+   
+     /* Primary button */
+     .btn-primary {
+       @apply inline-flex items-center gap-2
+              bg-gradient-to-br from-pc-gold to-yellow-500
+              text-[#0a0800] font-bold text-sm tracking-wide
+              px-6 py-3 rounded-pill
+              transition-all duration-300
+              hover:-translate-y-1 hover:shadow-gold-lg
+              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pc-gold
+              active:translate-y-0;
+     }
+   
+     /* Ghost button */
+     .btn-ghost {
+       @apply inline-flex items-center gap-2
+              border border-white/20 text-pc-cream font-medium text-sm
+              px-6 py-3 rounded-pill backdrop-blur-sm
+              transition-all duration-300
+              hover:border-pc-cream hover:bg-white/5 hover:-translate-y-1
+              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pc-gold;
+     }
+   
+     /* Card base */
+     .card {
+       @apply bg-white/[0.04] border border-white/[0.08] rounded-xl
+              transition-all duration-300
+              hover:-translate-y-1 hover:border-pc-gold/20 hover:shadow-card;
+     }
+   
+     /* Form input */
+     .form-input {
+       @apply w-full bg-white/[0.04] border border-white/[0.08]
+              text-pc-cream rounded-lg px-4 py-3 text-sm
+              placeholder:text-pc-muted
+              transition-all duration-300
+              focus:outline-none focus:border-pc-gold focus:ring-2 focus:ring-pc-gold/10;
+     }
+   
+     /* Reveal animation (JS adds .visible) */
+     .reveal {
+       @apply opacity-0 translate-y-10 transition-all duration-700;
+       transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+     }
+     .reveal.visible {
+       @apply opacity-100 translate-y-0;
+     }
+     .reveal-scale {
+       @apply opacity-0 scale-95 transition-all duration-700;
+       transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+     }
+     .reveal-scale.visible {
+       @apply opacity-100 scale-100;
+     }
+   
+     /* Stars */
+     .star-row {
+       @apply flex gap-px;
+     }
+     .star {
+       @apply text-pc-star;
+     }
+   
+     /* Skeleton loader */
+     .skeleton {
+       @apply bg-gradient-to-r from-white/5 via-white/10 to-white/5
+              animate-shimmer bg-[length:200%_100%] rounded-lg;
+     }
+   }
+   
+   /* ── Utilities ────────────────────────────────────────────────── */
+   @layer utilities {
+     /* Nav height offset */
+     .pt-nav { padding-top: var(--nav-h); }
+     .mt-nav { margin-top: var(--nav-h); }
+     .top-nav { top: var(--nav-h); }
+   
+     /* Gradient text */
+     .text-gradient-gold {
+       @apply bg-gradient-to-r from-pc-gold to-yellow-400 bg-clip-text text-transparent;
+     }
+   
+     /* Prose overrides for Sanity portable text */
+     .prose-beach {
+       @apply prose prose-invert
+              prose-p:text-pc-muted prose-p:leading-relaxed
+              prose-headings:font-display prose-headings:text-pc-cream
+              prose-a:text-pc-gold prose-a:no-underline hover:prose-a:underline;
+     }
+   }

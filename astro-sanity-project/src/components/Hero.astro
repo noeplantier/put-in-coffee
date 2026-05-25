@@ -1,0 +1,152 @@
+---
+// src/components/Hero.astro
+import { cloudinary, HERO_IMAGE_ID } from '../lib/cloudinary.ts';
+import type { SiteSettings } from '../types/index.ts';
+
+export interface Props {
+  settings: Partial<SiteSettings>;
+}
+
+const { settings } = Astro.props;
+
+const headline     = settings?.heroHeadline        ?? 'Where Waves';
+const headlineItal = settings?.heroHeadlineItalic  ?? 'Meet Coffee';
+const subtitle     = settings?.heroSubtitle        ?? "Sip specialty coffee as the tide rolls in. Sanur's most soulful beachfront café on Pantai Biaung.";
+const totalReviews = settings?.totalReviews        ?? 127;
+
+// Cloudinary responsive image set
+const hero = cloudinary.hero(HERO_IMAGE_ID);
+---
+
+<!-- ══ HERO ═══════════════════════════════════════════════════ -->
+<section
+  class="relative h-svh min-h-[600px] flex items-center justify-center overflow-hidden"
+  id="hero"
+  aria-label="Welcome to Putin Coffee"
+>
+  <!-- Floating particles -->
+  {[...Array(5)].map((_, i) => (
+    <div
+      class="absolute rounded-full pointer-events-none z-[1]"
+      style={`
+        width: ${[6,4,8,5,3][i]}px;
+        height: ${[6,4,8,5,3][i]}px;
+        left: ${[15,30,60,80,45][i]}%;
+        background: radial-gradient(circle, rgba(200,149,62,0.3), transparent);
+        animation: float-particle ${[18,22,15,20,25][i]}s linear ${[0,3,6,1,8][i]}s infinite;
+      `}
+      aria-hidden="true"
+    />
+  ))}
+
+  <!-- Background image (Cloudinary) -->
+  <div class="absolute inset-0 bg-pc-bg">
+    <picture>
+      <source
+        srcset={hero.srcset}
+        sizes={hero.sizes}
+        type="image/webp"
+      >
+      <img
+        id="hero-img"
+        src={hero.src}
+        alt="Beachfront scene at Pantai Biaung, Sanur — sunset over the ocean with a boat and driftwood art"
+        class="w-full h-full object-cover object-center scale-[1.08] transition-transform duration-[12s]"
+        width="1408"
+        height="768"
+        fetchpriority="high"
+        decoding="async"
+        style={hero.lqip ? `background-image: url(${hero.lqip}); background-size: cover;` : ''}
+      >
+    </picture>
+  </div>
+
+  <!-- Gradient overlays -->
+  <div class="absolute inset-0 bg-gradient-to-b from-pc-bg/30 via-pc-bg/25 to-pc-bg/95 z-[1]" aria-hidden="true"></div>
+  <div class="absolute inset-0 bg-gradient-to-r from-pc-bg/40 to-transparent z-[1]" aria-hidden="true"></div>
+
+  <!-- Content -->
+  <div
+    class="relative z-[2] text-center max-w-3xl px-4 sm:px-6"
+    style="margin-top: calc(var(--nav-h) * 0.5)"
+  >
+    <!-- Eyebrow badge -->
+    <div class="inline-flex items-center gap-2 text-xs font-medium tracking-[0.3em] uppercase text-pc-gold bg-pc-gold/10 border border-pc-gold/30 px-4 py-1.5 rounded-pill mb-8 animate-fade-down">
+      <span aria-hidden="true">📍</span>
+      <span>Pantai Biaung · Sanur, Bali</span>
+    </div>
+
+    <!-- Headline -->
+    <h1 class="text-pc-cream mb-6 animate-fade-up" style="text-shadow: 0 4px 40px rgba(0,0,0,0.8)">
+      {headline}<br>
+      <em class="italic text-pc-gold-lt">{headlineItal}</em>
+    </h1>
+
+    <!-- Subtitle -->
+    <p class="text-base md:text-xl text-pc-cream/75 max-w-lg mx-auto mb-10 leading-relaxed animate-fade-up-1">
+      {subtitle}
+    </p>
+
+    <!-- CTAs -->
+    <div class="flex flex-col sm:flex-row gap-3 justify-center animate-fade-up-2">
+      <a href="#menu" class="btn-primary" data-event="CTA Hero Primary">
+        <span aria-hidden="true">☕</span>
+        Explore Our Menu
+      </a>
+      <a href="#contact" class="btn-ghost" data-event="CTA Hero Secondary">
+        <span aria-hidden="true">🌊</span>
+        Reserve a Table
+      </a>
+    </div>
+  </div>
+
+  <!-- Rating badge -->
+  <div
+    class="absolute bottom-28 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-pc-bg/70 border border-white/10 backdrop-blur-xl px-4 py-2 rounded-pill z-[2] whitespace-nowrap animate-fade-up-3"
+    aria-label={`Google rating: 5 stars from ${totalReviews} reviews`}
+  >
+    <div class="flex" aria-hidden="true">
+      {[...Array(5)].map(() => <span class="text-pc-star text-sm">★</span>)}
+    </div>
+    <span class="text-xs text-pc-muted">
+      <strong class="text-pc-cream">5.0</strong> · {totalReviews} Google Reviews
+    </span>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 z-[2]" aria-hidden="true">
+    <span class="text-[10px] tracking-[0.2em] uppercase text-pc-muted">Scroll</span>
+    <div class="w-px h-10 bg-gradient-to-b from-pc-gold to-transparent animate-scroll-line"></div>
+  </div>
+</section>
+
+<style>
+  @keyframes float-particle {
+    0% { transform: translateY(100vh) scale(0); opacity: 0; }
+    10% { opacity: 0.6; }
+    90% { opacity: 0.3; }
+    100% { transform: translateY(-100px) scale(1.2); opacity: 0; }
+  }
+</style>
+
+<script>
+  // Hero image: remove blur + animate scale on load
+  const heroImg = document.getElementById('hero-img') as HTMLImageElement;
+  if (heroImg) {
+    const onLoad = () => {
+      heroImg.style.transform = 'scale(1)';
+      heroImg.style.backgroundImage = 'none';
+    };
+    if (heroImg.complete) { onLoad(); }
+    else { heroImg.addEventListener('load', onLoad); }
+  }
+
+  // Track CTA clicks with Plausible
+  document.querySelectorAll('[data-event]').forEach(el => {
+    el.addEventListener('click', () => {
+      const event = (el as HTMLElement).dataset.event;
+      // @ts-ignore
+      if (event && window.plausible) window.plausible(event);
+    });
+  });
+</script>

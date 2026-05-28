@@ -1,18 +1,153 @@
 ---
-frontmatter:
-  title: "Header"
-  description: "Composant d'en-tête pour l'application Astro"
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = "/" } = Astro.props;
+
+const navLinks = [
+  { label: "Accueil", href: "/" },
+  { label: "Nos Cafés", href: "/cafes" },
+  { label: "À Propos", href: "/about" },
+  { label: "Blog", href: "/blog" },
+  { label: "Contact", href: "/contact" },
+];
+
+const isActive = (href: string) => currentPath === href;
 ---
 
-<header>
-  <div class="logo">
-    <h1>Mon Application</h1>
+<header class="fixed top-0 left-0 right-0 z-50 bg-pc-bg/95 backdrop-blur-md border-b border-white/10">
+  <div class="container h-nav flex items-center justify-between">
+    
+    <!-- Logo -->
+    <a href="/" class="flex items-center gap-3 group">
+      <div class="w-10 h-10 rounded-full bg-gradient-to-br from-pc-gold to-yellow-500 flex-center group-hover:shadow-gold-lg transition-all duration-300">
+        <span class="text-pc-bg font-display font-bold text-lg">☕</span>
+      </div>
+      <div class="hidden sm:block">
+        <h1 class="text-sm font-display font-bold text-pc-cream leading-tight">PUT.IN</h1>
+        <p class="text-xs text-pc-muted">Coffee</p>
+      </div>
+    </a>
+
+    <!-- Desktop Navigation -->
+    <nav class="hidden md:flex items-center gap-8">
+      <ul class="flex gap-8">
+        {navLinks.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class={`text-sm font-medium transition-colors duration-300 relative group ${
+                isActive(link.href)
+                  ? "text-pc-gold"
+                  : "text-pc-muted hover:text-pc-cream"
+              }`}
+            >
+              {link.label}
+              <span class={`absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-pc-gold to-yellow-400 transition-all duration-300 ${
+                isActive(link.href) ? "w-full" : "w-0 group-hover:w-full"
+              }`}></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <!-- CTA Button + Mobile Menu -->
+    <div class="flex items-center gap-4">
+      <a href="/commander" class="hidden sm:block btn-primary text-xs px-4 py-2">
+        Commander
+      </a>
+      
+      <!-- Mobile Menu Button -->
+      <button
+        id="mobile-menu-btn"
+        class="md:hidden flex flex-col gap-1.5 w-6 h-6 cursor-pointer group"
+        aria-label="Menu"
+        aria-expanded="false"
+      >
+        <span class="w-full h-0.5 bg-pc-cream rounded-full transition-all duration-300 group-aria-expanded:rotate-45 group-aria-expanded:translate-y-2"></span>
+        <span class="w-full h-0.5 bg-pc-cream rounded-full transition-all duration-300 group-aria-expanded:opacity-0"></span>
+        <span class="w-full h-0.5 bg-pc-cream rounded-full transition-all duration-300 group-aria-expanded:-rotate-45 group-aria-expanded:-translate-y-2"></span>
+      </button>
+    </div>
   </div>
-  <nav>
-    <ul>
-      <li><a href="/">Accueil</a></li>
-      <li><a href="/about">À propos</a></li>
-      <li><a href="/contact">Contact</a></li>
-    </ul>
+
+  <!-- Mobile Navigation -->
+  <nav
+    id="mobile-menu"
+    class="md:hidden absolute top-full left-0 right-0 bg-pc-bg border-b border-white/10 max-h-0 overflow-hidden transition-all duration-300"
+  >
+    <div class="container py-4 flex flex-col gap-4">
+      {navLinks.map((link) => (
+        <a
+          href={link.href}
+          class={`px-4 py-2 rounded-lg transition-all duration-300 ${
+            isActive(link.href)
+              ? "bg-pc-gold/20 text-pc-gold font-medium"
+              : "text-pc-muted hover:bg-white/5 hover:text-pc-cream"
+          }`}
+        >
+          {link.label}
+        </a>
+      ))}
+      <a href="/commander" class="btn-primary text-xs w-full justify-center mt-2">
+        Commander
+      </a>
+    </div>
   </nav>
 </header>
+
+<script>
+  const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+  const mobileMenu = document.getElementById("mobile-menu");
+
+  if (mobileMenuBtn && mobileMenu) {
+    mobileMenuBtn.addEventListener("click", () => {
+      const isExpanded = mobileMenuBtn.getAttribute("aria-expanded") === "true";
+      mobileMenuBtn.setAttribute("aria-expanded", (!isExpanded).toString());
+      
+      if (!isExpanded) {
+        mobileMenu.style.maxHeight = mobileMenu.scrollHeight + "px";
+      } else {
+        mobileMenu.style.maxHeight = "0";
+      }
+    });
+
+    // Fermer le menu au clic sur un lien
+    document.querySelectorAll("#mobile-menu a").forEach((link) => {
+      link.addEventListener("click", () => {
+        mobileMenuBtn.setAttribute("aria-expanded", "false");
+        mobileMenu.style.maxHeight = "0";
+      });
+    });
+  }
+
+  // Sticky header avec parallax au scroll
+  let lastScroll = 0;
+  const header = document.querySelector("header");
+
+  window.addEventListener("scroll", () => {
+    const currentScroll = window.pageYOffset;
+    
+    if (currentScroll <= 0) {
+      header?.classList.remove("shadow-md");
+    } else {
+      header?.classList.add("shadow-md");
+    }
+    
+    lastScroll = currentScroll;
+  });
+</script>
+
+<style>
+  header {
+    --nav-h: 80px;
+  }
+
+  @media (max-width: 768px) {
+    header {
+      --nav-h: 64px;
+    }
+  }
+</style>

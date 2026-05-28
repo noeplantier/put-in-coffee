@@ -6,7 +6,6 @@
 // ══════════════════════════════════════════════════════════════
 
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Navigation from '../components/Navigation.astro';
 import Hero from '../components/Hero.astro';
 import WaveDivider from '../components/WaveDivider.astro';
 import Menu from '../components/Menu.astro';
@@ -54,9 +53,6 @@ const features  = sanityFeatures.length > 0 ? sanityFeatures : fallbackFeatures;
 >
   <!-- Shared UI: cursor, progress bar, toasts, back-to-top, cookie banner -->
   <UI />
-
-  <!-- Navigation -->
-  <Navigation />
 
   <!-- ══ HERO ═════════════════════════════════════════════════ -->
   <Hero settings={settings} />

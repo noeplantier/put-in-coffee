@@ -1,4 +1,3 @@
-// src/lib/sanity.ts
 // ══════════════════════════════════════════════════════════════
 // SANITY CMS CLIENT
 // All GROQ queries live here — single source of truth.
@@ -10,9 +9,9 @@ import type { SanityImage, SiteSettings, MenuItem, Review, ExperienceFeature } f
 
 // ── Client configuration ────────────────────────────────────────
 export const sanityClient = createClient({
-  projectId:  import.meta.env.SANITY_PROJECT_ID  || 'your_project_id',
-  dataset:    import.meta.env.SANITY_DATASET      || 'production',
-  apiVersion: import.meta.env.SANITY_API_VERSION  || '2024-01-01',
+  projectId:  import.meta.env.PUBLIC_SANITY_PROJECT_ID  || 'a1b2c3d4',
+  dataset:    import.meta.env.PUBLIC_SANITY_DATASET      || 'production',
+  apiVersion: import.meta.env.PUBLIC_SANITY_API_VERSION  || '2024-01-01',
   token:      import.meta.env.SANITY_API_TOKEN,
   useCdn:     import.meta.env.PROD, // CDN in production, live data in dev
   perspective: 'published',         // Only fetch published documents
@@ -121,7 +120,7 @@ export async function getExperienceFeatures(): Promise<ExperienceFeature[]> {
 
 /** Validate all Sanity env vars are set */
 export function validateSanityConfig(): boolean {
-  const required = ['SANITY_PROJECT_ID', 'SANITY_DATASET'];
+  const required = ['PUBLIC_SANITY_PROJECT_ID', 'PUBLIC_SANITY_DATASET'];
   const missing = required.filter(k => !import.meta.env[k]);
   if (missing.length > 0) {
     console.warn(`[Sanity] Missing env vars: ${missing.join(', ')}. Using fallback data.`);

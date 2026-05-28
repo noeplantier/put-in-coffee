@@ -2,12 +2,13 @@
 // src/layouts/BaseLayout.astro
 // ══════════════════════════════════════════════════════════════
 // BASE LAYOUT — Wraps every page
-// Handles: SEO meta, fonts, Plausible, PWA, structured data
+// Handles: SEO meta, fonts, Plausible, PWA, structured data, Header
 // ══════════════════════════════════════════════════════════════
 
 import '../styles/global.css';
 import { getPlausibleScriptUrl, getPlausibleDomain } from '../lib/analytics.ts';
 import { cloudinary, HERO_IMAGE_ID } from '../lib/cloudinary.ts';
+import Header from '../components/Header.astro'; // Ajout de l'import du Header
 
 export interface Props {
   title?: string;
@@ -81,7 +82,6 @@ const finalSchema = schema ?? defaultSchema;
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
   <!-- ── Security Headers ──────────────────────────────────── -->
-  <!-- Additional headers live in netlify.toml [[headers]] -->
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
   <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(self)">
@@ -138,14 +138,14 @@ const finalSchema = schema ?? defaultSchema;
   <!-- ── JSON-LD Structured Data ────────────────────────────── -->
   <script type="application/ld+json" set:html={JSON.stringify(finalSchema)}></script>
 
-  <!-- ── Plausible Analytics (privacy-first, no cookies) ────── -->
+  <!-- ── Plausible Analytics ────────────────────────────────── -->
   <script
     defer
     data-domain={plausibleDomain}
     src={plausibleScript}
   ></script>
 
-  <!-- ── Critical Inline Styles (nav height var) ───────────── -->
+  <!-- ── Critical Inline Styles ─────────────────────────────── -->
   <style>:root { --nav-h: 80px; } body { margin: 0; }</style>
 </head>
 
@@ -159,8 +159,13 @@ const finalSchema = schema ?? defaultSchema;
     Skip to main content
   </a>
 
-  <!-- ── Slot: page content ─────────────────────────────────── -->
-  <slot />
+  <!-- ── Header Component ───────────────────────────────────── -->
+  <Header />
+
+  <!-- ── Main Content ───────────────────────────────────────── -->
+  <main id="main">
+    <slot />
+  </main>
 
   <!-- ── Service Worker registration ──────────────────────── -->
   <script>

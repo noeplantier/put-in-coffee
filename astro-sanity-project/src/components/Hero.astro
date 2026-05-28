@@ -100,18 +100,7 @@ const hero = cloudinary.hero(HERO_IMAGE_ID);
     </div>
   </div>
 
-  <!-- Rating badge -->
-  <div
-    class="absolute bottom-28 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-pc-bg/70 border border-white/10 backdrop-blur-xl px-4 py-2 rounded-pill z-[2] whitespace-nowrap animate-fade-up-3"
-    aria-label={`Google rating: 5 stars from ${totalReviews} reviews`}
-  >
-    <div class="flex" aria-hidden="true">
-      {[...Array(5)].map(() => <span class="text-pc-star text-sm">★</span>)}
-    </div>
-    <span class="text-xs text-pc-muted">
-      <strong class="text-pc-cream">5.0</strong> · {totalReviews} Google Reviews
-    </span>
-  </div>
+ 
 
   <!-- Scroll indicator -->
   <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 z-[2]" aria-hidden="true">

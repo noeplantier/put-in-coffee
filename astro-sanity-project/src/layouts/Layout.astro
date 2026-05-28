@@ -1,13 +1,27 @@
 ---
-layout: layout
+// Importation des styles Tailwind globaux
+import '../styles/global.css'; 
+// Importation du Header (ajustez le chemin selon votre structure)
+import Header from '../components/Header.astro'; 
 ---
 
-<Header />
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>Putin Coffee</title>
+  </head>
+  <body>
+    <Header />
 
-<main>
-    <slot />
-</main>
+    <main>
+      <slot />
+    </main>
 
-<footer>
-    <p>&copy; 2023 Votre Nom. Tous droits réservés.</p>
-</footer>
+    <footer>
+      <p>&copy; 2024 Putin Coffee. Tous droits réservés.</p>
+    </footer>
+  </body>
+</html>

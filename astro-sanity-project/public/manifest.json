@@ -1,0 +1,8 @@
+{
+    "name": "Putin Coffee",
+    "short_name": "Coffee",
+    "display": "standalone",
+    "start_url": "/",
+    "background_color": "#ffffff",
+    "theme_color": "#000000"
+  }

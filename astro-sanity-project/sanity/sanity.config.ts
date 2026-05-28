@@ -8,8 +8,6 @@
 import { defineConfig, isDev } from 'sanity';
 import { structureTool } from 'sanity/structure';
 import { visionTool } from '@sanity/vision';
-import { media } from 'sanity-plugin-media'; // Optional: nice media library UI
-
 import { siteSettings } from './schemas/siteSettings.js';
 import { menuItem } from './schemas/menuItem.js';
 import { review, feature } from './schemas/index.js';

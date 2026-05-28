@@ -1,273 +1,698 @@
 ---
 // src/components/ReservationForm.astro
+// Reservation + Contact · Bilingual EN / ID · Sunset Beach Theme
 // Uses Netlify Forms — no backend needed.
-// Netlify auto-detects the form on build.
 ---
 
-<!-- ══ CONTACT / RESERVATION ════════════════════════════════ -->
-<section class="section bg-pc-bg" id="contact" aria-label="Reserve a table">
-  <div class="container">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+<!-- ══ RESERVATION ════════════════════════════════════════════ -->
+<section class="res-section" id="contact" aria-label="Reserve a table">
 
-      <!-- Left: intro -->
-      <div>
-        <p class="eyebrow mb-3 reveal">Get in Touch</p>
-        <h2 class="text-pc-cream mb-6 reveal">Reserve Your<br>Slice of Paradise</h2>
-        <p class="text-pc-muted leading-relaxed mb-8 reveal">
-          Whether you're planning a sunrise coffee date, a romantic sunset dinner, or a full private event on the beach — we'd love to make it perfect.
-        </p>
+  <!-- Sunset glow accent -->
+  <div class="res-section__glow res-section__glow--left" aria-hidden="true"></div>
+  <div class="res-section__glow res-section__glow--right" aria-hidden="true"></div>
 
-        <!-- Social links -->
-        <div class="flex gap-3 reveal">
-          <a href="https://instagram.com/putincoffee" class="social-icon" aria-label="Instagram" target="_blank" rel="noopener" data-event="Instagram Click">📸</a>
-          <a href="https://facebook.com/putincoffee" class="social-icon" aria-label="Facebook" target="_blank" rel="noopener">📘</a>
-          <a
-            id="whatsapp-link"
-            href={`https://wa.me/${import.meta.env.PUBLIC_WHATSAPP_NUMBER ?? '628123456789'}`}
-            class="social-icon"
-            aria-label="WhatsApp"
-            target="_blank"
-            rel="noopener"
-            data-event="WhatsApp Click"
-          >💬</a>
-          <a href="https://tiktok.com/@putincoffee" class="social-icon" aria-label="TikTok" target="_blank" rel="noopener">🎵</a>
-          <button id="share-btn" class="social-icon" aria-label="Share this page">🔗</button>
+  <div class="res-inner">
+
+    <!-- ── Left: Info ──────────────────────────────────────── -->
+    <div class="res-info">
+
+      <p class="res-eyebrow" data-en="Get in Touch" data-id="Hubungi Kami">Get in Touch</p>
+      <h2 class="res-title">
+        <span data-en="Reserve Your" data-id="Pesan Meja">Reserve Your</span><br>
+        <em data-en="Slice of Paradise" data-id="Surga Tepi Pantai">Slice of Paradise</em>
+      </h2>
+      <p class="res-subtitle" data-en="Sunrise coffee, romantic sunset dinners, or private beachside events — we'll make it unforgettable at Pantai Biaung."
+         data-id="Kopi pagi hari, makan malam romantis, atau acara privat di tepi pantai — kami akan membuatnya tak terlupakan di Pantai Biaung.">
+        Sunrise coffee, romantic sunset dinners, or private beachside events — we'll make it unforgettable at Pantai Biaung.
+      </p>
+
+      <!-- Info cards -->
+      <div class="res-info-cards">
+        <!-- Hours -->
+        <div class="res-info-card">
+          <div class="res-info-card__icon" aria-hidden="true">🕐</div>
+          <div class="res-info-card__text">
+            <strong data-en="Opening Hours" data-id="Jam Buka">Opening Hours</strong>
+            <span data-en="7:00 AM – 11:00 PM · Daily" data-id="07.00 – 23.00 · Setiap Hari">7:00 AM – 11:00 PM · Daily</span>
+          </div>
+        </div>
+        <!-- Location -->
+        <div class="res-info-card">
+          <div class="res-info-card__icon" aria-hidden="true">📍</div>
+          <div class="res-info-card__text">
+            <strong data-en="Location" data-id="Lokasi">Location</strong>
+            <span data-en="Pantai Biaung, Sanur, Bali" data-id="Pantai Biaung, Sanur, Bali">Pantai Biaung, Sanur, Bali</span>
+          </div>
+        </div>
+        <!-- Response time -->
+        <div class="res-info-card">
+          <div class="res-info-card__icon" aria-hidden="true">⚡</div>
+          <div class="res-info-card__text">
+            <strong data-en="Response Time" data-id="Waktu Respons">Response Time</strong>
+            <span data-en="Within 2 hours · No card required" data-id="Dalam 2 jam · Tanpa kartu kredit">Within 2 hours · No card required</span>
+          </div>
+        </div>
+        <!-- Wifi -->
+        <div class="res-info-card">
+          <div class="res-info-card__icon" aria-hidden="true">🌊</div>
+          <div class="res-info-card__text">
+            <strong data-en="The Vibe" data-id="Suasana">The Vibe</strong>
+            <span data-en="Beachfront · Ocean breeze · Free WiFi" data-id="Tepi pantai · Angin laut · WiFi gratis">Beachfront · Ocean breeze · Free WiFi</span>
+          </div>
         </div>
       </div>
 
-      <!-- Right: form -->
-      <div class="bg-white/[0.04] border border-white/[0.08] rounded-2xl p-6 md:p-8 reveal-scale">
-        <!--
-          NETLIFY FORMS
-          - data-netlify="true" enables Netlify form detection at build
-          - netlify-honeypot="bot-field" adds spam protection
-          - data-netlify-recaptcha="true" adds reCAPTCHA (enable in Netlify dashboard)
-        -->
-        <form
-          name="reservation"
-          method="POST"
-          data-netlify="true"
-          netlify-honeypot="bot-field"
-          id="reservation-form"
-          novalidate
+      <!-- Social links -->
+      <div class="res-socials" aria-label="Follow us">
+        <a href="https://instagram.com/putincoffee" class="res-social-btn" aria-label="Instagram" target="_blank" rel="noopener" data-event="Instagram Click">
+          <span aria-hidden="true">📸</span>
+        </a>
+        <a href="https://facebook.com/putincoffee" class="res-social-btn" aria-label="Facebook" target="_blank" rel="noopener">
+          <span aria-hidden="true">📘</span>
+        </a>
+        <a
+          id="whatsapp-link"
+          href="https://wa.me/628123456789"
+          class="res-social-btn res-social-btn--wa"
+          aria-label="WhatsApp"
+          target="_blank"
+          rel="noopener"
+          data-event="WhatsApp Click"
         >
-          <!-- Required by Netlify Forms -->
-          <input type="hidden" name="form-name" value="reservation">
-
-          <!-- Honeypot: never shown to real users -->
-          <p class="hidden" aria-hidden="true">
-            <label>Don't fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
-          </p>
-
-          <!-- Row: name + email -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-            <div>
-              <label for="res-name" class="block text-xs tracking-widest uppercase text-pc-muted font-medium mb-1.5">
-                Full Name <span class="text-pc-red">*</span>
-              </label>
-              <input
-                type="text"
-                id="res-name"
-                name="name"
-                class="form-input"
-                placeholder="Your name"
-                required
-                autocomplete="name"
-              >
-            </div>
-            <div>
-              <label for="res-email" class="block text-xs tracking-widest uppercase text-pc-muted font-medium mb-1.5">
-                Email <span class="text-pc-red">*</span>
-              </label>
-              <input
-                type="email"
-                id="res-email"
-                name="email"
-                class="form-input"
-                placeholder="you@email.com"
-                required
-                autocomplete="email"
-              >
-            </div>
-          </div>
-
-          <!-- Row: phone + guests -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-            <div>
-              <label for="res-phone" class="block text-xs tracking-widest uppercase text-pc-muted font-medium mb-1.5">WhatsApp / Phone</label>
-              <input
-                type="tel"
-                id="res-phone"
-                name="phone"
-                class="form-input"
-                placeholder="+62 ..."
-                autocomplete="tel"
-              >
-            </div>
-            <div>
-              <label for="res-guests" class="block text-xs tracking-widest uppercase text-pc-muted font-medium mb-1.5">Guests</label>
-              <select id="res-guests" name="guests" class="form-input">
-                <option value="">Select...</option>
-                <option value="1">1 guest</option>
-                <option value="2">2 guests</option>
-                <option value="3-5">3–5 guests</option>
-                <option value="6-10">6–10 guests</option>
-                <option value="10+">10+ (Private event)</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- Row: date + time -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-            <div>
-              <label for="res-date" class="block text-xs tracking-widest uppercase text-pc-muted font-medium mb-1.5">Preferred Date</label>
-              <input type="date" id="res-date" name="date" class="form-input" min="">
-            </div>
-            <div>
-              <label for="res-time" class="block text-xs tracking-widest uppercase text-pc-muted font-medium mb-1.5">Preferred Time</label>
-              <select id="res-time" name="time" class="form-input">
-                <option value="">Select...</option>
-                <option value="07:00">7:00 AM — Sunrise</option>
-                <option value="09:00">9:00 AM — Morning</option>
-                <option value="12:00">12:00 PM — Lunch</option>
-                <option value="15:00">3:00 PM — Afternoon</option>
-                <option value="17:30">5:30 PM — Sunset 🌅</option>
-                <option value="19:00">7:00 PM — Dinner</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- Message -->
-          <div class="mb-6">
-            <label for="res-message" class="block text-xs tracking-widest uppercase text-pc-muted font-medium mb-1.5">Special Requests</label>
-            <textarea
-              id="res-message"
-              name="message"
-              class="form-input resize-none"
-              rows="3"
-              placeholder="Allergies, celebrations, seating preferences..."
-            ></textarea>
-          </div>
-
-          <!-- Submit -->
-          <button
-            type="submit"
-            id="form-submit"
-            class="btn-primary w-full justify-center text-sm"
-          >
-            <span aria-hidden="true">☕</span>
-            Send Reservation Request
-          </button>
-
-          <p class="text-center text-xs text-pc-muted mt-3">
-            We respond within 2 hours · Free to reserve · No credit card required
-          </p>
-        </form>
-
-        <!-- Success state (hidden by default) -->
-        <div id="form-success" class="hidden text-center py-8">
-          <div class="text-5xl mb-4">🎉</div>
-          <h3 class="text-pc-cream text-xl font-display mb-2">Reservation Received!</h3>
-          <p class="text-pc-muted text-sm">We'll confirm your table within 2 hours via email. See you at the beach!</p>
-        </div>
+          <span aria-hidden="true">💬</span>
+          <span class="res-social-btn__label" data-en="Chat on WhatsApp" data-id="Chat WhatsApp">Chat on WhatsApp</span>
+        </a>
+        <a href="https://tiktok.com/@putincoffee" class="res-social-btn" aria-label="TikTok" target="_blank" rel="noopener">
+          <span aria-hidden="true">🎵</span>
+        </a>
+        <button id="share-btn" class="res-social-btn" aria-label="Share this page" data-en="Share" data-id="Bagikan">
+          <span aria-hidden="true">🔗</span>
+        </button>
       </div>
     </div>
+
+    <!-- ── Right: Form ─────────────────────────────────────── -->
+    <div class="res-form-wrap">
+
+      <!-- Reservation form -->
+      <form
+        id="reservation-form"
+        class="res-form"
+        name="reservation"
+        method="POST"
+        data-netlify="true"
+        netlify-honeypot="bot-field"
+        novalidate
+        aria-label="Reservation form"
+      >
+        <input type="hidden" name="form-name" value="reservation">
+        <p class="res-form__hidden" aria-hidden="true">
+          <label>Skip: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
+        </p>
+
+        <h3 class="res-form__title" data-en="Make a Reservation" data-id="Buat Reservasi">Make a Reservation</h3>
+
+        <!-- Name + Email -->
+        <div class="res-form__row">
+          <div class="res-field">
+            <label for="res-name" class="res-field__label">
+              <span data-en="Full Name" data-id="Nama Lengkap">Full Name</span>
+              <span class="res-field__req" aria-label="required">*</span>
+            </label>
+            <input
+              type="text" id="res-name" name="name"
+              class="res-field__input"
+              placeholder="Your name"
+              required autocomplete="name"
+            >
+            <span class="res-field__border" aria-hidden="true"></span>
+          </div>
+          <div class="res-field">
+            <label for="res-email" class="res-field__label">
+              <span data-en="Email" data-id="Email">Email</span>
+              <span class="res-field__req" aria-label="required">*</span>
+            </label>
+            <input
+              type="email" id="res-email" name="email"
+              class="res-field__input"
+              placeholder="you@email.com"
+              required autocomplete="email"
+            >
+            <span class="res-field__border" aria-hidden="true"></span>
+          </div>
+        </div>
+
+        <!-- Phone + Guests -->
+        <div class="res-form__row">
+          <div class="res-field">
+            <label for="res-phone" class="res-field__label">
+              <span data-en="WhatsApp / Phone" data-id="WhatsApp / Telp">WhatsApp / Phone</span>
+            </label>
+            <input
+              type="tel" id="res-phone" name="phone"
+              class="res-field__input"
+              placeholder="+62 ..."
+              autocomplete="tel"
+            >
+            <span class="res-field__border" aria-hidden="true"></span>
+          </div>
+          <div class="res-field">
+            <label for="res-guests" class="res-field__label">
+              <span data-en="Number of Guests" data-id="Jumlah Tamu">Number of Guests</span>
+            </label>
+            <select id="res-guests" name="guests" class="res-field__input">
+              <option value="" data-en="Select..." data-id="Pilih...">Select...</option>
+              <option value="1" data-en="1 guest" data-id="1 tamu">1 guest</option>
+              <option value="2" data-en="2 guests" data-id="2 tamu">2 guests</option>
+              <option value="3-5" data-en="3–5 guests" data-id="3–5 tamu">3–5 guests</option>
+              <option value="6-10" data-en="6–10 guests" data-id="6–10 tamu">6–10 guests</option>
+              <option value="10+" data-en="10+ (Private event)" data-id="10+ (Acara Privat)">10+ (Private event)</option>
+            </select>
+            <span class="res-field__border" aria-hidden="true"></span>
+          </div>
+        </div>
+
+        <!-- Date + Time -->
+        <div class="res-form__row">
+          <div class="res-field">
+            <label for="res-date" class="res-field__label">
+              <span data-en="Preferred Date" data-id="Tanggal Pilihan">Preferred Date</span>
+            </label>
+            <input type="date" id="res-date" name="date" class="res-field__input">
+            <span class="res-field__border" aria-hidden="true"></span>
+          </div>
+          <div class="res-field">
+            <label for="res-time" class="res-field__label">
+              <span data-en="Preferred Time" data-id="Waktu Pilihan">Preferred Time</span>
+            </label>
+            <select id="res-time" name="time" class="res-field__input">
+              <option value="">Select time...</option>
+              <option value="07:00" data-en="7:00 AM — Sunrise 🌅" data-id="07.00 — Matahari Terbit 🌅">7:00 AM — Sunrise 🌅</option>
+              <option value="09:00" data-en="9:00 AM — Morning ☀️" data-id="09.00 — Pagi ☀️">9:00 AM — Morning ☀️</option>
+              <option value="12:00" data-en="12:00 PM — Lunch 🍽️" data-id="12.00 — Makan Siang 🍽️">12:00 PM — Lunch 🍽️</option>
+              <option value="15:00" data-en="3:00 PM — Afternoon 🌤️" data-id="15.00 — Sore 🌤️">3:00 PM — Afternoon 🌤️</option>
+              <option value="17:30" data-en="5:30 PM — Sunset 🌅" data-id="17.30 — Senja 🌅">5:30 PM — Sunset 🌅</option>
+              <option value="19:00" data-en="7:00 PM — Dinner 🌙" data-id="19.00 — Makan Malam 🌙">7:00 PM — Dinner 🌙</option>
+            </select>
+            <span class="res-field__border" aria-hidden="true"></span>
+          </div>
+        </div>
+
+        <!-- Message -->
+        <div class="res-field">
+          <label for="res-message" class="res-field__label">
+            <span data-en="Special Requests" data-id="Permintaan Khusus">Special Requests</span>
+          </label>
+          <textarea
+            id="res-message" name="message"
+            class="res-field__input res-field__input--textarea"
+            rows="3"
+            placeholder="Allergies, celebrations, seating preferences... / Alergi, perayaan, preferensi tempat duduk..."
+          ></textarea>
+          <span class="res-field__border" aria-hidden="true"></span>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" id="form-submit" class="res-btn-submit">
+          <span class="res-btn-submit__text" data-en="☕ Send Reservation Request" data-id="☕ Kirim Permintaan Reservasi">
+            ☕ Send Reservation Request
+          </span>
+          <span class="res-btn-submit__shine" aria-hidden="true"></span>
+        </button>
+
+        <p class="res-form__note"
+           data-en="We respond within 2 hours · Free to reserve · No credit card required"
+           data-id="Kami merespons dalam 2 jam · Gratis reservasi · Tanpa kartu kredit">
+          We respond within 2 hours · Free to reserve · No credit card required
+        </p>
+      </form>
+
+      <!-- Success state -->
+      <div id="form-success" class="res-success" hidden>
+        <div class="res-success__icon">🎉</div>
+        <h3 class="res-success__title" data-en="Reservation Received!" data-id="Reservasi Diterima!">Reservation Received!</h3>
+        <p class="res-success__msg"
+           data-en="We'll confirm your table within 2 hours. See you at Pantai Biaung! 🌊"
+           data-id="Kami akan mengkonfirmasi meja Anda dalam 2 jam. Sampai jumpa di Pantai Biaung! 🌊">
+          We'll confirm your table within 2 hours. See you at Pantai Biaung! 🌊
+        </p>
+        <a href="#menu" class="res-success__back"
+           data-en="← Explore our menu" data-id="← Lihat menu kami">
+          ← Explore our menu
+        </a>
+      </div>
+
+    </div>
   </div>
+
+  <!-- Bottom wave -->
+  <div class="res-section__wave-bottom" aria-hidden="true">
+    <svg viewBox="0 0 1200 60" preserveAspectRatio="none">
+      <path d="M0,40 C300,0 900,60 1200,20 L1200,60 L0,60 Z" fill="#09070F"/>
+    </svg>
+  </div>
+
 </section>
 
+<!-- ══ STYLES ════════════════════════════════════════════════ -->
 <style>
-  .social-icon {
-    @apply w-11 h-11 rounded-full bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-lg transition-all duration-300 hover:bg-pc-gold/10 hover:border-pc-gold hover:-translate-y-1;
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap');
+
+  /* ── Section ────────────────────────────────────────────── */
+  .res-section {
+    position: relative;
+    background: linear-gradient(160deg, #0f0c18 0%, #180d08 50%, #09070F 100%);
+    padding: 6rem 0 0;
+    overflow: hidden;
+    font-family: 'Jost', sans-serif;
+  }
+  .res-section__glow {
+    position: absolute;
+    width: 50%;
+    height: 60%;
+    border-radius: 50%;
+    filter: blur(100px);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.12;
+  }
+  .res-section__glow--left {
+    left: -20%; top: 0%;
+    background: radial-gradient(ellipse, #FF6B35, transparent 70%);
+  }
+  .res-section__glow--right {
+    right: -15%; top: 20%;
+    background: radial-gradient(ellipse, #F7931E, transparent 70%);
+  }
+  .res-section__wave-bottom {
+    position: relative;
+    height: 60px;
+    line-height: 0;
+    margin-top: 4rem;
+  }
+  .res-section__wave-bottom svg { width: 100%; height: 100%; }
+
+  /* ── Inner layout ───────────────────────────────────────── */
+  .res-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  @media (max-width: 860px) {
+    .res-inner { grid-template-columns: 1fr; gap: 3rem; }
   }
 
-  select option { background: #0a1628; }
-  input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1) opacity(0.5); }
+  /* ── Info side ──────────────────────────────────────────── */
+  .res-eyebrow {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #F7931E;
+    margin: 0 0 0.75rem;
+  }
+  .res-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 5vw, 3.2rem);
+    font-weight: 500;
+    color: #FDF6EC;
+    margin: 0 0 1rem;
+    line-height: 1.1;
+  }
+  .res-title em {
+    font-style: italic;
+    font-weight: 300;
+    background: linear-gradient(135deg, #FF9A5C, #FFD166);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .res-subtitle {
+    font-size: 0.92rem;
+    font-weight: 300;
+    color: rgba(253,246,236,0.5);
+    line-height: 1.7;
+    margin: 0 0 2rem;
+  }
+
+  /* Info cards */
+  .res-info-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+  .res-info-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.9rem 1rem;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    transition: border-color 0.25s, background 0.25s;
+  }
+  .res-info-card:hover {
+    border-color: rgba(247,147,30,0.2);
+    background: rgba(247,147,30,0.04);
+  }
+  .res-info-card__icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
+  .res-info-card__text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .res-info-card__text strong {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #FDF6EC;
+    letter-spacing: 0.04em;
+  }
+  .res-info-card__text span {
+    font-size: 0.72rem;
+    font-weight: 300;
+    color: rgba(253,246,236,0.45);
+  }
+
+  /* Socials */
+  .res-socials {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+  .res-social-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.25s;
+    justify-content: center;
+    color: #FDF6EC;
+  }
+  .res-social-btn:hover {
+    background: rgba(247,147,30,0.1);
+    border-color: rgba(247,147,30,0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(247,147,30,0.2);
+  }
+  .res-social-btn--wa {
+    width: auto;
+    border-radius: 50px;
+    padding: 0 1rem;
+    background: rgba(37,211,102,0.08);
+    border-color: rgba(37,211,102,0.2);
+    color: #25d366;
+  }
+  .res-social-btn--wa:hover {
+    background: rgba(37,211,102,0.15);
+    border-color: rgba(37,211,102,0.4);
+  }
+  .res-social-btn__label {
+    font-size: 0.78rem;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  /* ── Form side ──────────────────────────────────────────── */
+  .res-form-wrap {
+    position: relative;
+  }
+  .res-form {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 2rem;
+    backdrop-filter: blur(10px);
+  }
+  .res-form__hidden { display: none; }
+  .res-form__title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #FDF6EC;
+    margin: 0 0 1.5rem;
+  }
+  .res-form__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  @media (max-width: 560px) {
+    .res-form__row { grid-template-columns: 1fr; }
+    .res-form { padding: 1.25rem; }
+  }
+
+  /* Field */
+  .res-field {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 1rem;
+  }
+  .res-field__label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(253,246,236,0.45);
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+  .res-field__req { color: #FF6B35; }
+  .res-field__input {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 400;
+    color: #FDF6EC;
+    outline: none;
+    transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
+    appearance: none;
+    -webkit-appearance: none;
+    box-sizing: border-box;
+  }
+  .res-field__input::placeholder { color: rgba(253,246,236,0.25); }
+  .res-field__input:focus {
+    border-color: rgba(247,147,30,0.5);
+    background: rgba(247,147,30,0.04);
+    box-shadow: 0 0 0 3px rgba(247,147,30,0.1);
+  }
+  .res-field__input--textarea { resize: none; line-height: 1.6; }
+  select.res-field__input option { background: #1a0d08; color: #FDF6EC; }
+  input[type="date"].res-field__input::-webkit-calendar-picker-indicator {
+    filter: invert(0.6);
+    cursor: pointer;
+  }
+
+  /* Submit */
+  .res-btn-submit {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.95rem 1.5rem;
+    border-radius: 50px;
+    border: none;
+    background: linear-gradient(135deg, #FF6B35, #F7931E, #FFD166);
+    font-family: 'Jost', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #09070F;
+    cursor: pointer;
+    transition: transform 0.25s, box-shadow 0.3s, opacity 0.2s;
+    margin-top: 0.5rem;
+  }
+  .res-btn-submit:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(255,107,53,0.5);
+  }
+  .res-btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+  .res-btn-submit__shine {
+    position: absolute;
+    top: 0; left: -100%;
+    width: 60%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+    transform: skewX(-20deg);
+    transition: left 0.6s ease;
+  }
+  .res-btn-submit:hover .res-btn-submit__shine { left: 160%; }
+
+  .res-form__note {
+    text-align: center;
+    font-size: 0.7rem;
+    color: rgba(253,246,236,0.3);
+    margin: 0.75rem 0 0;
+    line-height: 1.5;
+  }
+
+  /* ── Success state ──────────────────────────────────────── */
+  .res-success {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 3rem 2rem;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    min-height: 400px;
+    gap: 1rem;
+  }
+  .res-success__icon { font-size: 3.5rem; animation: bounce-in 0.6s cubic-bezier(0.34,1.56,0.64,1); }
+  @keyframes bounce-in {
+    from { transform: scale(0) rotate(-20deg); opacity: 0; }
+    to   { transform: scale(1) rotate(0);      opacity: 1; }
+  }
+  .res-success__title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 500;
+    color: #FDF6EC;
+    margin: 0;
+  }
+  .res-success__msg {
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: rgba(253,246,236,0.55);
+    max-width: 300px;
+    line-height: 1.7;
+    margin: 0;
+  }
+  .res-success__back {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #F7931E;
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    transition: opacity 0.2s;
+  }
+  .res-success__back:hover { opacity: 0.7; }
+  [hidden] { display: none !important; }
 </style>
 
+<!-- ══ SCRIPT ════════════════════════════════════════════════ -->
 <script>
-  // Set today as min date for date picker
+  // ── Date min ───────────────────────────────────────────────
   const dateInput = document.getElementById('res-date') as HTMLInputElement;
   if (dateInput) {
     const now = new Date();
-    const y = now.getFullYear(), m = String(now.getMonth()+1).padStart(2,'0'), d = String(now.getDate()).padStart(2,'0');
+    const y = now.getFullYear();
+    const m = String(now.getMonth()+1).padStart(2,'0');
+    const d = String(now.getDate()).padStart(2,'0');
     dateInput.min = `${y}-${m}-${d}`;
   }
 
-  // Form submission — AJAX for better UX (Netlify still processes it)
-  const form = document.getElementById('reservation-form') as HTMLFormElement;
-  const submitBtn = document.getElementById('form-submit') as HTMLButtonElement;
-  const formSuccess = document.getElementById('form-success')!;
+  // ── Form submission ────────────────────────────────────────
+  const form       = document.getElementById('reservation-form') as HTMLFormElement;
+  const submitBtn  = document.getElementById('form-submit') as HTMLButtonElement;
+  const success    = document.getElementById('form-success')!;
+  const submitText = submitBtn?.querySelector('.res-btn-submit__text') as HTMLElement;
+
+  function showToast(type: string, title: string, msg: string) {
+    window.dispatchEvent(new CustomEvent('pc:toast', { detail: { type, title, message: msg } }));
+  }
 
   if (form) {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      // Validation
-      const name = (document.getElementById('res-name') as HTMLInputElement).value.trim();
+      const name  = (document.getElementById('res-name')  as HTMLInputElement).value.trim();
       const email = (document.getElementById('res-email') as HTMLInputElement).value.trim();
       const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-      if (!name) { toast('error', 'Name required', 'Please enter your full name.'); return; }
-      if (!emailOk) { toast('error', 'Invalid email', 'Please enter a valid email address.'); return; }
+      if (!name)    { showToast('error', 'Name required', 'Please enter your full name.');         return; }
+      if (!emailOk) { showToast('error', 'Invalid email', 'Please enter a valid email address.'); return; }
 
       submitBtn.disabled = true;
-      submitBtn.textContent = 'Sending...';
+      if (submitText) submitText.textContent = 'Sending... ✈️';
 
       try {
         const res = await fetch('/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams(new FormData(form) as unknown as Record<string, string>).toString(),
+          body: new URLSearchParams(new FormData(form) as unknown as Record<string,string>).toString(),
         });
-
         if (res.ok) {
-          form.classList.add('hidden');
-          formSuccess.classList.remove('hidden');
+          form.hidden = true;
+          success.hidden = false;
           // @ts-ignore
           if (window.plausible) window.plausible('Reservation Submit');
-          toast('success', 'Reservation Received! 🎉', "We'll confirm your table within 2 hours.");
+          showToast('success', 'Reservation Received! 🎉', "We'll confirm your table within 2 hours.");
         } else {
-          throw new Error('Network error');
+          throw new Error();
         }
       } catch {
-        toast('error', 'Something went wrong', 'Please try WhatsApp or email us directly.');
+        showToast('error', 'Something went wrong', 'Please try WhatsApp or call us directly.');
         submitBtn.disabled = false;
-        submitBtn.textContent = '☕ Send Reservation Request';
+        if (submitText) submitText.textContent = '☕ Send Reservation Request';
       }
     });
   }
 
-  // Web Share API
-  const shareBtn = document.getElementById('share-btn');
+  // ── Share ──────────────────────────────────────────────────
+  const shareBtn = document.getElementById('share-btn')!;
   if (shareBtn) {
-    if (navigator.share) {
-      shareBtn.addEventListener('click', async () => {
-        try {
+    shareBtn.addEventListener('click', async () => {
+      try {
+        if (navigator.share) {
           await navigator.share({
-            title: 'Putin Coffee — Beachfront Café Sanur Bali',
+            title: 'put.in coffee — Beachfront Café Sanur Bali',
             text: 'The most magical coffee spot on Pantai Biaung ☕🌊',
             url: window.location.href,
           });
-          // @ts-ignore
-          if (window.plausible) window.plausible('Share Click');
-        } catch {}
-      });
-    } else {
-      shareBtn.addEventListener('click', () => {
-        navigator.clipboard?.writeText(window.location.href);
-        toast('success', 'Link copied!', 'Share Putin Coffee with your friends ☕');
-      });
-    }
+        } else {
+          await navigator.clipboard.writeText(window.location.href);
+          showToast('success', 'Link copied! 🔗', 'Share put.in coffee with your friends ☕');
+        }
+        // @ts-ignore
+        if (window.plausible) window.plausible('Share Click');
+      } catch {}
+    });
   }
 
-  // WhatsApp tracking
+  // ── WhatsApp tracking ──────────────────────────────────────
   document.getElementById('whatsapp-link')?.addEventListener('click', () => {
     // @ts-ignore
     if (window.plausible) window.plausible('WhatsApp Click');
   });
 
-  // Toast helper (fires global event picked up by Toast component)
-  function toast(type: string, title: string, message: string) {
-    window.dispatchEvent(new CustomEvent('pc:toast', { detail: { type, title, message } }));
-  }
+  // ── Language ───────────────────────────────────────────────
+  document.addEventListener('pc:lang', ((e: CustomEvent) => {
+    const isID = e.detail.isID;
+    document.querySelectorAll<HTMLElement>('[data-en][data-id]').forEach(el => {
+      const skip = el.tagName === 'OPTION' || el.tagName === 'SELECT';
+      if (!skip) {
+        const val = isID ? el.dataset.id : el.dataset.en;
+        if (val !== undefined) el.textContent = val;
+      }
+    });
+    // Update select options
+    document.querySelectorAll<HTMLOptionElement>('option[data-en]').forEach(opt => {
+      const val = isID ? opt.dataset.id : opt.dataset.en;
+      if (val) opt.textContent = val;
+    });
+  }) as EventListener);
 </script>

@@ -51,7 +51,7 @@
      }
    
      .subtitle, .eyebrow-text {
-       @apply text-pc-gold font-medium;
+       @apply text-white font-medium;
      }
    
      .description {

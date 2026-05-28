@@ -1,134 +1,546 @@
 ---
 // src/components/Navigation.astro
-import type { NavLink } from '../types/index.ts';
+// Bilingual EN / Bahasa Indonesia · Sunset Beach Theme
 
-const links: NavLink[] = [
-  { label: 'Our Story', href: '#about' },
-  { label: 'Menu',      href: '#menu' },
-  { label: 'Experience',href: '#experience' },
-  { label: 'Reviews',   href: '#reviews' },
-  { label: 'Find Us',   href: '#location' },
+interface Props {
+  currentPath?: string;
+}
+const { currentPath = "/" } = Astro.props;
+
+const navLinks = [
+  { label: "Our Story",   labelId: "Tentang Kami", href: "#about"      },
+  { label: "Menu",        labelId: "Menu",          href: "#menu"       },
+  { label: "Experience",  labelId: "Pengalaman",    href: "#experience" },
+  { label: "Reviews",     labelId: "Ulasan",        href: "#reviews"    },
+  { label: "Find Us",     labelId: "Lokasi",        href: "#location"   },
 ];
 ---
 
-<!-- ══ NAVIGATION ══════════════════════════════════════════════ -->
-<nav
-  id="nav"
-  class="fixed top-0 left-0 right-0 z-nav h-[80px] transition-all duration-500"
-  aria-label="Main navigation"
->
-  <div class="container h-full flex items-center justify-between">
+<!-- ══ NAV ════════════════════════════════════════════════════ -->
+<nav id="main-nav" class="pc-nav" aria-label="Main navigation" role="navigation">
+  <div class="pc-nav__inner">
 
-    <!-- Logo -->
-    <a href="/" class="flex items-center gap-2 font-display text-xl font-bold text-pc-cream no-print" aria-label="Putin Coffee home">
-      <span class="text-2xl" aria-hidden="true">☕</span>
-      <span>Putin<span class="text-pc-gold">Coffee</span></span>
+    <!-- ── Logo ────────────────────────────────────────────── -->
+    <a href="/" class="pc-nav__logo" aria-label="put.in coffee – home">
+      <div class="pc-nav__logo-mark" aria-hidden="true">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+          <circle cx="18" cy="18" r="17" stroke="url(#ng)" stroke-width="1.5"/>
+          <text x="18" y="24" text-anchor="middle" font-size="18" fill="url(#ng)">☕</text>
+          <defs>
+            <linearGradient id="ng" x1="0" y1="0" x2="36" y2="36">
+              <stop offset="0%" stop-color="#FF9A5C"/>
+              <stop offset="100%" stop-color="#FFD166"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <!-- Steam wisps -->
+        <span class="steam steam-1" aria-hidden="true"></span>
+        <span class="steam steam-2" aria-hidden="true"></span>
+      </div>
+      <div class="pc-nav__logo-text">
+        <span class="pc-nav__logo-name">put.in</span>
+        <span class="pc-nav__logo-sub">coffee · Pantai Biaung</span>
+      </div>
     </a>
 
-    <!-- Desktop links -->
-    <ul class="hidden md:flex items-center gap-8" role="list">
-      {links.map(link => (
+    <!-- ── Desktop Links ────────────────────────────────────── -->
+    <ul class="pc-nav__links" role="list">
+      {navLinks.map(link => (
         <li>
-          <a
-            href={link.href}
-            class="relative text-sm font-medium tracking-wide text-pc-muted hover:text-pc-cream transition-colors duration-300 group"
-          >
-            {link.label}
-            <span class="absolute -bottom-1 left-0 right-0 h-px bg-pc-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+          <a href={link.href} class="pc-nav__link" data-en={link.label} data-id={link.labelId}>
+            <span class="pc-nav__link-text">{link.label}</span>
+            <span class="pc-nav__link-bar" aria-hidden="true"></span>
           </a>
         </li>
       ))}
     </ul>
 
-    <!-- CTA -->
-    <div class="hidden md:flex items-center gap-3">
-      <a href="#contact" class="btn-primary text-sm py-2.5 px-5">
-        Reserve a Table
-      </a>
-    </div>
+    <!-- ── Right cluster ────────────────────────────────────── -->
+    <div class="pc-nav__right">
+      <!-- Language toggle -->
+      <button id="lang-toggle" class="pc-nav__lang" aria-label="Toggle language" aria-pressed="false">
+        <span class="lang-en">EN</span>
+        <span class="lang-divider" aria-hidden="true">|</span>
+        <span class="lang-id">ID</span>
+      </button>
 
-    <!-- Mobile hamburger -->
-    <button
-      id="hamburger"
-      class="md:hidden flex flex-col gap-[5px] p-2 rounded-lg"
-      aria-label="Open navigation menu"
-      aria-expanded="false"
-      aria-controls="mobile-menu"
-    >
-      <span class="block w-6 h-0.5 bg-pc-cream transition-transform duration-300" id="ham-1"></span>
-      <span class="block w-6 h-0.5 bg-pc-cream transition-opacity duration-300" id="ham-2"></span>
-      <span class="block w-6 h-0.5 bg-pc-cream transition-transform duration-300" id="ham-3"></span>
-    </button>
+      <!-- CTA -->
+      <a href="#contact" class="pc-nav__cta" data-en="Reserve a Table" data-id="Reservasi Meja">
+        <span class="pc-nav__cta-text">Reserve a Table</span>
+        <span class="pc-nav__cta-glow" aria-hidden="true"></span>
+      </a>
+
+      <!-- Hamburger -->
+      <button
+        id="hamburger"
+        class="pc-nav__ham"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="mobile-overlay"
+      >
+        <span class="ham-bar ham-1"></span>
+        <span class="ham-bar ham-2"></span>
+        <span class="ham-bar ham-3"></span>
+      </button>
+    </div>
   </div>
 </nav>
 
-<!-- Mobile menu overlay -->
+<!-- ══ MOBILE OVERLAY ════════════════════════════════════════ -->
 <div
-  id="mobile-menu"
-  class="fixed inset-0 z-[99] bg-pc-bg/98 backdrop-blur-xl hidden flex-col items-center justify-center gap-10"
+  id="mobile-overlay"
+  class="pc-overlay"
   role="dialog"
   aria-label="Navigation menu"
   aria-modal="true"
+  aria-hidden="true"
 >
-  <button id="mobile-close" class="absolute top-6 right-6 text-3xl text-pc-muted hover:text-pc-cream transition-colors" aria-label="Close menu">✕</button>
-  {links.map(link => (
-    <a
-      href={link.href}
-      class="font-display text-3xl text-pc-cream hover:text-pc-gold transition-colors duration-300 nav-link"
-    >
-      {link.label}
-    </a>
-  ))}
-  <a href="#contact" class="btn-primary mt-4">Reserve a Table</a>
+  <!-- Sunset gradient bg -->
+  <div class="pc-overlay__bg" aria-hidden="true"></div>
+  <!-- Wave bottom -->
+  <svg class="pc-overlay__wave" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,60 C200,0 400,120 600,60 C800,0 1000,120 1200,60 L1200,120 L0,120 Z" fill="rgba(9,7,15,0.6)"/>
+  </svg>
+
+  <button id="overlay-close" class="pc-overlay__close" aria-label="Close menu">✕</button>
+
+  <nav class="pc-overlay__nav" aria-label="Mobile navigation">
+    {navLinks.map((link, i) => (
+      <a
+        href={link.href}
+        class="pc-overlay__link"
+        style={`--i:${i}`}
+        data-en={link.label}
+        data-id={link.labelId}
+      >
+        <span class="pc-overlay__link-num">0{i+1}</span>
+        <span class="pc-overlay__link-label">{link.label}</span>
+      </a>
+    ))}
+  </nav>
+
+  <a href="#contact" class="pc-overlay__cta" data-en="☕ Reserve a Table" data-id="☕ Reservasi Meja">
+    ☕ Reserve a Table
+  </a>
+
+  <div class="pc-overlay__footer">
+    <span>Pantai Biaung · Sanur, Bali</span>
+    <span>Open 7 AM – 11 PM</span>
+  </div>
 </div>
 
+<!-- ══ STYLES ════════════════════════════════════════════════ -->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap');
+
+  /* ── Tokens ────────────────────────────────────────────── */
+  :root {
+    --nav-h: 80px;
+    --sunset-1: #FF6B35;
+    --sunset-2: #F7931E;
+    --sunset-3: #FFD166;
+    --sunset-4: #F4D35E;
+    --ocean-deep: #09070F;
+    --ocean-mid: #13111E;
+    --cream: #FDF6EC;
+    --muted: #7A7591;
+    --glass: rgba(255,255,255,0.04);
+    --glass-border: rgba(255,255,255,0.08);
+  }
+
+  /* ── Nav shell ─────────────────────────────────────────── */
+  .pc-nav {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 200;
+    height: var(--nav-h);
+    transition: background 0.4s ease, box-shadow 0.4s ease, backdrop-filter 0.4s ease;
+    font-family: 'Jost', sans-serif;
+  }
+  .pc-nav.scrolled {
+    background: rgba(9,7,15,0.88);
+    backdrop-filter: blur(20px) saturate(1.5);
+    -webkit-backdrop-filter: blur(20px) saturate(1.5);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.06), 0 4px 24px rgba(0,0,0,0.4);
+  }
+
+  .pc-nav__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  /* ── Logo ──────────────────────────────────────────────── */
+  .pc-nav__logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .pc-nav__logo-mark {
+    position: relative;
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .steam {
+    position: absolute;
+    bottom: 100%;
+    width: 2px;
+    height: 10px;
+    border-radius: 4px;
+    background: var(--sunset-3);
+    opacity: 0;
+    animation: steam-rise 2.4s ease-in-out infinite;
+  }
+  .steam-1 { left: 40%; animation-delay: 0s; }
+  .steam-2 { left: 60%; animation-delay: 0.6s; height: 7px; }
+  @keyframes steam-rise {
+    0%   { opacity: 0; transform: translateY(0) scaleX(1); }
+    30%  { opacity: 0.6; }
+    100% { opacity: 0; transform: translateY(-16px) scaleX(0.3); }
+  }
+
+  .pc-nav__logo-name {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, var(--cream) 40%, var(--sunset-3));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    line-height: 1.2;
+  }
+  .pc-nav__logo-sub {
+    display: block;
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    line-height: 1;
+  }
+
+  /* ── Desktop links ─────────────────────────────────────── */
+  .pc-nav__links {
+    display: none;
+    list-style: none;
+    margin: 0; padding: 0;
+    gap: 2.5rem;
+  }
+  @media (min-width: 900px) {
+    .pc-nav__links { display: flex; }
+  }
+
+  .pc-nav__link {
+    position: relative;
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.3s;
+    padding-bottom: 2px;
+    cursor: pointer;
+  }
+  .pc-nav__link:hover { color: var(--cream); }
+  .pc-nav__link-bar {
+    position: absolute;
+    bottom: 0; left: 0;
+    height: 1px;
+    width: 0;
+    background: linear-gradient(90deg, var(--sunset-1), var(--sunset-3));
+    transition: width 0.3s cubic-bezier(0.4,0,0.2,1);
+    border-radius: 1px;
+  }
+  .pc-nav__link:hover .pc-nav__link-bar { width: 100%; }
+
+  /* ── Right cluster ─────────────────────────────────────── */
+  .pc-nav__right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-shrink: 0;
+  }
+
+  .pc-nav__lang {
+    display: none;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s;
+    gap: 4px;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+  }
+  @media (min-width: 900px) {
+    .pc-nav__lang { display: flex; }
+  }
+  .pc-nav__lang:hover { color: var(--sunset-3); border-color: rgba(255,209,102,0.3); }
+  .pc-nav__lang[aria-pressed="true"] .lang-en { color: var(--muted); }
+  .pc-nav__lang[aria-pressed="true"] .lang-id  { color: var(--sunset-3); }
+  .lang-divider { color: var(--glass-border); }
+
+  .pc-nav__cta {
+    display: none;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ocean-deep);
+    text-decoration: none;
+    padding: 0.6rem 1.4rem;
+    border-radius: 50px;
+    background: linear-gradient(135deg, var(--sunset-2), var(--sunset-3));
+    transition: transform 0.2s, box-shadow 0.3s;
+  }
+  @media (min-width: 900px) { .pc-nav__cta { display: block; } }
+  .pc-nav__cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 24px rgba(247,147,30,0.45);
+  }
+  .pc-nav__cta-glow {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .pc-nav__cta:hover .pc-nav__cta-glow { opacity: 1; }
+
+  /* ── Hamburger ─────────────────────────────────────────── */
+  .pc-nav__ham {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.2s;
+  }
+  @media (min-width: 900px) { .pc-nav__ham { display: none; } }
+  .pc-nav__ham:hover { background: var(--glass); }
+  .ham-bar {
+    display: block;
+    width: 24px; height: 1.5px;
+    border-radius: 2px;
+    background: var(--cream);
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.2s;
+    transform-origin: center;
+  }
+  .pc-nav__ham[aria-expanded="true"] .ham-1 { transform: translateY(6.5px) rotate(45deg); }
+  .pc-nav__ham[aria-expanded="true"] .ham-2 { opacity: 0; transform: scaleX(0); }
+  .pc-nav__ham[aria-expanded="true"] .ham-3 { transform: translateY(-6.5px) rotate(-45deg); }
+
+  /* ── Mobile Overlay ────────────────────────────────────── */
+  .pc-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 190;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    padding: 2rem;
+    overflow: hidden;
+    /* Hidden state */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+  }
+  .pc-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .pc-overlay__bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg,
+      #09070F 0%,
+      #180f0a 40%,
+      #0f0c18 70%,
+      #09070F 100%
+    );
+  }
+  .pc-overlay__wave {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 120px;
+    width: 100%;
+  }
+  .pc-overlay__close {
+    position: absolute;
+    top: 1.5rem; right: 1.5rem;
+    font-size: 1.4rem;
+    color: var(--muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s, transform 0.2s;
+    z-index: 1;
+    padding: 0.5rem;
+  }
+  .pc-overlay__close:hover { color: var(--cream); transform: rotate(90deg); }
+
+  .pc-overlay__nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    z-index: 1;
+    width: 100%;
+  }
+  .pc-overlay__link {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 320px;
+    transition: background 0.2s;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  .pc-overlay.open .pc-overlay__link {
+    animation: slide-in 0.4s cubic-bezier(0.4,0,0.2,1) forwards;
+    animation-delay: calc(var(--i) * 0.07s + 0.1s);
+  }
+  @keyframes slide-in {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .pc-overlay__link:hover { background: rgba(255,255,255,0.04); }
+  .pc-overlay__link-num {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    color: var(--sunset-2);
+    font-family: 'Jost', sans-serif;
+  }
+  .pc-overlay__link-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    font-weight: 500;
+    color: var(--cream);
+    transition: color 0.2s;
+    line-height: 1.1;
+  }
+  .pc-overlay__link:hover .pc-overlay__link-label {
+    background: linear-gradient(135deg, var(--sunset-1), var(--sunset-3));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .pc-overlay__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ocean-deep);
+    text-decoration: none;
+    padding: 0.9rem 2.5rem;
+    border-radius: 50px;
+    background: linear-gradient(135deg, var(--sunset-1), var(--sunset-3));
+    box-shadow: 0 6px 30px rgba(255,107,53,0.35);
+    z-index: 1;
+    transition: transform 0.2s, box-shadow 0.3s;
+    opacity: 0;
+  }
+  .pc-overlay.open .pc-overlay__cta {
+    animation: slide-in 0.4s ease 0.45s forwards;
+  }
+  .pc-overlay__cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 40px rgba(255,107,53,0.5);
+  }
+  .pc-overlay__footer {
+    position: absolute;
+    bottom: 2rem;
+    display: flex;
+    gap: 2rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    z-index: 1;
+  }
+
+  @media (min-width: 900px) {
+    .pc-overlay { display: none !important; }
+  }
+</style>
+
+<!-- ══ SCRIPT ════════════════════════════════════════════════ -->
 <script>
-  // ── Nav scroll effect ──────────────────────────────────────
-  const nav = document.getElementById('nav')!;
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 60) {
-      nav.classList.add('bg-pc-bg/92', 'backdrop-blur-xl', 'shadow-[0_1px_0_rgba(255,255,255,0.06)]');
-    } else {
-      nav.classList.remove('bg-pc-bg/92', 'backdrop-blur-xl', 'shadow-[0_1px_0_rgba(255,255,255,0.06)]');
-    }
-  }, { passive: true });
-
-  // ── Mobile menu ────────────────────────────────────────────
+  const nav       = document.getElementById('main-nav')!;
   const hamburger = document.getElementById('hamburger')!;
-  const mobileMenu = document.getElementById('mobile-menu')!;
-  const mobileClose = document.getElementById('mobile-close')!;
-  const ham1 = document.getElementById('ham-1')!;
-  const ham2 = document.getElementById('ham-2')!;
-  const ham3 = document.getElementById('ham-3')!;
+  const overlay   = document.getElementById('mobile-overlay')!;
+  const closeBtn  = document.getElementById('overlay-close')!;
+  const langBtn   = document.getElementById('lang-toggle')!;
 
-  function openMenu() {
-    mobileMenu.classList.remove('hidden');
-    mobileMenu.classList.add('flex');
+  // ── Scroll glass effect ────────────────────────────────────
+  const onScroll = () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // ── Mobile overlay ─────────────────────────────────────────
+  function openOverlay() {
+    overlay.classList.add('open');
+    overlay.setAttribute('aria-hidden', 'false');
     hamburger.setAttribute('aria-expanded', 'true');
     document.body.style.overflow = 'hidden';
-    ham1.style.transform = 'translateY(7px) rotate(45deg)';
-    ham2.style.opacity = '0';
-    ham3.style.transform = 'translateY(-7px) rotate(-45deg)';
   }
-
-  function closeMenu() {
-    mobileMenu.classList.add('hidden');
-    mobileMenu.classList.remove('flex');
+  function closeOverlay() {
+    overlay.classList.remove('open');
+    overlay.setAttribute('aria-hidden', 'true');
     hamburger.setAttribute('aria-expanded', 'false');
     document.body.style.overflow = '';
-    ham1.style.transform = '';
-    ham2.style.opacity = '';
-    ham3.style.transform = '';
   }
 
-  hamburger.addEventListener('click', openMenu);
-  mobileClose.addEventListener('click', closeMenu);
-  mobileMenu.querySelectorAll('.nav-link, a[href="#contact"]').forEach(el => {
-    el.addEventListener('click', closeMenu);
-  });
+  hamburger.addEventListener('click', openOverlay);
+  closeBtn.addEventListener('click', closeOverlay);
+  overlay.querySelectorAll('a').forEach(a => a.addEventListener('click', closeOverlay));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeOverlay(); });
 
-  // Close on escape
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeMenu();
+  // ── Language toggle ────────────────────────────────────────
+  let isID = false;
+  langBtn.addEventListener('click', () => {
+    isID = !isID;
+    langBtn.setAttribute('aria-pressed', String(isID));
+
+    // Nav links
+    document.querySelectorAll<HTMLElement>('[data-en][data-id]').forEach(el => {
+      const label = el.querySelector('.pc-nav__link-text, .pc-overlay__link-label, .pc-nav__cta-text, .pc-overlay__cta');
+      const key = isID ? 'id' : 'en';
+      if (label) {
+        label.textContent = el.dataset[key] ?? el.dataset.en ?? '';
+      } else {
+        el.textContent = el.dataset[key] ?? el.dataset.en ?? '';
+      }
+    });
   });
 </script>

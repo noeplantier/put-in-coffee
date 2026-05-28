@@ -58,6 +58,9 @@ const features  = sanityFeatures.length > 0 ? sanityFeatures : fallbackFeatures;
   <Hero settings={settings} />
 
 
+  <!-- ══ REVIEWS ════════════════════════════════════════════ -->
+  <Reviews reviews={reviews} settings={settings} />
+
   <!-- ══ ABOUT ════════════════════════════════════════════════ -->
   <section class="section bg-pc-bg2 relative overflow-hidden" id="about" aria-label="Our story">
     <!-- Background watermark -->
@@ -105,7 +108,7 @@ const features  = sanityFeatures.length > 0 ? sanityFeatures : fallbackFeatures;
           <div class="grid grid-cols-2 gap-3 mt-8">
             {(settings.stats ?? [
               { value: '5★', label: 'Google Rating' },
-              { value: '127+', label: 'Reviews' },
+              { value: '49+', label: 'Reviews' },
               { value: 'Bali', label: 'Highland Beans' },
               { value: '7am', label: 'Sunrise Opening' },
             ]).map((stat, i) => (
@@ -176,9 +179,6 @@ const features  = sanityFeatures.length > 0 ? sanityFeatures : fallbackFeatures;
       </div>
     </div>
   </section>
-
-  <!-- ══ REVIEWS ════════════════════════════════════════════ -->
-  <Reviews reviews={reviews} settings={settings} />
 
   <!-- ══ LOCATION ──────────────────────────────────────────── -->
   <section class="section bg-pc-bg2" id="location" aria-label="Location and hours">

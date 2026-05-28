@@ -18,7 +18,7 @@ export const fallbackSettings: Partial<SiteSettings> = {
   email: 'hello@putincoffee.com',
   whatsapp: '628123456789',
   mapLink: 'https://maps.google.com/?q=-8.6932,115.2631',
-  totalReviews: 127,
+  totalReviews: 49,
   averageRating: 5,
   hours: [
     { label: 'Mon – Sun', time: '7:00 AM – 10:00 PM', isToday: true },

@@ -10,7 +10,7 @@ const headline     = settings?.heroHeadline       ?? 'Where Waves';
 const headlineEm   = settings?.heroHeadlineItalic ?? 'Meet Coffee';
 const subtitle     = settings?.heroSubtitle       ?? "Sip specialty coffee as the tide rolls in — Sanur's most soulful beachfront café on Pantai Biaung.";
 const subtitleId   = "Nikmati kopi spesialti sambil ombak bergulung — kafe tepi pantai paling berjiwa di Pantai Biaung, Sanur.";
-const totalReviews = settings?.totalReviews       ?? 127;
+const totalReviews = settings?.totalReviews       ?? 49;
 ---
 
 <!-- ══ HERO ═══════════════════════════════════════════════════ -->
@@ -21,19 +21,6 @@ const totalReviews = settings?.totalReviews       ?? 127;
     <div class="hero__sky-glow hero__sky-glow--left"></div>
     <div class="hero__sky-glow hero__sky-glow--right"></div>
     <div class="hero__sky-horizon"></div>
-  </div>
-
-  <!-- ── Background image ───────────────────────────────────── -->
-  <div class="hero__img-wrap" aria-hidden="true">
-    <img
-      id="hero-img"
-      src="/images/hero-beach.jpg"
-      alt="Beachfront at Pantai Biaung Sanur — sunset over the Indian Ocean"
-      class="hero__img"
-      fetchpriority="high"
-      decoding="async"
-      loading="eager"
-    />
   </div>
 
   <!-- ── Overlay gradient ───────────────────────────────────── -->
@@ -51,9 +38,8 @@ const totalReviews = settings?.totalReviews       ?? 127;
 
     <!-- Location pill -->
     <div class="hero__badge" role="text">
-      <span class="hero__badge-dot" aria-hidden="true"></span>
-      <span class="hero__badge-text" data-en="📍 Pantai Biaung · Sanur, Bali" data-id="📍 Pantai Biaung · Sanur, Bali">
-        📍 Pantai Biaung · Sanur, Bali
+      <span class="hero__badge-text" data-en="Pantai Biaung · Sanur, Bali" data-id="Pantai Biaung · Sanur, Bali">
+        Pantai Biaung · Sanur, Bali
       </span>
     </div>
 
@@ -81,24 +67,8 @@ const totalReviews = settings?.totalReviews       ?? 127;
       </a>
     </div>
 
-    <!-- Social proof -->
-    <div class="hero__proof">
-      <div class="hero__stars" aria-label="5 stars">
-        {[1,2,3,4,5].map(() => <span class="hero__star" aria-hidden="true">★</span>)}
-      </div>
-      <span class="hero__proof-text">
-        <strong>{totalReviews}+</strong>
-        <span data-en="happy guests · Google 4.9" data-id="tamu puas · Google 4.9">happy guests · Google 4.9</span>
-      </span>
-    </div>
-
   </div>
 
-  <!-- ── Open now badge ─────────────────────────────────────── -->
-  <div class="hero__open-badge" aria-label="Opening hours">
-    <span class="hero__open-dot" aria-hidden="true"></span>
-    <span data-en="Open · 7 AM – 11 PM" data-id="Buka · 07.00 – 23.00">Open · 7 AM – 11 PM</span>
-  </div>
 
   <!-- ── Animated SVG Waves ─────────────────────────────────── -->
   <div class="hero__waves" aria-hidden="true">
@@ -114,12 +84,6 @@ const totalReviews = settings?.totalReviews       ?? 127;
     <svg class="wave wave--1" viewBox="0 0 1200 100" preserveAspectRatio="none">
       <path d="M0,70 C180,30 380,100 600,70 C820,40 980,90 1200,70 L1200,100 L0,100 Z"/>
     </svg>
-  </div>
-
-  <!-- ── Scroll indicator ───────────────────────────────────── -->
-  <div class="hero__scroll" aria-hidden="true">
-    <span class="hero__scroll-label" data-en="Scroll" data-id="Gulir">Scroll</span>
-    <div class="hero__scroll-line"></div>
   </div>
 
 </section>

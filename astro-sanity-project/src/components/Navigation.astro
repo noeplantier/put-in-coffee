@@ -1,173 +1,133 @@
 ---
 // src/components/Navigation.astro
-// Bilingual EN / Bahasa Indonesia · Sunset Beach Theme
+// Refined nav · lowercase · section anchors · EN / ID
 
-interface Props {
-  currentPath?: string;
-}
-const { currentPath = "/" } = Astro.props;
-
-const navLinks = [
-  { label: "Our Story",   labelId: "Tentang Kami", href: "#about"      },
-  { label: "Menu",        labelId: "Menu",          href: "#menu"       },
-  { label: "Experience",  labelId: "Pengalaman",    href: "#experience" },
-  { label: "Reviews",     labelId: "Ulasan",        href: "#reviews"    },
-  { label: "Find Us",     labelId: "Lokasi",        href: "#location"   },
+const links = [
+  { en: "our story",  id: "tentang kami",  href: "#about"      },
+  { en: "menu",       id: "menu",          href: "#menu"       },
+  { en: "experience", id: "pengalaman",    href: "#experience" },
+  { en: "reviews",    id: "ulasan",        href: "#reviews"    },
+  { en: "find us",    id: "lokasi",        href: "#contact"    },
 ];
 ---
 
 <!-- ══ NAV ════════════════════════════════════════════════════ -->
-<nav id="main-nav" class="pc-nav" aria-label="Main navigation" role="navigation">
-  <div class="pc-nav__inner">
+<nav id="nav" class="nav" aria-label="main navigation">
+  <div class="nav__wrap">
 
-    <!-- ── Logo ────────────────────────────────────────────── -->
-    <a href="/" class="pc-nav__logo" aria-label="put.in coffee – home">
-      <div class="pc-nav__logo-mark" aria-hidden="true">
-        <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-          <circle cx="18" cy="18" r="17" stroke="url(#ng)" stroke-width="1.5"/>
-          <text x="18" y="24" text-anchor="middle" font-size="18" fill="url(#ng)">☕</text>
+    <!-- logo -->
+    <a href="/" class="nav__logo" aria-label="put.in coffee">
+      <div class="nav__logo-icon" aria-hidden="true">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="16" r="15" stroke="url(#lg)" stroke-width="1"/>
+          <text x="16" y="21" text-anchor="middle" font-size="14">☕</text>
           <defs>
-            <linearGradient id="ng" x1="0" y1="0" x2="36" y2="36">
-              <stop offset="0%" stop-color="#FF9A5C"/>
-              <stop offset="100%" stop-color="#FFD166"/>
+            <linearGradient id="lg" x1="0" y1="0" x2="32" y2="32">
+              <stop offset="0%" stop-color="#e2b476"/>
+              <stop offset="100%" stop-color="#c9924a"/>
             </linearGradient>
           </defs>
         </svg>
-        <!-- Steam wisps -->
-        <span class="steam steam-1" aria-hidden="true"></span>
-        <span class="steam steam-2" aria-hidden="true"></span>
+        <span class="nav__steam nav__steam--a" aria-hidden="true"></span>
+        <span class="nav__steam nav__steam--b" aria-hidden="true"></span>
       </div>
-      <div class="pc-nav__logo-text">
-        <span class="pc-nav__logo-name">put.in</span>
-        <span class="pc-nav__logo-sub">coffee · Pantai Biaung</span>
+      <div class="nav__logo-text">
+        <span class="nav__logo-name">put.in coffee</span>
+        <span class="nav__logo-place">pantai biaung, sanur</span>
       </div>
     </a>
 
-    <!-- ── Desktop Links ────────────────────────────────────── -->
-    <ul class="pc-nav__links" role="list">
-      {navLinks.map(link => (
+    <!-- desktop links -->
+    <ul class="nav__links" role="list">
+      {links.map(l => (
         <li>
-          <a href={link.href} class="pc-nav__link" data-en={link.label} data-id={link.labelId}>
-            <span class="pc-nav__link-text">{link.label}</span>
-            <span class="pc-nav__link-bar" aria-hidden="true"></span>
+          <a href={l.href} class="nav__link" data-en={l.en} data-id={l.id}>
+            {l.en}
+            <span class="nav__link-line" aria-hidden="true"></span>
           </a>
         </li>
       ))}
     </ul>
 
-    <!-- ── Right cluster ────────────────────────────────────── -->
-    <div class="pc-nav__right">
-      <!-- Language toggle -->
-      <button id="lang-toggle" class="pc-nav__lang" aria-label="Toggle language" aria-pressed="false">
-        <span class="lang-en">EN</span>
-        <span class="lang-divider" aria-hidden="true">|</span>
-        <span class="lang-id">ID</span>
+    <!-- right controls -->
+    <div class="nav__controls">
+      <button id="lang-btn" class="nav__lang" aria-pressed="false" aria-label="toggle language">
+        <span class="nav__lang-en">en</span>
+        <span class="nav__lang-sep" aria-hidden="true">/</span>
+        <span class="nav__lang-id">id</span>
       </button>
 
-      <!-- CTA -->
-      <a href="#contact" class="pc-nav__cta" data-en="Reserve a Table" data-id="Reservasi Meja">
-        <span class="pc-nav__cta-text">Reserve a Table</span>
-        <span class="pc-nav__cta-glow" aria-hidden="true"></span>
+      <a href="#contact" class="btn btn-primary nav__cta" data-en="reserve a table" data-id="reservasi meja">
+        reserve a table
       </a>
 
-      <!-- Hamburger -->
-      <button
-        id="hamburger"
-        class="pc-nav__ham"
-        aria-label="Open menu"
-        aria-expanded="false"
-        aria-controls="mobile-overlay"
-      >
-        <span class="ham-bar ham-1"></span>
-        <span class="ham-bar ham-2"></span>
-        <span class="ham-bar ham-3"></span>
+      <button id="nav-ham" class="nav__ham" aria-label="open menu" aria-expanded="false" aria-controls="nav-mobile">
+        <span class="nav__ham-bar"></span>
+        <span class="nav__ham-bar"></span>
+        <span class="nav__ham-bar"></span>
       </button>
     </div>
   </div>
 </nav>
 
-<!-- ══ MOBILE OVERLAY ════════════════════════════════════════ -->
-<div
-  id="mobile-overlay"
-  class="pc-overlay"
-  role="dialog"
-  aria-label="Navigation menu"
-  aria-modal="true"
-  aria-hidden="true"
->
-  <!-- Sunset gradient bg -->
-  <div class="pc-overlay__bg" aria-hidden="true"></div>
-  <!-- Wave bottom -->
-  <svg class="pc-overlay__wave" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true">
-    <path d="M0,60 C200,0 400,120 600,60 C800,0 1000,120 1200,60 L1200,120 L0,120 Z" fill="rgba(9,7,15,0.6)"/>
-  </svg>
+<!-- ══ MOBILE MENU ════════════════════════════════════════════ -->
+<div id="nav-mobile" class="nav-mobile" role="dialog" aria-modal="true" aria-label="navigation" aria-hidden="true">
+  <div class="nav-mobile__bg" aria-hidden="true"></div>
 
-  <button id="overlay-close" class="pc-overlay__close" aria-label="Close menu">✕</button>
+  <button id="nav-mobile-close" class="nav-mobile__close" aria-label="close menu">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <path d="M2 2l16 16M18 2L2 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+  </button>
 
-  <nav class="pc-overlay__nav" aria-label="Mobile navigation">
-    {navLinks.map((link, i) => (
+  <!-- Logo in mobile -->
+  <div class="nav-mobile__logo">
+    <span class="nav-mobile__logo-name">put.in coffee</span>
+    <span class="nav-mobile__logo-place">pantai biaung, sanur</span>
+  </div>
+
+  <nav class="nav-mobile__nav" aria-label="mobile navigation">
+    {links.map((l, i) => (
       <a
-        href={link.href}
-        class="pc-overlay__link"
+        href={l.href}
+        class="nav-mobile__link"
         style={`--i:${i}`}
-        data-en={link.label}
-        data-id={link.labelId}
+        data-en={l.en}
+        data-id={l.id}
       >
-        <span class="pc-overlay__link-num">0{i+1}</span>
-        <span class="pc-overlay__link-label">{link.label}</span>
+        <span class="nav-mobile__link-num" aria-hidden="true">0{i+1}</span>
+        <span class="nav-mobile__link-text">{l.en}</span>
       </a>
     ))}
   </nav>
 
-  <a href="#contact" class="pc-overlay__cta" data-en="☕ Reserve a Table" data-id="☕ Reservasi Meja">
-    ☕ Reserve a Table
+  <a href="#contact" class="btn btn-primary nav-mobile__cta" data-en="☕ reserve a table" data-id="☕ reservasi meja">
+    ☕ reserve a table
   </a>
 
-  <div class="pc-overlay__footer">
-    <span>Pantai Biaung · Sanur, Bali</span>
-
-  </div>
+  <p class="nav-mobile__footer">open daily · 7am – 11pm</p>
 </div>
 
-<!-- ══ STYLES ════════════════════════════════════════════════ -->
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap');
-
-  /* ── Tokens ────────────────────────────────────────────── */
-  :root {
-    --nav-h: 80px;
-    --sunset-1: #FF6B35;
-    --sunset-2: #F7931E;
-    --sunset-3: #FFD166;
-    --sunset-4: #F4D35E;
-    --ocean-deep: #09070F;
-    --ocean-mid: #13111E;
-    --cream: #FDF6EC;
-    --muted: #7A7591;
-    --glass: rgba(255,255,255,0.04);
-    --glass-border: rgba(255,255,255,0.08);
-  }
-
-  /* ── Nav shell ─────────────────────────────────────────── */
-  .pc-nav {
+  /* ── Nav shell ───────────────────────────────────────────── */
+  .nav {
     position: fixed;
     inset: 0 0 auto 0;
-    z-index: 200;
+    z-index: 100;
     height: var(--nav-h);
-    transition: background 0.4s ease, box-shadow 0.4s ease, backdrop-filter 0.4s ease;
-    font-family: 'Jost', sans-serif;
+    transition: background 0.4s, backdrop-filter 0.4s, box-shadow 0.4s;
+    font-family: var(--font-body);
   }
-  .pc-nav.scrolled {
-    background: rgba(9,7,15,0.88);
-    backdrop-filter: blur(20px) saturate(1.5);
-    -webkit-backdrop-filter: blur(20px) saturate(1.5);
-    box-shadow: 0 1px 0 rgba(255,255,255,0.06), 0 4px 24px rgba(0,0,0,0.4);
+  .nav.scrolled {
+    background: rgba(11,9,8,0.82);
+    backdrop-filter: blur(18px) saturate(1.4);
+    -webkit-backdrop-filter: blur(18px) saturate(1.4);
+    box-shadow: 0 1px 0 rgba(201,146,74,0.1);
   }
-
-  .pc-nav__inner {
-    max-width: 1280px;
+  .nav__wrap {
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: 0 1.5rem;
     height: 100%;
     display: flex;
     align-items: center;
@@ -175,156 +135,120 @@ const navLinks = [
     gap: 2rem;
   }
 
-  /* ── Logo ──────────────────────────────────────────────── */
-  .pc-nav__logo {
+  /* ── Logo ────────────────────────────────────────────────── */
+  .nav__logo {
     display: flex;
     align-items: center;
     gap: 10px;
     text-decoration: none;
     flex-shrink: 0;
   }
-  .pc-nav__logo-mark {
+  .nav__logo-icon {
     position: relative;
-    width: 36px; height: 36px;
-    display: flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px;
+    flex-shrink: 0;
   }
-  .steam {
+  .nav__steam {
     position: absolute;
     bottom: 100%;
-    width: 2px;
-    height: 10px;
-    border-radius: 4px;
-    background: var(--sunset-3);
+    width: 1.5px;
+    border-radius: 2px;
+    background: var(--gold);
     opacity: 0;
-    animation: steam-rise 2.4s ease-in-out infinite;
+    animation: steam 2.8s ease-in-out infinite;
   }
-  .steam-1 { left: 40%; animation-delay: 0s; }
-  .steam-2 { left: 60%; animation-delay: 0.6s; height: 7px; }
-  @keyframes steam-rise {
-    0%   { opacity: 0; transform: translateY(0) scaleX(1); }
-    30%  { opacity: 0.6; }
-    100% { opacity: 0; transform: translateY(-16px) scaleX(0.3); }
+  .nav__steam--a { left: 36%; height: 7px; animation-delay: 0s; }
+  .nav__steam--b { left: 58%; height: 5px; animation-delay: 0.7s; }
+  @keyframes steam {
+    0%   { opacity: 0; transform: translateY(0); }
+    25%  { opacity: 0.5; }
+    100% { opacity: 0; transform: translateY(-12px) scaleX(0.4); }
   }
-
-  .pc-nav__logo-name {
+  .nav__logo-name {
     display: block;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.15rem;
-    font-weight: 600;
-    background: linear-gradient(135deg, var(--cream) 40%, var(--sunset-3));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--cream);
     line-height: 1.2;
+    letter-spacing: -0.01em;
   }
-  .pc-nav__logo-sub {
+  .nav__logo-place {
     display: block;
-    font-size: 0.62rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
+    font-size: 0.6rem;
+    font-weight: 300;
+    letter-spacing: 0.12em;
     color: var(--muted);
-    line-height: 1;
+    text-transform: lowercase;
   }
 
-  /* ── Desktop links ─────────────────────────────────────── */
-  .pc-nav__links {
+  /* ── Desktop links ───────────────────────────────────────── */
+  .nav__links {
     display: none;
     list-style: none;
     margin: 0; padding: 0;
     gap: 2.5rem;
   }
-  @media (min-width: 900px) {
-    .pc-nav__links { display: flex; }
-  }
+  @media (min-width: 900px) { .nav__links { display: flex; } }
 
-  .pc-nav__link {
+  .nav__link {
     position: relative;
-    display: block;
-    font-size: 0.82rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font-size: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    text-transform: lowercase;
     color: var(--muted);
     text-decoration: none;
-    transition: color 0.3s;
     padding-bottom: 2px;
-    cursor: pointer;
+    transition: color 0.25s;
   }
-  .pc-nav__link:hover { color: var(--cream); }
-  .pc-nav__link-bar {
+  .nav__link:hover { color: var(--cream); }
+  .nav__link-line {
     position: absolute;
     bottom: 0; left: 0;
-    height: 1px;
-    width: 0;
-    background: linear-gradient(90deg, var(--sunset-1), var(--sunset-3));
+    width: 0; height: 1px;
+    background: var(--gold);
     transition: width 0.3s cubic-bezier(0.4,0,0.2,1);
-    border-radius: 1px;
   }
-  .pc-nav__link:hover .pc-nav__link-bar { width: 100%; }
+  .nav__link:hover .nav__link-line,
+  .nav__link.active .nav__link-line { width: 100%; }
+  .nav__link.active { color: var(--cream); }
 
-  /* ── Right cluster ─────────────────────────────────────── */
-  .pc-nav__right {
+  /* ── Controls ────────────────────────────────────────────── */
+  .nav__controls {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.85rem;
     flex-shrink: 0;
   }
 
-  .pc-nav__lang {
+  .nav__lang {
     display: none;
-    font-family: 'Jost', sans-serif;
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
+    font-family: var(--font-body);
+    font-size: 0.68rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
     color: var(--muted);
     background: none;
-    border: none;
-    cursor: pointer;
-    transition: color 0.3s;
-    gap: 4px;
-    align-items: center;
-    padding: 4px 8px;
-    border-radius: 20px;
-    border: 1px solid var(--glass-border);
-  }
-  @media (min-width: 900px) {
-    .pc-nav__lang { display: flex; }
-  }
-  .pc-nav__lang:hover { color: var(--sunset-3); border-color: rgba(255,209,102,0.3); }
-  .pc-nav__lang[aria-pressed="true"] .lang-en { color: var(--muted); }
-  .pc-nav__lang[aria-pressed="true"] .lang-id  { color: var(--sunset-3); }
-  .lang-divider { color: var(--glass-border); }
-
-  .pc-nav__cta {
-    display: none;
-    position: relative;
-    overflow: hidden;
-    font-family: 'Jost', sans-serif;
-    font-size: 0.78rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ocean-deep);
-    text-decoration: none;
-    padding: 0.6rem 1.4rem;
+    border: 1px solid rgba(240,232,220,0.1);
     border-radius: 50px;
-    background: linear-gradient(135deg, var(--sunset-2), var(--sunset-3));
-    transition: transform 0.2s, box-shadow 0.3s;
+    padding: 4px 10px;
+    cursor: pointer;
+    gap: 3px;
+    align-items: center;
+    transition: color 0.2s, border-color 0.2s;
   }
-  @media (min-width: 900px) { .pc-nav__cta { display: block; } }
-  .pc-nav__cta:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 24px rgba(247,147,30,0.45);
-  }
-  .pc-nav__cta-glow {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-  .pc-nav__cta:hover .pc-nav__cta-glow { opacity: 1; }
+  @media (min-width: 900px) { .nav__lang { display: flex; } }
+  .nav__lang:hover { color: var(--gold); border-color: rgba(201,146,74,0.3); }
+  .nav__lang[aria-pressed="true"] .nav__lang-id { color: var(--gold); }
+  .nav__lang[aria-pressed="true"] .nav__lang-en { color: var(--muted); }
+  .nav__lang-sep { opacity: 0.3; }
 
-  /* ── Hamburger ─────────────────────────────────────────── */
-  .pc-nav__ham {
+  .nav__cta { display: none; font-size: 0.75rem; padding: 0.6rem 1.3rem; }
+  @media (min-width: 720px) { .nav__cta { display: inline-flex; } }
+
+  /* Hamburger */
+  .nav__ham {
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -333,213 +257,210 @@ const navLinks = [
     border: none;
     cursor: pointer;
     border-radius: 8px;
-    transition: background 0.2s;
   }
-  @media (min-width: 900px) { .pc-nav__ham { display: none; } }
-  .pc-nav__ham:hover { background: var(--glass); }
-  .ham-bar {
+  @media (min-width: 900px) { .nav__ham { display: none; } }
+  .nav__ham-bar {
     display: block;
-    width: 24px; height: 1.5px;
+    width: 20px; height: 1px;
+    background: var(--cream-dk);
     border-radius: 2px;
-    background: var(--cream);
-    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.2s;
+    transition: transform 0.3s, opacity 0.2s;
     transform-origin: center;
   }
-  .pc-nav__ham[aria-expanded="true"] .ham-1 { transform: translateY(6.5px) rotate(45deg); }
-  .pc-nav__ham[aria-expanded="true"] .ham-2 { opacity: 0; transform: scaleX(0); }
-  .pc-nav__ham[aria-expanded="true"] .ham-3 { transform: translateY(-6.5px) rotate(-45deg); }
+  .nav__ham[aria-expanded="true"] .nav__ham-bar:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  .nav__ham[aria-expanded="true"] .nav__ham-bar:nth-child(2) { opacity: 0; }
+  .nav__ham[aria-expanded="true"] .nav__ham-bar:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
-  /* ── Mobile Overlay ────────────────────────────────────── */
-  .pc-overlay {
+  /* ── Mobile overlay ──────────────────────────────────────── */
+  .nav-mobile {
     position: fixed;
     inset: 0;
-    z-index: 190;
+    z-index: 90;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 2rem;
+    gap: 0.5rem;
     padding: 2rem;
-    overflow: hidden;
-    /* Hidden state */
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.35s ease;
+    transition: opacity 0.3s;
+    font-family: var(--font-body);
   }
-  .pc-overlay.open {
-    opacity: 1;
-    pointer-events: all;
-  }
-  .pc-overlay__bg {
+  .nav-mobile[aria-hidden="false"] { opacity: 1; pointer-events: all; }
+  .nav-mobile__bg {
     position: absolute;
     inset: 0;
-    background: linear-gradient(160deg,
-      #09070F 0%,
-      #180f0a 40%,
-      #0f0c18 70%,
-      #09070F 100%
-    );
+    background: rgba(11,9,8,0.96);
+    backdrop-filter: blur(20px);
   }
-  .pc-overlay__wave {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 120px;
-    width: 100%;
-  }
-  .pc-overlay__close {
+  .nav-mobile__close {
     position: absolute;
     top: 1.5rem; right: 1.5rem;
-    font-size: 1.4rem;
-    color: var(--muted);
     background: none;
     border: none;
+    color: var(--muted);
     cursor: pointer;
-    transition: color 0.2s, transform 0.2s;
     z-index: 1;
     padding: 0.5rem;
+    transition: color 0.2s, transform 0.2s;
   }
-  .pc-overlay__close:hover { color: var(--cream); transform: rotate(90deg); }
+  .nav-mobile__close:hover { color: var(--cream); transform: rotate(90deg); }
 
-  .pc-overlay__nav {
+  .nav-mobile__logo {
+    position: absolute;
+    top: 1.5rem; left: 1.5rem;
+    z-index: 1;
+  }
+  .nav-mobile__logo-name {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--cream);
+  }
+  .nav-mobile__logo-place {
+    display: block;
+    font-size: 0.58rem;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+
+  .nav-mobile__nav {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
+    width: 100%;
+    max-width: 280px;
+    gap: 0.15rem;
     z-index: 1;
-    width: 100%;
   }
-  .pc-overlay__link {
+  .nav-mobile__link {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     gap: 1rem;
-    text-decoration: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 12px;
     width: 100%;
-    max-width: 320px;
-    transition: background 0.2s;
+    padding: 0.8rem 1rem;
+    border-radius: 10px;
+    text-decoration: none;
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(16px);
+    transition: background 0.2s;
   }
-  .pc-overlay.open .pc-overlay__link {
-    animation: slide-in 0.4s cubic-bezier(0.4,0,0.2,1) forwards;
-    animation-delay: calc(var(--i) * 0.07s + 0.1s);
+  .nav-mobile[aria-hidden="false"] .nav-mobile__link {
+    animation: mob-in 0.4s ease forwards;
+    animation-delay: calc(var(--i) * 0.06s + 0.05s);
   }
-  @keyframes slide-in {
+  @keyframes mob-in {
     to { opacity: 1; transform: translateY(0); }
   }
-  .pc-overlay__link:hover { background: rgba(255,255,255,0.04); }
-  .pc-overlay__link-num {
-    font-size: 0.65rem;
+  .nav-mobile__link:hover { background: rgba(240,232,220,0.04); }
+  .nav-mobile__link-num {
+    font-size: 0.6rem;
     font-weight: 500;
-    letter-spacing: 0.15em;
-    color: var(--sunset-2);
-    font-family: 'Jost', sans-serif;
-  }
-  .pc-overlay__link-label {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 2.2rem;
-    font-weight: 500;
-    color: var(--cream);
-    transition: color 0.2s;
-    line-height: 1.1;
-  }
-  .pc-overlay__link:hover .pc-overlay__link-label {
-    background: linear-gradient(135deg, var(--sunset-1), var(--sunset-3));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-  }
-  .pc-overlay__cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-family: 'Jost', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 600;
+    color: var(--gold);
     letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ocean-deep);
-    text-decoration: none;
-    padding: 0.9rem 2.5rem;
-    border-radius: 50px;
-    background: linear-gradient(135deg, var(--sunset-1), var(--sunset-3));
-    box-shadow: 0 6px 30px rgba(255,107,53,0.35);
+    flex-shrink: 0;
+  }
+  .nav-mobile__link-text {
+    font-family: var(--font-display);
+    font-size: 1.9rem;
+    font-weight: 400;
+    color: var(--cream);
+    text-transform: lowercase;
+    letter-spacing: -0.01em;
+    transition: color 0.2s;
+  }
+  .nav-mobile__link:hover .nav-mobile__link-text { color: var(--gold-lt); }
+
+  .nav-mobile__cta {
+    margin-top: 1.5rem;
     z-index: 1;
-    transition: transform 0.2s, box-shadow 0.3s;
     opacity: 0;
   }
-  .pc-overlay.open .pc-overlay__cta {
-    animation: slide-in 0.4s ease 0.45s forwards;
+  .nav-mobile[aria-hidden="false"] .nav-mobile__cta {
+    animation: mob-in 0.4s ease 0.4s forwards;
   }
-  .pc-overlay__cta:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 40px rgba(255,107,53,0.5);
-  }
-  .pc-overlay__footer {
+  .nav-mobile__footer {
     position: absolute;
-    bottom: 2rem;
-    display: flex;
-    gap: 2rem;
-    font-family: 'Jost', sans-serif;
-    font-size: 0.7rem;
+    bottom: 1.5rem;
+    font-size: 0.65rem;
+    font-weight: 300;
     letter-spacing: 0.12em;
-    text-transform: uppercase;
     color: var(--muted);
     z-index: 1;
+    text-transform: lowercase;
   }
 
-  @media (min-width: 900px) {
-    .pc-overlay { display: none !important; }
-  }
+  @media (min-width: 900px) { .nav-mobile { display: none !important; } }
 </style>
 
-<!-- ══ SCRIPT ════════════════════════════════════════════════ -->
 <script>
-  const nav       = document.getElementById('main-nav')!;
-  const hamburger = document.getElementById('hamburger')!;
-  const overlay   = document.getElementById('mobile-overlay')!;
-  const closeBtn  = document.getElementById('overlay-close')!;
-  const langBtn   = document.getElementById('lang-toggle')!;
+  const nav    = document.getElementById('nav')!;
+  const ham    = document.getElementById('nav-ham')!;
+  const mobile = document.getElementById('nav-mobile')!;
+  const closeBtn = document.getElementById('nav-mobile-close')!;
+  const langBtn  = document.getElementById('lang-btn')!;
 
-  // ── Scroll glass effect ────────────────────────────────────
-  const onScroll = () => {
-    nav.classList.toggle('scrolled', window.scrollY > 40);
-  };
+  // ── Scroll glass ──────────────────────────────────────────
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 30);
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  // ── Mobile overlay ─────────────────────────────────────────
-  function openOverlay() {
-    overlay.classList.add('open');
-    overlay.setAttribute('aria-hidden', 'false');
-    hamburger.setAttribute('aria-expanded', 'true');
+  // ── Active link on scroll ─────────────────────────────────
+  const navLinks = document.querySelectorAll<HTMLAnchorElement>('.nav__link');
+  const sections = Array.from(navLinks)
+    .map(a => document.querySelector<HTMLElement>(a.getAttribute('href')!))
+    .filter(Boolean) as HTMLElement[];
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+      }
+    });
+  }, { rootMargin: '-40% 0px -50% 0px' });
+  sections.forEach(s => observer.observe(s));
+
+  // ── Mobile ────────────────────────────────────────────────
+  const openMob = () => {
+    mobile.setAttribute('aria-hidden', 'false');
+    ham.setAttribute('aria-expanded', 'true');
     document.body.style.overflow = 'hidden';
-  }
-  function closeOverlay() {
-    overlay.classList.remove('open');
-    overlay.setAttribute('aria-hidden', 'true');
-    hamburger.setAttribute('aria-expanded', 'false');
+  };
+  const closeMob = () => {
+    mobile.setAttribute('aria-hidden', 'true');
+    ham.setAttribute('aria-expanded', 'false');
     document.body.style.overflow = '';
-  }
+  };
+  ham.addEventListener('click', openMob);
+  closeBtn.addEventListener('click', closeMob);
+  mobile.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMob));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMob(); });
 
-  hamburger.addEventListener('click', openOverlay);
-  closeBtn.addEventListener('click', closeOverlay);
-  overlay.querySelectorAll('a').forEach(a => a.addEventListener('click', closeOverlay));
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeOverlay(); });
-
-  // ── Language toggle ────────────────────────────────────────
+  // ── Language ──────────────────────────────────────────────
   let isID = false;
   langBtn.addEventListener('click', () => {
     isID = !isID;
     langBtn.setAttribute('aria-pressed', String(isID));
-
-    // Nav links
+    document.dispatchEvent(new CustomEvent('pc:lang', { detail: { isID } }));
+    // update nav link text
     document.querySelectorAll<HTMLElement>('[data-en][data-id]').forEach(el => {
-      const label = el.querySelector('.pc-nav__link-text, .pc-overlay__link-label, .pc-nav__cta-text, .pc-overlay__cta');
-      const key = isID ? 'id' : 'en';
-      if (label) {
-        label.textContent = el.dataset[key] ?? el.dataset.en ?? '';
-      } else {
-        el.textContent = el.dataset[key] ?? el.dataset.en ?? '';
+      const child = el.querySelector('.nav__link-text, .nav-mobile__link-text');
+      const val = isID ? el.dataset.id : el.dataset.en;
+      if (val) (child ?? el).textContent = val;
+    });
+  });
+
+  // ── Smooth anchor scroll ──────────────────────────────────
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href')!.slice(1);
+      const target = document.getElementById(id);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     });
   });

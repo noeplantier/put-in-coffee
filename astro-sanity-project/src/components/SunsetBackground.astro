@@ -1,0 +1,169 @@
+---
+// src/components/SunsetBackground.astro
+// Shared animated sunset background — include once in Layout.astro
+// Refined, subtle, consistent across all pages
+---
+
+<!-- ══ SUNSET BACKGROUND ══════════════════════════════════════
+     Include this once at the root of every page layout.
+     It sits fixed behind all content via z-index: -1.
+═══════════════════════════════════════════════════════════ -->
+
+<div class="sb" aria-hidden="true">
+
+  <!-- Gradient mesh -->
+  <div class="sb__mesh"></div>
+
+  <!-- Warm horizon glow -->
+  <div class="sb__horizon"></div>
+
+  <!-- Ambient orbs — left warm, right cool -->
+  <div class="sb__orb sb__orb--a"></div>
+  <div class="sb__orb sb__orb--b"></div>
+
+  <!-- Grain texture overlay -->
+  <div class="sb__grain"></div>
+
+  <!-- Bottom wave strip (fixed to bottom of viewport) -->
+  <div class="sb__waves">
+    <svg class="sb__wave sb__wave--3" viewBox="0 0 1440 60" preserveAspectRatio="none">
+      <path d="M0,30 C240,60 480,0 720,30 C960,60 1200,0 1440,30 L1440,60 L0,60 Z"/>
+    </svg>
+    <svg class="sb__wave sb__wave--2" viewBox="0 0 1440 60" preserveAspectRatio="none">
+      <path d="M0,40 C360,10 720,60 1080,30 C1260,15 1380,50 1440,40 L1440,60 L0,60 Z"/>
+    </svg>
+    <svg class="sb__wave sb__wave--1" viewBox="0 0 1440 60" preserveAspectRatio="none">
+      <path d="M0,50 C180,20 420,60 720,45 C1020,30 1260,55 1440,50 L1440,60 L0,60 Z"/>
+    </svg>
+  </div>
+
+</div>
+
+<style>
+  /* ── Shell ───────────────────────────────────────────────── */
+  .sb {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  /* ── Base mesh gradient ──────────────────────────────────── */
+  .sb__mesh {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg,
+        #0b0908 0%,
+        #141008 30%,
+        #1a1008 55%,
+        #120d0b 80%,
+        #0b0908 100%
+      );
+    animation: sb-breathe 28s ease-in-out infinite;
+  }
+  @keyframes sb-breathe {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.85; }
+  }
+
+  /* ── Horizon warm glow ───────────────────────────────────── */
+  .sb__horizon {
+    position: absolute;
+    bottom: 25%;
+    left: 0; right: 0;
+    height: 40%;
+    background: radial-gradient(
+      ellipse 80% 100% at 50% 100%,
+      rgba(180,90,40,0.1) 0%,
+      rgba(201,146,74,0.04) 40%,
+      transparent 70%
+    );
+    animation: sb-horizon 20s ease-in-out infinite;
+  }
+  @keyframes sb-horizon {
+    0%, 100% { opacity: 0.6; transform: scaleX(1);    }
+    50%       { opacity: 1;   transform: scaleX(1.08); }
+  }
+
+  /* ── Ambient orbs ────────────────────────────────────────── */
+  .sb__orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    animation: sb-orb 30s ease-in-out infinite;
+  }
+  .sb__orb--a {
+    width: 45%;
+    height: 50%;
+    left: -10%;
+    top: 15%;
+    background: radial-gradient(circle, rgba(196,96,58,0.09), transparent 70%);
+    animation-delay: 0s;
+  }
+  .sb__orb--b {
+    width: 40%;
+    height: 45%;
+    right: -8%;
+    top: 10%;
+    background: radial-gradient(circle, rgba(201,146,74,0.07), transparent 70%);
+    animation-delay: -12s;
+  }
+  @keyframes sb-orb {
+    0%, 100% { transform: translate(0, 0) scale(1);      opacity: 0.7; }
+    33%       { transform: translate(3%, 5%) scale(1.05); opacity: 1;   }
+    66%       { transform: translate(-2%, -3%) scale(0.95); opacity: 0.8; }
+  }
+
+  /* ── Film grain ──────────────────────────────────────────── */
+  .sb__grain {
+    position: absolute;
+    inset: 0;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 200px;
+    pointer-events: none;
+  }
+
+  /* ── Bottom waves ────────────────────────────────────────── */
+  .sb__waves {
+    position: absolute;
+    bottom: 0;
+    left: 0; right: 0;
+    height: 60px;
+    pointer-events: none;
+  }
+  .sb__wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 200%;
+    height: 100%;
+  }
+  /* fill matches page bg so waves act as a bleed */
+  .sb__wave--3 {
+    fill: rgba(20,16,12,0.3);
+    animation: sb-wave 24s linear infinite;
+  }
+  .sb__wave--2 {
+    fill: rgba(20,16,12,0.5);
+    animation: sb-wave 18s linear infinite reverse;
+  }
+  .sb__wave--1 {
+    fill: #0b0908;
+    animation: sb-wave 12s linear infinite;
+  }
+  @keyframes sb-wave {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ── Reduced motion ──────────────────────────────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    .sb__mesh, .sb__horizon, .sb__orb--a, .sb__orb--b,
+    .sb__wave--1, .sb__wave--2, .sb__wave--3 {
+      animation: none;
+    }
+  }
+</style>

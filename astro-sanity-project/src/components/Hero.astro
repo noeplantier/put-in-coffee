@@ -1,467 +1,301 @@
 ---
 // src/components/Hero.astro
-// Sunset Beach Hero · EN / Bahasa Indonesia
+// Refined hero · lowercase · minimal · EN/ID
 
 import type { SiteSettings } from '../types/index.ts';
 export interface Props { settings?: Partial<SiteSettings>; }
 const { settings = {} } = Astro.props;
 
-const headline     = settings?.heroHeadline       ?? 'Where Waves';
-const headlineEm   = settings?.heroHeadlineItalic ?? 'Meet Coffee';
-const subtitle     = settings?.heroSubtitle       ?? "Sip specialty coffee as the tide rolls in — Sanur's most soulful beachfront café on Pantai Biaung.";
-const subtitleId   = "Nikmati kopi spesialti sambil ombak bergulung — kafe tepi pantai paling berjiwa di Pantai Biaung, Sanur.";
-const totalReviews = settings?.totalReviews       ?? 49;
+const headline    = settings?.heroHeadline       ?? 'PUT.IN COFFEE';
+const headlineEm  = settings?.heroHeadlineItalic ?? 'meet coffee';
+const subtitle    = settings?.heroSubtitle       ?? "specialty coffee on the shoreline. sip slowly, breathe deeply — you're at pantai biaung now.";
+const subtitleId  = "kopi spesialti di tepi pantai. minum pelan, nikmati angin — anda sudah di pantai biaung.";
+const reviews     = settings?.totalReviews       ?? 49;
 ---
 
-<!-- ══ HERO ═══════════════════════════════════════════════════ -->
-<section class="hero" id="hero" aria-label="Welcome to put.in coffee">
+<!-- ══ HERO ════════════════════════════════════════════════════ -->
+<section class="hero" id="hero" aria-label="welcome to put.in coffee">
 
-  <!-- ── Sunset sky gradient bg ─────────────────────────────── -->
-  <div class="hero__sky" aria-hidden="true">
-    <div class="hero__sky-glow hero__sky-glow--left"></div>
-    <div class="hero__sky-glow hero__sky-glow--right"></div>
-    <div class="hero__sky-horizon"></div>
-  </div>
 
-  <!-- ── Overlay gradient ───────────────────────────────────── -->
+  <!-- warm image overlay -->
   <div class="hero__overlay" aria-hidden="true"></div>
 
-  <!-- ── Floating embers ────────────────────────────────────── -->
-  <div class="hero__embers" aria-hidden="true">
-    {Array.from({length: 14}).map((_, i) => (
-      <span class="ember" style={`--x:${Math.floor(Math.random()*100)}%; --d:${(Math.random()*16+10).toFixed(1)}s; --delay:${(Math.random()*8).toFixed(1)}s; --s:${(Math.random()*4+2).toFixed(1)}px`}></span>
-    ))}
-  </div>
+  <!-- content -->
+  <div class="hero__body">
 
-  <!-- ── Content ────────────────────────────────────────────── -->
-  <div class="hero__content">
-
-    <!-- Location pill -->
-    <div class="hero__badge" role="text">
-      <span class="hero__badge-text" data-en="Pantai Biaung · Sanur, Bali" data-id="Pantai Biaung · Sanur, Bali">
-        Pantai Biaung · Sanur, Bali
+    <!-- location pill -->
+    <div class="hero__pill">
+      <span class="hero__pill-dot" aria-hidden="true"></span>
+      <span data-en="pantai biaung · sanur, bali" data-id="pantai biaung · sanur, bali">
+        pantai biaung · sanur, bali
       </span>
     </div>
 
-    <!-- Headline -->
-    <h1 class="hero__headline">
-      <span class="hero__headline-line1" data-en={headline} data-id="Ombak Bertemu">{headline}</span><br>
-      <em class="hero__headline-em" data-en={headlineEm} data-id="Cita Kopi">{headlineEm}</em>
+    <!-- headline -->
+    <h1 class="hero__title">
+      <span class="hero__title-plain" data-en={headline} data-id="ombak bertemu">{headline}</span><br>
+      <em class="hero__title-em" data-en={headlineEm} data-id="cita kopi">{headlineEm}</em>
     </h1>
 
-    <!-- Subtitle -->
-    <p class="hero__subtitle" data-en={subtitle} data-id={subtitleId}>
+    <!-- subtitle -->
+    <p class="hero__sub" data-en={subtitle} data-id={subtitleId}>
       {subtitle}
     </p>
 
-    <!-- CTAs -->
+    <!-- ctas -->
     <div class="hero__ctas">
-      <a href="#menu" class="hero__btn hero__btn--primary" data-event="CTA Hero Menu"
-         data-en="☕ Explore Menu" data-id="☕ Lihat Menu">
-        <span class="hero__btn-text">☕ Explore Menu</span>
-        <span class="hero__btn-shine" aria-hidden="true"></span>
+      <a href="#menu" class="btn btn-primary" data-en="explore menu" data-id="lihat menu">
+        <span>☕</span>
+        <span class="hero__cta-text">explore menu</span>
       </a>
-      <a href="#contact" class="hero__btn hero__btn--ghost" data-event="CTA Hero Reserve"
-         data-en="🌊 Reserve a Table" data-id="🌊 Reservasi Meja">
-        <span class="hero__btn-text">🌊 Reserve a Table</span>
+      <a href="#contact" class="btn btn-outline" data-en="reserve a table" data-id="reservasi meja">
+        <span>🌊</span>
+        <span class="hero__cta-text">reserve a table</span>
       </a>
+    </div>
+
+    <!-- social proof -->
+    <div class="hero__proof">
+      <div class="hero__stars" aria-label="5 stars">
+        {[1,2,3,4,5].map(i => (
+          <span class="hero__star" style={`animation-delay:${(i-1)*0.08+0.9}s`} aria-hidden="true">★</span>
+        ))}
+      </div>
+      <span class="hero__proof-copy">
+        <strong>{reviews}+</strong>
+      </span>
     </div>
 
   </div>
 
 
-  <!-- ── Animated SVG Waves ─────────────────────────────────── -->
-  <div class="hero__waves" aria-hidden="true">
-    <!-- Wave 3 (back, slow) -->
-    <svg class="wave wave--3" viewBox="0 0 1200 100" preserveAspectRatio="none">
-      <path d="M0,50 C150,90 350,10 600,50 C850,90 1050,10 1200,50 L1200,100 L0,100 Z"/>
-    </svg>
-    <!-- Wave 2 (mid) -->
-    <svg class="wave wave--2" viewBox="0 0 1200 100" preserveAspectRatio="none">
-      <path d="M0,60 C200,20 400,100 600,60 C800,20 1000,100 1200,60 L1200,100 L0,100 Z"/>
-    </svg>
-    <!-- Wave 1 (front) -->
-    <svg class="wave wave--1" viewBox="0 0 1200 100" preserveAspectRatio="none">
-      <path d="M0,70 C180,30 380,100 600,70 C820,40 980,90 1200,70 L1200,100 L0,100 Z"/>
-    </svg>
+
+  <!-- scroll cue -->
+  <div class="hero__scroll" aria-hidden="true">
+    <div class="hero__scroll-line"></div>
   </div>
 
 </section>
 
-<!-- ══ STYLES ════════════════════════════════════════════════ -->
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap');
-
-  /* ── Hero shell ─────────────────────────────────────────── */
+  /* ── Shell ───────────────────────────────────────────────── */
   .hero {
     position: relative;
-    width: 100%;
     height: 100svh;
-    min-height: 640px;
+    min-height: 600px;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    background: #09070F;
   }
 
-  /* ── Sky / gradient bg ──────────────────────────────────── */
-  .hero__sky {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg,
-      #09070F 0%,
-      #1a0d08 25%,
-      #2a1008 45%,
-      #1a1230 70%,
-      #09070F 100%
-    );
-    z-index: 0;
-  }
-  .hero__sky-glow {
-    position: absolute;
-    width: 60%;
-    height: 50%;
-    border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.25;
-  }
-  .hero__sky-glow--left {
-    left: -10%;
-    top: 20%;
-    background: radial-gradient(ellipse, #FF6B35, transparent 70%);
-  }
-  .hero__sky-glow--right {
-    right: -10%;
-    top: 15%;
-    background: radial-gradient(ellipse, #F7931E, transparent 70%);
-  }
-  .hero__sky-horizon {
-    position: absolute;
-    bottom: 30%;
-    left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,180,80,0.15), transparent);
-  }
-
-  /* ── Background image ───────────────────────────────────── */
+  /* ── Background image ────────────────────────────────────── */
   .hero__img-wrap {
     position: absolute;
     inset: 0;
-    z-index: 1;
-    overflow: hidden;
+    z-index: 0;
   }
   .hero__img {
     width: 100%; height: 100%;
     object-fit: cover;
-    object-position: center 40%;
-    transform: scale(1.06);
-    transition: transform 14s ease-out, opacity 0.8s ease;
+    object-position: center 35%;
+    transform: scale(1.05);
+    transition: transform 16s ease-out, opacity 1s ease;
     opacity: 0;
     will-change: transform;
   }
   .hero__img.loaded { opacity: 1; transform: scale(1); }
 
-  /* ── Overlays ───────────────────────────────────────────── */
+  /* ── Overlay ─────────────────────────────────────────────── */
   .hero__overlay {
     position: absolute;
     inset: 0;
-    z-index: 2;
+    z-index: 1;
     background:
-      linear-gradient(180deg, rgba(9,7,15,0.35) 0%, rgba(9,7,15,0.2) 40%, rgba(9,7,15,0.92) 95%),
-      linear-gradient(90deg, rgba(9,7,15,0.5) 0%, transparent 60%);
+      linear-gradient(to bottom,
+        rgba(11,9,8,0.5)  0%,
+        rgba(11,9,8,0.25) 35%,
+        rgba(11,9,8,0.3)  60%,
+        rgba(11,9,8,0.88) 100%
+      ),
+      linear-gradient(to right, rgba(11,9,8,0.45) 0%, transparent 55%);
   }
 
-  /* ── Embers ─────────────────────────────────────────────── */
-  .hero__embers {
-    position: absolute;
-    inset: 0;
-    z-index: 3;
-    pointer-events: none;
-  }
-  .ember {
-    position: absolute;
-    bottom: 0;
-    left: var(--x);
-    width: var(--s);
-    height: var(--s);
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,180,60,0.8), rgba(255,100,30,0.2));
-    animation: ember-rise var(--d) linear var(--delay) infinite;
-    opacity: 0;
-  }
-  @keyframes ember-rise {
-    0%   { transform: translateY(0) translateX(0) scale(1);   opacity: 0; }
-    10%  { opacity: 0.7; }
-    50%  { transform: translateY(-40vh) translateX(20px) scale(0.8); }
-    90%  { opacity: 0.2; }
-    100% { transform: translateY(-90vh) translateX(-10px) scale(0.3); opacity: 0; }
-  }
-
-  /* ── Content ────────────────────────────────────────────── */
-  .hero__content {
+  /* ── Content ─────────────────────────────────────────────── */
+  .hero__body {
     position: relative;
-    z-index: 10;
+    z-index: 2;
     text-align: center;
-    max-width: 780px;
+    max-width: 820px;
     padding: 0 1.5rem;
-    padding-top: 80px;
+    margin-top: calc(var(--nav-h) * 0.4);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.6rem;
+    gap: 1.5rem;
   }
 
-  /* ── Badge ──────────────────────────────────────────────── */
-  .hero__badge {
+  /* pill */
+  .hero__pill {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 0.45rem 1.1rem;
+    padding: 0.4rem 1rem;
     border-radius: 50px;
-    border: 1px solid rgba(255,180,60,0.3);
-    background: rgba(255,150,30,0.08);
-    backdrop-filter: blur(10px);
-    font-family: 'Jost', sans-serif;
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: #FFD166;
-    animation: fade-down 0.8s ease 0.2s both;
+    border: 1px solid rgba(201,146,74,0.25);
+    background: rgba(201,146,74,0.07);
+    backdrop-filter: blur(8px);
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    color: var(--gold-lt);
+    text-transform: lowercase;
+    animation: fade-down 0.8s ease 0.1s both;
   }
-  .hero__badge-dot {
-    width: 6px; height: 6px;
+  .hero__pill-dot {
+    width: 5px; height: 5px;
     border-radius: 50%;
-    background: #4ade80;
-    box-shadow: 0 0 6px #4ade80;
-    animation: pulse-dot 2s ease-in-out infinite;
+    background: #5bdb83;
+    box-shadow: 0 0 5px #5bdb83;
+    animation: dot-pulse 2.5s ease-in-out infinite;
     flex-shrink: 0;
   }
-  @keyframes pulse-dot {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50%       { opacity: 0.6; transform: scale(1.3); }
+  @keyframes dot-pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.45; }
   }
 
-  /* ── Headline ───────────────────────────────────────────── */
-  .hero__headline {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(3.2rem, 9vw, 7rem);
-    font-weight: 300;
-    line-height: 1.05;
-    color: #FDF6EC;
+  /* headline */
+  .hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 9vw, 7rem);
+    font-weight: 400;
+    line-height: 1.02;
+    color: var(--cream);
     margin: 0;
-    text-shadow: 0 4px 40px rgba(0,0,0,0.7);
-    animation: fade-up 0.9s cubic-bezier(0.4,0,0.2,1) 0.35s both;
-    letter-spacing: -0.01em;
+    text-shadow: 0 2px 30px rgba(0,0,0,0.6);
+    animation: fade-up 0.9s ease 0.25s both;
+    letter-spacing: -0.02em;
+    text-transform: lowercase;
   }
-  .hero__headline-em {
+  .hero__title-em {
     font-style: italic;
     font-weight: 400;
-    background: linear-gradient(135deg, #FF9A5C 0%, #FFD166 50%, #FFEC9E 100%);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    display: inline-block;
+    background: linear-gradient(135deg, var(--gold-lt) 0%, #f0cf90 60%, var(--gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
-  /* ── Subtitle ───────────────────────────────────────────── */
-  .hero__subtitle {
-    font-family: 'Jost', sans-serif;
-    font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+  /* subtitle */
+  .hero__sub {
+    font-family: var(--font-body);
+    font-size: clamp(0.9rem, 2.2vw, 1.05rem);
     font-weight: 300;
     line-height: 1.7;
-    color: rgba(253,246,236,0.7);
-    max-width: 520px;
+    color: rgba(240,232,220,0.65);
+    max-width: 480px;
     margin: 0;
-    animation: fade-up 0.9s ease 0.5s both;
+    text-transform: lowercase;
+    animation: fade-up 0.9s ease 0.4s both;
   }
 
-  /* ── CTAs ───────────────────────────────────────────────── */
+  /* ctas */
   .hero__ctas {
     display: flex;
+    gap: 0.75rem;
     flex-wrap: wrap;
-    gap: 0.85rem;
     justify-content: center;
-    animation: fade-up 0.9s ease 0.65s both;
+    animation: fade-up 0.9s ease 0.55s both;
   }
-  .hero__btn {
-    position: relative;
-    overflow: hidden;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-family: 'Jost', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    text-decoration: none;
-    padding: 0.85rem 2rem;
-    border-radius: 50px;
-    transition: transform 0.25s, box-shadow 0.3s;
-    cursor: pointer;
-  }
-  .hero__btn:hover { transform: translateY(-2px); }
-  .hero__btn--primary {
-    background: linear-gradient(135deg, #FF6B35, #F7931E, #FFD166);
-    color: #09070F;
-    box-shadow: 0 4px 20px rgba(255,107,53,0.35);
-  }
-  .hero__btn--primary:hover { box-shadow: 0 8px 32px rgba(255,107,53,0.55); }
-  .hero__btn--ghost {
-    background: rgba(255,255,255,0.06);
-    color: #FDF6EC;
-    border: 1px solid rgba(255,255,255,0.18);
-    backdrop-filter: blur(10px);
-  }
-  .hero__btn--ghost:hover { background: rgba(255,255,255,0.1); }
-  .hero__btn-shine {
-    position: absolute;
-    top: 0; left: -100%;
-    width: 60%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-    transform: skewX(-20deg);
-    transition: left 0.6s ease;
-  }
-  .hero__btn--primary:hover .hero__btn-shine { left: 160%; }
+  .hero__cta-text { font-size: 0.8rem; }
 
-  /* ── Social proof ───────────────────────────────────────── */
+  /* social proof */
   .hero__proof {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    animation: fade-up 0.9s ease 0.8s both;
+    gap: 0.6rem;
+    animation: fade-up 0.9s ease 0.7s both;
   }
-  .hero__stars { display: flex; gap: 2px; }
+  .hero__stars { display: flex; gap: 1px; }
   .hero__star {
-    font-size: 0.9rem;
-    color: #FFD166;
+    font-size: 0.78rem;
+    color: var(--gold);
+    animation: star-pop 0.35s cubic-bezier(0.34,1.56,0.64,1) both;
     display: inline-block;
-    animation: star-pop 0.4s cubic-bezier(0.34,1.56,0.64,1) both;
   }
-  .hero__star:nth-child(1) { animation-delay: 0.85s; }
-  .hero__star:nth-child(2) { animation-delay: 0.92s; }
-  .hero__star:nth-child(3) { animation-delay: 0.99s; }
-  .hero__star:nth-child(4) { animation-delay: 1.06s; }
-  .hero__star:nth-child(5) { animation-delay: 1.13s; }
   @keyframes star-pop {
-    from { transform: scale(0) rotate(-30deg); opacity: 0; }
-    to   { transform: scale(1) rotate(0);     opacity: 1; }
+    from { transform: scale(0); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
   }
-  .hero__proof-text {
-    font-family: 'Jost', sans-serif;
-    font-size: 0.8rem;
-    color: rgba(253,246,236,0.55);
+  .hero__proof-copy {
+    font-size: 0.75rem;
+    font-weight: 300;
+    color: rgba(240,232,220,0.45);
+    text-transform: lowercase;
   }
-  .hero__proof-text strong { color: #FFD166; font-weight: 600; margin-right: 2px; }
+  .hero__proof-copy strong { color: var(--gold-lt); font-weight: 500; margin-right: 2px; }
 
-  /* ── Open badge ─────────────────────────────────────────── */
-  .hero__open-badge {
+  /* open badge */
+  .hero__open {
     position: absolute;
-    bottom: calc(18% + 4rem);
-    right: 2rem;
+    bottom: 22%;
+    right: 1.5rem;
     display: flex;
     align-items: center;
     gap: 6px;
-    padding: 0.45rem 0.9rem;
+    padding: 0.4rem 0.85rem;
     border-radius: 50px;
-    background: rgba(9,7,15,0.5);
-    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(11,9,8,0.55);
+    border: 1px solid rgba(240,232,220,0.08);
     backdrop-filter: blur(8px);
-    font-family: 'Jost', sans-serif;
-    font-size: 0.68rem;
-    font-weight: 500;
+    font-size: 0.65rem;
+    font-weight: 300;
     letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(253,246,236,0.6);
-    z-index: 10;
-    animation: fade-in 1s ease 1.2s both;
+    color: rgba(240,232,220,0.5);
+    z-index: 2;
+    text-transform: lowercase;
+    animation: fade-in 1s ease 1s both;
   }
   .hero__open-dot {
-    width: 6px; height: 6px;
+    width: 5px; height: 5px;
     border-radius: 50%;
-    background: #4ade80;
-    box-shadow: 0 0 8px #4ade80;
+    background: #5bdb83;
+    box-shadow: 0 0 5px #5bdb83;
+    animation: dot-pulse 2.5s infinite;
     flex-shrink: 0;
-    animation: pulse-dot 2.5s ease-in-out infinite;
   }
-  @media (max-width: 600px) { .hero__open-badge { display: none; } }
+  @media (max-width: 540px) { .hero__open { display: none; } }
 
-  /* ── Waves ──────────────────────────────────────────────── */
-  .hero__waves {
-    position: absolute;
-    bottom: -2px;
-    left: 0; right: 0;
-    height: clamp(80px, 18%, 140px);
-    z-index: 5;
-  }
-  .wave {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 200%;
-    height: 100%;
-    fill: #09070F;
-  }
-  .wave--3 {
-    opacity: 0.2;
-    transform: translateX(0);
-    animation: wave-move 22s linear infinite;
-    fill: #1a0d08;
-  }
-  .wave--2 {
-    opacity: 0.4;
-    animation: wave-move 16s linear infinite reverse;
-    fill: #13111e;
-  }
-  .wave--1 {
-    opacity: 1;
-    animation: wave-move 10s linear infinite;
-    fill: #09070F;
-  }
-  @keyframes wave-move {
-    0%   { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-  }
-
-  /* ── Scroll indicator ───────────────────────────────────── */
+  /* scroll cue */
   .hero__scroll {
     position: absolute;
-    bottom: calc(18% + 1.5rem);
+    bottom: 22%;
     left: 50%;
     transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    z-index: 10;
-    animation: fade-in 1s ease 1.4s both;
-  }
-  .hero__scroll-label {
-    font-family: 'Jost', sans-serif;
-    font-size: 0.6rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: rgba(253,246,236,0.35);
+    z-index: 2;
+    animation: fade-in 1s ease 1.2s both;
   }
   .hero__scroll-line {
     width: 1px;
-    height: 40px;
-    background: linear-gradient(to bottom, rgba(255,180,60,0.6), transparent);
-    animation: scroll-pulse 2s ease-in-out infinite;
+    height: 48px;
+    background: linear-gradient(to bottom, rgba(201,146,74,0.5), transparent);
+    animation: scroll-drip 2.2s ease-in-out infinite;
     transform-origin: top;
   }
-  @keyframes scroll-pulse {
-    0%, 100% { opacity: 0.4; transform: scaleY(1); }
-    50%       { opacity: 1; transform: scaleY(0.6); }
+  @keyframes scroll-drip {
+    0%        { transform: scaleY(0); opacity: 0; transform-origin: top; }
+    40%       { transform: scaleY(1); opacity: 0.8; }
+    100%      { transform: scaleY(1); opacity: 0; transform-origin: bottom; }
   }
 
-  /* ── Shared animations ──────────────────────────────────── */
+  /* animations */
   @keyframes fade-down {
-    from { opacity: 0; transform: translateY(-14px); }
+    from { opacity: 0; transform: translateY(-12px); }
     to   { opacity: 1; transform: translateY(0); }
   }
   @keyframes fade-up {
-    from { opacity: 0; transform: translateY(22px); }
+    from { opacity: 0; transform: translateY(20px); }
     to   { opacity: 1; transform: translateY(0); }
   }
   @keyframes fade-in {
@@ -470,30 +304,32 @@ const totalReviews = settings?.totalReviews       ?? 49;
   }
 </style>
 
-<!-- ══ SCRIPT ════════════════════════════════════════════════ -->
 <script>
-  // Image fade-in on load
+  // image parallax + fade-in
   const img = document.getElementById('hero-img') as HTMLImageElement;
   if (img) {
     const show = () => img.classList.add('loaded');
-    if (img.complete) show(); else img.addEventListener('load', show);
+    img.complete ? show() : img.addEventListener('load', show);
   }
 
-  // Language reactivity (listens for global lang-change event)
+  // language listener
   document.addEventListener('pc:lang', ((e: CustomEvent) => {
-    const isID = e.detail.isID;
+    const isID = e.detail.isID as boolean;
     document.querySelectorAll<HTMLElement>('[data-en][data-id]').forEach(el => {
       const val = isID ? el.dataset.id : el.dataset.en;
-      if (val) el.textContent = val;
+      // skip if has child spans (cta buttons)
+      if (val && !el.querySelector('span')) el.textContent = val;
+      // for cta buttons, update the text span
+      const textEl = el.querySelector<HTMLElement>('.hero__cta-text');
+      if (val && textEl) textEl.textContent = val;
     });
   }) as EventListener);
 
-  // Plausible events
+  // plausible events
   document.querySelectorAll<HTMLElement>('[data-event]').forEach(el => {
     el.addEventListener('click', () => {
-      const ev = el.dataset.event;
       // @ts-ignore
-      if (ev && window.plausible) window.plausible(ev);
+      if (el.dataset.event && window.plausible) window.plausible(el.dataset.event);
     });
   });
 </script>

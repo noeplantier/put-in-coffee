@@ -1,698 +1,504 @@
 ---
 // src/components/ReservationForm.astro
-// Reservation + Contact · Bilingual EN / ID · Sunset Beach Theme
-// Uses Netlify Forms — no backend needed.
+// Reservation & contact · refined · lowercase · EN / ID
+// Netlify Forms — no backend needed
 ---
 
-<!-- ══ RESERVATION ════════════════════════════════════════════ -->
-<section class="res-section" id="contact" aria-label="Reserve a table">
+<!-- ══ CONTACT ════════════════════════════════════════════════ -->
+<section class="res pc-section" id="contact" aria-label="reserve a table">
+  <div class="wrap res__inner">
 
-  <!-- Sunset glow accent -->
-  <div class="res-section__glow res-section__glow--left" aria-hidden="true"></div>
-  <div class="res-section__glow res-section__glow--right" aria-hidden="true"></div>
+    <!-- ── left: info ─────────────────────────────────────── -->
+    <div class="res__info">
 
-  <div class="res-inner">
+      <p class="eyebrow reveal" data-en="get in touch" data-id="hubungi kami">get in touch</p>
 
-    <!-- ── Left: Info ──────────────────────────────────────── -->
-    <div class="res-info">
-
-      <p class="res-eyebrow" data-en="Get in Touch" data-id="Hubungi Kami">Get in Touch</p>
-      <h2 class="res-title">
-        <span data-en="Reserve Your" data-id="Pesan Meja">Reserve Your</span><br>
-        <em data-en="Slice of Paradise" data-id="Surga Tepi Pantai">Slice of Paradise</em>
+      <h2 class="res__title reveal">
+        <span data-en="reserve your" data-id="pesan meja anda">reserve your</span><br>
+        <em data-en="slice of paradise" data-id="surga tepi pantai">slice of paradise</em>
       </h2>
-      <p class="res-subtitle" data-en="Sunrise coffee, romantic sunset dinners, or private beachside events — we'll make it unforgettable at Pantai Biaung."
-         data-id="Kopi pagi hari, makan malam romantis, atau acara privat di tepi pantai — kami akan membuatnya tak terlupakan di Pantai Biaung.">
-        Sunrise coffee, romantic sunset dinners, or private beachside events — we'll make it unforgettable at Pantai Biaung.
+
+      <p class="res__sub reveal" 
+         data-en="sunrise coffee, romantic sunset dinners, or a private beach event — we'll make every moment count at pantai biaung."
+         data-id="kopi pagi hari, makan malam romantis, atau acara privat di tepi pantai — kami akan membuat setiap momen berharga di pantai biaung.">
+        sunrise coffee, romantic sunset dinners, or a private beach event — we'll make every moment count at pantai biaung.
       </p>
 
-      <!-- Info cards -->
-      <div class="res-info-cards">
-        <!-- Hours -->
-        <div class="res-info-card">
-          <div class="res-info-card__icon" aria-hidden="true">🕐</div>
-          <div class="res-info-card__text">
-            <strong data-en="Opening Hours" data-id="Jam Buka">Opening Hours</strong>
-            <span data-en="7:00 AM – 11:00 PM · Daily" data-id="07.00 – 23.00 · Setiap Hari">7:00 AM – 11:00 PM · Daily</span>
+      <!-- info cards -->
+      <div class="res__cards reveal">
+        <div class="res__card pc-card">
+          <span class="res__card-icon" aria-hidden="true">🕐</span>
+          <div>
+            <strong data-en="hours" data-id="jam buka">hours</strong>
+            <span data-en="7am – 11pm · daily" data-id="07.00 – 23.00 · setiap hari">7am – 11pm · daily</span>
           </div>
         </div>
-        <!-- Location -->
-        <div class="res-info-card">
-          <div class="res-info-card__icon" aria-hidden="true">📍</div>
-          <div class="res-info-card__text">
-            <strong data-en="Location" data-id="Lokasi">Location</strong>
-            <span data-en="Pantai Biaung, Sanur, Bali" data-id="Pantai Biaung, Sanur, Bali">Pantai Biaung, Sanur, Bali</span>
+        <div class="res__card pc-card">
+          <span class="res__card-icon" aria-hidden="true">📍</span>
+          <div>
+            <strong data-en="location" data-id="lokasi">location</strong>
+            <span data-en="pantai biaung, sanur, bali" data-id="pantai biaung, sanur, bali">pantai biaung, sanur, bali</span>
           </div>
         </div>
-        <!-- Response time -->
-        <div class="res-info-card">
-          <div class="res-info-card__icon" aria-hidden="true">⚡</div>
-          <div class="res-info-card__text">
-            <strong data-en="Response Time" data-id="Waktu Respons">Response Time</strong>
-            <span data-en="Within 2 hours · No card required" data-id="Dalam 2 jam · Tanpa kartu kredit">Within 2 hours · No card required</span>
+        <div class="res__card pc-card">
+          <span class="res__card-icon" aria-hidden="true">⚡</span>
+          <div>
+            <strong data-en="response" data-id="respons">response</strong>
+            <span data-en="within 2 hours · no card needed" data-id="dalam 2 jam · tanpa kartu kredit">within 2 hours · no card needed</span>
           </div>
         </div>
-        <!-- Wifi -->
-        <div class="res-info-card">
-          <div class="res-info-card__icon" aria-hidden="true">🌊</div>
-          <div class="res-info-card__text">
-            <strong data-en="The Vibe" data-id="Suasana">The Vibe</strong>
-            <span data-en="Beachfront · Ocean breeze · Free WiFi" data-id="Tepi pantai · Angin laut · WiFi gratis">Beachfront · Ocean breeze · Free WiFi</span>
+        <div class="res__card pc-card">
+          <span class="res__card-icon" aria-hidden="true">🌊</span>
+          <div>
+            <strong data-en="vibe" data-id="suasana">vibe</strong>
+            <span data-en="beachfront · free wifi · dogs welcome" data-id="tepi pantai · wifi gratis · boleh bawa anjing">beachfront · free wifi · dogs welcome</span>
+          </div>
+        </div>
+        <div class="res__card pc-card">
+          <span class="res__card-icon" aria-hidden="true">🅿️</span>
+          <div>
+            <strong data-en="parking" data-id="parkir">parking</strong>
+            <span data-en="free on-site parking · motorbike & car" data-id="parkir gratis · motor & mobil">free on-site parking · motorbike & car</span>
+          </div>
+        </div>
+        <div class="res__card pc-card">
+          <span class="res__card-icon" aria-hidden="true">🎵</span>
+          <div>
+            <strong data-en="live music" data-id="musik live">live music</strong>
+            <span data-en="fri & sat evenings · local artists" data-id="jumat & sabtu malam · seniman lokal">fri & sat evenings · local artists</span>
           </div>
         </div>
       </div>
 
-      <!-- Social links -->
-      <div class="res-socials" aria-label="Follow us">
-        <a href="https://instagram.com/putincoffee" class="res-social-btn" aria-label="Instagram" target="_blank" rel="noopener" data-event="Instagram Click">
-          <span aria-hidden="true">📸</span>
-        </a>
-        <a href="https://facebook.com/putincoffee" class="res-social-btn" aria-label="Facebook" target="_blank" rel="noopener">
-          <span aria-hidden="true">📘</span>
-        </a>
+      <!-- social -->
+      <div class="res__socials reveal">
+        <a href="https://instagram.com/putincoffee" class="res__social-btn" target="_blank" rel="noopener" aria-label="instagram">📸</a>
+        <a href="https://facebook.com/putincoffee" class="res__social-btn" target="_blank" rel="noopener" aria-label="facebook">📘</a>
+        <a href="https://tiktok.com/@putincoffee" class="res__social-btn" target="_blank" rel="noopener" aria-label="tiktok">🎵</a>
         <a
           id="whatsapp-link"
           href="https://wa.me/628123456789"
-          class="res-social-btn res-social-btn--wa"
-          aria-label="WhatsApp"
-          target="_blank"
-          rel="noopener"
-          data-event="WhatsApp Click"
+          class="res__social-btn res__social-wa"
+          target="_blank" rel="noopener"
+          aria-label="whatsapp"
         >
           <span aria-hidden="true">💬</span>
-          <span class="res-social-btn__label" data-en="Chat on WhatsApp" data-id="Chat WhatsApp">Chat on WhatsApp</span>
+          <span class="res__wa-label" data-en="chat on whatsapp" data-id="chat whatsapp">chat on whatsapp</span>
         </a>
-        <a href="https://tiktok.com/@putincoffee" class="res-social-btn" aria-label="TikTok" target="_blank" rel="noopener">
-          <span aria-hidden="true">🎵</span>
-        </a>
-        <button id="share-btn" class="res-social-btn" aria-label="Share this page" data-en="Share" data-id="Bagikan">
-          <span aria-hidden="true">🔗</span>
-        </button>
+        <button id="share-btn" class="res__social-btn" aria-label="share this page">🔗</button>
       </div>
+
     </div>
 
-    <!-- ── Right: Form ─────────────────────────────────────── -->
-    <div class="res-form-wrap">
+    <!-- ── right: form ─────────────────────────────────────── -->
+    <div class="res__form-wrap reveal-scale" id="res-form-container">
 
-      <!-- Reservation form -->
       <form
-        id="reservation-form"
-        class="res-form"
+        id="res-form"
+        class="res__form"
         name="reservation"
         method="POST"
         data-netlify="true"
         netlify-honeypot="bot-field"
         novalidate
-        aria-label="Reservation form"
       >
         <input type="hidden" name="form-name" value="reservation">
-        <p class="res-form__hidden" aria-hidden="true">
-          <label>Skip: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
+        <p class="res__honeypot" aria-hidden="true">
+          <label>skip: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
         </p>
 
-        <h3 class="res-form__title" data-en="Make a Reservation" data-id="Buat Reservasi">Make a Reservation</h3>
+        <h3 class="res__form-title" data-en="make a reservation" data-id="buat reservasi">make a reservation</h3>
 
-        <!-- Name + Email -->
-        <div class="res-form__row">
-          <div class="res-field">
-            <label for="res-name" class="res-field__label">
-              <span data-en="Full Name" data-id="Nama Lengkap">Full Name</span>
-              <span class="res-field__req" aria-label="required">*</span>
+        <!-- row 1 -->
+        <div class="res__row">
+          <div class="res__field">
+            <label for="r-name" class="res__label">
+              <span data-en="full name" data-id="nama lengkap">full name</span>
+              <span class="res__req" aria-label="required">*</span>
             </label>
-            <input
-              type="text" id="res-name" name="name"
-              class="res-field__input"
-              placeholder="Your name"
-              required autocomplete="name"
-            >
-            <span class="res-field__border" aria-hidden="true"></span>
+            <input type="text" id="r-name" name="name" class="pc-input" placeholder="your name" required autocomplete="name">
           </div>
-          <div class="res-field">
-            <label for="res-email" class="res-field__label">
-              <span data-en="Email" data-id="Email">Email</span>
-              <span class="res-field__req" aria-label="required">*</span>
+          <div class="res__field">
+            <label for="r-email" class="res__label">
+              <span data-en="email" data-id="email">email</span>
+              <span class="res__req">*</span>
             </label>
-            <input
-              type="email" id="res-email" name="email"
-              class="res-field__input"
-              placeholder="you@email.com"
-              required autocomplete="email"
-            >
-            <span class="res-field__border" aria-hidden="true"></span>
+            <input type="email" id="r-email" name="email" class="pc-input" placeholder="you@email.com" required autocomplete="email">
           </div>
         </div>
 
-        <!-- Phone + Guests -->
-        <div class="res-form__row">
-          <div class="res-field">
-            <label for="res-phone" class="res-field__label">
-              <span data-en="WhatsApp / Phone" data-id="WhatsApp / Telp">WhatsApp / Phone</span>
+        <!-- row 2 -->
+        <div class="res__row">
+          <div class="res__field">
+            <label for="r-phone" class="res__label">
+              <span data-en="whatsapp / phone" data-id="whatsapp / telepon">whatsapp / phone</span>
             </label>
-            <input
-              type="tel" id="res-phone" name="phone"
-              class="res-field__input"
-              placeholder="+62 ..."
-              autocomplete="tel"
-            >
-            <span class="res-field__border" aria-hidden="true"></span>
+            <input type="tel" id="r-phone" name="phone" class="pc-input" placeholder="+62 …" autocomplete="tel">
           </div>
-          <div class="res-field">
-            <label for="res-guests" class="res-field__label">
-              <span data-en="Number of Guests" data-id="Jumlah Tamu">Number of Guests</span>
+          <div class="res__field">
+            <label for="r-guests" class="res__label">
+              <span data-en="guests" data-id="jumlah tamu">guests</span>
             </label>
-            <select id="res-guests" name="guests" class="res-field__input">
-              <option value="" data-en="Select..." data-id="Pilih...">Select...</option>
-              <option value="1" data-en="1 guest" data-id="1 tamu">1 guest</option>
-              <option value="2" data-en="2 guests" data-id="2 tamu">2 guests</option>
-              <option value="3-5" data-en="3–5 guests" data-id="3–5 tamu">3–5 guests</option>
-              <option value="6-10" data-en="6–10 guests" data-id="6–10 tamu">6–10 guests</option>
-              <option value="10+" data-en="10+ (Private event)" data-id="10+ (Acara Privat)">10+ (Private event)</option>
+            <select id="r-guests" name="guests" class="pc-input">
+              <option value="" data-en="select…" data-id="pilih…">select…</option>
+              <option value="1"   data-en="1 guest"            data-id="1 tamu">1 guest</option>
+              <option value="2"   data-en="2 guests"           data-id="2 tamu">2 guests</option>
+              <option value="3-5" data-en="3–5 guests"         data-id="3–5 tamu">3–5 guests</option>
+              <option value="6-10"data-en="6–10 guests"        data-id="6–10 tamu">6–10 guests</option>
+              <option value="10+" data-en="10+ (private event)"data-id="10+ (acara privat)">10+ (private event)</option>
             </select>
-            <span class="res-field__border" aria-hidden="true"></span>
           </div>
         </div>
 
-        <!-- Date + Time -->
-        <div class="res-form__row">
-          <div class="res-field">
-            <label for="res-date" class="res-field__label">
-              <span data-en="Preferred Date" data-id="Tanggal Pilihan">Preferred Date</span>
+        <!-- row 3 -->
+        <div class="res__row">
+          <div class="res__field">
+            <label for="r-date" class="res__label">
+              <span data-en="preferred date" data-id="tanggal pilihan">preferred date</span>
             </label>
-            <input type="date" id="res-date" name="date" class="res-field__input">
-            <span class="res-field__border" aria-hidden="true"></span>
+            <input type="date" id="r-date" name="date" class="pc-input">
           </div>
-          <div class="res-field">
-            <label for="res-time" class="res-field__label">
-              <span data-en="Preferred Time" data-id="Waktu Pilihan">Preferred Time</span>
+          <div class="res__field">
+            <label for="r-time" class="res__label">
+              <span data-en="preferred time" data-id="waktu pilihan">preferred time</span>
             </label>
-            <select id="res-time" name="time" class="res-field__input">
-              <option value="">Select time...</option>
-              <option value="07:00" data-en="7:00 AM — Sunrise 🌅" data-id="07.00 — Matahari Terbit 🌅">7:00 AM — Sunrise 🌅</option>
-              <option value="09:00" data-en="9:00 AM — Morning ☀️" data-id="09.00 — Pagi ☀️">9:00 AM — Morning ☀️</option>
-              <option value="12:00" data-en="12:00 PM — Lunch 🍽️" data-id="12.00 — Makan Siang 🍽️">12:00 PM — Lunch 🍽️</option>
-              <option value="15:00" data-en="3:00 PM — Afternoon 🌤️" data-id="15.00 — Sore 🌤️">3:00 PM — Afternoon 🌤️</option>
-              <option value="17:30" data-en="5:30 PM — Sunset 🌅" data-id="17.30 — Senja 🌅">5:30 PM — Sunset 🌅</option>
-              <option value="19:00" data-en="7:00 PM — Dinner 🌙" data-id="19.00 — Makan Malam 🌙">7:00 PM — Dinner 🌙</option>
+            <select id="r-time" name="time" class="pc-input">
+              <option value="">select time…</option>
+              <option value="07:00" data-en="7:00 am — sunrise 🌅" data-id="07.00 — matahari terbit 🌅">7:00 am — sunrise 🌅</option>
+              <option value="09:00" data-en="9:00 am — morning ☀️" data-id="09.00 — pagi ☀️">9:00 am — morning ☀️</option>
+              <option value="12:00" data-en="12:00 pm — lunch 🍽️"  data-id="12.00 — makan siang 🍽️">12:00 pm — lunch 🍽️</option>
+              <option value="15:00" data-en="3:00 pm — afternoon 🌤️" data-id="15.00 — sore 🌤️">3:00 pm — afternoon 🌤️</option>
+              <option value="17:30" data-en="5:30 pm — sunset 🌅"  data-id="17.30 — senja 🌅">5:30 pm — sunset 🌅</option>
+              <option value="19:00" data-en="7:00 pm — dinner 🌙"  data-id="19.00 — makan malam 🌙">7:00 pm — dinner 🌙</option>
             </select>
-            <span class="res-field__border" aria-hidden="true"></span>
           </div>
         </div>
 
-        <!-- Message -->
-        <div class="res-field">
-          <label for="res-message" class="res-field__label">
-            <span data-en="Special Requests" data-id="Permintaan Khusus">Special Requests</span>
+        <!-- notes -->
+        <div class="res__field">
+          <label for="r-msg" class="res__label">
+            <span data-en="special requests" data-id="permintaan khusus">special requests</span>
           </label>
-          <textarea
-            id="res-message" name="message"
-            class="res-field__input res-field__input--textarea"
-            rows="3"
-            placeholder="Allergies, celebrations, seating preferences... / Alergi, perayaan, preferensi tempat duduk..."
+          <textarea id="r-msg" name="message" class="pc-input" rows="3"
+            placeholder="allergies, special occasions, seating preferences…"
           ></textarea>
-          <span class="res-field__border" aria-hidden="true"></span>
         </div>
 
-        <!-- Submit -->
-        <button type="submit" id="form-submit" class="res-btn-submit">
-          <span class="res-btn-submit__text" data-en="☕ Send Reservation Request" data-id="☕ Kirim Permintaan Reservasi">
-            ☕ Send Reservation Request
-          </span>
-          <span class="res-btn-submit__shine" aria-hidden="true"></span>
+        <!-- submit -->
+        <button type="submit" id="res-submit" class="btn btn-primary res__submit">
+          <span class="res__submit-text" data-en="☕ send reservation" data-id="☕ kirim reservasi">☕ send reservation</span>
         </button>
 
-        <p class="res-form__note"
-           data-en="We respond within 2 hours · Free to reserve · No credit card required"
-           data-id="Kami merespons dalam 2 jam · Gratis reservasi · Tanpa kartu kredit">
-          We respond within 2 hours · Free to reserve · No credit card required
+        <p class="res__note"
+           data-en="we reply within 2 hours · free · no credit card needed"
+           data-id="kami membalas dalam 2 jam · gratis · tanpa kartu kredit">
+          we reply within 2 hours · free · no credit card needed
         </p>
       </form>
 
-      <!-- Success state -->
-      <div id="form-success" class="res-success" hidden>
-        <div class="res-success__icon">🎉</div>
-        <h3 class="res-success__title" data-en="Reservation Received!" data-id="Reservasi Diterima!">Reservation Received!</h3>
-        <p class="res-success__msg"
-           data-en="We'll confirm your table within 2 hours. See you at Pantai Biaung! 🌊"
-           data-id="Kami akan mengkonfirmasi meja Anda dalam 2 jam. Sampai jumpa di Pantai Biaung! 🌊">
-          We'll confirm your table within 2 hours. See you at Pantai Biaung! 🌊
+      <!-- success -->
+      <div id="res-success" class="res__success" hidden>
+        <div class="res__success-icon">🎉</div>
+        <h3 data-en="reservation received!" data-id="reservasi diterima!">reservation received!</h3>
+        <p data-en="we'll confirm your table within 2 hours. see you at pantai biaung 🌊"
+           data-id="kami akan mengkonfirmasi meja anda dalam 2 jam. sampai jumpa di pantai biaung 🌊">
+          we'll confirm your table within 2 hours. see you at pantai biaung 🌊
         </p>
-        <a href="#menu" class="res-success__back"
-           data-en="← Explore our menu" data-id="← Lihat menu kami">
-          ← Explore our menu
-        </a>
+        <a href="#menu" class="btn btn-outline" data-en="← explore menu" data-id="← lihat menu">← explore menu</a>
       </div>
 
     </div>
   </div>
-
-  <!-- Bottom wave -->
-  <div class="res-section__wave-bottom" aria-hidden="true">
-    <svg viewBox="0 0 1200 60" preserveAspectRatio="none">
-      <path d="M0,40 C300,0 900,60 1200,20 L1200,60 L0,60 Z" fill="#09070F"/>
-    </svg>
-  </div>
-
 </section>
 
-<!-- ══ STYLES ════════════════════════════════════════════════ -->
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap');
-
-  /* ── Section ────────────────────────────────────────────── */
-  .res-section {
-    position: relative;
-    background: linear-gradient(160deg, #0f0c18 0%, #180d08 50%, #09070F 100%);
-    padding: 6rem 0 0;
-    overflow: hidden;
-    font-family: 'Jost', sans-serif;
-  }
-  .res-section__glow {
-    position: absolute;
-    width: 50%;
-    height: 60%;
-    border-radius: 50%;
-    filter: blur(100px);
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.12;
-  }
-  .res-section__glow--left {
-    left: -20%; top: 0%;
-    background: radial-gradient(ellipse, #FF6B35, transparent 70%);
-  }
-  .res-section__glow--right {
-    right: -15%; top: 20%;
-    background: radial-gradient(ellipse, #F7931E, transparent 70%);
-  }
-  .res-section__wave-bottom {
-    position: relative;
-    height: 60px;
-    line-height: 0;
-    margin-top: 4rem;
-  }
-  .res-section__wave-bottom svg { width: 100%; height: 100%; }
-
-  /* ── Inner layout ───────────────────────────────────────── */
-  .res-inner {
-    position: relative;
-    z-index: 1;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem 1.5rem;
+  /* ── Layout ──────────────────────────────────────────────── */
+  .res__inner {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 4rem;
+    gap: 5rem;
     align-items: start;
   }
   @media (max-width: 860px) {
-    .res-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .res__inner { grid-template-columns: 1fr; gap: 3rem; }
   }
 
-  /* ── Info side ──────────────────────────────────────────── */
-  .res-eyebrow {
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: #F7931E;
-    margin: 0 0 0.75rem;
+  /* ── Left info ───────────────────────────────────────────── */
+  .res__title {
+    text-transform: lowercase;
+    margin: 0.4rem 0 1rem;
   }
-  .res-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.2rem, 5vw, 3.2rem);
-    font-weight: 500;
-    color: #FDF6EC;
-    margin: 0 0 1rem;
-    line-height: 1.1;
-  }
-  .res-title em {
+  .res__title em {
     font-style: italic;
-    font-weight: 300;
-    background: linear-gradient(135deg, #FF9A5C, #FFD166);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    font-weight: 400;
+    background: linear-gradient(135deg, var(--gold-lt), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
-  .res-subtitle {
-    font-size: 0.92rem;
+  .res__sub {
+    font-size: 0.88rem;
     font-weight: 300;
-    color: rgba(253,246,236,0.5);
+    color: var(--muted);
     line-height: 1.7;
     margin: 0 0 2rem;
+    text-transform: lowercase;
   }
 
-  /* Info cards */
-  .res-info-cards {
+  /* info cards grid */
+  .res__cards {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0.75rem;
+    gap: 0.65rem;
     margin-bottom: 2rem;
   }
-  .res-info-card {
+  .res__card {
     display: flex;
     align-items: flex-start;
-    gap: 0.75rem;
-    padding: 0.9rem 1rem;
-    border-radius: 12px;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.07);
-    transition: border-color 0.25s, background 0.25s;
+    gap: 0.65rem;
+    padding: 0.8rem 0.9rem;
+    cursor: default;
   }
-  .res-info-card:hover {
-    border-color: rgba(247,147,30,0.2);
-    background: rgba(247,147,30,0.04);
-  }
-  .res-info-card__icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
-  .res-info-card__text {
+  .res__card-icon { font-size: 1.1rem; flex-shrink: 0; line-height: 1.4; }
+  .res__card div {
     display: flex;
     flex-direction: column;
     gap: 2px;
   }
-  .res-info-card__text strong {
-    font-size: 0.72rem;
+  .res__card strong {
+    font-size: 0.68rem;
     font-weight: 600;
-    color: #FDF6EC;
-    letter-spacing: 0.04em;
+    color: var(--cream);
+    letter-spacing: 0.06em;
+    text-transform: lowercase;
   }
-  .res-info-card__text span {
-    font-size: 0.72rem;
+  .res__card span {
+    font-size: 0.68rem;
     font-weight: 300;
-    color: rgba(253,246,236,0.45);
+    color: var(--muted);
+    text-transform: lowercase;
+    line-height: 1.4;
   }
 
-  /* Socials */
-  .res-socials {
+  /* socials */
+  .res__socials {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
+    gap: 0.55rem;
     flex-wrap: wrap;
   }
-  .res-social-btn {
+  .res__social-btn {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    width: 40px; height: 40px;
+    justify-content: center;
+    width: 38px; height: 38px;
     border-radius: 50%;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    font-size: 1rem;
+    background: var(--glass);
+    border: 1px solid var(--border);
+    font-size: 0.95rem;
     cursor: pointer;
     text-decoration: none;
-    transition: all 0.25s;
-    justify-content: center;
-    color: #FDF6EC;
+    transition: transform 0.2s, border-color 0.2s, background 0.2s;
+    color: var(--cream);
   }
-  .res-social-btn:hover {
-    background: rgba(247,147,30,0.1);
-    border-color: rgba(247,147,30,0.3);
+  .res__social-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 14px rgba(247,147,30,0.2);
+    border-color: rgba(201,146,74,0.3);
+    background: rgba(201,146,74,0.06);
+    color: var(--cream);
   }
-  .res-social-btn--wa {
+  .res__social-wa {
     width: auto;
     border-radius: 50px;
     padding: 0 1rem;
-    background: rgba(37,211,102,0.08);
-    border-color: rgba(37,211,102,0.2);
-    color: #25d366;
+    background: rgba(37,211,102,0.07);
+    border-color: rgba(37,211,102,0.18);
+    color: #4ade80;
+    gap: 6px;
   }
-  .res-social-btn--wa:hover {
-    background: rgba(37,211,102,0.15);
-    border-color: rgba(37,211,102,0.4);
-  }
-  .res-social-btn__label {
-    font-size: 0.78rem;
-    font-weight: 500;
-    white-space: nowrap;
-  }
+  .res__social-wa:hover { border-color: rgba(37,211,102,0.35); color: #4ade80; }
+  .res__wa-label { font-size: 0.74rem; font-weight: 400; white-space: nowrap; }
 
-  /* ── Form side ──────────────────────────────────────────── */
-  .res-form-wrap {
-    position: relative;
-  }
-  .res-form {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 20px;
+  /* ── Form ────────────────────────────────────────────────── */
+  .res__form {
+    background: var(--glass);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
     padding: 2rem;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
   }
-  .res-form__hidden { display: none; }
-  .res-form__title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.5rem;
+  .res__honeypot { display: none; }
+  .res__form-title {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
     font-weight: 500;
-    color: #FDF6EC;
+    color: var(--cream);
     margin: 0 0 1.5rem;
+    text-transform: lowercase;
   }
-  .res-form__row {
+  .res__row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+    gap: 0.85rem;
   }
-  @media (max-width: 560px) {
-    .res-form__row { grid-template-columns: 1fr; }
-    .res-form { padding: 1.25rem; }
-  }
-
-  /* Field */
-  .res-field {
-    position: relative;
+  @media (max-width: 500px) { .res__row { grid-template-columns: 1fr; } }
+  .res__field {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    margin-bottom: 1rem;
+    gap: 5px;
+    margin-bottom: 0.85rem;
   }
-  .res-field__label {
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: rgba(253,246,236,0.45);
-    display: flex;
-    align-items: center;
-    gap: 3px;
-  }
-  .res-field__req { color: #FF6B35; }
-  .res-field__input {
-    width: 100%;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 10px;
-    padding: 0.75rem 1rem;
-    font-family: 'Jost', sans-serif;
-    font-size: 0.88rem;
-    font-weight: 400;
-    color: #FDF6EC;
-    outline: none;
-    transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
-    appearance: none;
-    -webkit-appearance: none;
-    box-sizing: border-box;
-  }
-  .res-field__input::placeholder { color: rgba(253,246,236,0.25); }
-  .res-field__input:focus {
-    border-color: rgba(247,147,30,0.5);
-    background: rgba(247,147,30,0.04);
-    box-shadow: 0 0 0 3px rgba(247,147,30,0.1);
-  }
-  .res-field__input--textarea { resize: none; line-height: 1.6; }
-  select.res-field__input option { background: #1a0d08; color: #FDF6EC; }
-  input[type="date"].res-field__input::-webkit-calendar-picker-indicator {
-    filter: invert(0.6);
-    cursor: pointer;
-  }
-
-  /* Submit */
-  .res-btn-submit {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 0.95rem 1.5rem;
-    border-radius: 50px;
-    border: none;
-    background: linear-gradient(135deg, #FF6B35, #F7931E, #FFD166);
-    font-family: 'Jost', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 700;
+  .res__label {
+    font-size: 0.68rem;
+    font-weight: 500;
     letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: #09070F;
-    cursor: pointer;
-    transition: transform 0.25s, box-shadow 0.3s, opacity 0.2s;
-    margin-top: 0.5rem;
+    color: var(--muted);
+    text-transform: lowercase;
+    display: flex;
+    gap: 2px;
+    align-items: center;
   }
-  .res-btn-submit:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 28px rgba(255,107,53,0.5);
-  }
-  .res-btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
-  .res-btn-submit__shine {
-    position: absolute;
-    top: 0; left: -100%;
-    width: 60%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
-    transform: skewX(-20deg);
-    transition: left 0.6s ease;
-  }
-  .res-btn-submit:hover .res-btn-submit__shine { left: 160%; }
+  .res__req { color: var(--coral); }
+  select.pc-input option { background: #1a1110; color: var(--cream); }
+  input[type="date"].pc-input::-webkit-calendar-picker-indicator { filter: invert(0.6); cursor: pointer; }
+  textarea.pc-input { resize: none; line-height: 1.6; }
 
-  .res-form__note {
+  .res__submit {
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.8rem;
+  }
+  .res__note {
     text-align: center;
-    font-size: 0.7rem;
-    color: rgba(253,246,236,0.3);
-    margin: 0.75rem 0 0;
+    font-size: 0.66rem;
+    font-weight: 300;
+    color: var(--muted);
+    margin: 0.65rem 0 0;
     line-height: 1.5;
+    text-transform: lowercase;
   }
 
-  /* ── Success state ──────────────────────────────────────── */
-  .res-success {
+  /* ── Success ─────────────────────────────────────────────── */
+  .res__success {
+    background: var(--glass);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 3rem 2rem;
+    text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 3rem 2rem;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 20px;
-    min-height: 400px;
     gap: 1rem;
+    min-height: 380px;
+    justify-content: center;
   }
-  .res-success__icon { font-size: 3.5rem; animation: bounce-in 0.6s cubic-bezier(0.34,1.56,0.64,1); }
-  @keyframes bounce-in {
-    from { transform: scale(0) rotate(-20deg); opacity: 0; }
-    to   { transform: scale(1) rotate(0);      opacity: 1; }
-  }
-  .res-success__title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 2rem;
-    font-weight: 500;
-    color: #FDF6EC;
-    margin: 0;
-  }
-  .res-success__msg {
-    font-size: 0.9rem;
-    font-weight: 300;
-    color: rgba(253,246,236,0.55);
-    max-width: 300px;
-    line-height: 1.7;
-    margin: 0;
-  }
-  .res-success__back {
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: #F7931E;
-    text-decoration: none;
-    letter-spacing: 0.06em;
-    transition: opacity 0.2s;
-  }
-  .res-success__back:hover { opacity: 0.7; }
   [hidden] { display: none !important; }
+  .res__success-icon { font-size: 3rem; animation: pop-in 0.5s cubic-bezier(0.34,1.56,0.64,1); }
+  @keyframes pop-in { from { transform: scale(0); } to { transform: scale(1); } }
+  .res__success h3 {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 500;
+    text-transform: lowercase;
+    margin: 0;
+  }
+  .res__success p { font-size: 0.85rem; max-width: 280px; text-transform: lowercase; }
+
+  /* reveal */
+  .reveal-scale {
+    opacity: 0;
+    transform: scale(0.97);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal-scale.in { opacity: 1; transform: scale(1); }
+
+  @media (max-width: 500px) {
+    .res__form { padding: 1.25rem; }
+  }
 </style>
 
-<!-- ══ SCRIPT ════════════════════════════════════════════════ -->
 <script>
-  // ── Date min ───────────────────────────────────────────────
-  const dateInput = document.getElementById('res-date') as HTMLInputElement;
+  // date min
+  const dateInput = document.getElementById('r-date') as HTMLInputElement;
   if (dateInput) {
-    const now = new Date();
-    const y = now.getFullYear();
-    const m = String(now.getMonth()+1).padStart(2,'0');
-    const d = String(now.getDate()).padStart(2,'0');
-    dateInput.min = `${y}-${m}-${d}`;
+    const n = new Date();
+    const p = (v: number) => String(v).padStart(2,'0');
+    dateInput.min = `${n.getFullYear()}-${p(n.getMonth()+1)}-${p(n.getDate())}`;
   }
 
-  // ── Form submission ────────────────────────────────────────
-  const form       = document.getElementById('reservation-form') as HTMLFormElement;
-  const submitBtn  = document.getElementById('form-submit') as HTMLButtonElement;
-  const success    = document.getElementById('form-success')!;
-  const submitText = submitBtn?.querySelector('.res-btn-submit__text') as HTMLElement;
+  // form
+  const form       = document.getElementById('res-form') as HTMLFormElement;
+  const submitBtn  = document.getElementById('res-submit') as HTMLButtonElement;
+  const success    = document.getElementById('res-success')!;
+  const submitText = submitBtn?.querySelector('.res__submit-text') as HTMLElement;
 
-  function showToast(type: string, title: string, msg: string) {
-    window.dispatchEvent(new CustomEvent('pc:toast', { detail: { type, title, message: msg } }));
-  }
+  const toast = (type: string, title: string, msg: string) =>
+    window.dispatchEvent(new CustomEvent('pc:toast', { detail:{ type, title, message: msg } }));
 
-  if (form) {
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
+  form?.addEventListener('submit', async e => {
+    e.preventDefault();
+    const name  = (document.getElementById('r-name')  as HTMLInputElement).value.trim();
+    const email = (document.getElementById('r-email') as HTMLInputElement).value.trim();
+    if (!name)    { toast('error','name required','please enter your full name.'); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { toast('error','invalid email','please enter a valid email.'); return; }
 
-      const name  = (document.getElementById('res-name')  as HTMLInputElement).value.trim();
-      const email = (document.getElementById('res-email') as HTMLInputElement).value.trim();
-      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    submitBtn.disabled = true;
+    if (submitText) submitText.textContent = 'sending… ✈️';
 
-      if (!name)    { showToast('error', 'Name required', 'Please enter your full name.');         return; }
-      if (!emailOk) { showToast('error', 'Invalid email', 'Please enter a valid email address.'); return; }
-
-      submitBtn.disabled = true;
-      if (submitText) submitText.textContent = 'Sending... ✈️';
-
-      try {
-        const res = await fetch('/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams(new FormData(form) as unknown as Record<string,string>).toString(),
-        });
-        if (res.ok) {
-          form.hidden = true;
-          success.hidden = false;
-          // @ts-ignore
-          if (window.plausible) window.plausible('Reservation Submit');
-          showToast('success', 'Reservation Received! 🎉', "We'll confirm your table within 2 hours.");
-        } else {
-          throw new Error();
-        }
-      } catch {
-        showToast('error', 'Something went wrong', 'Please try WhatsApp or call us directly.');
-        submitBtn.disabled = false;
-        if (submitText) submitText.textContent = '☕ Send Reservation Request';
-      }
-    });
-  }
-
-  // ── Share ──────────────────────────────────────────────────
-  const shareBtn = document.getElementById('share-btn')!;
-  if (shareBtn) {
-    shareBtn.addEventListener('click', async () => {
-      try {
-        if (navigator.share) {
-          await navigator.share({
-            title: 'put.in coffee — Beachfront Café Sanur Bali',
-            text: 'The most magical coffee spot on Pantai Biaung ☕🌊',
-            url: window.location.href,
-          });
-        } else {
-          await navigator.clipboard.writeText(window.location.href);
-          showToast('success', 'Link copied! 🔗', 'Share put.in coffee with your friends ☕');
-        }
+    try {
+      const res = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(new FormData(form) as unknown as Record<string,string>).toString(),
+      });
+      if (res.ok) {
+        form.hidden = true;
+        success.hidden = false;
         // @ts-ignore
-        if (window.plausible) window.plausible('Share Click');
-      } catch {}
-    });
-  }
+        if (window.plausible) window.plausible('Reservation Submit');
+        toast('success','reservation received! 🎉',"we'll confirm your table within 2 hours.");
+      } else throw new Error();
+    } catch {
+      toast('error','something went wrong','please try whatsapp or call us directly.');
+      submitBtn.disabled = false;
+      if (submitText) submitText.textContent = '☕ send reservation';
+    }
+  });
 
-  // ── WhatsApp tracking ──────────────────────────────────────
+  // share
+  document.getElementById('share-btn')?.addEventListener('click', async () => {
+    try {
+      if (navigator.share) {
+        await navigator.share({ title:'put.in coffee — pantai biaung', text:'the best coffee spot on the beach ☕🌊', url: location.href });
+      } else {
+        await navigator.clipboard.writeText(location.href);
+        toast('success','link copied! 🔗','share put.in coffee with your friends');
+      }
+    } catch {}
+  });
+
   document.getElementById('whatsapp-link')?.addEventListener('click', () => {
     // @ts-ignore
     if (window.plausible) window.plausible('WhatsApp Click');
   });
 
-  // ── Language ───────────────────────────────────────────────
+  // language
   document.addEventListener('pc:lang', ((e: CustomEvent) => {
-    const isID = e.detail.isID;
+    const isID = e.detail.isID as boolean;
     document.querySelectorAll<HTMLElement>('[data-en][data-id]').forEach(el => {
-      const skip = el.tagName === 'OPTION' || el.tagName === 'SELECT';
-      if (!skip) {
-        const val = isID ? el.dataset.id : el.dataset.en;
-        if (val !== undefined) el.textContent = val;
-      }
+      if (el.tagName === 'SELECT' || el.tagName === 'OPTION') return;
+      const val = isID ? el.dataset.id : el.dataset.en;
+      if (val !== undefined) el.textContent = val;
     });
-    // Update select options
-    document.querySelectorAll<HTMLOptionElement>('option[data-en]').forEach(opt => {
-      const val = isID ? opt.dataset.id : opt.dataset.en;
-      if (val) opt.textContent = val;
+    document.querySelectorAll<HTMLOptionElement>('option[data-en]').forEach(o => {
+      const val = isID ? o.dataset.id : o.dataset.en;
+      if (val) o.textContent = val;
     });
   }) as EventListener);
+
+  // reveal
+  const ro = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); ro.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal, .reveal-scale').forEach(el => ro.observe(el));
 </script>

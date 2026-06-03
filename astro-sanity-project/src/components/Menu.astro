@@ -1,773 +1,526 @@
 ---
 // src/components/Menu.astro
-// Complete menu from Artboard_1 (Beverages) + Artboard_2 (Food)
-// Bilingual EN / Bahasa Indonesia · Sunset Beach Theme
+// Complete menu · refined · lowercase · EN / ID
 
-// ── Type definitions ────────────────────────────────────────
-interface MenuItem {
-  id: string;
-  name: string;
-  nameId: string;
-  description?: string;
-  descriptionId?: string;
-  price: string;
-  category: string;
+interface Item {
+  id: string; name: string; nameId: string;
+  desc?: string; descId?: string;
+  price: string; category: string;
   tag?: 'bestseller' | 'new' | 'signature';
-  emoji: string;
-  note?: string;
-  noteId?: string;
+  emoji: string; size?: string;
 }
 
-// ── Full menu data (from Artboard_1 & Artboard_2) ───────────
-const menuItems: MenuItem[] = [
-  // ── HOT COFFEE ───────────────────────────────────────────
-  {
-    id: 'h1', name: 'Americano', nameId: 'Americano',
-    description: 'Classic double shot, clean & bold',
-    descriptionId: 'Double shot klasik, bersih & kuat',
-    price: '15K', category: 'coffee', emoji: '☕',
-  },
-  {
-    id: 'h2', name: 'Cappuccino', nameId: 'Cappuccino',
-    description: 'Espresso with velvety microfoam milk',
-    descriptionId: 'Espresso dengan susu berbusa lembut',
-    price: '20K', category: 'coffee', emoji: '☕',
-  },
-  {
-    id: 'h3', name: 'Latte', nameId: 'Latte',
-    description: 'Smooth espresso layered with steamed milk',
-    descriptionId: 'Espresso lembut berlapis susu hangat',
-    price: '20K', category: 'coffee', emoji: '🥛',
-  },
-  // ── ICE COFFEE ───────────────────────────────────────────
-  {
-    id: 'ic1', name: 'Ice Americano', nameId: 'Es Americano',
-    description: 'Bold espresso over ice',
-    descriptionId: 'Espresso kuat dituang di atas es',
-    price: '17K / 20K', category: 'coffee', emoji: '🧊', note: 'M / L', noteId: 'M / L',
-  },
-  {
-    id: 'ic2', name: 'Ice Americano Citrus', nameId: 'Es Americano Jeruk',
-    description: 'Espresso with a bright citrus twist',
-    descriptionId: 'Espresso dengan sentuhan jeruk segar',
-    price: '20K / 23K', category: 'coffee', emoji: '🍋', note: 'M / L',
-  },
-  {
-    id: 'ic3', name: 'Ice Cappuccino', nameId: 'Es Cappuccino',
-    description: 'Iced espresso with silky cold foam',
-    descriptionId: 'Espresso dingin dengan busa lembut',
-    price: '23K / 26K', category: 'coffee', emoji: '☕', note: 'M / L',
-  },
-  {
-    id: 'ic4', name: 'Ice Latte', nameId: 'Es Latte',
-    description: 'Chilled espresso with fresh cold milk',
-    descriptionId: 'Espresso dingin dengan susu segar',
-    price: '23K / 26K', category: 'coffee', emoji: '🥛', note: 'M / L',
-  },
-  {
-    id: 'ic5', name: 'Ice Caramel Latte', nameId: 'Es Latte Karamel',
-    description: 'Rich caramel drizzle meets iced latte',
-    descriptionId: 'Sirup karamel bertemu es latte',
-    price: '24K / 27K', category: 'coffee', emoji: '🍮', note: 'M / L',
-  },
-  {
-    id: 'ic6', name: 'Ice Butterscotch Latte', nameId: 'Es Latte Karamel Mentega',
-    description: 'Warm butterscotch notes on cold milk',
-    descriptionId: 'Karamel mentega dengan susu dingin',
-    price: '24K / 27K', category: 'coffee', emoji: '🧈', note: 'M / L',
-  },
-  {
-    id: 'ic7', name: 'Ice Vanilla Latte', nameId: 'Es Latte Vanila',
-    description: 'Madagascar vanilla with cold espresso',
-    descriptionId: 'Vanila Madagaskar dengan espresso dingin',
-    price: '24K / 27K', category: 'coffee', emoji: '🌿', note: 'M / L',
-  },
-  {
-    id: 'ic8', name: 'Ice Brown Sugar Latte', nameId: 'Es Latte Gula Aren',
-    description: 'House brown sugar syrup & espresso',
-    descriptionId: 'Sirup gula aren spesial & espresso',
-    price: '24K / 27K', category: 'coffee', emoji: '🍫', note: 'M / L',
-  },
-  {
-    id: 'ic9', name: 'Ice Hazelnut Latte', nameId: 'Es Latte Hazelnut',
-    description: 'Nutty hazelnut with rich cold latte',
-    descriptionId: 'Hazelnut kacang dengan es latte',
-    price: '24K / 27K', category: 'coffee', emoji: '🌰', note: 'M / L',
-  },
-  // ── SIGNATURE ────────────────────────────────────────────
-  {
-    id: 's1', name: 'Ice Blonde', nameId: 'Es Blonde',
-    description: 'Single shot, butterscotch, caramel, fresh milk, cream, sea salt & caramel crumbles',
-    descriptionId: 'Single shot, karamel mentega, karamel, susu segar, krim, garam laut & remah karamel',
-    price: '25K / 28K', category: 'signature', tag: 'signature', emoji: '🌅', note: 'M / L',
-  },
-  {
-    id: 's2', name: 'Ice Beige', nameId: 'Es Beige',
-    description: 'Single shot, palm sugar, fresh milk, cream, sea salt',
-    descriptionId: 'Single shot, gula aren, susu segar, krim, garam laut',
-    price: '25K / 28K', category: 'signature', tag: 'bestseller', emoji: '🌾', note: 'M / L',
-  },
-  {
-    id: 's3', name: 'Ice Coca Coffee', nameId: 'Es Kopi Kakao',
-    description: 'Double shot, cocoa, caramel sauce, fresh milk',
-    descriptionId: 'Double shot, kakao, saus karamel, susu segar',
-    price: '26K / 29K', category: 'signature', tag: 'new', emoji: '🍫', note: 'M / L',
-  },
-  // ── NON COFFEE ───────────────────────────────────────────
-  {
-    id: 'nc1', name: 'Chocolate Hazelnut', nameId: 'Coklat Hazelnut',
-    description: 'Rich chocolate blended with roasted hazelnut',
-    descriptionId: 'Coklat kaya berpadu hazelnut panggang',
-    price: '24K / 27K', category: 'non-coffee', emoji: '🍫', note: 'M / L',
-  },
-  {
-    id: 'nc2', name: 'Chocolate', nameId: 'Coklat',
-    description: 'Creamy house chocolate blend',
-    descriptionId: 'Campuran coklat krim spesial',
-    price: '20K / 23K', category: 'non-coffee', emoji: '🍫', note: 'M / L',
-  },
-  {
-    id: 'nc3', name: 'Matcha', nameId: 'Matcha',
-    description: 'Ceremonial grade Japanese green tea',
-    descriptionId: 'Teh hijau Jepang kelas upacara',
-    price: '20K / 23K', category: 'non-coffee', emoji: '🍵', note: 'M / L',
-  },
-  {
-    id: 'nc4', name: 'Matcha Strawberry', nameId: 'Matcha Stroberi',
-    description: 'Layered matcha and fresh strawberry',
-    descriptionId: 'Lapisan matcha dan stroberi segar',
-    price: '24K / 27K', category: 'non-coffee', emoji: '🍓', note: 'M / L',
-  },
-  {
-    id: 'nc5', name: 'Strawberry', nameId: 'Stroberi',
-    description: 'Fresh blended strawberry smoothie',
-    descriptionId: 'Smoothie stroberi segar blended',
-    price: '20K / 23K', category: 'non-coffee', emoji: '🍓', note: 'M / L',
-  },
-  {
-    id: 'nc6', name: 'Thai Tea', nameId: 'Thai Tea',
-    description: 'Aromatic Thai tea with condensed milk',
-    descriptionId: 'Teh Thailand aromatik dengan susu kental',
-    price: '20K / 23K', category: 'non-coffee', emoji: '🧡', note: 'M / L',
-  },
-  {
-    id: 'nc7', name: 'Lemon Tea', nameId: 'Teh Lemon',
-    description: 'House-brewed tea with fresh squeezed lemon',
-    descriptionId: 'Teh seduhan spesial dengan perasan lemon',
-    price: '15K / 18K', category: 'non-coffee', emoji: '🍋', note: 'M / L',
-  },
-  // ── BEER & COCKTAILS ─────────────────────────────────────
-  {
-    id: 'b1', name: 'Bali Hai Beer (Small)', nameId: 'Bir Bali Hai (Kecil)',
-    description: 'Crisp local Bali Hai bottled beer',
-    descriptionId: 'Bir Bali Hai botol segar',
-    price: '30K', category: 'beer', emoji: '🍺',
-  },
-  {
-    id: 'b2', name: 'Large Draft Beer', nameId: 'Bir Draught Besar',
-    description: 'Refreshing large draught pour',
-    descriptionId: 'Bir draught segar ukuran besar',
-    price: '45K', category: 'beer', emoji: '🍺',
-  },
-  {
-    id: 'b3', name: 'Tower Draft Beer', nameId: 'Tower Bir Draught',
-    description: '5 large drafts in a tower — save 25K',
-    descriptionId: '5 bir draught besar dalam tower — hemat 25K',
-    price: '200K', category: 'beer', tag: 'bestseller', emoji: '🗼', note: '5 Large Drafts',
-  },
-  {
-    id: 'b4', name: 'Tropical Tomaz', nameId: 'Koktail Tropical Tomaz',
-    description: 'House tropical cocktail, sweet & refreshing',
-    descriptionId: 'Koktail tropis spesial, manis & segar',
-    price: '60K', category: 'beer', tag: 'signature', emoji: '🍹',
-  },
-  // ── FOOD ─────────────────────────────────────────────────
-  {
-    id: 'f1', name: 'Nasi Ayam Lengkuas', nameId: 'Nasi Ayam Lengkuas',
-    description: 'Galangal fried chicken, rice, sambal hijau, chili oil & cassava greens',
-    descriptionId: 'Ayam goreng lengkuas, nasi, sambal hijau, minyak cabai & sayur singkong',
-    price: '28K', category: 'food', tag: 'bestseller', emoji: '🍚',
-  },
-  {
-    id: 'f2', name: 'Nasi Goreng', nameId: 'Nasi Goreng',
-    description: 'Indonesian fried rice with egg & kerupuk',
-    descriptionId: 'Nasi goreng Indonesia dengan telur & kerupuk',
-    price: '20K', category: 'food', emoji: '🍳',
-  },
-  {
-    id: 'f3', name: 'Spaghetti Bolognese', nameId: 'Spageti Bolognese',
-    description: 'Classic Italian-style beef bolognese',
-    descriptionId: 'Spageti daging giling sapi ala Italia',
-    price: '22K', category: 'food', emoji: '🍝',
-  },
-  {
-    id: 'f4', name: 'Mie Goreng', nameId: 'Mie Goreng',
-    description: 'Savory Indonesian stir-fried noodles',
-    descriptionId: 'Mie goreng Indonesia yang gurih',
-    price: '18K', category: 'food', emoji: '🍜',
-  },
-  {
-    id: 'f5', name: 'Mie Kuah', nameId: 'Mie Kuah',
-    description: 'Comforting broth noodle soup',
-    descriptionId: 'Mie kuah hangat yang menenangkan',
-    price: '18K', category: 'food', emoji: '🍲',
-  },
-  {
-    id: 'f6', name: 'Kids Meal', nameId: 'Menu Anak',
-    description: 'Sausage, nuggets, scrambled egg & mixed vegetables',
-    descriptionId: 'Sosis, nugget, telur orak-arik & sayur campuran',
-    price: '25K', category: 'food', emoji: '👶',
-  },
-  // ── SNACKS ───────────────────────────────────────────────
-  {
-    id: 'sn1', name: 'Croissant / Muffin', nameId: 'Croissant / Muffin',
-    description: 'Freshly baked pastry of the day',
-    descriptionId: 'Pastri panggang segar pilihan hari ini',
-    price: '18K / 15K', category: 'snack', emoji: '🥐',
-  },
-  {
-    id: 'sn2', name: 'Toast – Cheese / Choc / Banana', nameId: 'Roti Bakar – Keju / Coklat / Pisang',
-    description: 'Grilled toast with your favourite topping',
-    descriptionId: 'Roti bakar dengan topping favorit',
-    price: '15K', category: 'snack', emoji: '🍞',
-  },
-  {
-    id: 'sn3', name: 'Toast – Cheese & Chocolate', nameId: 'Roti Bakar – Keju Coklat',
-    description: 'Melted cheese swirled with chocolate',
-    descriptionId: 'Keju leleh berpadu coklat manis',
-    price: '17K', category: 'snack', emoji: '🍫',
-  },
-  {
-    id: 'sn4', name: 'Toast – Chocolate Banana', nameId: 'Roti Bakar – Coklat Pisang',
-    description: 'Caramelised banana with chocolate spread',
-    descriptionId: 'Pisang karamel dengan olesan coklat',
-    price: '19K', category: 'snack', emoji: '🍌',
-  },
-  {
-    id: 'sn5', name: 'Pisang Goreng Original', nameId: 'Pisang Goreng Original',
-    description: 'Classic crispy fried banana',
-    descriptionId: 'Pisang goreng renyah klasik',
-    price: '12K', category: 'snack', emoji: '🍌',
-  },
-  {
-    id: 'sn6', name: 'Pisang Goreng – Cheese / Choc', nameId: 'Pisang Goreng – Keju / Coklat',
-    description: 'Fried banana with cheese or chocolate',
-    descriptionId: 'Pisang goreng dengan keju atau coklat',
-    price: '15K', category: 'snack', emoji: '🍌',
-  },
-  {
-    id: 'sn7', name: 'Pisang Goreng Coklat Keju', nameId: 'Pisang Goreng Coklat Keju',
-    description: 'Fried banana loaded with choc & cheese',
-    descriptionId: 'Pisang goreng berlimpah coklat & keju',
-    price: '17K', category: 'snack', emoji: '🍌',
-  },
-  {
-    id: 'sn8', name: 'French Fries Original', nameId: 'Kentang Goreng Original',
-    description: 'Golden crispy fries with sea salt',
-    descriptionId: 'Kentang goreng renyah dengan garam laut',
-    price: '15K', category: 'snack', emoji: '🍟',
-  },
-  {
-    id: 'sn9', name: 'Cheesy French Fries', nameId: 'Kentang Goreng Keju',
-    description: 'Crispy fries loaded with melted cheese',
-    descriptionId: 'Kentang goreng berlimpah keju leleh',
-    price: '17K', category: 'snack', emoji: '🧀',
-  },
-  {
-    id: 'sn10', name: 'Cookies (All Variants)', nameId: 'Cookies (Semua Varian)',
-    description: 'House-baked cookies, ask for today\'s flavour',
-    descriptionId: 'Cookies buatan sendiri, tanya varian hari ini',
-    price: '15K', category: 'snack', emoji: '🍪',
-  },
-  {
-    id: 'sn11', name: 'Chicken Wings & Fries', nameId: 'Sayap Ayam & Kentang',
-    description: 'Crispy chicken wings with a side of fries',
-    descriptionId: 'Sayap ayam renyah dengan kentang goreng',
-    price: '23K', category: 'snack', tag: 'bestseller', emoji: '🍗',
-  },
+const items: Item[] = [
+  // hot coffee
+  { id:'h1', emoji:'☕', name:'americano',        nameId:'americano',
+    desc:'clean double shot, bold & bright', descId:'double shot bersih, kuat & cerah',
+    price:'15K', category:'coffee' },
+  { id:'h2', emoji:'☕', name:'cappuccino',        nameId:'cappuccino',
+    desc:'espresso with silky steamed milk foam', descId:'espresso dengan busa susu lembut',
+    price:'20K', category:'coffee' },
+  { id:'h3', emoji:'🥛', name:'latte',            nameId:'latte',
+    desc:'smooth espresso layered with warm milk', descId:'espresso lembut berlapis susu hangat',
+    price:'20K', category:'coffee' },
+  // ice coffee
+  { id:'ic1', emoji:'🧊', name:'ice americano',   nameId:'es americano',
+    desc:'bold espresso over ice', descId:'espresso kuat dituang di atas es',
+    price:'17K / 20K', category:'coffee', size:'M / L' },
+  { id:'ic2', emoji:'🍋', name:'ice americano citrus', nameId:'es americano jeruk',
+    desc:'espresso with a bright citrus twist', descId:'espresso dengan sentuhan jeruk segar',
+    price:'20K / 23K', category:'coffee', size:'M / L' },
+  { id:'ic3', emoji:'☕', name:'ice cappuccino',   nameId:'es cappuccino',
+    desc:'iced espresso with cold foam', descId:'espresso dingin dengan busa dingin',
+    price:'23K / 26K', category:'coffee', size:'M / L' },
+  { id:'ic4', emoji:'🥛', name:'ice latte',        nameId:'es latte',
+    desc:'chilled espresso with fresh cold milk', descId:'espresso dingin dengan susu segar',
+    price:'23K / 26K', category:'coffee', size:'M / L' },
+  { id:'ic5', emoji:'🍮', name:'ice caramel latte', nameId:'es latte karamel',
+    desc:'rich caramel drizzle meets iced latte', descId:'sirup karamel bertemu es latte',
+    price:'24K / 27K', category:'coffee', size:'M / L' },
+  { id:'ic6', emoji:'🧈', name:'ice butterscotch latte', nameId:'es latte karamel mentega',
+    desc:'warm butterscotch notes on cold milk', descId:'karamel mentega dengan susu dingin',
+    price:'24K / 27K', category:'coffee', size:'M / L' },
+  { id:'ic7', emoji:'🌿', name:'ice vanilla latte', nameId:'es latte vanila',
+    desc:'madagascar vanilla with cold espresso', descId:'vanila madagaskar dengan espresso dingin',
+    price:'24K / 27K', category:'coffee', size:'M / L' },
+  { id:'ic8', emoji:'🍯', name:'ice brown sugar latte', nameId:'es latte gula aren',
+    desc:'house brown sugar syrup & espresso', descId:'sirup gula aren spesial & espresso',
+    price:'24K / 27K', category:'coffee', size:'M / L' },
+  { id:'ic9', emoji:'🌰', name:'ice hazelnut latte', nameId:'es latte hazelnut',
+    desc:'nutty hazelnut with rich cold latte', descId:'hazelnut kacang dengan es latte',
+    price:'24K / 27K', category:'coffee', size:'M / L' },
+  // signature
+  { id:'s1', emoji:'🌅', name:'ice blonde',        nameId:'es blonde', tag:'signature',
+    desc:'single shot, butterscotch, caramel, fresh milk, cream, sea salt & caramel crumbles',
+    descId:'single shot, karamel mentega, karamel, susu segar, krim, garam laut & remah karamel',
+    price:'25K / 28K', category:'signature', size:'M / L' },
+  { id:'s2', emoji:'🌾', name:'ice beige',          nameId:'es beige', tag:'bestseller',
+    desc:'single shot, palm sugar, fresh milk, cream, sea salt',
+    descId:'single shot, gula aren, susu segar, krim, garam laut',
+    price:'25K / 28K', category:'signature', size:'M / L' },
+  { id:'s3', emoji:'🍫', name:'ice coca coffee',    nameId:'es kopi kakao', tag:'new',
+    desc:'double shot, cocoa, caramel sauce, fresh milk',
+    descId:'double shot, kakao, saus karamel, susu segar',
+    price:'26K / 29K', category:'signature', size:'M / L' },
+  // non-coffee
+  { id:'nc1', emoji:'🍫', name:'chocolate hazelnut', nameId:'coklat hazelnut',
+    desc:'rich chocolate blended with roasted hazelnut', descId:'coklat kaya berpadu hazelnut panggang',
+    price:'24K / 27K', category:'non-coffee', size:'M / L' },
+  { id:'nc2', emoji:'🍫', name:'chocolate',          nameId:'coklat',
+    desc:'creamy house chocolate blend', descId:'campuran coklat krim spesial',
+    price:'20K / 23K', category:'non-coffee', size:'M / L' },
+  { id:'nc3', emoji:'🍵', name:'matcha',             nameId:'matcha',
+    desc:'ceremonial grade japanese green tea', descId:'teh hijau jepang kelas upacara',
+    price:'20K / 23K', category:'non-coffee', size:'M / L' },
+  { id:'nc4', emoji:'🍓', name:'matcha strawberry',  nameId:'matcha stroberi',
+    desc:'layered matcha and fresh strawberry', descId:'lapisan matcha dan stroberi segar',
+    price:'24K / 27K', category:'non-coffee', size:'M / L' },
+  { id:'nc5', emoji:'🍓', name:'strawberry',         nameId:'stroberi',
+    desc:'fresh blended strawberry smoothie', descId:'smoothie stroberi segar blended',
+    price:'20K / 23K', category:'non-coffee', size:'M / L' },
+  { id:'nc6', emoji:'🧡', name:'thai tea',           nameId:'thai tea',
+    desc:'aromatic thai tea with condensed milk', descId:'teh thailand aromatik dengan susu kental',
+    price:'20K / 23K', category:'non-coffee', size:'M / L' },
+  { id:'nc7', emoji:'🍋', name:'lemon tea',          nameId:'teh lemon',
+    desc:'house-brewed tea with fresh lemon', descId:'teh seduhan spesial dengan perasan lemon',
+    price:'15K / 18K', category:'non-coffee', size:'M / L' },
+  // beer & cocktails
+  { id:'b1', emoji:'🍺', name:'bali hai beer (small)', nameId:'bir bali hai (kecil)',
+    desc:'crisp local bottled beer', descId:'bir bali hai botol segar',
+    price:'30K', category:'beer' },
+  { id:'b2', emoji:'🍺', name:'large draft beer',   nameId:'bir draught besar',
+    desc:'refreshing large draught pour', descId:'bir draught segar ukuran besar',
+    price:'45K', category:'beer' },
+  { id:'b3', emoji:'🗼', name:'tower draft beer',   nameId:'tower bir draught', tag:'bestseller',
+    desc:'5 large drafts in a tower — save 25K', descId:'5 bir draught besar — hemat 25K',
+    price:'200K', category:'beer', size:'5 × large' },
+  { id:'b4', emoji:'🍹', name:'tropical tomaz',     nameId:'koktail tropical tomaz', tag:'signature',
+    desc:'house tropical cocktail, sweet & refreshing', descId:'koktail tropis spesial, manis & segar',
+    price:'60K', category:'beer' },
+  // food
+  { id:'f1', emoji:'🍚', name:'nasi ayam lengkuas', nameId:'nasi ayam lengkuas', tag:'bestseller',
+    desc:'galangal fried chicken, rice, sambal hijau, chili oil & cassava greens',
+    descId:'ayam goreng lengkuas, nasi, sambal hijau, minyak cabai & sayur singkong',
+    price:'28K', category:'food' },
+  { id:'f2', emoji:'🍳', name:'nasi goreng',        nameId:'nasi goreng',
+    desc:'indonesian fried rice with egg & kerupuk', descId:'nasi goreng indonesia dengan telur & kerupuk',
+    price:'20K', category:'food' },
+  { id:'f3', emoji:'🍝', name:'spaghetti bolognese', nameId:'spageti bolognese',
+    desc:'classic italian-style beef bolognese', descId:'spageti daging giling sapi ala italia',
+    price:'22K', category:'food' },
+  { id:'f4', emoji:'🍜', name:'mie goreng',         nameId:'mie goreng',
+    desc:'savory indonesian stir-fried noodles', descId:'mie goreng indonesia yang gurih',
+    price:'18K', category:'food' },
+  { id:'f5', emoji:'🍲', name:'mie kuah',           nameId:'mie kuah',
+    desc:'comforting broth noodle soup', descId:'mie kuah hangat yang menenangkan',
+    price:'18K', category:'food' },
+  { id:'f6', emoji:'👧', name:"kids meal",           nameId:'menu anak',
+    desc:'sausage, nuggets, scrambled egg & mixed vegetables',
+    descId:'sosis, nugget, telur orak-arik & sayur campuran',
+    price:'25K', category:'food' },
+  // snacks
+  { id:'sn1', emoji:'🥐', name:'croissant / muffin', nameId:'croissant / muffin',
+    desc:'freshly baked pastry of the day', descId:'pastri panggang segar pilihan hari ini',
+    price:'18K / 15K', category:'snack' },
+  { id:'sn2', emoji:'🍞', name:'toast — cheese / choc / banana', nameId:'roti bakar — keju / coklat / pisang',
+    desc:'grilled toast with your favourite topping', descId:'roti bakar dengan topping favorit',
+    price:'15K', category:'snack' },
+  { id:'sn3', emoji:'🍫', name:'toast — cheese & chocolate', nameId:'roti bakar — keju coklat',
+    desc:'melted cheese swirled with chocolate', descId:'keju leleh berpadu coklat manis',
+    price:'17K', category:'snack' },
+  { id:'sn4', emoji:'🍌', name:'toast — chocolate banana', nameId:'roti bakar — coklat pisang',
+    desc:'caramelised banana with chocolate spread', descId:'pisang karamel dengan olesan coklat',
+    price:'19K', category:'snack' },
+  { id:'sn5', emoji:'🍌', name:'pisang goreng original', nameId:'pisang goreng original',
+    desc:'classic crispy fried banana', descId:'pisang goreng renyah klasik',
+    price:'12K', category:'snack' },
+  { id:'sn6', emoji:'🍌', name:'pisang goreng — cheese / choc', nameId:'pisang goreng — keju / coklat',
+    desc:'fried banana with cheese or chocolate', descId:'pisang goreng dengan keju atau coklat',
+    price:'15K', category:'snack' },
+  { id:'sn7', emoji:'🍌', name:'pisang goreng coklat keju', nameId:'pisang goreng coklat keju',
+    desc:'fried banana loaded with choc & cheese', descId:'pisang goreng berlimpah coklat & keju',
+    price:'17K', category:'snack' },
+  { id:'sn8', emoji:'🍟', name:'french fries original', nameId:'kentang goreng original',
+    desc:'golden crispy fries with sea salt', descId:'kentang goreng renyah dengan garam laut',
+    price:'15K', category:'snack' },
+  { id:'sn9', emoji:'🧀', name:'cheesy french fries', nameId:'kentang goreng keju',
+    desc:'crispy fries loaded with melted cheese', descId:'kentang goreng berlimpah keju leleh',
+    price:'17K', category:'snack' },
+  { id:'sn10', emoji:'🍪', name:'cookies (all variants)', nameId:'cookies (semua varian)',
+    desc:"house-baked cookies — ask today's flavour", descId:'cookies buatan sendiri — tanya varian hari ini',
+    price:'15K', category:'snack' },
+  { id:'sn11', emoji:'🍗', name:'chicken wings & fries', nameId:'sayap ayam & kentang', tag:'bestseller',
+    desc:'crispy wings with a side of fries', descId:'sayap ayam renyah dengan kentang goreng',
+    price:'23K', category:'snack' },
 ];
 
-// ── Tab categories ───────────────────────────────────────────
 const tabs = [
-  { id: 'all',        label: 'All',         labelId: 'Semua',       icon: '✨' },
-  { id: 'coffee',     label: 'Coffee',      labelId: 'Kopi',        icon: '☕' },
-  { id: 'signature',  label: 'Signature',   labelId: 'Spesial',     icon: '🌅' },
-  { id: 'non-coffee', label: 'Non-Coffee',  labelId: 'Non-Kopi',    icon: '🍵' },
-  { id: 'food',       label: 'Food',        labelId: 'Makanan',     icon: '🍽️' },
-  { id: 'snack',      label: 'Snacks',      labelId: 'Camilan',     icon: '🥐' },
-  { id: 'beer',       label: 'Beer & More', labelId: 'Bir & Lainnya', icon: '🍺' },
+  { id:'all',        en:'all',         id_:'semua',        icon:'✨' },
+  { id:'coffee',     en:'coffee',      id_:'kopi',         icon:'☕' },
+  { id:'signature',  en:'signature',   id_:'spesial',      icon:'🌅' },
+  { id:'non-coffee', en:'non-coffee',  id_:'non-kopi',     icon:'🍵' },
+  { id:'food',       en:'food',        id_:'makanan',      icon:'🍽️' },
+  { id:'snack',      en:'snacks',      id_:'camilan',      icon:'🥐' },
+  { id:'beer',       en:'beer & more', id_:'bir & lainnya',icon:'🍺' },
 ];
 ---
 
-<!-- ══ MENU ═══════════════════════════════════════════════════ -->
-<section class="menu-section" id="menu" aria-label="Our menu">
+<!-- ══ MENU ════════════════════════════════════════════════════ -->
+<section class="menu pc-section" id="menu" aria-label="our menu">
+  <div class="wrap">
 
-  <!-- Top wave transition -->
-  <div class="menu-section__wave-top" aria-hidden="true">
-    <svg viewBox="0 0 1200 60" preserveAspectRatio="none">
-      <path d="M0,0 C300,60 900,0 1200,40 L1200,0 Z" fill="#09070F"/>
-    </svg>
-  </div>
-
-  <div class="menu-section__inner">
-
-    <!-- ── Section header ─────────────────────────────────── -->
-    <header class="menu-header">
-      <p class="menu-eyebrow">
-        <span data-en="What We Brew" data-id="Apa yang Kami Sajikan">What We Brew</span>
-      </p>
-      <h2 class="menu-title">
-        <span data-en="The put.in Coffee Menu" data-id="Menu put.in Coffee">The put.in Coffee Menu</span>
-      </h2>
-      <p class="menu-sub">
-        <span data-en="Specialty coffee crafted from Bali highland beans, honest food made with love — served with ocean breeze."
-              data-id="Kopi spesialti dari biji kopi pegunungan Bali, makanan jujur dibuat dengan cinta — disajikan dengan angin laut.">
-          Specialty coffee crafted from Bali highland beans, honest food made with love — served with ocean breeze.
-        </span>
+    <!-- header -->
+    <header class="menu__head reveal">
+      <p class="eyebrow" data-en="what we brew" data-id="apa yang kami sajikan">what we brew</p>
+      <h2 data-en="the put.in menu" data-id="menu put.in">the put.in menu</h2>
+      <p class="menu__sub" data-en="bali highland beans, honest food, ocean breeze — served daily from 7am."
+         data-id="biji kopi pegunungan bali, makanan jujur, angin laut — disajikan setiap hari mulai jam 7.">
+        bali highland beans, honest food, ocean breeze — served daily from 7am.
       </p>
     </header>
 
-    <!-- ── Tabs ───────────────────────────────────────────── -->
-    <div class="menu-tabs" role="tablist" aria-label="Menu categories" id="menu-tabs">
-      {tabs.map((tab, i) => (
+    <!-- tabs -->
+    <div class="menu__tabs" role="tablist" aria-label="menu categories">
+      {tabs.map((t, i) => (
         <button
-          class={`menu-tab${i === 0 ? ' menu-tab--active' : ''}`}
-          data-category={tab.id}
-          data-en={`${tab.icon} ${tab.label}`}
-          data-id={`${tab.icon} ${tab.labelId}`}
+          class={`menu__tab${i===0?' menu__tab--on':''}`}
+          data-cat={t.id}
+          data-en={`${t.icon} ${t.en}`}
+          data-id={`${t.icon} ${t.id_}`}
           role="tab"
-          aria-selected={i === 0 ? 'true' : 'false'}
-          aria-controls="menu-grid"
+          aria-selected={i===0?'true':'false'}
         >
-          <span class="menu-tab__icon" aria-hidden="true">{tab.icon}</span>
-          <span class="menu-tab__label">{tab.label}</span>
+          <span class="menu__tab-icon" aria-hidden="true">{t.icon}</span>
+          <span class="menu__tab-label">{t.en}</span>
         </button>
       ))}
     </div>
 
-    <!-- ── Cards grid ─────────────────────────────────────── -->
-    <div class="menu-grid" id="menu-grid" role="tabpanel">
-      {menuItems.map((item, i) => (
-        <article
-          class="menu-card"
-          data-category={item.category}
-          data-i={i}
-          aria-label={item.name}
-        >
-          <!-- Tag badge -->
+    <!-- grid -->
+    <div class="menu__grid" id="menu-grid" role="tabpanel">
+      {items.map((item, i) => (
+        <article class="menu__card pc-card" data-cat={item.category} aria-label={item.name}>
           {item.tag && (
-            <div class={`menu-card__tag menu-card__tag--${item.tag}`}>
-              {item.tag === 'bestseller' ? '🔥 Best Seller' :
-               item.tag === 'new'        ? '✨ New'          :
-                                           '🌅 Signature'}
-            </div>
+            <span class={`menu__tag menu__tag--${item.tag}`}>
+              {item.tag==='bestseller'?'🔥 best seller':item.tag==='new'?'✨ new':'🌅 signature'}
+            </span>
           )}
-
-          <!-- Emoji -->
-          <div class="menu-card__emoji" aria-hidden="true">{item.emoji}</div>
-
-          <!-- Info -->
-          <div class="menu-card__body">
-            <div class="menu-card__header-row">
-              <h3 class="menu-card__name" data-en={item.name} data-id={item.nameId}>{item.name}</h3>
-              {item.note && (
-                <span class="menu-card__size" aria-label={`Size: ${item.note}`}>{item.note}</span>
-              )}
+          <div class="menu__emoji" aria-hidden="true">{item.emoji}</div>
+          <div class="menu__info">
+            <div class="menu__name-row">
+              <h3 class="menu__name" data-en={item.name} data-id={item.nameId}>{item.name}</h3>
+              {item.size && <span class="menu__size">{item.size}</span>}
             </div>
-
-            {item.description && (
-              <p class="menu-card__desc" data-en={item.description} data-id={item.descriptionId ?? item.description}>
-                {item.description}
-              </p>
+            {item.desc && (
+              <p class="menu__desc" data-en={item.desc} data-id={item.descId??item.desc}>{item.desc}</p>
             )}
-
-            <div class="menu-card__footer">
-              <span class="menu-card__price">{item.price}</span>
-              <button
-                class="menu-card__add"
-                aria-label={`Add ${item.name}`}
-                data-item={item.name}
-                title="Add to order"
-              >
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                  <path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <div class="menu__foot">
+              <span class="menu__price">{item.price}</span>
+              <button class="menu__add" aria-label={`note ${item.name}`} data-item={item.name} title="note for visit">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
                 </svg>
               </button>
             </div>
           </div>
-
-          <!-- Hover glow -->
-          <div class="menu-card__glow" aria-hidden="true"></div>
+          <div class="menu__glow" aria-hidden="true"></div>
         </article>
       ))}
     </div>
 
-    <!-- Empty state -->
-    <div id="menu-empty" class="menu-empty" hidden>
-      <span class="menu-empty__icon">☕</span>
-      <p data-en="No items in this category yet." data-id="Belum ada item di kategori ini.">
-        No items in this category yet.
-      </p>
-    </div>
+    <!-- empty -->
+    <p id="menu-empty" class="menu__empty" hidden>
+      <span aria-hidden="true">☕</span>
+      <span data-en="nothing here yet." data-id="belum ada item.">nothing here yet.</span>
+    </p>
 
   </div>
 </section>
 
-<!-- ══ STYLES ════════════════════════════════════════════════ -->
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap');
-
-  /* ── Section ────────────────────────────────────────────── */
-  .menu-section {
-    position: relative;
-    background: #09070F;
-    padding-bottom: 6rem;
+  /* ── Section ─────────────────────────────────────────────── */
+  .menu__head {
+    text-align: center;
+    margin-bottom: 3rem;
   }
-  .menu-section__wave-top {
-    position: relative;
-    height: 60px;
-    margin-top: -2px;
-    line-height: 0;
+  .menu__head h2 {
+    text-transform: lowercase;
+    margin: 0.5rem 0;
   }
-  .menu-section__wave-top svg { width: 100%; height: 100%; }
-  .menu-section__inner {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 4rem 1.5rem;
-  }
-
-  /* ── Header ─────────────────────────────────────────────── */
-  .menu-header { text-align: center; margin-bottom: 3rem; }
-  .menu-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-family: 'Jost', sans-serif;
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: #F7931E;
-    margin-bottom: 0.75rem;
-  }
-  .menu-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.2rem, 5vw, 3.5rem);
-    font-weight: 500;
-    color: #FDF6EC;
-    margin: 0 0 0.75rem;
-    line-height: 1.1;
-  }
-  .menu-sub {
-    font-family: 'Jost', sans-serif;
-    font-size: 0.95rem;
+  .menu__sub {
+    font-size: 0.9rem;
     font-weight: 300;
-    color: rgba(253,246,236,0.5);
-    max-width: 500px;
+    color: var(--muted);
+    max-width: 420px;
     margin: 0 auto;
-    line-height: 1.7;
+    text-transform: lowercase;
   }
 
-  /* ── Tabs ───────────────────────────────────────────────── */
-  .menu-tabs {
+  /* ── Tabs ────────────────────────────────────────────────── */
+  .menu__tabs {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 0.45rem;
     justify-content: center;
     margin-bottom: 2.5rem;
   }
-  .menu-tab {
+  .menu__tab {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 0.55rem 1.2rem;
+    gap: 5px;
+    padding: 0.5rem 1.1rem;
     border-radius: 50px;
-    border: 1px solid rgba(255,255,255,0.08);
-    background: rgba(255,255,255,0.03);
-    font-family: 'Jost', sans-serif;
-    font-size: 0.78rem;
-    font-weight: 500;
-    color: rgba(253,246,236,0.5);
+    border: 1px solid var(--border);
+    background: var(--glass);
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--muted);
     cursor: pointer;
-    transition: all 0.25s ease;
+    transition: all 0.22s ease;
+    text-transform: lowercase;
     white-space: nowrap;
   }
-  .menu-tab:hover {
-    color: #FDF6EC;
-    border-color: rgba(255,255,255,0.18);
-    background: rgba(255,255,255,0.06);
+  .menu__tab:hover {
+    color: var(--cream);
+    border-color: rgba(201,146,74,0.2);
   }
-  .menu-tab--active {
-    background: linear-gradient(135deg, #FF6B35, #F7931E);
+  .menu__tab--on {
+    background: linear-gradient(135deg, var(--coral), var(--gold));
     border-color: transparent;
-    color: #09070F;
+    color: var(--bg);
     font-weight: 600;
-    box-shadow: 0 4px 16px rgba(247,147,30,0.35);
+    box-shadow: 0 2px 14px rgba(201,146,74,0.25);
   }
-  .menu-tab--active:hover {
-    color: #09070F;
-    border-color: transparent;
-    background: linear-gradient(135deg, #FF6B35, #F7931E);
-  }
-  .menu-tab__icon { font-size: 0.95rem; line-height: 1; }
+  .menu__tab--on:hover { color: var(--bg); }
+  .menu__tab-icon { font-size: 0.9rem; line-height: 1; }
 
-  /* ── Grid ───────────────────────────────────────────────── */
-  .menu-grid {
+  /* ── Grid ────────────────────────────────────────────────── */
+  .menu__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 1rem;
   }
 
-  /* ── Card ───────────────────────────────────────────────── */
-  .menu-card {
+  /* ── Card ────────────────────────────────────────────────── */
+  .menu__card {
     position: relative;
     overflow: hidden;
-    border-radius: 16px;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.07);
     display: flex;
     flex-direction: column;
-    transition: transform 0.3s cubic-bezier(0.4,0,0.2,1), border-color 0.3s, box-shadow 0.3s;
-    cursor: default;
-    animation: card-in 0.5s cubic-bezier(0.4,0,0.2,1) both;
   }
-  @keyframes card-in {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .menu-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(247,147,30,0.25);
-    box-shadow: 0 12px 40px rgba(255,107,53,0.1), 0 0 0 1px rgba(247,147,30,0.1);
-  }
-  .menu-card:hover .menu-card__glow { opacity: 1; }
-
-  .menu-card__glow {
+  .menu__card[hidden] { display: none; }
+  .menu__card:hover .menu__glow { opacity: 1; }
+  .menu__card:hover .menu__emoji { transform: scale(1.06) rotate(-2deg); }
+  .menu__glow {
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at 50% 0%, rgba(247,147,30,0.06), transparent 70%);
+    background: radial-gradient(circle at 50% 0%, rgba(201,146,74,0.05), transparent 65%);
     opacity: 0;
-    transition: opacity 0.4s;
+    transition: opacity 0.35s;
     pointer-events: none;
   }
 
-  /* Tag */
-  .menu-card__tag {
+  /* tag */
+  .menu__tag {
     position: absolute;
-    top: 10px; right: 10px;
-    font-family: 'Jost', sans-serif;
-    font-size: 0.6rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 0.3rem 0.7rem;
+    top: 8px; right: 8px;
+    font-family: var(--font-body);
+    font-size: 0.58rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: lowercase;
+    padding: 0.25rem 0.6rem;
     border-radius: 50px;
     z-index: 2;
   }
-  .menu-card__tag--bestseller {
-    background: linear-gradient(135deg, #FF6B35, #F7931E);
-    color: #09070F;
-  }
-  .menu-card__tag--new {
-    background: linear-gradient(135deg, #4ade80, #22d3ee);
-    color: #09070F;
-  }
-  .menu-card__tag--signature {
-    background: linear-gradient(135deg, #FFD166, #F7931E);
-    color: #09070F;
-  }
+  .menu__tag--bestseller { background: linear-gradient(135deg, var(--coral), var(--gold)); color: var(--bg); }
+  .menu__tag--new        { background: linear-gradient(135deg, #5bdb83, #38bdf8);         color: var(--bg); }
+  .menu__tag--signature  { background: linear-gradient(135deg, var(--gold-lt), var(--gold)); color: var(--bg); }
 
-  /* Emoji */
-  .menu-card__emoji {
-    height: 100px;
+  /* emoji */
+  .menu__emoji {
+    height: 88px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2.8rem;
-    background: linear-gradient(160deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+    font-size: 2.5rem;
+    background: rgba(255,255,255,0.02);
     flex-shrink: 0;
     transition: transform 0.3s;
   }
-  .menu-card:hover .menu-card__emoji { transform: scale(1.08) rotate(-3deg); }
 
-  /* Body */
-  .menu-card__body {
-    padding: 1rem 1.1rem 1.1rem;
+  /* info */
+  .menu__info {
+    padding: 0.9rem 1rem 1rem;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.45rem;
     flex: 1;
   }
-  .menu-card__header-row {
+  .menu__name-row {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     gap: 0.5rem;
   }
-  .menu-card__name {
-    font-family: 'Jost', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: #FDF6EC;
+  .menu__name {
+    font-family: var(--font-body);
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--cream);
     margin: 0;
     line-height: 1.3;
+    text-transform: lowercase;
     flex: 1;
   }
-  .menu-card__size {
-    font-family: 'Jost', sans-serif;
-    font-size: 0.62rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    color: rgba(247,147,30,0.7);
-    border: 1px solid rgba(247,147,30,0.2);
+  .menu__size {
+    font-size: 0.6rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: rgba(201,146,74,0.65);
+    border: 1px solid rgba(201,146,74,0.18);
     border-radius: 50px;
-    padding: 1px 7px;
-    white-space: nowrap;
+    padding: 1px 6px;
     flex-shrink: 0;
-    margin-top: 2px;
+    white-space: nowrap;
+    margin-top: 1px;
+    text-transform: lowercase;
   }
-  .menu-card__desc {
-    font-family: 'Jost', sans-serif;
-    font-size: 0.78rem;
+  .menu__desc {
+    font-size: 0.74rem;
     font-weight: 300;
-    color: rgba(253,246,236,0.45);
-    line-height: 1.55;
+    color: var(--muted);
+    line-height: 1.5;
     margin: 0;
     flex: 1;
+    text-transform: lowercase;
   }
-  .menu-card__footer {
+  .menu__foot {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding-top: 0.5rem;
-    border-top: 1px solid rgba(255,255,255,0.06);
+    border-top: 1px solid rgba(240,232,220,0.05);
     margin-top: auto;
   }
-  .menu-card__price {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.2rem;
+  .menu__price {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
     font-weight: 500;
-    color: #FFD166;
-    letter-spacing: 0.02em;
+    color: var(--gold-lt);
+    font-style: italic;
   }
-  .menu-card__add {
-    width: 30px; height: 30px;
+  .menu__add {
+    width: 28px; height: 28px;
     border-radius: 50%;
-    border: 1px solid rgba(247,147,30,0.3);
-    background: rgba(247,147,30,0.05);
-    color: #F7931E;
+    border: 1px solid rgba(201,146,74,0.25);
+    background: rgba(201,146,74,0.04);
+    color: var(--gold);
     display: flex; align-items: center; justify-content: center;
     cursor: pointer;
-    transition: background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
+    transition: background 0.2s, transform 0.25s, box-shadow 0.2s;
     flex-shrink: 0;
   }
-  .menu-card__add:hover {
-    background: linear-gradient(135deg, #FF6B35, #F7931E);
-    color: #09070F;
+  .menu__add:hover {
+    background: linear-gradient(135deg, var(--coral), var(--gold));
+    color: var(--bg);
     border-color: transparent;
-    transform: scale(1.1) rotate(90deg);
-    box-shadow: 0 4px 12px rgba(247,147,30,0.4);
+    transform: rotate(90deg) scale(1.1);
+    box-shadow: 0 3px 10px rgba(201,146,74,0.3);
   }
 
-  /* ── Empty state ────────────────────────────────────────── */
-  .menu-empty {
+  /* empty */
+  .menu__empty {
     text-align: center;
-    padding: 4rem;
-    color: rgba(253,246,236,0.35);
-    font-family: 'Jost', sans-serif;
+    padding: 3rem;
+    color: var(--muted);
+    font-size: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
   }
-  .menu-empty__icon { display: block; font-size: 2.5rem; margin-bottom: 0.75rem; }
+  .menu__empty span:last-child { font-size: 0.85rem; }
 
-  /* ── Card hidden ────────────────────────────────────────── */
-  .menu-card[hidden] { display: none; }
-
-  @media (max-width: 640px) {
-    .menu-grid { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-    .menu-card__emoji { height: 70px; font-size: 2rem; }
-    .menu-card__body { padding: 0.75rem; }
-    .menu-card__name { font-size: 0.82rem; }
-    .menu-card__desc { display: none; }
+  /* responsive */
+  @media (max-width: 540px) {
+    .menu__grid { grid-template-columns: 1fr 1fr; gap: 0.65rem; }
+    .menu__emoji { height: 64px; font-size: 1.8rem; }
+    .menu__desc { display: none; }
+    .menu__info { padding: 0.65rem 0.75rem 0.75rem; }
   }
-  @media (max-width: 400px) {
-    .menu-grid { grid-template-columns: 1fr; }
+  @media (max-width: 360px) {
+    .menu__grid { grid-template-columns: 1fr; }
   }
 </style>
 
-<!-- ══ SCRIPT ════════════════════════════════════════════════ -->
 <script>
-  const tabs  = document.querySelectorAll<HTMLButtonElement>('.menu-tab');
-  const cards = document.querySelectorAll<HTMLElement>('.menu-card');
+  const tabs  = document.querySelectorAll<HTMLButtonElement>('.menu__tab');
+  const cards = document.querySelectorAll<HTMLElement>('.menu__card');
   const empty = document.getElementById('menu-empty')!;
 
-  // Stagger animations for visible cards
-  function animateCards(visible: HTMLElement[]) {
-    visible.forEach((card, i) => {
-      card.style.animationDelay = `${i * 0.04}s`;
-      card.style.animationName = 'none';
-      // Force reflow
-      void card.offsetHeight;
-      card.style.animationName = '';
+  function stagger(visible: HTMLElement[]) {
+    visible.forEach((c, i) => {
+      c.style.animationDelay = `${i * 0.035}s`;
+      c.style.animationName = 'none';
+      void c.offsetHeight;
+      c.style.animationName = '';
     });
   }
 
-  // Filter
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
-      const cat = tab.dataset.category!;
+      const cat = tab.dataset.cat!;
+      tabs.forEach(t => { t.classList.remove('menu__tab--on'); t.setAttribute('aria-selected','false'); });
+      tab.classList.add('menu__tab--on');
+      tab.setAttribute('aria-selected','true');
 
-      // Update tab active state
-      tabs.forEach(t => {
-        t.classList.remove('menu-tab--active');
-        t.setAttribute('aria-selected', 'false');
+      const vis: HTMLElement[] = [];
+      cards.forEach(c => {
+        const show = cat === 'all' || c.dataset.cat === cat;
+        c.hidden = !show;
+        if (show) vis.push(c);
       });
-      tab.classList.add('menu-tab--active');
-      tab.setAttribute('aria-selected', 'true');
-
-      // Show/hide cards
-      const visible: HTMLElement[] = [];
-      cards.forEach(card => {
-        const show = cat === 'all' || card.dataset.category === cat;
-        card.hidden = !show;
-        if (show) visible.push(card);
-      });
-
-      empty.hidden = visible.length > 0;
-      animateCards(visible);
+      empty.hidden = vis.length > 0;
+      stagger(vis);
     });
   });
 
-  // Activate first tab on load
   tabs[0]?.click();
 
-  // Add to order
-  document.querySelectorAll<HTMLButtonElement>('.menu-card__add').forEach(btn => {
+  // add to visit note
+  document.querySelectorAll<HTMLButtonElement>('.menu__add').forEach(btn => {
     btn.addEventListener('click', () => {
       const name = btn.dataset.item!;
+      window.dispatchEvent(new CustomEvent('pc:toast', { detail:{ type:'success', title:'noted! ☕', message:`${name} added to your visit list.` } }));
       // @ts-ignore
-      if (window.plausible) window.plausible('Menu Item Click', { props: { item: name } });
-      window.dispatchEvent(new CustomEvent('pc:toast', {
-        detail: { type: 'success', title: `☕ Added!`, message: `${name} noted for your visit.` }
-      }));
+      if (window.plausible) window.plausible('Menu Item Click', { props:{ item: name } });
     });
   });
 
-  // Language toggle
+  // language
   document.addEventListener('pc:lang', ((e: CustomEvent) => {
-    const isID = e.detail.isID;
+    const isID = e.detail.isID as boolean;
     document.querySelectorAll<HTMLElement>('[data-en][data-id]').forEach(el => {
       const val = isID ? el.dataset.id : el.dataset.en;
       if (val !== undefined) el.textContent = val;
     });
-    // Re-label tabs
     tabs.forEach(tab => {
-      const val = isID ? tab.dataset.id : tab.dataset.en;
-      if (val) {
-        const icon = tab.querySelector('.menu-tab__icon');
-        const label = tab.querySelector('.menu-tab__label');
-        const parts = val.split(' ');
-        if (icon) icon.textContent = parts[0];
-        if (label) label.textContent = parts.slice(1).join(' ');
-      }
+      const raw = isID ? tab.dataset.id : tab.dataset.en;
+      if (!raw) return;
+      const [icon, ...rest] = raw.split(' ');
+      const iconEl = tab.querySelector('.menu__tab-icon');
+      const labelEl = tab.querySelector('.menu__tab-label');
+      if (iconEl) iconEl.textContent = icon;
+      if (labelEl) labelEl.textContent = rest.join(' ');
     });
   }) as EventListener);
+
+  // reveal on scroll
+  const ro = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
 </script>

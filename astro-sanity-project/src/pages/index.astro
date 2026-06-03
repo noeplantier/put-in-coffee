@@ -242,46 +242,6 @@ const features  = sanityFeatures.length > 0 ? sanityFeatures : fallbackFeatures;
   <!-- ══ RESERVATION FORM ───────────────────────────────────── -->
   <ReservationForm />
 
-  <!-- ══ NEWSLETTER ─────────────────────────────────────────── -->
-  <section class="section bg-gradient-to-br from-pc-bg3 to-pc-bg2 border-y border-white/[0.08]" id="newsletter">
-    <div class="container">
-      <div class="max-w-xl mx-auto text-center">
-        <p class="eyebrow mb-3 reveal">Stay Connected</p>
-        <h2 class="text-pc-cream mb-4 reveal reveal-delay-1">Get Exclusive Offers<br>& Beach Updates</h2>
-        <p class="text-pc-muted mb-8 reveal reveal-delay-2">New menu launches, sunset events, and Bali travel tips. Unsubscribe anytime.</p>
-
-        <!-- Netlify form: newsletter -->
-        <form
-          name="newsletter"
-          method="POST"
-          data-netlify="true"
-          netlify-honeypot="bot-field"
-          id="newsletter-form"
-          class="flex flex-col sm:flex-row gap-3 reveal reveal-delay-3"
-          novalidate
-        >
-          <input type="hidden" name="form-name" value="newsletter">
-          <p class="hidden" aria-hidden="true"><input name="bot-field" tabindex="-1"></p>
-
-          <input
-            type="email"
-            name="email"
-            placeholder="your@email.com"
-            class="form-input flex-1 rounded-pill px-5"
-            required
-            autocomplete="email"
-          >
-          <button type="submit" class="btn-primary whitespace-nowrap">
-            Subscribe →
-          </button>
-        </form>
-
-        <p class="text-xs text-pc-muted mt-4 reveal reveal-delay-4">
-          🔒 Your data is safe. We never share it.
-        </p>
-      </div>
-    </div>
-  </section>
 
   <!-- ══ FOOTER ─────────────────────────────────────────────── -->
   <footer class="bg-pc-bg border-t border-white/[0.08]" role="contentinfo">

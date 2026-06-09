@@ -13,9 +13,9 @@ export default {
       colors: {
         pc: {
           // Marine bleu nuit
-          bg: '#0f1419',
-          bg2: '#1a1f2e',
-          bg3: '#252d3d',
+          bg:  '#0b0908',
+          bg2: ' #0b0908',
+          bg3: ' #0b0908',
           
           // Textes
           text: '#ffffff',

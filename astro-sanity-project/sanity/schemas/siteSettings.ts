@@ -6,11 +6,10 @@ export const siteSettings = defineType({
   title: 'Site Settings',
   type: 'document',
   // This is a singleton — only one document
-  __experimental_actions: ['update', 'publish'],
   fields: [
     // ── Brand ──────────────────────────────────────────────
     defineField({ name: 'siteName', title: 'Site Name', type: 'string',
-      initialValue: 'Putin Coffee', validation: R => R.required() }),
+      initialValue: 'put.in coffee', validation: R => R.required() }),
     defineField({ name: 'tagline', title: 'Tagline', type: 'string',
       initialValue: 'Where Waves Meet Coffee' }),
     defineField({ name: 'description', title: 'Meta Description', type: 'text', rows: 2,
@@ -63,7 +62,6 @@ export const siteSettings = defineType({
 
     // ── Social ─────────────────────────────────────────────
     defineField({ name: 'instagramUrl', title: 'Instagram URL', type: 'url' }),
-    defineField({ name: 'facebookUrl', title: 'Facebook URL', type: 'url' }),
     defineField({ name: 'tiktokUrl', title: 'TikTok URL', type: 'url' }),
 
     // ── Hours ──────────────────────────────────────────────

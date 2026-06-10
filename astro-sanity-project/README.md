@@ -1,6 +1,6 @@
 # ☕ Putin Coffee — Production Stack
 
-> Beachfront café landing page · Pantai Biaung, Sanur, Bali
+> Beachfront café landing page · Pantai Biaung, Denpasar, Bali
 > Built with Astro · Tailwind · Sanity · Netlify · Cloudinary · Plausible
 
 ---
@@ -270,4 +270,4 @@ Fonts:
 
 ---
 
-*Built for Putin Coffee · Pantai Biaung, Sanur, Bali · Made with ☕*
+*Built for Putin Coffee · Pantai Biaung, Denpasar, Bali · Made with ☕*

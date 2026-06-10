@@ -1,0 +1,217 @@
+---
+// src/layouts/LegalLayout.astro
+// put.in café · legal pages shared layout · EN / ID
+
+interface Props {
+  title:       string;
+  titleId:     string;
+  description: string;
+  lastUpdated: string;
+  section:     'privacy' | 'terms' | 'sitemap';
+}
+const { title, titleId, description, lastUpdated, section } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content={description}/>
+  <meta name="robots" content="index, follow"/>
+  <meta name="theme-color" content="#C9924A"/>
+  <title>{title} · put.in coffee</title>
+  <link rel="canonical" href={`https://www.putincoffee.com/${section}`}/>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+  <link rel="manifest" href="/site.webmanifest"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<!-- ── Minimal nav ─────────────────────────────────────────── -->
+<header class="lh" id="lh" role="banner">
+  <div class="lh__inner">
+    <a href="/" class="lh__logo" aria-label="put.in coffee — home">
+      <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
+        <circle cx="18" cy="18" r="17" stroke="url(#llg)" stroke-width="1.4"/>
+        <path d="M10 19h3l1 5H22l1-5h3" stroke="url(#llg)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <path d="M13 19V15a5 5 0 0110 0v4" stroke="url(#llg)" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+        <defs>
+          <linearGradient id="llg" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#E8A87C"/>
+            <stop offset="100%" stop-color="#C9924A"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div>
+        <span class="lh__brand">put.in coffee</span>
+        <span class="lh__sub">pantai biaung · denpasar · bali</span>
+      </div>
+    </a>
+    <div class="lh__controls">
+      <button id="ll-lang" class="lh__lang" aria-label="Toggle language EN / ID" aria-pressed="false" type="button">
+        <span class="l-en">EN</span>
+        <span class="l-sep" aria-hidden="true"></span>
+        <span class="l-id">ID</span>
+      </button>
+      <a href="/" class="lh__back" data-en="← back to site" data-id="← kembali ke situs">← back to site</a>
+    </div>
+  </div>
+</header>
+
+<!-- ── Page wrapper ────────────────────────────────────────── -->
+<main class="lp" id="main">
+
+  <!-- Hero band -->
+  <div class="lp__hero">
+    <div class="lp__hero-inner">
+      <p class="lp__eyebrow" id="lp-eyebrow"
+         data-en={section === 'privacy' ? 'legal · privacy' : section === 'terms' ? 'legal · terms' : 'navigation · sitemap'}
+         data-id={section === 'privacy' ? 'hukum · privasi' : section === 'terms' ? 'hukum · ketentuan' : 'navigasi · peta situs'}>
+        {section === 'privacy' ? 'legal · privacy' : section === 'terms' ? 'legal · terms' : 'navigation · sitemap'}
+      </p>
+      <h1 class="lp__title">
+        <span class="lp__title-en" data-en={title}>{title}</span>
+      </h1>
+      <p class="lp__updated" id="lp-updated"
+         data-en={`last updated ${lastUpdated}`}
+         data-id={`terakhir diperbarui ${lastUpdated}`}>
+        last updated {lastUpdated}
+      </p>
+    </div>
+    <div class="lp__hero-line" aria-hidden="true"></div>
+  </div>
+
+  <!-- Content slot -->
+  <div class="lp__body">
+    <div class="lp__container">
+      <slot/>
+    </div>
+  </div>
+
+</main>
+
+<!-- ── Footer ──────────────────────────────────────────────── -->
+<footer class="lf" role="contentinfo">
+  <div class="lf__inner">
+    <div class="lf__links">
+      <a href="/privacy" class={`lf__link${section==='privacy'?' lf__link--on':''}`} data-en="Privacy Policy" data-id="Kebijakan Privasi">Privacy Policy</a>
+      <span class="lf__dot" aria-hidden="true">·</span>
+      <a href="/terms"   class={`lf__link${section==='terms'  ?' lf__link--on':''}`} data-en="Terms of Use"   data-id="Syarat Penggunaan">Terms of Use</a>
+      <span class="lf__dot" aria-hidden="true">·</span>
+      <a href="/sitemap-index.xml" class={`lf__link${section==='sitemap'?' lf__link--on':''}`} data-en="Sitemap" data-id="Peta Situs">Sitemap</a>
+    </div>
+    <p class="lf__copy" data-en={`© ${new Date().getFullYear()} put.in coffee · Pantai Biaung, Denpasar, Bali`} data-id={`© ${new Date().getFullYear()} put.in coffee · Pantai Biaung, Denpasar, Bali`}>
+      © {new Date().getFullYear()} put.in coffee · Pantai Biaung, Denpasar, Bali
+    </p>
+  </div>
+</footer>
+
+<style>
+/* ── Tokens ─────────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --gold:#C9924A; --gold-lt:#E8C97A; --coral:#E07A5F;
+  --cream:#F0E8DC; --muted:rgba(240,232,220,0.48);
+  --border:rgba(240,232,220,0.08); --glass:rgba(240,232,220,0.03);
+  --bg:#0e0d0b; --bg2:#131110;
+  --font-body:'Jost','Inter',sans-serif;
+  --font-display:'Cormorant Garamond',Georgia,serif;
+}
+html{scroll-behavior:smooth; font-size:16px;}
+body{background:var(--bg);color:var(--cream);font-family:var(--font-body);font-weight:300;line-height:1.7;min-height:100vh;display:flex;flex-direction:column;}
+
+/* ── Legal header ────────────────────────────────────────────── */
+.lh{position:sticky;top:0;z-index:200;height:64px;background:rgba(14,13,11,0.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+.lh__inner{max-width:860px;margin:0 auto;padding:0 1.5rem;height:100%;display:flex;align-items:center;justify-content:space-between;gap:1rem;}
+.lh__logo{display:flex;align-items:center;gap:9px;text-decoration:none;}
+.lh__brand{display:block;font-family:var(--font-display);font-size:.95rem;font-weight:600;font-style:italic;color:var(--cream);}
+.lh__sub{display:block;font-size:.52rem;letter-spacing:.12em;text-transform:lowercase;color:var(--muted);line-height:1;margin-top:2px;}
+.lh__controls{display:flex;align-items:center;gap:.65rem;}
+.lh__lang{display:flex;align-items:center;gap:4px;font-family:var(--font-body);font-size:.62rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:50px;padding:4px 10px;cursor:pointer;transition:border-color .2s,background .2s;}
+.lh__lang:hover{border-color:rgba(232,199,122,.35);background:rgba(232,199,122,.06);}
+.l-sep{width:1px;height:9px;background:var(--border);}
+.lh__lang[aria-pressed="false"] .l-en{color:var(--gold-lt);font-weight:700;}
+.lh__lang[aria-pressed="false"] .l-id{color:var(--muted);}
+.lh__lang[aria-pressed="true"]  .l-id{color:var(--gold-lt);font-weight:700;}
+.lh__lang[aria-pressed="true"]  .l-en{color:var(--muted);}
+.lh__back{font-size:.72rem;font-weight:400;letter-spacing:.04em;color:var(--muted);text-decoration:none;text-transform:lowercase;transition:color .2s;white-space:nowrap;}
+.lh__back:hover{color:var(--cream);}
+
+/* ── Hero band ───────────────────────────────────────────────── */
+.lp__hero{padding:4rem 1.5rem 3rem;text-align:center;position:relative;background:var(--bg2);}
+.lp__hero-inner{max-width:860px;margin:0 auto;}
+.lp__eyebrow{font-size:.62rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:.85rem;}
+.lp__title{font-family:var(--font-display);font-size:clamp(2rem,5vw,3.2rem);font-weight:500;font-style:italic;color:var(--cream);line-height:1.15;text-transform:lowercase;}
+.lp__updated{font-size:.68rem;font-weight:300;letter-spacing:.08em;color:var(--muted);margin-top:.75rem;text-transform:lowercase;}
+.lp__hero-line{position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.3;}
+
+/* ── Body ─────────────────────────────────────────────────────── */
+.lp{flex:1;}
+.lp__body{padding:3.5rem 1.5rem 5rem;}
+.lp__container{max-width:720px;margin:0 auto;}
+
+/* ── Footer ──────────────────────────────────────────────────── */
+.lf{background:var(--bg2);border-top:1px solid var(--border);padding:1.5rem 1.5rem;}
+.lf__inner{max-width:860px;margin:0 auto;display:flex;flex-wrap:wrap;gap:.75rem;justify-content:space-between;align-items:center;}
+.lf__links{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;}
+.lf__link{font-size:.75rem;font-weight:400;color:var(--muted);text-decoration:none;transition:color .2s;text-transform:lowercase;}
+.lf__link:hover,.lf__link--on{color:var(--gold);}
+.lf__dot{color:var(--border);font-size:.6rem;}
+.lf__copy{font-size:.68rem;color:var(--muted);text-transform:lowercase;}
+
+/* ── Shared legal content styles ─────────────────────────────── */
+.ls{display:flex;flex-direction:column;gap:2.5rem;}
+
+/* Section block */
+.ls__block{border:1px solid var(--border);border-radius:16px;padding:1.75rem;background:var(--glass);transition:border-color .25s;}
+.ls__block:hover{border-color:rgba(201,146,74,.18);}
+.ls__block-head{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.1rem;}
+.ls__icon{width:42px;height:42px;flex-shrink:0;border-radius:11px;background:rgba(201,146,74,.08);border:1px solid rgba(201,146,74,.15);display:flex;align-items:center;justify-content:center;color:var(--gold);}
+.ls__num{font-family:var(--font-display);font-size:.72rem;font-style:italic;color:rgba(201,146,74,.5);font-weight:400;margin-top:3px;white-space:nowrap;}
+
+.ls__block-title{font-family:var(--font-display);font-size:1.1rem;font-weight:500;font-style:italic;color:var(--cream);margin:0;line-height:1.2;text-transform:lowercase;}
+.ls__block-body{font-size:.85rem;font-weight:300;color:var(--muted);line-height:1.8;}
+.ls__block-body p+p{margin-top:.75rem;}
+.ls__block-body a{color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(201,146,74,.25);transition:border-color .2s;}
+.ls__block-body a:hover{border-color:var(--gold);}
+.ls__block-body ul{padding-left:1.25rem;margin-top:.55rem;display:flex;flex-direction:column;gap:.35rem;}
+.ls__block-body li{color:var(--muted);font-size:.83rem;font-weight:300;line-height:1.65;}
+.ls__block-body strong{color:var(--cream);font-weight:500;}
+
+/* Intro block — no border, larger text */
+.ls__intro{text-align:center;padding:0 0 .5rem;}
+.ls__intro p{font-size:.9rem;font-weight:300;color:var(--muted);line-height:1.8;max-width:580px;margin:0 auto;}
+
+/* Contact pill */
+.ls__contact-pill{display:inline-flex;align-items:center;gap:.5rem;padding:.45rem 1rem;border-radius:50px;background:rgba(201,146,74,.08);border:1px solid rgba(201,146,74,.2);color:var(--gold);font-size:.75rem;font-weight:400;text-decoration:none;margin-top:.75rem;transition:background .2s;}
+.ls__contact-pill:hover{background:rgba(201,146,74,.14);}
+
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;}}
+</style>
+
+<script>
+(function(){
+  var isID = false;
+  var deskBtn = document.getElementById('ll-lang');
+  if(!deskBtn) return;
+
+  function applyLang(id){
+    isID = id;
+    deskBtn.setAttribute('aria-pressed', String(isID));
+    document.documentElement.lang = isID ? 'id' : 'en';
+    document.querySelectorAll('[data-en][data-id]').forEach(function(el){
+      if(el.children.length > 0) return;
+      var val = isID ? el.getAttribute('data-id') : el.getAttribute('data-en');
+      if(val !== null) el.textContent = val;
+    });
+    document.dispatchEvent(new CustomEvent('pc:lang',{detail:{isID:isID},bubbles:true}));
+  }
+
+  deskBtn.addEventListener('click', function(){ applyLang(!isID); });
+})();
+</script>
+
+</body>
+</html>

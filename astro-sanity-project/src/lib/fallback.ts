@@ -9,11 +9,11 @@ import type { MenuItem, Review, ExperienceFeature, SiteSettings } from '../types
 export const fallbackSettings: Partial<SiteSettings> = {
   siteName: 'put.in coffee',
   tagline: 'Where Waves Meet Coffee',
-  description: 'Bali\'s most soulful beachfront café on Pantai Biaung, Sanur.',
+  description: 'Bali\'s most soulful beachfront café on Pantai Biaung, Denpasar.',
   heroHeadline: 'Where Waves',
   heroHeadlineItalic: 'Meet Coffee',
-  heroSubtitle: 'Sip specialty coffee as the tide rolls in. put.in coffee is Sanur\'s most soulful beachfront café — nestled on the black sand shores of Pantai Biaung.',
-  address: 'Jl. Pantai Biaung, Sanur, Denpasar, Bali 80228',
+  heroSubtitle: 'Sip specialty coffee as the tide rolls in. put.in coffee is Denpasar\'s most soulful beachfront café — nestled on the black sand shores of Pantai Biaung.',
+  address: 'Jl. Pantai Biaung, Denpasar, Bali 80228',
   phone: '+62 812 3456 7890',
   email: 'hello@putincoffee.com',
   whatsapp: '628123456789',
@@ -25,7 +25,7 @@ export const fallbackSettings: Partial<SiteSettings> = {
     { label: 'Fri – Sun', time: '12:00 PM – 3:00 AM', isToday: true },
 
     { label: 'Kitchen closes', time: '9:30 PM' },
-    { label: 'Live Music Fri & Sat', time: '6:00 PM – 9:00 PM' },
+    { label: 'Karaoke & Live Music', time: '7:00 PM – 9:00 PM' },
   ],
 };
 

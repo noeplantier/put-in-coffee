@@ -1,10 +1,9 @@
 ---
 // src/pages/index.astro
-// put.in café · home page · EN / ID · v2
+// put.in café · home page · EN / ID · v3
 
 import BaseLayout       from '../layouts/BaseLayout.astro';
 import Hero             from '../components/Hero.astro';
-import WaveDivider      from '../components/WaveDivider.astro';
 import Menu             from '../components/Menu.astro';
 import Reviews          from '../components/Reviews.astro';
 import ReservationForm  from '../components/ReservationForm.astro';
@@ -29,7 +28,41 @@ const menuItems = sanityMenu.length    > 0 ? sanityMenu    : fallbackMenuItems;
 const reviews   = sanityReviews.length > 0 ? sanityReviews : fallbackReviews;
 const features  = sanityFeatures.length > 0 ? sanityFeatures : fallbackFeatures;
 
-// ── Experience features (carousel data) ─────────────────────
+// ── About photo carousel ─────────────────────────────────────
+const photos = [
+  {
+    src: '/put.in1.jpeg',
+    en:  { caption: 'terrace at dawn', desc: 'First light over Pantai Biaung — the tables are set, the tide is coming in.' },
+    id_: { caption: 'teras saat fajar', desc: 'Cahaya pertama di Pantai Biaung — meja sudah siap, ombak mulai datang.' },
+  },
+  {
+    src: '/put.in2.jpeg',
+    en:  { caption: 'the bar', desc: 'Our espresso bar — where every order is pulled fresh, one cup at a time.' },
+    id_: { caption: 'area bar', desc: 'Bar espresso kami — setiap pesanan diseduh segar, satu cangkir per waktu.' },
+  },
+  {
+    src: '/put.in3.jpeg',
+    en:  { caption: 'ocean view', desc: 'Uninterrupted 180° Indian Ocean from every seat on the terrace.' },
+    id_: { caption: 'pemandangan laut', desc: 'Samudra Hindia 180° tanpa halangan dari setiap kursi di teras.' },
+  },
+  {
+    src: '/put.in4.jpeg',
+    en:  { caption: 'our signature drinks', desc: 'The ice beige and ice blonde — house originals you won\'t find anywhere else.' },
+    id_: { caption: 'minuman andalan kami', desc: 'Es beige dan es blonde — kreasi asli put.in yang tak akan kamu temukan di tempat lain.' },
+  },
+  {
+    src: '/put.in5.jpeg',
+    en:  { caption: 'sunset hour', desc: 'When the sky turns amber over Nusa Penida — the golden hour is worth the wait.' },
+    id_: { caption: 'saat matahari terbenam', desc: 'Ketika langit berubah keemasan di atas Nusa Penida — momen ini selalu sepadan.' },
+  },
+  {
+    src: '/put.in6.jpeg',
+    en:  { caption: 'the vibe', desc: 'Low music, salt air, cold drink in hand. This is why people stay longer than they planned.' },
+    id_: { caption: 'suasananya', desc: 'Musik pelan, udara asin, minuman dingin di tangan. Inilah mengapa orang selalu betah lebih lama.' },
+  },
+];
+
+// ── Experience features (carousel) ──────────────────────────
 const expFeatures = [
   {
     id: 'beachfront',
@@ -58,7 +91,7 @@ const expFeatures = [
   {
     id: 'nomad',
     icon: `<rect x="3" y="5" width="18" height="13" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M8 5V4a1 1 0 011-1h6a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="11.5" r="2" stroke="currentColor" stroke-width="1.3" fill="none"/><path d="M8.5 15.5a4 4 0 017 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>`,
-    en:  { label: 'Remote-Work Ready', title: 'Ocean views don\'t have to mean bad WiFi', body: 'We run a dedicated 100 Mbps fibre line — not a shared residential line — and keep the password on the table. Power sockets at every inside seat. Plenty of shade on the terrace for screen-readable conditions. Come for a quick coffee, stay for the whole sprint.' },
+    en:  { label: 'Remote-Work Ready', title: "Ocean views don't have to mean bad WiFi", body: 'We run a dedicated 100 Mbps fibre line — not a shared residential line — and keep the password on the table. Power sockets at every inside seat. Plenty of shade on the terrace for screen-readable conditions. Come for a quick coffee, stay for the whole sprint.' },
     id_: { label: 'Siap untuk Remote Work', title: 'Pemandangan laut bukan berarti WiFi lemot', body: 'Kami menggunakan jalur serat optik 100 Mbps khusus — bukan jalur residensial berbagi — dan password selalu ada di meja. Colokan listrik di setiap kursi dalam. Banyak naungan di teras agar layar tetap terbaca. Datang untuk kopi cepat, bertahan untuk seluruh sesi kerja.' },
     stat: { value: '100 Mbps', label: { en: 'dedicated fibre', id_: 'serat optik khusus' } },
     accent: '#7FB069',
@@ -66,7 +99,7 @@ const expFeatures = [
   {
     id: 'events',
     icon: `<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/><circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>`,
-    en:  { label: 'Private Events', title: 'The ocean as your backdrop, always', body: 'Birthdays, elopements, team retreats, product launches — we\'ve hosted them all with the same beachfront backdrop and the same unhurried service. The space holds up to 80 guests. Catering, decoration coordination, and a full drinks programme can be arranged. Enquire for a bespoke quote.' },
+    en:  { label: 'Private Events', title: 'The ocean as your backdrop, always', body: "Birthdays, elopements, team retreats, product launches — we've hosted them all with the same beachfront backdrop and the same unhurried service. The space holds up to 80 guests. Catering, decoration coordination, and a full drinks programme can be arranged. Enquire for a bespoke quote." },
     id_: { label: 'Acara Privat', title: 'Lautan sebagai latarmu, selalu', body: 'Ulang tahun, elopement, team retreat, peluncuran produk — semua pernah kami adakan dengan latar pantai yang sama dan pelayanan yang sama tenangnya. Kapasitas hingga 80 tamu. Katering, koordinasi dekorasi, dan program minuman lengkap bisa diatur. Hubungi kami untuk penawaran khusus.' },
     stat: { value: '80', label: { en: 'guests max', id_: 'tamu maks' } },
     accent: '#E07A5F',
@@ -75,10 +108,10 @@ const expFeatures = [
 
 // ── About stats ──────────────────────────────────────────────
 const aboutStats = [
-  { value: '5★', en: 'Google Rating',    id_: 'Rating Google' },
+  { value: '5★',  en: 'Google Rating',   id_: 'Rating Google' },
   { value: '49+', en: 'Reviews',          id_: 'Ulasan' },
-  { value: 'Bali', en: 'Highland Beans',  id_: 'Biji Kopi Dataran Tinggi' },
-  { value: '7am',  en: 'Opens Daily',     id_: 'Buka Setiap Hari' },
+  { value: 'Bali',en: 'Highland Beans',  id_: 'Biji Kopi Pegunungan' },
+  { value: '7am', en: 'Opens Daily',      id_: 'Buka Setiap Hari' },
 ];
 ---
 
@@ -94,40 +127,96 @@ const aboutStats = [
     <div class="pc-container">
       <div class="about__grid">
 
-        <!-- Image -->
-        <div class="about__img-col reveal-scale">
-          <div class="about__img-frame">
-            <img
-              src="/hero.jpg"
-              alt="put.in café beachfront"
-              class="about__img"
-              loading="lazy" decoding="async"
-            />
-            <div class="about__badge">
-              <span class="about__badge-year">2019</span>
-              <span class="about__badge-sub" data-en="Est. Sanur" data-id="Berdiri di Sanur">Est. Sanur</span>
+        <!-- Photo carousel -->
+        <div class="about__carousel reveal-scale" id="about-carousel" aria-label="put.in café photos" role="region">
+
+          <!-- Slides -->
+          <div class="about__slides" id="about-track">
+            {photos.map((p, i) => (
+              <div
+                class={`about__slide${i === 0 ? ' about__slide--active' : ''}`}
+                data-slide={i}
+                aria-hidden={i !== 0 ? 'true' : 'false'}
+              >
+                <img
+                  src={p.src}
+                  alt={p.en.caption}
+                  class="about__slide-img"
+                  loading={i === 0 ? 'eager' : 'lazy'}
+                  decoding="async"
+                  data-en-alt={p.en.caption}
+                  data-id-alt={p.id_.caption}
+                />
+                <!-- Caption overlay -->
+                <div class="about__caption">
+                  <span class="about__caption-tag" data-en={p.en.caption} data-id={p.id_.caption}>{p.en.caption}</span>
+                  <p class="about__caption-desc" data-en={p.en.desc} data-id={p.id_.desc}>{p.en.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <!-- Controls -->
+          <div class="about__controls">
+            <!-- Thumbnails -->
+            <div class="about__thumbs" role="tablist" aria-label="Photo thumbnails">
+              {photos.map((p, i) => (
+                <button
+                  class={`about__thumb${i === 0 ? ' about__thumb--on' : ''}`}
+                  data-goto={i}
+                  role="tab"
+                  aria-selected={i === 0 ? 'true' : 'false'}
+                  aria-label={p.en.caption}
+                  type="button"
+                >
+                  <img src={p.src} alt="" loading="lazy" decoding="async" class="about__thumb-img"/>
+                </button>
+              ))}
             </div>
+
+            <!-- Counter + arrows -->
+            <div class="about__nav-row">
+              <span class="about__counter">
+                <span id="about-current">1</span>
+                <span class="about__counter-sep">/</span>
+                <span class="about__counter-total">{photos.length}</span>
+              </span>
+              <div class="about__arrows">
+                <button class="about__arrow" id="about-prev" type="button" aria-label="Previous photo">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <button class="about__arrow" id="about-next" type="button" aria-label="Next photo">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Year badge -->
+          <div class="about__year-badge" aria-hidden="true">
+            <span class="about__year-num">2026</span>
+            <span class="about__year-sub" data-en="Est. Denpasar" data-id="Berdiri di Sanur">Est. Denpasar</span>
           </div>
         </div>
 
         <!-- Text -->
         <div class="about__text-col">
           <p class="eyebrow reveal" data-en="Our Story" data-id="Kisah Kami">Our Story</p>
-          <h2 class="about__h2 reveal" data-en="Born from the Waves,<br>Brewed with Soul" data-id="Lahir dari Ombak,<br>Diseduh dengan Jiwa">
+          <h2 class="about__h2 reveal"
+              data-en="Born from the Waves,<br>Brewed with Soul"
+              data-id="Lahir dari Ombak,<br>Diseduh dengan Jiwa">
             Born from the Waves,<br>Brewed with Soul
           </h2>
           <div class="about__prose">
             <p data-en="put.in was born from a simple dream: bring world-class specialty coffee to the most breathtaking stretch of Denpasar's coastline. On the wild black-sand shores of Pantai Biaung, where fishing boats rest and sunsets turn the sky amber — we built our haven."
                data-id="put.in lahir dari mimpi sederhana: menghadirkan kopi spesial kelas dunia ke pantai Denpasar yang paling memukau. Di tepian Pantai Biaung yang liar berpasir hitam, tempat perahu nelayan beristirahat dan matahari terbenam mewarnai langit keemasan — kami membangun surga kami.">
-              put.in was born from a simple dream: bring world-class specialty coffee to the most breathtaking stretch of Denspasar's coastline. On the wild black-sand shores of Pantai Biaung, where fishing boats rest and sunsets turn the sky amber — we built our haven.
+              put.in was born from a simple dream: bring world-class specialty coffee to the most breathtaking stretch of Denpasar's coastline. On the wild black-sand shores of Pantai Biaung, where fishing boats rest and sunsets turn the sky amber — we built our haven.
             </p>
             <p data-en="Every cup we craft honours the ritual of the sea. Our beans are sourced from Bali's highland farms, roasted in-house, and brewed with the patience of the tides."
                data-id="Setiap cangkir yang kami hadirkan menghormati ritual laut. Biji kopi kami berasal dari ladang dataran tinggi Bali, disangrai langsung di sini, dan diseduh dengan kesabaran seperti pasang surut.">
               Every cup we craft honours the ritual of the sea. Our beans are sourced from Bali's highland farms, roasted in-house, and brewed with the patience of the tides.
             </p>
           </div>
-
-          <!-- Stats -->
           <div class="about__stats">
             {aboutStats.map((s, i) => (
               <div class="about__stat reveal" style={`transition-delay:${80 + i * 60}ms`}>
@@ -145,127 +234,46 @@ const aboutStats = [
   <!-- ══ MENU ══════════════════════════════════════════════════ -->
   <Menu items={menuItems} />
 
-  <!-- ══ EXPERIENCE (carousel) ═════════════════════════════════ -->
-  <section class="pc-section xp" id="experience" aria-label="The experience">
-    <div class="pc-container">
-
-      <header class="xp__head">
-        <p class="eyebrow reveal" data-en="why come here" data-id="mengapa datang ke sini">why come here</p>
-        <h2 class="xp__title reveal" data-en="the put.in experience" data-id="pengalaman put.in">the put.in experience</h2>
-      </header>
-
-      <!-- Carousel -->
-      <div class="xp__carousel" id="xp-carousel" aria-label="Experience features" role="region">
-
-        <!-- Track -->
-        <div class="xp__track" id="xp-track">
-          {expFeatures.map((feat, i) => (
-            <article
-              class={`xp__slide${i === 0 ? ' xp__slide--active' : ''}`}
-              data-slide={i}
-              aria-hidden={i !== 0 ? 'true' : 'false'}
-              style={`--slide-accent:${feat.accent}`}
-            >
-              <div class="xp__slide-inner">
-                <!-- Left: content -->
-                <div class="xp__content">
-                  <div class="xp__icon-wrap" aria-hidden="true">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" class="xp__icon" set:html={feat.icon}/>
-                  </div>
-                  <p class="xp__label" data-en={feat.en.label} data-id={feat.id_.label}>{feat.en.label}</p>
-                  <h3 class="xp__slide-title" data-en={feat.en.title} data-id={feat.id_.title}>{feat.en.title}</h3>
-                  <p class="xp__body" data-en={feat.en.body} data-id={feat.id_.body}>{feat.en.body}</p>
-                  <div class="xp__stat">
-                    <span class="xp__stat-value">{feat.stat.value}</span>
-                    <span class="xp__stat-label" data-en={feat.stat.label.en} data-id={feat.stat.label.id_}>{feat.stat.label.en}</span>
-                  </div>
-                </div>
-                <!-- Right: number + ambient -->
-                <div class="xp__num-col" aria-hidden="true">
-                  <span class="xp__big-num">{String(i + 1).padStart(2,'0')}</span>
-                  <div class="xp__ambient"></div>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
-
-        <!-- Navigation -->
-        <div class="xp__nav">
-          <!-- Dots + labels -->
-          <div class="xp__dots" role="tablist" aria-label="Go to slide">
-            {expFeatures.map((feat, i) => (
-              <button
-                class={`xp__dot${i === 0 ? ' xp__dot--on' : ''}`}
-                data-goto={i}
-                role="tab"
-                aria-selected={i === 0 ? 'true' : 'false'}
-                aria-label={feat.en.label}
-                type="button"
-              >
-                <span class="xp__dot-line"></span>
-                <span class="xp__dot-label" data-en={feat.en.label} data-id={feat.id_.label}>{feat.en.label}</span>
-              </button>
-            ))}
-          </div>
-          <!-- Arrow pair -->
-          <div class="xp__arrows">
-            <button class="xp__arrow" id="xp-prev" type="button" aria-label="Previous">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M11 4L6 9l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button class="xp__arrow" id="xp-next" type="button" aria-label="Next">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M7 4l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
 
   <!-- ══ LOCATION ══════════════════════════════════════════════ -->
   <section class="pc-section" id="location" aria-label="Location and hours">
     <div class="pc-container">
       <div class="loc__grid">
-
-        <!-- Info -->
         <div class="loc__info">
           <p class="eyebrow reveal" data-en="Find Us" data-id="Temukan Kami">Find Us</p>
-          <h2 class="loc__h2 reveal" data-en="Come Visit Us<br>on the Shore" data-id="Kunjungi Kami<br>di Tepi Pantai">
+          <h2 class="loc__h2 reveal"
+              data-en="Come Visit Us<br>on the Shore"
+              data-id="Kunjungi Kami<br>di Tepi Pantai">
             Come Visit Us<br>on the Shore
           </h2>
-
           <div class="loc__contacts">
             {[
-              { icon: `<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="12" cy="9" r="2.5" stroke="currentColor" stroke-width="1.4" fill="none"/>`, en: settings.address ?? 'Jl. Pantai Biaung, Sanur, Denpasar, Bali 80228', id_: settings.address ?? 'Jl. Pantai Biaung, Sanur, Denpasar, Bali 80228', label: { en: 'Address', id_: 'Alamat' } },
-              { icon: `<path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.09-1.26a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z" stroke="currentColor" stroke-width="1.4" fill="none"/>`, en: settings.phone ?? '+62 819-1633-4989', id_: settings.phone ?? '+62 819-1633-4989', label: { en: 'Phone', id_: 'Telepon' } },
-              { icon: `<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="1.4" fill="none"/><polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="1.4" fill="none"/>`, en: settings.email ?? 'hello@putincoffee.com', id_: settings.email ?? 'hello@putincoffee.com', label: { en: 'Email', id_: 'Email' } },
+              { svg:`<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="12" cy="9" r="2.5" stroke="currentColor" stroke-width="1.4" fill="none"/>`, en:settings.address??'Jl. Pantai Biaung, Sanur, Denpasar, Bali 80228', id_:settings.address??'Jl. Pantai Biaung, Sanur, Denpasar, Bali 80228', lab:{en:'Address',id_:'Alamat'} },
+              { svg:`<path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.09-1.26a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z" stroke="currentColor" stroke-width="1.4" fill="none"/>`, en:settings.phone??'+62 819-1633-4989', id_:settings.phone??'+62 819-1633-4989', lab:{en:'Phone',id_:'Telepon'} },
+              { svg:`<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="1.4" fill="none"/><polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="1.4" fill="none"/>`, en:settings.email??'hello@putincoffee.com', id_:settings.email??'hello@putincoffee.com', lab:{en:'Email',id_:'Email'} },
             ].map((item, i) => (
-              <div class="loc__contact-item reveal" style={`transition-delay:${80 + i * 60}ms`}>
+              <div class="loc__contact-item reveal" style={`transition-delay:${80+i*60}ms`}>
                 <div class="loc__contact-icon" aria-hidden="true">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" set:html={item.icon}/>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" set:html={item.svg}/>
                 </div>
                 <div>
-                  <p class="loc__contact-label" data-en={item.label.en} data-id={item.label.id_}>{item.label.en}</p>
+                  <p class="loc__contact-label" data-en={item.lab.en} data-id={item.lab.id_}>{item.lab.en}</p>
                   <p class="loc__contact-val" data-en={item.en} data-id={item.id_}>{item.en}</p>
                 </div>
               </div>
             ))}
           </div>
-
-          <!-- Hours -->
           <div class="loc__hours reveal">
             <p class="loc__hours-head" data-en="Hours" data-id="Jam Buka">Hours</p>
             <div class="loc__hours-list">
               {(settings.hours ?? [
-                { en: 'Mon – Fri',          id_: 'Sen – Jumat',           time: '6:00 AM – 12:00 PM', highlight: true  },
-                { en: 'Fri – Sun',          id_: 'Jumat – Minggu',           time: '12:00 PM – 3.00 AM', highlight: true  },
-
-                { en: 'Kitchen closes',     id_: 'Dapur tutup',         time: '9:30 PM',            highlight: false },
-                { en: 'Karaoke & Live Music SUN', id_: 'Karaoke & Musik Live MIN', time: '7:00 PM – 9:00 PM', highlight: false },
+                { en:'Mon – Fri',             id_:'Sen – Jumat',              time:'6:00 AM – 12:00 PM', highlight:true  },
+                { en:'Fri – Sun',             id_:'Jumat – Minggu',           time:'12:00 PM – 3:00 AM', highlight:true  },
+                { en:'Kitchen closes',        id_:'Dapur tutup',              time:'9:30 PM',            highlight:false },
+                { en:'Karaoke & Live Music SUN', id_:'Karaoke & Musik Live MIN', time:'7:00 PM – 9:00 PM', highlight:false },
               ]).map(h => (
-                <div class={`loc__hours-row${h.highlight ? ' loc__hours-row--hi' : ''}`}>
-                  <span data-en={h.en ?? h.label} data-id={h.id_ ?? h.label}>{h.en ?? h.label}</span>
+                <div class={`loc__hours-row${h.highlight?' loc__hours-row--hi':''}`}>
+                  <span data-en={h.en??h.label} data-id={h.id_??h.label}>{h.en??h.label}</span>
                   <span>{h.time}</span>
                 </div>
               ))}
@@ -273,7 +281,6 @@ const aboutStats = [
           </div>
         </div>
 
-        <!-- Map card -->
         <div class="loc__map-card reveal-scale">
           <div class="loc__map-pin" aria-hidden="true">
             <svg width="52" height="52" viewBox="0 0 24 24" fill="none">
@@ -286,16 +293,13 @@ const aboutStats = [
           <a
             href={settings.mapLink ?? 'https://www.google.com/maps/place/put.in+coffee+and+beer/data=!4m2!3m1!1s0x0:0x70829e134ab3dd00?sa=X&ved=1t:2428&ictx=111'}
             target="_blank" rel="noopener noreferrer"
-            class="loc__map-btn"
-            data-event="Maps Click"
-            data-en="Open in Google Maps"
-            data-id="Buka di Google Maps"
+            class="loc__map-btn" data-event="Maps Click"
+            data-en="Open in Google Maps" data-id="Buka di Google Maps"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="12" cy="9" r="2.5" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
             Open in Google Maps
           </a>
         </div>
-
       </div>
     </div>
   </section>
@@ -307,68 +311,47 @@ const aboutStats = [
   <footer class="pc-footer" role="contentinfo">
     <div class="pc-container">
       <div class="footer__grid">
-
-        <!-- Brand -->
         <div class="footer__brand">
           <div class="footer__logo">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 3h8l1 5H7L8 3z" stroke="#C9924A" stroke-width="1.4" fill="none" stroke-linejoin="round"/><path d="M7 8c0 5 1.5 9 5 9s5-4 5-9" stroke="#C9924A" stroke-width="1.4" fill="none"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 3h8l1 5H7L8 3z" stroke="#C9924A" stroke-width="1.4" fill="none" stroke-linejoin="round"/><path d="M7 8c0 5 1.5 9 5 9s5-4 5-9" stroke="#C9924A" stroke-width="1.4" fill="none"/></svg>
             put.in<span class="footer__logo-accent">café</span>
           </div>
-          <p class="footer__tagline" data-en="Where the ocean meets espresso. Beachfront specialty coffee on Pantai Biaung, Sanur, Bali." data-id="Di mana lautan bertemu espresso. Kopi spesial di tepi pantai Pantai Biaung, Sanur, Bali.">
-            Where the ocean meets espresso. Beachfront specialty coffee on Pantai Biaung, Sanur, Bali.
-          </p>
+          <p class="footer__tagline" data-en="Where the ocean meets espresso. Beachfront specialty coffee on Pantai Biaung, Sanur, Bali." data-id="Di mana lautan bertemu espresso. Kopi spesial di tepi pantai Pantai Biaung, Sanur, Bali.">Where the ocean meets espresso. Beachfront specialty coffee on Pantai Biaung, Sanur, Bali.</p>
           <div class="footer__socials">
             {[
-              { href: settings.instagramUrl ?? '#', label: 'Instagram', icon: `<rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>` },
-              { href: settings.facebookUrl  ?? '#', label: 'Facebook',  icon: `<path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" stroke="currentColor" stroke-width="1.4" fill="none"/>` },
-              { href: `https://wa.me/${(settings.whatsapp ?? '+62 819-1633-4989').replace(/\s/g,'')}`, label: 'WhatsApp', icon: `<path d="M21 12a9 9 0 01-9 9H5l-2 2V12a9 9 0 119 0z" stroke="currentColor" stroke-width="1.4" fill="none"/>` },
-              { href: settings.tiktokUrl   ?? '#', label: 'TikTok',    icon: `<path d="M9 12a4 4 0 104 4V4a5 5 0 005 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/>` },
+              { href:settings.instagramUrl??'#', label:'Instagram', svg:`<rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>` },
+              { href:`https://wa.me/${(settings.whatsapp??'+62 819-1633-4989').replace(/\s/g,'')}`, label:'WhatsApp', svg:`<path d="M21 12a9 9 0 01-9 9H5l-2 2V12a9 9 0 119 0z" stroke="currentColor" stroke-width="1.4" fill="none"/>` },
+              { href:settings.tiktokUrl??'#', label:'TikTok', svg:`<path d="M9 12a4 4 0 104 4V4a5 5 0 005 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/>` },
             ].map(s => (
               <a href={s.href} target="_blank" rel="noopener" aria-label={s.label} class="footer__social-btn">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" set:html={s.icon}/>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" set:html={s.svg}/>
               </a>
             ))}
           </div>
         </div>
-
-        <!-- Explore -->
         <nav class="footer__nav-col" aria-label="Explore">
           <h4 class="footer__col-head" data-en="Explore" data-id="Jelajahi">Explore</h4>
-          <ul>
-            {[['Our Story','#about','Kisah Kami'],['Menu','#menu','Menu'],['Experience','#experience','Pengalaman'],['Reviews','#reviews','Ulasan']].map(([en,href,id_]) => (
-              <li><a href={href} class="footer__link" data-en={en} data-id={id_}>{en}</a></li>
-            ))}
-          </ul>
+          <ul>{[['Our Story','#about','Kisah Kami'],['Menu','#menu','Menu'],['Experience','#experience','Pengalaman'],['Reviews','#reviews','Ulasan']].map(([en,href,id_]) => (<li><a href={href} class="footer__link" data-en={en} data-id={id_}>{en}</a></li>))}</ul>
         </nav>
-
-        <!-- Visit -->
         <nav class="footer__nav-col" aria-label="Visit">
           <h4 class="footer__col-head" data-en="Visit" data-id="Kunjungi">Visit</h4>
-          <ul>
-            {[['Location','#location','Lokasi'],['Reservations','#contact','Reservasi'],['Private Events','#contact','Acara Privat'],['Gift Cards','#contact','Kartu Hadiah']].map(([en,href,id_]) => (
-              <li><a href={href} class="footer__link" data-en={en} data-id={id_}>{en}</a></li>
-            ))}
-          </ul>
+          <ul>{[['Location','#location','Lokasi'],['Reservations','#contact','Reservasi'],['Private Events','#contact','Acara Privat'],['Gift Cards','#contact','Kartu Hadiah']].map(([en,href,id_]) => (<li><a href={href} class="footer__link" data-en={en} data-id={id_}>{en}</a></li>))}</ul>
         </nav>
-
-        <!-- Connect -->
         <div class="footer__nav-col">
           <h4 class="footer__col-head" data-en="Connect" data-id="Hubungi">Connect</h4>
           <ul>
-            <li><a href={`tel:${settings.phone}`} class="footer__link">{settings.phone ?? '+62 819-1633-4989'}</a></li>
-            <li><a href={`mailto:${settings.email}`} class="footer__link">{settings.email ?? 'hello@putincoffee.com'}</a></li>
-            <li><a href={settings.instagramUrl ?? '#'} target="_blank" rel="noopener" class="footer__link">Instagram</a></li>
-            <li><a href={settings.tiktokUrl ?? '#'} target="_blank" rel="noopener" class="footer__link">TikTok</a></li>
+            <li><a href={`tel:${settings.phone}`} class="footer__link">{settings.phone??'+62 819-1633-4989'}</a></li>
+            <li><a href={`mailto:${settings.email}`} class="footer__link">{settings.email??'hello@putincoffee.com'}</a></li>
+            <li><a href={settings.instagramUrl??'#'} target="_blank" rel="noopener" class="footer__link">Instagram</a></li>
+            <li><a href={settings.tiktokUrl??'#'} target="_blank" rel="noopener" class="footer__link">TikTok</a></li>
           </ul>
         </div>
-
       </div>
-
       <div class="footer__bottom">
         <span>© {new Date().getFullYear()} put.in café · Pantai Biaung, Sanur, Bali</span>
         <div class="footer__bottom-links">
           <a href="/privacy" class="footer__link" data-en="Privacy Policy" data-id="Kebijakan Privasi">Privacy Policy</a>
-          <a href="/terms"   class="footer__link" data-en="Terms"          data-id="Syarat">Terms</a>
+          <a href="/terms" class="footer__link" data-en="Terms" data-id="Syarat">Terms</a>
           <a href="/sitemap-index.xml" class="footer__link">Sitemap</a>
         </div>
         <span data-en="Made with coffee in Bali" data-id="Dibuat dengan kopi di Bali">Made with coffee in Bali</span>
@@ -377,475 +360,286 @@ const aboutStats = [
   </footer>
 </BaseLayout>
 
-<!-- ══ GLOBAL STYLES ══════════════════════════════════════════ -->
 <style is:global>
-  /* ── Design tokens ────────────────────────────────────────── */
-  :root {
-    --section-py: 5rem;
-    --container-px: 1.5rem;
-    --content-width: 1100px;
-    --radius-card: 16px;
-    --radius-sm: 10px;
-    --gold:    #C9924A;
-    --gold-lt: #E8C97A;
-    --coral:   #E07A5F;
-    --cream:   #F0E8DC;
-    --muted:   rgba(240,232,220,0.45);
-    --border:  rgba(240,232,220,0.08);
-    --glass:   rgba(240,232,220,0.03);
-    --bg:      #0e0d0b;
-    --bg2:     #131110;
-  }
+/* ── Design tokens ──────────────────────────────────────────── */
+:root {
+  --section-py: 5rem;
+  --container-px: 1.5rem;
+  --content-width: 1100px;
+  --radius-card: 16px;
+  --radius-sm: 10px;
+  --gold:   #C9924A;
+  --gold-lt:#E8C97A;
+  --coral:  #E07A5F;
+  --cream:  #F0E8DC;
+  --muted:  rgba(240,232,220,0.45);
+  --border: rgba(240,232,220,0.08);
+  --glass:  rgba(240,232,220,0.03);
+  --bg:     #0e0d0b;
+  --bg2:    #131110;
+}
 
-  /* ── Shared layout helpers ────────────────────────────────── */
-  .pc-section {
-    padding: var(--section-py) 0;
-  }
-  .pc-container {
-    max-width: var(--content-width);
-    margin: 0 auto;
-    padding: 0 var(--container-px);
-  }
-  .eyebrow {
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--gold);
-  }
+/* ── Layout helpers ─────────────────────────────────────────── */
+.pc-section   { padding: var(--section-py) 0; }
+.pc-container { max-width: var(--content-width); margin: 0 auto; padding: 0 var(--container-px); }
+.eyebrow      { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
 
-  /* ── Reveal animations ────────────────────────────────────── */
-  .reveal {
-    opacity: 0; transform: translateY(18px);
-    transition: opacity 0.55s ease, transform 0.55s ease;
-  }
-  .reveal.in { opacity: 1; transform: none; }
-  .reveal-scale {
-    opacity: 0; transform: scale(0.97);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-  }
-  .reveal-scale.in { opacity: 1; transform: none; }
+/* ── Reveals ────────────────────────────────────────────────── */
+.reveal       { opacity:0; transform:translateY(18px);  transition:opacity .55s ease,transform .55s ease; }
+.reveal.in    { opacity:1; transform:none; }
+.reveal-scale { opacity:0; transform:scale(0.97);       transition:opacity .6s ease,transform .6s ease; }
+.reveal-scale.in { opacity:1; transform:none; }
 
-  /* ═══════════════════════════════════════════════════════════
-     ABOUT
-  ═══════════════════════════════════════════════════════════ */
-  .about__grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5rem;
-    align-items: center;
-  }
-  @media (max-width: 860px) {
-    .about__grid { grid-template-columns: 1fr; gap: 2.5rem; }
-  }
+/* ════════════════════════════════════════════════════════════
+   ABOUT
+════════════════════════════════════════════════════════════ */
+.about__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem; align-items: center;
+}
+@media (max-width:860px) { .about__grid { grid-template-columns:1fr; gap:2.5rem; } }
 
-  .about__img-frame {
-    position: relative;
-    border-radius: 18px;
-    overflow: hidden;
-    aspect-ratio: 4 / 5;
-  }
-  .about__img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .about__badge {
-    position: absolute; bottom: 16px; right: 16px;
-    background: var(--gold); color: #0a0800;
-    border-radius: var(--radius-sm); padding: 0.85rem 1rem;
-    text-align: center;
-  }
-  .about__badge-year {
-    display: block;
-    font-family: var(--font-display, serif);
-    font-size: 1.75rem; font-weight: 700; line-height: 1;
-  }
-  .about__badge-sub {
-    display: block; font-size: 0.65rem;
-    letter-spacing: 0.12em; text-transform: uppercase; margin-top: 3px;
-  }
+/* ── Photo carousel ────────────────────────────────────────── */
+.about__carousel { position: relative; }
 
-  .about__h2 {
-    font-size: clamp(1.6rem, 3vw, 2.25rem);
-    color: var(--cream); margin: 0.6rem 0 1.5rem; line-height: 1.2;
-    text-transform: lowercase;
-  }
-  .about__prose {
-    display: flex; flex-direction: column; gap: 0.85rem;
-    margin-bottom: 2rem;
-  }
-  .about__prose p {
-    font-size: 0.9rem; font-weight: 300;
-    color: var(--muted); line-height: 1.75;
-  }
-  .about__stats {
-    display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem;
-  }
-  .about__stat {
-    background: var(--glass); border: 1px solid var(--border);
-    border-radius: var(--radius-sm); padding: 1rem 1.1rem;
-  }
-  .about__stat-value {
-    display: block;
-    font-family: var(--font-display, serif);
-    font-size: 1.45rem; color: var(--gold); font-style: italic;
-  }
-  .about__stat-label {
-    display: block; font-size: 0.7rem;
-    color: var(--muted); margin-top: 3px; text-transform: lowercase;
-  }
+.about__slides {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  background: var(--bg2);
+}
 
-  /* ═══════════════════════════════════════════════════════════
-     EXPERIENCE CAROUSEL
-  ═══════════════════════════════════════════════════════════ */
-  .xp { background: var(--bg2); }
+.about__slide {
+  position: absolute; inset: 0;
+  opacity: 0; transition: opacity 0.55s ease;
+  pointer-events: none;
+}
+.about__slide--active { opacity: 1; pointer-events: auto; }
 
-  .xp__head {
-    text-align: center; margin-bottom: 3rem;
-  }
-  .xp__title {
-    font-size: clamp(1.6rem, 3vw, 2.2rem);
-    color: var(--cream); text-transform: lowercase; margin: 0.5rem 0 0;
-  }
+.about__slide-img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  transition: transform 6s ease;
+}
+.about__slide--active .about__slide-img { transform: scale(1.04); }
 
-  /* Carousel wrapper */
-  .xp__carousel { position: relative; }
+/* Caption */
+.about__caption {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 2.5rem 1.5rem 1.5rem;
+  background: linear-gradient(to top, rgba(10,8,5,0.85) 0%, transparent 100%);
+}
+.about__caption-tag {
+  display: inline-block;
+  font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--gold);
+  background: rgba(201,146,74,0.14);
+  border: 1px solid rgba(201,146,74,0.25);
+  border-radius: 50px; padding: 2px 8px; margin-bottom: 0.45rem;
+}
+.about__caption-desc {
+  font-size: 0.78rem; font-weight: 300;
+  color: rgba(240,232,220,0.75); line-height: 1.55; margin: 0;
+}
 
-  /* Track: slides laid out horizontally, overflow hidden */
-  .xp__track {
-    display: grid;
-    grid-template-columns: 1fr;
-    position: relative;
-  }
+/* Controls row */
+.about__controls {
+  margin-top: 0.85rem;
+  display: flex; flex-direction: column; gap: 0.75rem;
+}
 
-  /* Each slide stacked; only active is visible */
-  .xp__slide {
-    grid-column: 1;
-    grid-row: 1;
-    opacity: 0;
-    pointer-events: none;
-    transform: translateX(32px);
-    transition: opacity 0.45s ease, transform 0.45s ease;
-    will-change: opacity, transform;
-  }
-  .xp__slide--active {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateX(0);
-  }
-  .xp__slide--exit-left {
-    opacity: 0;
-    transform: translateX(-32px);
-  }
 
-  .xp__slide-inner {
-    display: grid;
-    grid-template-columns: 1fr 220px;
-    gap: 3rem;
-    background: var(--glass);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 3rem 3rem 3rem 3.5rem;
-    min-height: 340px;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
-  }
-  @media (max-width: 760px) {
-    .xp__slide-inner {
-      grid-template-columns: 1fr;
-      padding: 2rem 1.5rem;
-      min-height: auto;
-      gap: 1.5rem;
-    }
-    .xp__num-col { display: none; }
-  }
+.about__thumb {
+  flex: 0 0 54px;
+  width: 54px; height: 40px;
+  border-radius: 7px; overflow: hidden;
+  border: 2px solid transparent;
+  background: none; padding: 0; cursor: pointer;
+  transition: border-color 0.2s, opacity 0.2s;
+  opacity: 0.45;
+}
+.about__thumb--on { border-color: var(--gold); opacity: 1; }
+.about__thumb:hover { opacity: 0.8; }
+.about__thumb-img { width:100%; height:100%; object-fit:cover; display:block; }
 
-  /* Left bar accent */
-  .xp__slide-inner::before {
-    content: '';
-    position: absolute; left: 0; top: 20%; bottom: 20%;
-    width: 3px;
-    background: var(--slide-accent, var(--gold));
-    border-radius: 0 2px 2px 0;
-    opacity: 0.7;
-  }
+/* Counter + arrows */
+.about__nav-row {
+  display: flex; align-items: center;
+  justify-content: space-between;
+}
+.about__counter {
+  font-family: var(--font-display, serif);
+  font-size: 0.82rem; font-style: italic; color: var(--muted);
+  display: flex; align-items: center; gap: 0.2rem;
+}
+#about-current { color: var(--gold-lt); }
+.about__counter-sep { color: var(--border); margin: 0 1px; }
 
-  /* Icon */
-  .xp__icon-wrap {
-    width: 52px; height: 52px;
-    border-radius: 14px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.06);
-    display: flex; align-items: center; justify-content: center;
-    margin-bottom: 1.25rem;
-  }
-  .xp__icon { color: var(--slide-accent, var(--gold-lt)); }
+.about__arrows { display: flex; gap: 0.4rem; }
+.about__arrow {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--glass); border: 1px solid var(--border);
+  color: var(--muted); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .2s, color .2s, border-color .2s;
+}
+.about__arrow:hover {
+  background: rgba(201,146,74,0.1);
+  border-color: rgba(201,146,74,0.3);
+  color: var(--cream);
+}
 
-  .xp__label {
-    font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--slide-accent, var(--gold));
-    margin-bottom: 0.6rem;
-  }
-  .xp__slide-title {
-    font-size: clamp(1.1rem, 2.2vw, 1.5rem);
-    font-weight: 500; color: var(--cream); text-transform: lowercase;
-    line-height: 1.25; margin: 0 0 1rem;
-  }
-  .xp__body {
-    font-size: 0.875rem; font-weight: 300;
-    color: var(--muted); line-height: 1.8;
-    max-width: 560px; margin: 0 0 1.5rem;
-  }
-  .xp__stat {
-    display: inline-flex; align-items: baseline; gap: 0.5rem;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid var(--border);
-    border-radius: 50px; padding: 0.35rem 0.9rem;
-  }
-  .xp__stat-value {
-    font-family: var(--font-display, serif);
-    font-size: 1rem; font-style: italic;
-    color: var(--slide-accent, var(--gold-lt));
-  }
-  .xp__stat-label {
-    font-size: 0.68rem; color: var(--muted); text-transform: lowercase;
-  }
+/* Year badge */
+.about__year-badge {
+  position: absolute; top: 16px; right: 16px;
+  background: var(--gold); color: #0a0800;
+  border-radius: var(--radius-sm); padding: 0.75rem 0.9rem;
+  text-align: center; z-index: 2;
+}
+.about__year-num {
+  display: block;
+  font-family: var(--font-display, serif);
+  font-size: 1.6rem; font-weight: 700; line-height: 1;
+}
+.about__year-sub {
+  display: block; font-size: 0.6rem;
+  letter-spacing: 0.12em; text-transform: uppercase; margin-top: 2px;
+}
 
-  /* Right: big number */
-  .xp__num-col {
-    display: flex; align-items: center; justify-content: center;
-    position: relative;
-  }
-  .xp__big-num {
-    font-family: var(--font-display, serif);
-    font-size: 7rem; font-weight: 700; font-style: italic;
-    color: var(--slide-accent, var(--gold));
-    opacity: 0.08; line-height: 1;
-    user-select: none;
-  }
-  .xp__ambient {
-    position: absolute; inset: -20px;
-    background: radial-gradient(circle, var(--slide-accent, rgba(201,146,74,0.12)) 0%, transparent 70%);
-    opacity: 0.25; pointer-events: none;
-  }
+/* Text side */
+.about__h2 {
+  font-size: clamp(1.6rem, 3vw, 2.25rem);
+  color: var(--cream); margin: 0.6rem 0 1.5rem;
+  line-height: 1.2; text-transform: lowercase;
+}
+.about__prose { display: flex; flex-direction: column; gap: 0.85rem; margin-bottom: 2rem; }
+.about__prose p { font-size: 0.9rem; font-weight: 300; color: var(--muted); line-height: 1.75; }
+.about__stats { display: grid; grid-template-columns: repeat(2,1fr); gap: 0.75rem; }
+.about__stat { background: var(--glass); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1rem 1.1rem; }
+.about__stat-value { display:block; font-family:var(--font-display,serif); font-size:1.45rem; color:var(--gold); font-style:italic; }
+.about__stat-label { display:block; font-size:0.7rem; color:var(--muted); margin-top:3px; text-transform:lowercase; }
 
-  /* Navigation */
-  .xp__nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 1.75rem;
-    gap: 1rem;
-  }
+/* ════════════════════════════════════════════════════════════
+   EXPERIENCE CAROUSEL
+════════════════════════════════════════════════════════════ */
+.xp { background: var(--bg2); }
+.xp__head { text-align:center; margin-bottom:3rem; }
+.xp__title { font-size:clamp(1.6rem,3vw,2.2rem); color:var(--cream); text-transform:lowercase; margin:.5rem 0 0; }
 
-  /* Dots */
-  .xp__dots {
-    display: flex; gap: 0.25rem; flex-wrap: wrap; flex: 1;
-  }
-  .xp__dot {
-    display: flex; align-items: center; gap: 0.5rem;
-    background: none; border: none; cursor: pointer;
-    padding: 0.5rem 0; color: var(--muted);
-    font-family: var(--font-body, sans-serif);
-    font-size: 0.72rem; text-transform: lowercase;
-    transition: color 0.2s;
-    flex-direction: column; align-items: flex-start;
-  }
-  .xp__dot:hover { color: var(--cream); }
-  .xp__dot--on { color: var(--cream); }
-  .xp__dot-line {
-    display: block; width: 28px; height: 2px;
-    background: var(--border);
-    border-radius: 2px;
-    transition: width 0.3s, background 0.3s;
-  }
-  .xp__dot--on .xp__dot-line {
-    width: 40px;
-    background: var(--gold);
-  }
-  .xp__dot-label { font-size: 0.68rem; }
-  @media (max-width: 600px) {
-    .xp__dot-label { display: none; }
-    .xp__dot-line { width: 20px; }
-    .xp__dot--on .xp__dot-line { width: 32px; }
-  }
+.xp__carousel { position:relative; }
+.xp__track { display:grid; grid-template-columns:1fr; }
 
-  /* Arrows */
-  .xp__arrows {
-    display: flex; gap: 0.5rem; flex-shrink: 0;
-  }
-  .xp__arrow {
-    width: 38px; height: 38px; border-radius: 50%;
-    background: var(--glass); border: 1px solid var(--border);
-    color: var(--muted); cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: background 0.2s, color 0.2s, border-color 0.2s;
-  }
-  .xp__arrow:hover {
-    background: rgba(201,146,74,0.08);
-    border-color: rgba(201,146,74,0.3);
-    color: var(--cream);
-  }
+.xp__slide {
+  grid-column:1; grid-row:1;
+  opacity:0; pointer-events:none;
+  transform:translateX(28px);
+  transition:opacity .45s ease,transform .45s ease;
+}
+.xp__slide--active   { opacity:1; pointer-events:auto; transform:translateX(0); }
+.xp__slide--exit-left{ opacity:0; transform:translateX(-28px); }
 
-  /* ═══════════════════════════════════════════════════════════
-     LOCATION
-  ═══════════════════════════════════════════════════════════ */
-  .loc__grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5rem; align-items: start;
-  }
-  @media (max-width: 860px) {
-    .loc__grid { grid-template-columns: 1fr; gap: 2.5rem; }
-  }
+.xp__slide-inner {
+  display:grid; grid-template-columns:1fr 200px; gap:3rem;
+  background:var(--glass); border:1px solid var(--border);
+  border-radius:20px; padding:3rem 3rem 3rem 3.5rem;
+  min-height:320px; align-items:center;
+  position:relative; overflow:hidden;
+}
+.xp__slide-inner::before {
+  content:''; position:absolute; left:0; top:18%; bottom:18%;
+  width:3px; background:var(--slide-accent,var(--gold));
+  border-radius:0 2px 2px 0; opacity:0.7;
+}
+@media (max-width:760px) {
+  .xp__slide-inner { grid-template-columns:1fr; padding:2rem 1.5rem; min-height:auto; gap:1.5rem; }
+  .xp__num-col { display:none; }
+}
 
-  .loc__h2 {
-    font-size: clamp(1.6rem, 3vw, 2.2rem);
-    color: var(--cream); text-transform: lowercase;
-    margin: 0.6rem 0 1.75rem; line-height: 1.2;
-  }
-  .loc__contacts { display: flex; flex-direction: column; gap: 0; }
-  .loc__contact-item {
-    display: flex; gap: 0.85rem; align-items: flex-start;
-    padding: 1.1rem 0;
-    border-bottom: 1px solid var(--border);
-  }
-  .loc__contact-item:last-child { border-bottom: none; }
-  .loc__contact-icon {
-    width: 38px; height: 38px; flex-shrink: 0;
-    border-radius: var(--radius-sm);
-    background: rgba(201,146,74,0.06);
-    border: 1px solid rgba(201,146,74,0.12);
-    display: flex; align-items: center; justify-content: center;
-    color: var(--gold);
-  }
-  .loc__contact-label {
-    font-size: 0.65rem; letter-spacing: 0.1em;
-    text-transform: uppercase; color: var(--muted); margin: 0 0 3px;
-  }
-  .loc__contact-val {
-    font-size: 0.875rem; color: var(--cream); margin: 0;
-  }
+.xp__icon-wrap { width:52px; height:52px; border-radius:14px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.06); display:flex; align-items:center; justify-content:center; margin-bottom:1.25rem; }
+.xp__icon { color:var(--slide-accent,var(--gold-lt)); }
+.xp__label { font-size:.68rem; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--slide-accent,var(--gold)); margin-bottom:.6rem; }
+.xp__slide-title { font-size:clamp(1.1rem,2.2vw,1.5rem); font-weight:500; color:var(--cream); text-transform:lowercase; line-height:1.25; margin:0 0 1rem; }
+.xp__body { font-size:.875rem; font-weight:300; color:var(--muted); line-height:1.8; max-width:560px; margin:0 0 1.5rem; }
+.xp__stat { display:inline-flex; align-items:baseline; gap:.5rem; background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:50px; padding:.35rem .9rem; }
+.xp__stat-value { font-family:var(--font-display,serif); font-size:1rem; font-style:italic; color:var(--slide-accent,var(--gold-lt)); }
+.xp__stat-label { font-size:.68rem; color:var(--muted); text-transform:lowercase; }
 
-  .loc__hours { margin-top: 1.75rem; }
-  .loc__hours-head {
-    font-size: 0.65rem; letter-spacing: 0.1em;
-    text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem;
-  }
-  .loc__hours-list { display: flex; flex-direction: column; gap: 0.55rem; }
-  .loc__hours-row {
-    display: flex; justify-content: space-between;
-    font-size: 0.875rem; color: var(--muted);
-  }
-  .loc__hours-row--hi { color: var(--gold); font-weight: 500; }
-  .loc__hours-row--hi span { color: var(--gold); }
+.xp__num-col { display:flex; align-items:center; justify-content:center; position:relative; }
+.xp__big-num { font-family:var(--font-display,serif); font-size:7rem; font-weight:700; font-style:italic; color:var(--slide-accent,var(--gold)); opacity:.08; line-height:1; user-select:none; }
+.xp__ambient { position:absolute; inset:-20px; background:radial-gradient(circle,var(--slide-accent,rgba(201,146,74,.12)) 0%,transparent 70%); opacity:.25; pointer-events:none; }
 
-  /* Map card */
-  .loc__map-card {
-    display: flex; flex-direction: column; align-items: center;
-    text-align: center; gap: 0.75rem;
-    background: var(--glass); border: 1px solid var(--border);
-    border-radius: 20px; padding: 3rem 2rem;
-    position: sticky; top: 100px;
-  }
-  .loc__map-name {
-    font-family: var(--font-display, serif);
-    font-size: 1.35rem; color: var(--cream); font-style: italic; margin: 0;
-  }
-  .loc__map-sub { font-size: 0.82rem; color: var(--muted); margin: 0; }
-  .loc__map-btn {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    margin-top: 0.5rem;
-    padding: 0.7rem 1.4rem; border-radius: 50px;
-    background: linear-gradient(135deg, var(--coral), var(--gold));
-    color: #0a0800; font-size: 0.8rem; font-weight: 600;
-    text-decoration: none; text-transform: lowercase;
-    transition: opacity 0.2s, box-shadow 0.2s;
-  }
-  .loc__map-btn:hover {
-    opacity: 0.9;
-    box-shadow: 0 6px 20px rgba(201,146,74,0.3);
-  }
+.xp__nav { display:flex; align-items:center; justify-content:space-between; margin-top:1.75rem; gap:1rem; }
+.xp__dots { display:flex; gap:.25rem; flex-wrap:wrap; flex:1; }
+.xp__dot { display:flex; flex-direction:column; align-items:flex-start; gap:.35rem; background:none; border:none; cursor:pointer; padding:.5rem 0.65rem .5rem 0; color:var(--muted); font-family:var(--font-body,sans-serif); font-size:.72rem; text-transform:lowercase; transition:color .2s; }
+.xp__dot:hover, .xp__dot--on { color:var(--cream); }
+.xp__dot-line { display:block; width:24px; height:2px; background:var(--border); border-radius:2px; transition:width .3s,background .3s; }
+.xp__dot--on .xp__dot-line { width:40px; background:var(--gold); }
+.xp__dot-label { font-size:.68rem; }
+@media (max-width:600px) { .xp__dot-label { display:none; } .xp__dot-line { width:16px; } .xp__dot--on .xp__dot-line { width:28px; } }
 
-  /* ═══════════════════════════════════════════════════════════
-     FOOTER
-  ═══════════════════════════════════════════════════════════ */
-  .pc-footer {
-    background: var(--bg);
-    border-top: 1px solid var(--border);
-    padding-top: 0;
-  }
-  .footer__grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
-    gap: 3rem;
-    padding: 3.5rem 0;
-    border-bottom: 1px solid var(--border);
-  }
-  @media (max-width: 860px) {
-    .footer__grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
-    .footer__brand { grid-column: 1 / -1; }
-  }
-  @media (max-width: 540px) {
-    .footer__grid { grid-template-columns: 1fr; }
-  }
+.xp__arrows { display:flex; gap:.5rem; flex-shrink:0; }
+.xp__arrow { width:38px; height:38px; border-radius:50%; background:var(--glass); border:1px solid var(--border); color:var(--muted); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .2s,color .2s,border-color .2s; }
+.xp__arrow:hover { background:rgba(201,146,74,.08); border-color:rgba(201,146,74,.3); color:var(--cream); }
 
-  .footer__logo {
-    display: flex; align-items: center; gap: 0.45rem;
-    font-family: var(--font-display, serif);
-    font-size: 1.15rem; font-weight: 700; color: var(--cream);
-    text-transform: lowercase; margin-bottom: 0.75rem;
-    font-style: italic;
-  }
-  .footer__logo-accent { color: var(--gold); }
-  .footer__tagline {
-    font-size: 0.8rem; color: var(--muted); line-height: 1.7;
-    max-width: 280px; margin: 0 0 1rem;
-  }
-  .footer__socials { display: flex; gap: 0.5rem; }
-  .footer__social-btn {
-    width: 34px; height: 34px; border-radius: 50%;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    color: var(--muted); text-decoration: none;
-    transition: background 0.2s, color 0.2s, border-color 0.2s;
-  }
-  .footer__social-btn:hover {
-    background: rgba(201,146,74,0.1);
-    border-color: rgba(201,146,74,0.3);
-    color: var(--gold);
-  }
+/* ════════════════════════════════════════════════════════════
+   LOCATION
+════════════════════════════════════════════════════════════ */
+.loc__grid { display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:start; }
+@media (max-width:860px) { .loc__grid { grid-template-columns:1fr; gap:2.5rem; } }
+.loc__h2 { font-size:clamp(1.6rem,3vw,2.2rem); color:var(--cream); text-transform:lowercase; margin:.6rem 0 1.75rem; line-height:1.2; }
 
-  .footer__col-head {
-    font-size: 0.65rem; font-weight: 600; letter-spacing: 0.14em;
-    text-transform: uppercase; color: var(--muted); margin: 0 0 1rem;
-  }
-  .footer__nav-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.55rem; }
-  .footer__link {
-    font-size: 0.82rem; color: var(--muted); text-decoration: none;
-    transition: color 0.2s; text-transform: lowercase;
-  }
-  .footer__link:hover { color: var(--cream); }
+.loc__contacts { display:flex; flex-direction:column; }
+.loc__contact-item { display:flex; gap:.85rem; align-items:flex-start; padding:1.1rem 0; border-bottom:1px solid var(--border); }
+.loc__contact-item:last-child { border-bottom:none; }
+.loc__contact-icon { width:38px; height:38px; flex-shrink:0; border-radius:var(--radius-sm); background:rgba(201,146,74,.06); border:1px solid rgba(201,146,74,.12); display:flex; align-items:center; justify-content:center; color:var(--gold); }
+.loc__contact-label { font-size:.65rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin:0 0 3px; }
+.loc__contact-val { font-size:.875rem; color:var(--cream); margin:0; }
 
-  .footer__bottom {
-    display: flex; flex-wrap: wrap; gap: 1rem;
-    justify-content: space-between; align-items: center;
-    padding: 1.25rem 0;
-    font-size: 0.75rem; color: var(--muted);
-  }
-  .footer__bottom-links { display: flex; gap: 1.25rem; }
+.loc__hours { margin-top:1.75rem; }
+.loc__hours-head { font-size:.65rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:.75rem; }
+.loc__hours-list { display:flex; flex-direction:column; gap:.55rem; }
+.loc__hours-row { display:flex; justify-content:space-between; font-size:.875rem; color:var(--muted); }
+.loc__hours-row--hi { color:var(--gold); font-weight:500; }
+.loc__hours-row--hi span { color:var(--gold); }
 
-  /* ── prefers-reduced-motion ────────────────────────────────── */
-  @media (prefers-reduced-motion: reduce) {
-    .reveal, .reveal-scale, .xp__slide { transition: none !important; }
-  }
+.loc__map-card { display:flex; flex-direction:column; align-items:center; text-align:center; gap:.75rem; background:var(--glass); border:1px solid var(--border); border-radius:20px; padding:3rem 2rem; position:sticky; top:100px; }
+.loc__map-name { font-family:var(--font-display,serif); font-size:1.35rem; color:var(--cream); font-style:italic; margin:0; }
+.loc__map-sub { font-size:.82rem; color:var(--muted); margin:0; }
+.loc__map-btn { display:inline-flex; align-items:center; gap:.5rem; margin-top:.5rem; padding:.7rem 1.4rem; border-radius:50px; background:linear-gradient(135deg,var(--coral),var(--gold)); color:#0a0800; font-size:.8rem; font-weight:600; text-decoration:none; text-transform:lowercase; transition:opacity .2s,box-shadow .2s; }
+.loc__map-btn:hover { opacity:.9; box-shadow:0 6px 20px rgba(201,146,74,.3); }
+
+/* ════════════════════════════════════════════════════════════
+   FOOTER
+════════════════════════════════════════════════════════════ */
+.pc-footer { background:var(--bg); border-top:1px solid var(--border); }
+.footer__grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:3rem; padding:3.5rem 0; border-bottom:1px solid var(--border); }
+@media (max-width:860px) { .footer__grid { grid-template-columns:1fr 1fr; gap:2rem; } .footer__brand { grid-column:1/-1; } }
+@media (max-width:540px) { .footer__grid { grid-template-columns:1fr; } }
+
+.footer__logo { display:flex; align-items:center; gap:.45rem; font-family:var(--font-display,serif); font-size:1.15rem; font-weight:700; color:var(--cream); text-transform:lowercase; margin-bottom:.75rem; font-style:italic; }
+.footer__logo-accent { color:var(--gold); }
+.footer__tagline { font-size:.8rem; color:var(--muted); line-height:1.7; max-width:280px; margin:0 0 1rem; }
+.footer__socials { display:flex; gap:.5rem; }
+.footer__social-btn { width:34px; height:34px; border-radius:50%; background:rgba(255,255,255,.04); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; color:var(--muted); text-decoration:none; transition:background .2s,color .2s,border-color .2s; }
+.footer__social-btn:hover { background:rgba(201,146,74,.1); border-color:rgba(201,146,74,.3); color:var(--gold); }
+.footer__col-head { font-size:.65rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin:0 0 1rem; }
+.footer__nav-col ul { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:.55rem; }
+.footer__link { font-size:.82rem; color:var(--muted); text-decoration:none; transition:color .2s; text-transform:lowercase; }
+.footer__link:hover { color:var(--cream); }
+.footer__bottom { display:flex; flex-wrap:wrap; gap:1rem; justify-content:space-between; align-items:center; padding:1.25rem 0; font-size:.75rem; color:var(--muted); }
+.footer__bottom-links { display:flex; gap:1.25rem; }
+
+@media (prefers-reduced-motion:reduce) {
+  .reveal,.reveal-scale,.xp__slide,.about__slide,.about__slide-img { transition:none !important; }
+}
 </style>
 
-<!-- ══ PAGE SCRIPTS ═══════════════════════════════════════════ -->
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
-  // ── Intersection observer (reveals) ────────────────────────
+  /* ── Reveal on scroll ───────────────────────────────────── */
   var ro = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) {
       if (e.isIntersecting) { e.target.classList.add('in'); ro.unobserve(e.target); }
@@ -853,130 +647,181 @@ document.addEventListener('DOMContentLoaded', function () {
   }, { threshold: 0.08 });
   document.querySelectorAll('.reveal, .reveal-scale').forEach(function (el) { ro.observe(el); });
 
-  // ── Experience carousel ────────────────────────────────────
-  var slides = document.querySelectorAll('.xp__slide');
-  var dots   = document.querySelectorAll('.xp__dot');
-  var prevBtn = document.getElementById('xp-prev');
-  var nextBtn = document.getElementById('xp-next');
-  var current = 0;
-  var total   = slides.length;
-  var autoTimer = null;
+  /* ── ABOUT photo carousel ───────────────────────────────── */
+  var aSlides  = document.querySelectorAll('.about__slide');
+  var aThumbs  = document.querySelectorAll('.about__thumb');
+  var aPrev    = document.getElementById('about-prev');
+  var aNext    = document.getElementById('about-next');
+  var aCurrent = document.getElementById('about-current');
+  var aIdx     = 0;
+  var aTotal   = aSlides.length;
+  var aTimer   = null;
 
-  function goTo(idx) {
-    if (idx === current) return;
-    // Exit current
-    slides[current].classList.remove('xp__slide--active');
-    slides[current].classList.add('xp__slide--exit-left');
-    slides[current].setAttribute('aria-hidden', 'true');
-    dots[current].classList.remove('xp__dot--on');
-    dots[current].setAttribute('aria-selected', 'false');
+  function aGoTo(idx) {
+    aSlides[aIdx].classList.remove('about__slide--active');
+    aSlides[aIdx].setAttribute('aria-hidden', 'true');
+    aThumbs[aIdx].classList.remove('about__thumb--on');
+    aThumbs[aIdx].setAttribute('aria-selected', 'false');
 
-    // Tiny delay to allow exit animation to start, then reset
-    var exiting = slides[current];
-    setTimeout(function () {
-      exiting.classList.remove('xp__slide--exit-left');
-    }, 420);
+    aIdx = (idx + aTotal) % aTotal;
 
-    current = (idx + total) % total;
+    aSlides[aIdx].classList.add('about__slide--active');
+    aSlides[aIdx].setAttribute('aria-hidden', 'false');
+    aThumbs[aIdx].classList.add('about__thumb--on');
+    aThumbs[aIdx].setAttribute('aria-selected', 'true');
+    if (aCurrent) aCurrent.textContent = String(aIdx + 1);
 
-    slides[current].classList.add('xp__slide--active');
-    slides[current].setAttribute('aria-hidden', 'false');
-    dots[current].classList.add('xp__dot--on');
-    dots[current].setAttribute('aria-selected', 'true');
+
   }
 
-  dots.forEach(function (dot) {
-    dot.addEventListener('click', function () {
-      clearTimeout(autoTimer);
-      goTo(parseInt(dot.getAttribute('data-goto') || '0'));
-      scheduleAuto();
+  function aSchedule() {
+    aTimer = setTimeout(function () { aGoTo(aIdx + 1); aSchedule(); }, 5000);
+  }
+  aSchedule();
+
+  aThumbs.forEach(function (th) {
+    th.addEventListener('click', function () {
+      clearTimeout(aTimer);
+      aGoTo(parseInt(th.getAttribute('data-goto') || '0'));
+      aSchedule();
     });
   });
+  if (aPrev) aPrev.addEventListener('click', function () { clearTimeout(aTimer); aGoTo(aIdx - 1); aSchedule(); });
+  if (aNext) aNext.addEventListener('click', function () { clearTimeout(aTimer); aGoTo(aIdx + 1); aSchedule(); });
 
-  if (prevBtn) prevBtn.addEventListener('click', function () {
-    clearTimeout(autoTimer); goTo(current - 1); scheduleAuto();
-  });
-  if (nextBtn) nextBtn.addEventListener('click', function () {
-    clearTimeout(autoTimer); goTo(current + 1); scheduleAuto();
-  });
-
-  // Touch / swipe
-  var touchStartX = 0;
-  var track = document.getElementById('xp-track');
-  if (track) {
-    track.addEventListener('touchstart', function (e) {
-      touchStartX = e.touches[0].clientX;
-    }, { passive: true });
-    track.addEventListener('touchend', function (e) {
-      var dx = e.changedTouches[0].clientX - touchStartX;
-      if (Math.abs(dx) > 50) {
-        clearTimeout(autoTimer);
-        goTo(dx < 0 ? current + 1 : current - 1);
-        scheduleAuto();
-      }
+  // Touch swipe on about carousel
+  var aTrack = document.getElementById('about-track');
+  var aTouchX = 0;
+  if (aTrack) {
+    aTrack.addEventListener('touchstart', function (e) { aTouchX = e.touches[0].clientX; }, { passive: true });
+    aTrack.addEventListener('touchend', function (e) {
+      var dx = e.changedTouches[0].clientX - aTouchX;
+      if (Math.abs(dx) > 50) { clearTimeout(aTimer); aGoTo(dx < 0 ? aIdx + 1 : aIdx - 1); aSchedule(); }
     }, { passive: true });
   }
 
-  // Keyboard
+  /* ── EXPERIENCE carousel ────────────────────────────────── */
+  var xSlides = document.querySelectorAll('.xp__slide');
+  var xDots   = document.querySelectorAll('.xp__dot');
+  var xPrev   = document.getElementById('xp-prev');
+  var xNext   = document.getElementById('xp-next');
+  var xIdx    = 0;
+  var xTotal  = xSlides.length;
+  var xTimer  = null;
+
+  function xGoTo(idx) {
+    if (idx === xIdx && xTotal > 1) {
+      // same index: no-op unless total=1
+    }
+    xSlides[xIdx].classList.remove('xp__slide--active');
+    xSlides[xIdx].classList.add('xp__slide--exit-left');
+    xSlides[xIdx].setAttribute('aria-hidden', 'true');
+    xDots[xIdx].classList.remove('xp__dot--on');
+    xDots[xIdx].setAttribute('aria-selected', 'false');
+
+    var exiting = xSlides[xIdx];
+    setTimeout(function () { exiting.classList.remove('xp__slide--exit-left'); }, 420);
+
+    xIdx = (idx + xTotal) % xTotal;
+
+    xSlides[xIdx].classList.add('xp__slide--active');
+    xSlides[xIdx].setAttribute('aria-hidden', 'false');
+    xDots[xIdx].classList.add('xp__dot--on');
+    xDots[xIdx].setAttribute('aria-selected', 'true');
+  }
+
+  function xSchedule() {
+    xTimer = setTimeout(function () { xGoTo(xIdx + 1); xSchedule(); }, 6000);
+  }
+  xSchedule();
+
+  xDots.forEach(function (dot) {
+    dot.addEventListener('click', function () {
+      clearTimeout(xTimer);
+      xGoTo(parseInt(dot.getAttribute('data-goto') || '0'));
+      xSchedule();
+    });
+  });
+  if (xPrev) xPrev.addEventListener('click', function () { clearTimeout(xTimer); xGoTo(xIdx - 1); xSchedule(); });
+  if (xNext) xNext.addEventListener('click', function () { clearTimeout(xTimer); xGoTo(xIdx + 1); xSchedule(); });
+
+  var xTrack  = document.getElementById('xp-track');
+  var xTouchX = 0;
+  if (xTrack) {
+    xTrack.addEventListener('touchstart', function (e) { xTouchX = e.touches[0].clientX; }, { passive: true });
+    xTrack.addEventListener('touchend', function (e) {
+      var dx = e.changedTouches[0].clientX - xTouchX;
+      if (Math.abs(dx) > 50) { clearTimeout(xTimer); xGoTo(dx < 0 ? xIdx + 1 : xIdx - 1); xSchedule(); }
+    }, { passive: true });
+  }
+
   document.addEventListener('keydown', function (e) {
-    var carousel = document.getElementById('xp-carousel');
-    if (!carousel) return;
-    var rect = carousel.getBoundingClientRect();
-    var inView = rect.top < window.innerHeight && rect.bottom > 0;
-    if (!inView) return;
-    if (e.key === 'ArrowLeft')  { clearTimeout(autoTimer); goTo(current - 1); scheduleAuto(); }
-    if (e.key === 'ArrowRight') { clearTimeout(autoTimer); goTo(current + 1); scheduleAuto(); }
+    var xc = document.getElementById('xp-carousel');
+    if (!xc) return;
+    var r = xc.getBoundingClientRect();
+    if (r.top < window.innerHeight && r.bottom > 0) {
+      if (e.key === 'ArrowLeft')  { clearTimeout(xTimer); xGoTo(xIdx - 1); xSchedule(); }
+      if (e.key === 'ArrowRight') { clearTimeout(xTimer); xGoTo(xIdx + 1); xSchedule(); }
+    }
   });
 
-  function scheduleAuto() {
-    autoTimer = setTimeout(function () {
-      goTo(current + 1);
-      scheduleAuto();
-    }, 6000);
-  }
-  scheduleAuto();
-
-  // ── Language switching ─────────────────────────────────────
+  /* ── Language switching ─────────────────────────────────── */
   document.addEventListener('pc:lang', function (e) {
     var isID = e.detail && e.detail.isID;
+
+    // Text nodes
     document.querySelectorAll('[data-en][data-id]').forEach(function (el) {
-      // Skip elements with inner HTML (h2 with <br>)
-      if (el.children.length > 0) return;
+      if (el.children.length > 0) return; // skip elements with child elements
       var val = isID ? el.getAttribute('data-id') : el.getAttribute('data-en');
       if (val !== null) el.textContent = val;
     });
-    // Handle h2 tags with <br> (about + location headings)
+
+    // h2 with <br>
     document.querySelectorAll('h2[data-en][data-id]').forEach(function (el) {
       var raw = isID ? el.getAttribute('data-id') : el.getAttribute('data-en');
       if (raw !== null) el.innerHTML = raw;
     });
+
+    // img alt attributes
+    document.querySelectorAll('img[data-en-alt][data-id-alt]').forEach(function (img) {
+      img.setAttribute('alt', isID ? img.getAttribute('data-id-alt') : img.getAttribute('data-en-alt'));
+    });
+
+    // loc__map-btn inner text (has child svg)
+    var mapBtn = document.querySelector('.loc__map-btn');
+    if (mapBtn) {
+      var mapVal = isID ? mapBtn.getAttribute('data-id') : mapBtn.getAttribute('data-en');
+      if (mapVal) {
+        var svgEl = mapBtn.querySelector('svg');
+        mapBtn.textContent = mapVal;
+        if (svgEl) mapBtn.insertBefore(svgEl, mapBtn.firstChild);
+      }
+    }
   });
 
-  // ── Plausible tracking ─────────────────────────────────────
+  /* ── Maps tracking ──────────────────────────────────────── */
   var mapsBtn = document.querySelector('[data-event="Maps Click"]');
-  if (mapsBtn) {
-    mapsBtn.addEventListener('click', function () {
-      if (window.plausible) window.plausible('Maps Click');
-    });
-  }
+  if (mapsBtn) mapsBtn.addEventListener('click', function () {
+    if (window.plausible) window.plausible('Maps Click');
+  });
 
-  // ── Newsletter ─────────────────────────────────────────────
+  /* ── Newsletter ─────────────────────────────────────────── */
   var nlForm = document.getElementById('newsletter-form');
   if (nlForm) {
-    nlForm.addEventListener('submit', async function (e) {
-      e.preventDefault();
-      var emailInput = nlForm.querySelector('input[type="email"]');
-      if (!emailInput || !emailInput.value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value)) {
-        window.dispatchEvent(new CustomEvent('pc:toast', { detail: { type: 'error', title: 'Invalid email', message: 'Please enter a valid email.' } }));
+    nlForm.addEventListener('submit', async function (ev) {
+      ev.preventDefault();
+      var ei = nlForm.querySelector('input[type="email"]');
+      if (!ei || !ei.value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(ei.value)) {
+        window.dispatchEvent(new CustomEvent('pc:toast', { detail: { type:'error', title:'Invalid email', message:'Please enter a valid email.' } }));
         return;
       }
       try {
-        await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(new FormData(nlForm)).toString() });
-        window.dispatchEvent(new CustomEvent('pc:toast', { detail: { type: 'success', title: "You're in! ☕", message: 'Welcome to the put.in family!' } }));
+        await fetch('/', { method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body:new URLSearchParams(new FormData(nlForm)).toString() });
+        window.dispatchEvent(new CustomEvent('pc:toast', { detail: { type:'success', title:"You're in! ☕", message:'Welcome to the put.in family!' } }));
         if (window.plausible) window.plausible('Newsletter Signup');
-        emailInput.value = '';
+        ei.value = '';
       } catch {
-        window.dispatchEvent(new CustomEvent('pc:toast', { detail: { type: 'error', title: 'Error', message: 'Please try again later.' } }));
+        window.dispatchEvent(new CustomEvent('pc:toast', { detail: { type:'error', title:'Error', message:'Please try again later.' } }));
       }
     });
   }

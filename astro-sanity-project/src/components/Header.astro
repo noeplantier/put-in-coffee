@@ -296,14 +296,12 @@ const isActive = (href: string) => currentPath === href;
     text-decoration: none;
     padding: 0.55rem 1.3rem;
     border-radius: 50px;
-    background: linear-gradient(135deg, var(--s1), var(--s2), var(--s3));
+  background: linear-gradient(135deg, #C9924A, #E8A87C);
     transition: transform 0.2s, box-shadow 0.3s;
     white-space: nowrap;
   }
   @media (min-width: 720px) { .pc-header__cta { display: flex; } }
-  .pc-header__cta:hover { transform: translateY(-1px); box-shadow: 0 6px 22px rgba(247,147,30,0.45); }
-  .pc-header__cta-arrow { transition: transform 0.2s; }
-  .pc-header__cta:hover .pc-header__cta-arrow { transform: translateX(3px); }
+
 
   .pc-header__ham {
     display: flex;

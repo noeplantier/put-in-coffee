@@ -8,7 +8,7 @@ const { reviews, settings } = Astro.props;
 
 const total      = settings?.totalReviews   ?? 49;
 const avg        = settings?.averageRating  ?? 4.9;
-const googleUrl  = settings?.reviewsGoogleUrl ?? 'https://maps.google.com/search?q=Putin+Coffee+Pantai+Biaung+Sanur';
+const googleUrl  = settings?.reviewsGoogleUrl ?? 'https://www.google.com/search?sca_esv=d059007c5155ebc1&sxsrf=ANbL-n7-Qn8gRQN34EwJ8DY60SqzYp3qGw:1781065496647&si=AL3DRZEsmMGCryMMFSHJ3StBhOdZ2-6yYkXd_doETEE1OR-qOXOMziMklY_-8Q-GbDBzItwmT9Y_o1uRSHhPKLGkppOVdlfgNIT-lM-9rat87VzbTPL3xktSuwacKd4rYV9ZVdwXilsMCNKFylW0NBVQkEcC1nIztA%3D%3D&q=put.in+coffee+and+beer+Avis&sa=X&ved=2ahUKEwi0hP-B6vuUAxVCwzgGHanIFAcQ0bkNegQINRAF&biw=1470&bih=725&dpr=2';
 
 // Fallback sample reviews if none provided
 const displayReviews = reviews?.length ? reviews : [

@@ -50,7 +50,6 @@ export interface SanityImage {
     whatsapp: string;
     mapLink: string;
     instagramUrl: string;
-    facebookUrl: string;
     tiktokUrl: string;
     hours: Array<{ label: string; time: string; isToday?: boolean }>;
     reviewsGoogleUrl: string;

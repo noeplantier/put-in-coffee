@@ -2,7 +2,7 @@
   "name": "putincoffee",
   "version": "1.0.0",
   "private": true,
-  "description": "Putin Coffee — Beachfront Café, Pantai Biaung, Sanur, Bali",
+  "description": "put.in coffee",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",

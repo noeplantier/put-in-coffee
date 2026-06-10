@@ -1,526 +1,589 @@
 ---
 // src/components/Menu.astro
-// Complete menu · refined · lowercase · EN / ID
+// put.in café · menu v2 · carousel + drawer · EN / ID
 
 interface Item {
   id: string; name: string; nameId: string;
   desc?: string; descId?: string;
   price: string; category: string;
   tag?: 'bestseller' | 'new' | 'signature';
-  emoji: string; size?: string;
+  icon: string; size?: string;
 }
 
 const items: Item[] = [
-  // hot coffee
-  { id:'h1', emoji:'☕', name:'americano',        nameId:'americano',
-    desc:'clean double shot, bold & bright', descId:'double shot bersih, kuat & cerah',
-    price:'15K', category:'coffee' },
-  { id:'h2', emoji:'☕', name:'cappuccino',        nameId:'cappuccino',
-    desc:'espresso with silky steamed milk foam', descId:'espresso dengan busa susu lembut',
-    price:'20K', category:'coffee' },
-  { id:'h3', emoji:'🥛', name:'latte',            nameId:'latte',
-    desc:'smooth espresso layered with warm milk', descId:'espresso lembut berlapis susu hangat',
-    price:'20K', category:'coffee' },
-  // ice coffee
-  { id:'ic1', emoji:'🧊', name:'ice americano',   nameId:'es americano',
-    desc:'bold espresso over ice', descId:'espresso kuat dituang di atas es',
-    price:'17K / 20K', category:'coffee', size:'M / L' },
-  { id:'ic2', emoji:'🍋', name:'ice americano citrus', nameId:'es americano jeruk',
-    desc:'espresso with a bright citrus twist', descId:'espresso dengan sentuhan jeruk segar',
-    price:'20K / 23K', category:'coffee', size:'M / L' },
-  { id:'ic3', emoji:'☕', name:'ice cappuccino',   nameId:'es cappuccino',
-    desc:'iced espresso with cold foam', descId:'espresso dingin dengan busa dingin',
-    price:'23K / 26K', category:'coffee', size:'M / L' },
-  { id:'ic4', emoji:'🥛', name:'ice latte',        nameId:'es latte',
-    desc:'chilled espresso with fresh cold milk', descId:'espresso dingin dengan susu segar',
-    price:'23K / 26K', category:'coffee', size:'M / L' },
-  { id:'ic5', emoji:'🍮', name:'ice caramel latte', nameId:'es latte karamel',
-    desc:'rich caramel drizzle meets iced latte', descId:'sirup karamel bertemu es latte',
-    price:'24K / 27K', category:'coffee', size:'M / L' },
-  { id:'ic6', emoji:'🧈', name:'ice butterscotch latte', nameId:'es latte karamel mentega',
-    desc:'warm butterscotch notes on cold milk', descId:'karamel mentega dengan susu dingin',
-    price:'24K / 27K', category:'coffee', size:'M / L' },
-  { id:'ic7', emoji:'🌿', name:'ice vanilla latte', nameId:'es latte vanila',
-    desc:'madagascar vanilla with cold espresso', descId:'vanila madagaskar dengan espresso dingin',
-    price:'24K / 27K', category:'coffee', size:'M / L' },
-  { id:'ic8', emoji:'🍯', name:'ice brown sugar latte', nameId:'es latte gula aren',
-    desc:'house brown sugar syrup & espresso', descId:'sirup gula aren spesial & espresso',
-    price:'24K / 27K', category:'coffee', size:'M / L' },
-  { id:'ic9', emoji:'🌰', name:'ice hazelnut latte', nameId:'es latte hazelnut',
-    desc:'nutty hazelnut with rich cold latte', descId:'hazelnut kacang dengan es latte',
-    price:'24K / 27K', category:'coffee', size:'M / L' },
-  // signature
-  { id:'s1', emoji:'🌅', name:'ice blonde',        nameId:'es blonde', tag:'signature',
-    desc:'single shot, butterscotch, caramel, fresh milk, cream, sea salt & caramel crumbles',
-    descId:'single shot, karamel mentega, karamel, susu segar, krim, garam laut & remah karamel',
-    price:'25K / 28K', category:'signature', size:'M / L' },
-  { id:'s2', emoji:'🌾', name:'ice beige',          nameId:'es beige', tag:'bestseller',
-    desc:'single shot, palm sugar, fresh milk, cream, sea salt',
-    descId:'single shot, gula aren, susu segar, krim, garam laut',
-    price:'25K / 28K', category:'signature', size:'M / L' },
-  { id:'s3', emoji:'🍫', name:'ice coca coffee',    nameId:'es kopi kakao', tag:'new',
-    desc:'double shot, cocoa, caramel sauce, fresh milk',
-    descId:'double shot, kakao, saus karamel, susu segar',
-    price:'26K / 29K', category:'signature', size:'M / L' },
-  // non-coffee
-  { id:'nc1', emoji:'🍫', name:'chocolate hazelnut', nameId:'coklat hazelnut',
-    desc:'rich chocolate blended with roasted hazelnut', descId:'coklat kaya berpadu hazelnut panggang',
-    price:'24K / 27K', category:'non-coffee', size:'M / L' },
-  { id:'nc2', emoji:'🍫', name:'chocolate',          nameId:'coklat',
-    desc:'creamy house chocolate blend', descId:'campuran coklat krim spesial',
-    price:'20K / 23K', category:'non-coffee', size:'M / L' },
-  { id:'nc3', emoji:'🍵', name:'matcha',             nameId:'matcha',
-    desc:'ceremonial grade japanese green tea', descId:'teh hijau jepang kelas upacara',
-    price:'20K / 23K', category:'non-coffee', size:'M / L' },
-  { id:'nc4', emoji:'🍓', name:'matcha strawberry',  nameId:'matcha stroberi',
-    desc:'layered matcha and fresh strawberry', descId:'lapisan matcha dan stroberi segar',
-    price:'24K / 27K', category:'non-coffee', size:'M / L' },
-  { id:'nc5', emoji:'🍓', name:'strawberry',         nameId:'stroberi',
-    desc:'fresh blended strawberry smoothie', descId:'smoothie stroberi segar blended',
-    price:'20K / 23K', category:'non-coffee', size:'M / L' },
-  { id:'nc6', emoji:'🧡', name:'thai tea',           nameId:'thai tea',
-    desc:'aromatic thai tea with condensed milk', descId:'teh thailand aromatik dengan susu kental',
-    price:'20K / 23K', category:'non-coffee', size:'M / L' },
-  { id:'nc7', emoji:'🍋', name:'lemon tea',          nameId:'teh lemon',
-    desc:'house-brewed tea with fresh lemon', descId:'teh seduhan spesial dengan perasan lemon',
-    price:'15K / 18K', category:'non-coffee', size:'M / L' },
-  // beer & cocktails
-  { id:'b1', emoji:'🍺', name:'bali hai beer (small)', nameId:'bir bali hai (kecil)',
-    desc:'crisp local bottled beer', descId:'bir bali hai botol segar',
-    price:'30K', category:'beer' },
-  { id:'b2', emoji:'🍺', name:'large draft beer',   nameId:'bir draught besar',
-    desc:'refreshing large draught pour', descId:'bir draught segar ukuran besar',
-    price:'45K', category:'beer' },
-  { id:'b3', emoji:'🗼', name:'tower draft beer',   nameId:'tower bir draught', tag:'bestseller',
-    desc:'5 large drafts in a tower — save 25K', descId:'5 bir draught besar — hemat 25K',
-    price:'200K', category:'beer', size:'5 × large' },
-  { id:'b4', emoji:'🍹', name:'tropical tomaz',     nameId:'koktail tropical tomaz', tag:'signature',
-    desc:'house tropical cocktail, sweet & refreshing', descId:'koktail tropis spesial, manis & segar',
-    price:'60K', category:'beer' },
-  // food
-  { id:'f1', emoji:'🍚', name:'nasi ayam lengkuas', nameId:'nasi ayam lengkuas', tag:'bestseller',
-    desc:'galangal fried chicken, rice, sambal hijau, chili oil & cassava greens',
-    descId:'ayam goreng lengkuas, nasi, sambal hijau, minyak cabai & sayur singkong',
-    price:'28K', category:'food' },
-  { id:'f2', emoji:'🍳', name:'nasi goreng',        nameId:'nasi goreng',
-    desc:'indonesian fried rice with egg & kerupuk', descId:'nasi goreng indonesia dengan telur & kerupuk',
-    price:'20K', category:'food' },
-  { id:'f3', emoji:'🍝', name:'spaghetti bolognese', nameId:'spageti bolognese',
-    desc:'classic italian-style beef bolognese', descId:'spageti daging giling sapi ala italia',
-    price:'22K', category:'food' },
-  { id:'f4', emoji:'🍜', name:'mie goreng',         nameId:'mie goreng',
-    desc:'savory indonesian stir-fried noodles', descId:'mie goreng indonesia yang gurih',
-    price:'18K', category:'food' },
-  { id:'f5', emoji:'🍲', name:'mie kuah',           nameId:'mie kuah',
-    desc:'comforting broth noodle soup', descId:'mie kuah hangat yang menenangkan',
-    price:'18K', category:'food' },
-  { id:'f6', emoji:'👧', name:"kids meal",           nameId:'menu anak',
-    desc:'sausage, nuggets, scrambled egg & mixed vegetables',
-    descId:'sosis, nugget, telur orak-arik & sayur campuran',
-    price:'25K', category:'food' },
-  // snacks
-  { id:'sn1', emoji:'🥐', name:'croissant / muffin', nameId:'croissant / muffin',
-    desc:'freshly baked pastry of the day', descId:'pastri panggang segar pilihan hari ini',
-    price:'18K / 15K', category:'snack' },
-  { id:'sn2', emoji:'🍞', name:'toast — cheese / choc / banana', nameId:'roti bakar — keju / coklat / pisang',
-    desc:'grilled toast with your favourite topping', descId:'roti bakar dengan topping favorit',
-    price:'15K', category:'snack' },
-  { id:'sn3', emoji:'🍫', name:'toast — cheese & chocolate', nameId:'roti bakar — keju coklat',
-    desc:'melted cheese swirled with chocolate', descId:'keju leleh berpadu coklat manis',
-    price:'17K', category:'snack' },
-  { id:'sn4', emoji:'🍌', name:'toast — chocolate banana', nameId:'roti bakar — coklat pisang',
-    desc:'caramelised banana with chocolate spread', descId:'pisang karamel dengan olesan coklat',
-    price:'19K', category:'snack' },
-  { id:'sn5', emoji:'🍌', name:'pisang goreng original', nameId:'pisang goreng original',
-    desc:'classic crispy fried banana', descId:'pisang goreng renyah klasik',
-    price:'12K', category:'snack' },
-  { id:'sn6', emoji:'🍌', name:'pisang goreng — cheese / choc', nameId:'pisang goreng — keju / coklat',
-    desc:'fried banana with cheese or chocolate', descId:'pisang goreng dengan keju atau coklat',
-    price:'15K', category:'snack' },
-  { id:'sn7', emoji:'🍌', name:'pisang goreng coklat keju', nameId:'pisang goreng coklat keju',
-    desc:'fried banana loaded with choc & cheese', descId:'pisang goreng berlimpah coklat & keju',
-    price:'17K', category:'snack' },
-  { id:'sn8', emoji:'🍟', name:'french fries original', nameId:'kentang goreng original',
-    desc:'golden crispy fries with sea salt', descId:'kentang goreng renyah dengan garam laut',
-    price:'15K', category:'snack' },
-  { id:'sn9', emoji:'🧀', name:'cheesy french fries', nameId:'kentang goreng keju',
-    desc:'crispy fries loaded with melted cheese', descId:'kentang goreng berlimpah keju leleh',
-    price:'17K', category:'snack' },
-  { id:'sn10', emoji:'🍪', name:'cookies (all variants)', nameId:'cookies (semua varian)',
-    desc:"house-baked cookies — ask today's flavour", descId:'cookies buatan sendiri — tanya varian hari ini',
-    price:'15K', category:'snack' },
-  { id:'sn11', emoji:'🍗', name:'chicken wings & fries', nameId:'sayap ayam & kentang', tag:'bestseller',
-    desc:'crispy wings with a side of fries', descId:'sayap ayam renyah dengan kentang goreng',
-    price:'23K', category:'snack' },
+  { id:'h1',  icon:'espresso',      name:'americano',              nameId:'americano',              desc:'clean double shot, bold & bright',                                                             descId:'double shot bersih, kuat & cerah',                                                            price:'15K',       category:'coffee' },
+  { id:'h2',  icon:'cappuccino',    name:'cappuccino',             nameId:'cappuccino',             desc:'espresso with silky steamed milk foam',                                                         descId:'espresso dengan busa susu lembut',                                                            price:'20K',       category:'coffee' },
+  { id:'h3',  icon:'latte',         name:'latte',                  nameId:'latte',                  desc:'smooth espresso layered with warm milk',                                                        descId:'espresso lembut berlapis susu hangat',                                                        price:'20K',       category:'coffee' },
+  { id:'ic1', icon:'ice-americano', name:'ice americano',          nameId:'es americano',           desc:'bold espresso over ice',                                                                        descId:'espresso kuat dituang di atas es',                                                            price:'17K / 20K', category:'coffee',     size:'M / L' },
+  { id:'ic2', icon:'citrus',        name:'ice americano citrus',   nameId:'es americano jeruk',     desc:'espresso with a bright citrus twist',                                                           descId:'espresso dengan sentuhan jeruk segar',                                                        price:'20K / 23K', category:'coffee',     size:'M / L' },
+  { id:'ic3', icon:'cappuccino',    name:'ice cappuccino',         nameId:'es cappuccino',          desc:'iced espresso with cold foam',                                                                  descId:'espresso dingin dengan busa dingin',                                                          price:'23K / 26K', category:'coffee',     size:'M / L' },
+  { id:'ic4', icon:'latte',         name:'ice latte',              nameId:'es latte',               desc:'chilled espresso with fresh cold milk',                                                         descId:'espresso dingin dengan susu segar',                                                           price:'23K / 26K', category:'coffee',     size:'M / L' },
+  { id:'ic5', icon:'caramel',       name:'ice caramel latte',      nameId:'es latte karamel',       desc:'rich caramel drizzle meets iced latte',                                                         descId:'sirup karamel bertemu es latte',                                                              price:'24K / 27K', category:'coffee',     size:'M / L' },
+  { id:'ic6', icon:'butterscotch',  name:'ice butterscotch latte', nameId:'es latte karamel mentega', desc:'warm butterscotch notes on cold milk',                                                       descId:'karamel mentega dengan susu dingin',                                                          price:'24K / 27K', category:'coffee',     size:'M / L' },
+  { id:'ic7', icon:'vanilla',       name:'ice vanilla latte',      nameId:'es latte vanila',        desc:'madagascar vanilla with cold espresso',                                                         descId:'vanila madagaskar dengan espresso dingin',                                                    price:'24K / 27K', category:'coffee',     size:'M / L' },
+  { id:'ic8', icon:'brown-sugar',   name:'ice brown sugar latte',  nameId:'es latte gula aren',     desc:'house brown sugar syrup & espresso',                                                            descId:'sirup gula aren spesial & espresso',                                                          price:'24K / 27K', category:'coffee',     size:'M / L' },
+  { id:'ic9', icon:'hazelnut',      name:'ice hazelnut latte',     nameId:'es latte hazelnut',      desc:'nutty hazelnut with rich cold latte',                                                           descId:'hazelnut kacang dengan es latte',                                                             price:'24K / 27K', category:'coffee',     size:'M / L' },
+  { id:'s1',  icon:'blonde',        name:'ice blonde',             nameId:'es blonde',  tag:'signature', desc:'single shot, butterscotch, caramel, fresh milk, cream, sea salt & caramel crumbles',      descId:'single shot, karamel mentega, karamel, susu segar, krim, garam laut & remah karamel',        price:'25K / 28K', category:'signature',  size:'M / L' },
+  { id:'s2',  icon:'beige',         name:'ice beige',              nameId:'es beige',   tag:'bestseller', desc:'single shot, palm sugar, fresh milk, cream, sea salt',                                   descId:'single shot, gula aren, susu segar, krim, garam laut',                                        price:'25K / 28K', category:'signature',  size:'M / L' },
+  { id:'s3',  icon:'cocoa-coffee',  name:'ice coca coffee',        nameId:'es kopi kakao', tag:'new',  desc:'double shot, cocoa, caramel sauce, fresh milk',                                             descId:'double shot, kakao, saus karamel, susu segar',                                                price:'26K / 29K', category:'signature',  size:'M / L' },
+  { id:'nc1', icon:'choc-hazelnut', name:'chocolate hazelnut',     nameId:'coklat hazelnut',        desc:'rich chocolate blended with roasted hazelnut',                                                  descId:'coklat kaya berpadu hazelnut panggang',                                                       price:'24K / 27K', category:'non-coffee', size:'M / L' },
+  { id:'nc2', icon:'chocolate',     name:'chocolate',              nameId:'coklat',                 desc:'creamy house chocolate blend',                                                                  descId:'campuran coklat krim spesial',                                                                price:'20K / 23K', category:'non-coffee', size:'M / L' },
+  { id:'nc3', icon:'matcha',        name:'matcha',                 nameId:'matcha',                 desc:'ceremonial grade japanese green tea',                                                           descId:'teh hijau jepang kelas upacara',                                                              price:'20K / 23K', category:'non-coffee', size:'M / L' },
+  { id:'nc4', icon:'matcha-strawberry', name:'matcha strawberry',  nameId:'matcha stroberi',        desc:'layered matcha and fresh strawberry',                                                           descId:'lapisan matcha dan stroberi segar',                                                           price:'24K / 27K', category:'non-coffee', size:'M / L' },
+  { id:'nc5', icon:'strawberry',    name:'strawberry',             nameId:'stroberi',               desc:'fresh blended strawberry smoothie',                                                             descId:'smoothie stroberi segar blended',                                                             price:'20K / 23K', category:'non-coffee', size:'M / L' },
+  { id:'nc6', icon:'thai-tea',      name:'thai tea',               nameId:'thai tea',               desc:'aromatic thai tea with condensed milk',                                                         descId:'teh thailand aromatik dengan susu kental',                                                    price:'20K / 23K', category:'non-coffee', size:'M / L' },
+  { id:'nc7', icon:'lemon-tea',     name:'lemon tea',              nameId:'teh lemon',              desc:'house-brewed tea with fresh lemon',                                                             descId:'teh seduhan spesial dengan perasan lemon',                                                    price:'15K / 18K', category:'non-coffee', size:'M / L' },
+  { id:'b1',  icon:'beer',          name:'bali hai beer (small)',   nameId:'bir bali hai (kecil)',   desc:'crisp local bottled beer',                                                                      descId:'bir bali hai botol segar',                                                                    price:'30K',       category:'beer' },
+  { id:'b2',  icon:'draft-beer',    name:'large draft beer',        nameId:'bir draught besar',      desc:'refreshing large draught pour',                                                                 descId:'bir draught segar ukuran besar',                                                              price:'45K',       category:'beer' },
+  { id:'b3',  icon:'tower-beer',    name:'tower draft beer',        nameId:'tower bir draught', tag:'bestseller', desc:'5 large drafts in a tower — save 25K',                                            descId:'5 bir draught besar — hemat 25K',                                                             price:'200K',      category:'beer',  size:'5 × large' },
+  { id:'b4',  icon:'cocktail',      name:'tropical tomaz',          nameId:'koktail tropical tomaz', tag:'signature', desc:'house tropical cocktail, sweet & refreshing',                                  descId:'koktail tropis spesial, manis & segar',                                                       price:'60K',       category:'beer' },
+  { id:'f1',  icon:'rice-chicken',  name:'nasi ayam lengkuas',      nameId:'nasi ayam lengkuas', tag:'bestseller', desc:'galangal fried chicken, rice, sambal hijau, chili oil & cassava greens',         descId:'ayam goreng lengkuas, nasi, sambal hijau, minyak cabai & sayur singkong',                     price:'28K',       category:'food' },
+  { id:'f2',  icon:'fried-rice',    name:'nasi goreng',             nameId:'nasi goreng',            desc:'indonesian fried rice with egg & kerupuk',                                                      descId:'nasi goreng indonesia dengan telur & kerupuk',                                                price:'20K',       category:'food' },
+  { id:'f3',  icon:'pasta',         name:'spaghetti bolognese',     nameId:'spageti bolognese',      desc:'classic italian-style beef bolognese',                                                          descId:'spageti daging giling sapi ala italia',                                                       price:'22K',       category:'food' },
+  { id:'f4',  icon:'noodles',       name:'mie goreng',              nameId:'mie goreng',             desc:'savory indonesian stir-fried noodles',                                                          descId:'mie goreng indonesia yang gurih',                                                             price:'18K',       category:'food' },
+  { id:'f5',  icon:'noodle-soup',   name:'mie kuah',                nameId:'mie kuah',               desc:'comforting broth noodle soup',                                                                  descId:'mie kuah hangat yang menenangkan',                                                            price:'18K',       category:'food' },
+  { id:'f6',  icon:'kids',          name:'kids meal',               nameId:'menu anak',              desc:'sausage, nuggets, scrambled egg & mixed vegetables',                                            descId:'sosis, nugget, telur orak-arik & sayur campuran',                                             price:'25K',       category:'food' },
+  { id:'sn1', icon:'croissant',     name:'croissant / muffin',      nameId:'croissant / muffin',     desc:'freshly baked pastry of the day',                                                               descId:'pastri panggang segar pilihan hari ini',                                                      price:'18K / 15K', category:'snack' },
+  { id:'sn2', icon:'toast',         name:'toast — cheese / choc / banana', nameId:'roti bakar — keju / coklat / pisang', desc:'grilled toast with your favourite topping',                               descId:'roti bakar dengan topping favorit',                                                           price:'15K',       category:'snack' },
+  { id:'sn3', icon:'toast-choc',    name:'toast — cheese & chocolate', nameId:'roti bakar — keju coklat', desc:'melted cheese swirled with chocolate',                                                    descId:'keju leleh berpadu coklat manis',                                                             price:'17K',       category:'snack' },
+  { id:'sn4', icon:'banana-toast',  name:'toast — chocolate banana',nameId:'roti bakar — coklat pisang', desc:'caramelised banana with chocolate spread',                                                  descId:'pisang karamel dengan olesan coklat',                                                         price:'19K',       category:'snack' },
+  { id:'sn5', icon:'banana',        name:'pisang goreng original',  nameId:'pisang goreng original', desc:'classic crispy fried banana',                                                                   descId:'pisang goreng renyah klasik',                                                                 price:'12K',       category:'snack' },
+  { id:'sn6', icon:'banana-toppings', name:'pisang goreng — cheese / choc', nameId:'pisang goreng — keju / coklat', desc:'fried banana with cheese or chocolate',                                         descId:'pisang goreng dengan keju atau coklat',                                                       price:'15K',       category:'snack' },
+  { id:'sn7', icon:'banana-loaded', name:'pisang goreng coklat keju', nameId:'pisang goreng coklat keju', desc:'fried banana loaded with choc & cheese',                                                   descId:'pisang goreng berlimpah coklat & keju',                                                       price:'17K',       category:'snack' },
+  { id:'sn8', icon:'fries',         name:'french fries original',   nameId:'kentang goreng original', desc:'golden crispy fries with sea salt',                                                            descId:'kentang goreng renyah dengan garam laut',                                                     price:'15K',       category:'snack' },
+  { id:'sn9', icon:'cheesy-fries',  name:'cheesy french fries',     nameId:'kentang goreng keju',    desc:'crispy fries loaded with melted cheese',                                                        descId:'kentang goreng berlimpah keju leleh',                                                         price:'17K',       category:'snack' },
+  { id:'sn10',icon:'cookie',        name:'cookies (all variants)',  nameId:'cookies (semua varian)', desc:"house-baked cookies — ask today's flavour",                                                      descId:'cookies buatan sendiri — tanya varian hari ini',                                              price:'15K',       category:'snack' },
+  { id:'sn11',icon:'wings',         name:'chicken wings & fries',   nameId:'sayap ayam & kentang', tag:'bestseller', desc:'crispy wings with a side of fries',                                             descId:'sayap ayam renyah dengan kentang goreng',                                                     price:'23K',       category:'snack' },
 ];
 
 const tabs = [
-  { id:'all',        en:'all',         id_:'semua',        icon:'✨' },
-  { id:'coffee',     en:'coffee',      id_:'kopi',         icon:'☕' },
-  { id:'signature',  en:'signature',   id_:'spesial',      icon:'🌅' },
-  { id:'non-coffee', en:'non-coffee',  id_:'non-kopi',     icon:'🍵' },
-  { id:'food',       en:'food',        id_:'makanan',      icon:'🍽️' },
-  { id:'snack',      en:'snacks',      id_:'camilan',      icon:'🥐' },
-  { id:'beer',       en:'beer & more', id_:'bir & lainnya',icon:'🍺' },
+  { id:'coffee',     en:'coffee',      id_:'kopi',          color:'#C9924A' },
+  { id:'signature',  en:'signature',   id_:'spesial',       color:'#E8A87C' },
+  { id:'non-coffee', en:'non-coffee',  id_:'non-kopi',      color:'#7FB069' },
+  { id:'food',       en:'food',        id_:'makanan',       color:'#E07A5F' },
+  { id:'snack',      en:'snacks',      id_:'camilan',       color:'#F2CC8F' },
+  { id:'beer',       en:'beer & more', id_:'bir & lainnya', color:'#F4A261' },
 ];
+
+const icons: Record<string, string> = {
+  'espresso':         `<circle cx="12" cy="14" r="5" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M9 14c0-1.66 1.34-3 3-3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M8 9V7a4 4 0 018 0v2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M12 5V3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>`,
+  'cappuccino':       `<path d="M6 9h12l-1.5 8H7.5L6 9z" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linejoin="round"/><path d="M8 9c0-2.21 1.79-4 4-4s4 1.79 4 4" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M9 12q3-2 6 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>`,
+  'latte':            `<path d="M7 9h10l-1.5 9H8.5L7 9z" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linejoin="round"/><path d="M9 9V7a3 3 0 016 0v2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M10 13q2-1.5 4 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>`,
+  'ice-americano':    `<rect x="7" y="8" width="10" height="12" rx="2" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M10 8V6a2 2 0 014 0v2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="13" x2="15" y2="13" stroke="currentColor" stroke-width="1.2" stroke-dasharray="2 1.5"/><line x1="9" y1="16" x2="15" y2="16" stroke="currentColor" stroke-width="1.2" stroke-dasharray="2 1.5"/>`,
+  'citrus':           `<circle cx="12" cy="13" r="5" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M12 8v10M7 13h10" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><path d="M8.5 9.5l7 7M15.5 9.5l-7 7" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"/><path d="M10 6c0-1.1.9-2 2-2s2 .9 2 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>`,
+  'caramel':          `<path d="M7 10h10l-1 9H8L7 10z" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linejoin="round"/><path d="M9 10V8a3 3 0 016 0v2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M9.5 13c.5-1 2.5-1.5 3 0s2.5 1 3 0" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" fill="none"/>`,
+  'butterscotch':     `<path d="M7 10h10l-1 9H8L7 10z" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linejoin="round"/><path d="M9 10V8a3 3 0 016 0v2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M11 13l1 1 1-1 1 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" fill="none"/>`,
+  'vanilla':          `<path d="M7 10h10l-1 9H8L7 10z" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linejoin="round"/><path d="M9 10V8a3 3 0 016 0v2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M10 14c.7-1.5 3.3-1.5 4 0" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" fill="none"/>`,
+  'brown-sugar':      `<path d="M7 10h10l-1 9H8L7 10z" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linejoin="round"/><path d="M9 10V8a3 3 0 016 0v2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="12" cy="14" r="1.5" stroke="currentColor" stroke-width="1.2" fill="none"/>`,
+  'hazelnut':         `<path d="M7 10h10l-1 9H8L7 10z" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linejoin="round"/><path d="M9 10V8a3 3 0 016 0v2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="12" cy="14.5" r="2" stroke="currentColor" stroke-width="1.2" fill="none"/>`,
+  'blonde':           `<rect x="7" y="9" width="10" height="11" rx="2" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M10 9V7.5a2 2 0 014 0V9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M9 14h6M9 16.5h4" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>`,
+  'beige':            `<rect x="7" y="9" width="10" height="11" rx="2" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M10 9V7.5a2 2 0 014 0V9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="12" cy="14.5" r="2.5" stroke="currentColor" stroke-width="1.2" fill="none"/>`,
+  'cocoa-coffee':     `<rect x="7" y="9" width="10" height="11" rx="2" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M10 9V7.5a2 2 0 014 0V9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M10 13l4 4M14 13l-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>`,
+  'choc-hazelnut':    `<path d="M5 10h14v2a7 7 0 01-14 0v-2z" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linejoin="round"/><path d="M8 10V8a4 4 0 018 0v2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="10.5" cy="13.5" r="1.2" stroke="currentColor" stroke-width="1.1" fill="none"/><circle cx="13.5" cy="13.5" r="1.2" stroke="currentColor" stroke-width="1.1" fill="none"/>`,
+  'chocolate':        `<path d="M5 10h14v2a7 7 0 01-14 0v-2z" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linejoin="round"/><path d="M8 10V8a4 4 0 018 0v2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M9 13.5q3-2 6 0" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>`,
+  'matcha':           `<path d="M5 10h14v2a7 7 0 01-14 0v-2z" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linejoin="round"/><path d="M8 10V8a4 4 0 018 0v2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M9 12.5l1.5 2 2-3 1.5 2 1.5-2" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" fill="none"/>`,
+  'matcha-strawberry':`<path d="M5 10h14v2a7 7 0 01-14 0v-2z" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linejoin="round"/><path d="M8 10V8a4 4 0 018 0v2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M9.5 13l.5 2h5l.5-2" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" fill="none"/>`,
+  'strawberry':       `<path d="M12 18c-3.5-2-6-5.5-6-8a6 6 0 0112 0c0 2.5-2.5 6-6 8z" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M12 6V4M10 5l1 1M14 5l-1 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>`,
+  'thai-tea':         `<path d="M8 8h8l-1 10H9L8 8z" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linejoin="round"/><path d="M10 8l-.5-3h5l-.5 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" fill="none"/><path d="M9 12h6" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>`,
+  'lemon-tea':        `<path d="M8 8h8l-1 10H9L8 8z" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linejoin="round"/><circle cx="12" cy="13" r="2.5" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M12 10.5V8M12 15.5V18" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>`,
+  'beer':             `<path d="M8 7h8l-1 12H9L8 7z" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linejoin="round"/><path d="M16 10h2a1 1 0 011 1v3a1 1 0 01-1 1h-2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M9 10h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>`,
+  'draft-beer':       `<path d="M7 7h10l-1.5 13H8.5L7 7z" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linejoin="round"/><path d="M17 10.5h2a1 1 0 011 1v4a1 1 0 01-1 1h-2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M9 10h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>`,
+  'tower-beer':       `<rect x="8" y="4" width="8" height="16" rx="1.5" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M10 4V3h4v1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M10 8h4M10 12h4" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-dasharray="1 1"/><path d="M8 17h8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>`,
+  'cocktail':         `<path d="M5 4l7 8 7-8H5z" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linejoin="round"/><path d="M12 12v6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M9 18h6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="15" cy="7" r="1.5" stroke="currentColor" stroke-width="1.1" fill="none"/>`,
+  'rice-chicken':     `<ellipse cx="12" cy="15" rx="6" ry="3.5" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M8 15c0-3 1.8-6 4-7 2.2 1 4 4 4 7" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M10 9c-.5-1.5.5-3 2-3s2.5 1.5 2 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" fill="none"/>`,
+  'fried-rice':       `<ellipse cx="12" cy="14" rx="7" ry="4" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M9 11c0-2 1-4 3-5 2 1 3 3 3 5" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="11" cy="13" r=".7" fill="currentColor"/><circle cx="13" cy="12.5" r=".7" fill="currentColor"/><circle cx="12.5" cy="14.5" r=".7" fill="currentColor"/>`,
+  'pasta':            `<path d="M6 17c0-5 2-9 6-9s6 4 6 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/><path d="M8 17c0-3.5 1-6.5 4-6.5s4 3 4 6.5" stroke="currentColor" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.5"/><path d="M9 6c.5-1.5 2-2 3-1 1-1 2.5-.5 3 1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" fill="none"/>`,
+  'noodles':          `<path d="M5 9h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M7 9c0 3 1 5 5 5s5-2 5-5" stroke="currentColor" stroke-width="1.3" fill="none"/><path d="M9 14v3h6v-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" fill="none"/>`,
+  'noodle-soup':      `<path d="M5 10h14" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M6 10c0 4 2.5 7 6 7s6-3 6-7" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M9 7c0-1.5.7-3 1.5-3M12 6c0-1.5.7-3 1.5-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>`,
+  'kids':             `<circle cx="12" cy="8" r="3" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M9 14h6l1 5H8l1-5z" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linejoin="round"/><circle cx="9" cy="16" r=".8" fill="currentColor"/><circle cx="12" cy="16.5" r=".8" fill="currentColor"/><circle cx="15" cy="16" r=".8" fill="currentColor"/>`,
+  'croissant':        `<path d="M5 16c1-4 3-8 4-9l3 3 3-3c1 1 3 5 4 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/><path d="M9 10l3 3 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" fill="none"/>`,
+  'toast':            `<rect x="6" y="6" width="12" height="12" rx="1.5" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M9 10h6M9 13h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>`,
+  'toast-choc':       `<rect x="6" y="6" width="12" height="12" rx="1.5" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M9 9h6M9 12h6M9 15h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>`,
+  'banana-toast':     `<rect x="6" y="6" width="12" height="12" rx="1.5" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M9 12c.5-2 2-3 3-2.5 1-.5 2.5.5 3 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" fill="none"/>`,
+  'banana':           `<path d="M7 17C7 11 9 6 12 6c3 0 5 4 5 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/><path d="M7 17c2 1 6 1 10-3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/>`,
+  'banana-toppings':  `<path d="M7 16C7 10.5 9 6 12 6c3 0 5 4 5 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/><path d="M7 16c2 1 6 1 10-2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/><path d="M7 17h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>`,
+  'banana-loaded':    `<path d="M7 15C7 10 9 6 12 6c3 0 5 3.5 5 7.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/><path d="M7 15c2 1.5 6 1.5 10-1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/><path d="M8 17h8M9 19h6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>`,
+  'fries':            `<rect x="8" y="10" width="8" height="8" rx="1" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M9 10V6M12 10V5M15 10V6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>`,
+  'cheesy-fries':     `<rect x="8" y="10" width="8" height="8" rx="1" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M9 10V6M12 10V5M15 10V6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M8 14c1-1 2.5-1 4 0 1.5 1 3 1 4 0" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" fill="none"/>`,
+  'cookie':           `<circle cx="12" cy="12" r="6" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="10" cy="11" r="1" fill="currentColor"/><circle cx="13.5" cy="13" r="1" fill="currentColor"/><circle cx="11" cy="14.5" r=".8" fill="currentColor"/>`,
+  'wings':            `<path d="M6 14c0-4 2-7 5-7 1 2 1 4 0 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/><path d="M11 13c1-3 3-5 5-4-1 2-2 4-4 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/><path d="M7 16h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>`,
+};
 ---
 
-<!-- ══ MENU ════════════════════════════════════════════════════ -->
-<section class="menu pc-section" id="menu" aria-label="our menu">
-  <div class="wrap">
+<section class="menu" id="menu" aria-label="our menu">
+  <div class="menu__wrap">
 
-    <!-- header -->
     <header class="menu__head reveal">
       <p class="eyebrow" data-en="what we brew" data-id="apa yang kami sajikan">what we brew</p>
       <h2 data-en="the put.in menu" data-id="menu put.in">the put.in menu</h2>
-      <p class="menu__sub" data-en="bali highland beans, honest food, ocean breeze — served daily from 7am."
-         data-id="biji kopi pegunungan bali, makanan jujur, angin laut — disajikan setiap hari mulai jam 7.">
+      <p class="menu__sub"
+        data-en="bali highland beans, honest food, ocean breeze — served daily from 7am."
+        data-id="biji kopi pegunungan bali, makanan jujur, angin laut — disajikan setiap hari mulai jam 7.">
         bali highland beans, honest food, ocean breeze — served daily from 7am.
       </p>
     </header>
 
-    <!-- tabs -->
-    <div class="menu__tabs" role="tablist" aria-label="menu categories">
+    <nav class="menu__nav" role="tablist" aria-label="menu categories">
       {tabs.map((t, i) => (
         <button
-          class={`menu__tab${i===0?' menu__tab--on':''}`}
+          class="menu__navbtn"
           data-cat={t.id}
-          data-en={`${t.icon} ${t.en}`}
-          data-id={`${t.icon} ${t.id_}`}
+          data-color={t.color}
+          data-en={t.en}
+          data-id={t.id_}
           role="tab"
-          aria-selected={i===0?'true':'false'}
+          aria-selected="false"
         >
-          <span class="menu__tab-icon" aria-hidden="true">{t.icon}</span>
-          <span class="menu__tab-label">{t.en}</span>
+          <span class="menu__navbtn-label">{t.en}</span>
+          <span class="menu__navbtn-count"></span>
         </button>
       ))}
-    </div>
+    </nav>
 
-    <!-- grid -->
-    <div class="menu__grid" id="menu-grid" role="tabpanel">
-      {items.map((item, i) => (
-        <article class="menu__card pc-card" data-cat={item.category} aria-label={item.name}>
-          {item.tag && (
-            <span class={`menu__tag menu__tag--${item.tag}`}>
-              {item.tag==='bestseller'?'🔥 best seller':item.tag==='new'?'✨ new':'🌅 signature'}
-            </span>
-          )}
-          <div class="menu__emoji" aria-hidden="true">{item.emoji}</div>
-          <div class="menu__info">
-            <div class="menu__name-row">
-              <h3 class="menu__name" data-en={item.name} data-id={item.nameId}>{item.name}</h3>
-              {item.size && <span class="menu__size">{item.size}</span>}
-            </div>
-            {item.desc && (
-              <p class="menu__desc" data-en={item.desc} data-id={item.descId??item.desc}>{item.desc}</p>
-            )}
-            <div class="menu__foot">
-              <span class="menu__price">{item.price}</span>
-              <button class="menu__add" aria-label={`note ${item.name}`} data-item={item.name} title="note for visit">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                  <path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                </svg>
-              </button>
-            </div>
-          </div>
-          <div class="menu__glow" aria-hidden="true"></div>
-        </article>
-      ))}
-    </div>
-
-    <!-- empty -->
-    <p id="menu-empty" class="menu__empty" hidden>
-      <span aria-hidden="true">☕</span>
-      <span data-en="nothing here yet." data-id="belum ada item.">nothing here yet.</span>
-    </p>
+    {tabs.map((t, ti) => (
+      <div class={`menu__lane${ti === 0 ? '' : ' menu__lane--hidden'}`} data-lane={t.id} role="tabpanel">
+        <div class="menu__track" data-track={t.id}>
+          {items.filter(item => item.category === t.id).map((item) => (
+            <button
+              class="menu__card"
+              data-id={item.id}
+              data-cat={item.category}
+              aria-label={`view ${item.name}`}
+              type="button"
+            >
+              {item.tag && (
+                <span class={`menu__tag menu__tag--${item.tag}`}>
+                  {item.tag === 'bestseller' ? 'best seller' : item.tag === 'new' ? 'new' : 'signature'}
+                </span>
+              )}
+              <div class="menu__icon-wrap" aria-hidden="true">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" class="menu__icon" set:html={icons[item.icon] ?? icons['espresso']}/>
+              </div>
+              <div class="menu__card-body">
+                <h3 class="menu__card-name" data-en={item.name} data-id={item.nameId}>{item.name}</h3>
+                {item.size && <span class="menu__card-size">{item.size}</span>}
+                <p class="menu__card-price">{item.price}</p>
+              </div>
+              <div class="menu__card-shine" aria-hidden="true"></div>
+            </button>
+          ))}
+        </div>
+        <button class="menu__arrow menu__arrow--prev" data-track={t.id} aria-label="scroll left" type="button">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="menu__arrow menu__arrow--next" data-track={t.id} aria-label="scroll right" type="button">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    ))}
 
   </div>
 </section>
 
+<!-- DRAWER -->
+<div class="mdrawer" id="menu-drawer" aria-modal="true" role="dialog" aria-label="item detail" style="display:none">
+  <div class="mdrawer__backdrop"></div>
+  <div class="mdrawer__sheet">
+    <button class="mdrawer__close" type="button" aria-label="close">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 4l10 10M14 4L4 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+    <div class="mdrawer__icon-stage">
+      <svg width="72" height="72" viewBox="0 0 24 24" fill="none" id="drawer-icon" class="mdrawer__bigicon"></svg>
+      <div class="mdrawer__glow-ring" aria-hidden="true"></div>
+    </div>
+    <div class="mdrawer__body">
+      <div class="mdrawer__meta">
+        <span class="mdrawer__tag" id="drawer-tag" style="display:none"></span>
+        <span class="mdrawer__size" id="drawer-size" style="display:none"></span>
+      </div>
+      <h2 class="mdrawer__name" id="drawer-name"></h2>
+      <p class="mdrawer__desc" id="drawer-desc"></p>
+      <div class="mdrawer__price-row">
+        <span class="mdrawer__price" id="drawer-price"></span>
+        <button class="mdrawer__note" type="button" id="drawer-note" aria-label="note item">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <span data-en="add to list" data-id="tambah ke daftar">add to list</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="application/json" id="menu-data" set:html={JSON.stringify(items)}></script>
+
 <style>
-  /* ── Section ─────────────────────────────────────────────── */
-  .menu__head {
-    text-align: center;
-    margin-bottom: 3rem;
-  }
-  .menu__head h2 {
-    text-transform: lowercase;
-    margin: 0.5rem 0;
-  }
-  .menu__sub {
-    font-size: 0.9rem;
-    font-weight: 300;
-    color: var(--muted);
-    max-width: 420px;
-    margin: 0 auto;
-    text-transform: lowercase;
-  }
+  .menu__card { appearance: none; background: none; border: none; text-align: left; cursor: pointer; padding: 0; }
+  .menu { padding: var(--section-py, 5rem) 0; }
+  .menu__wrap { max-width: var(--content-width, 1140px); margin: 0 auto; padding: 0 1.5rem; }
 
-  /* ── Tabs ────────────────────────────────────────────────── */
-  .menu__tabs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.45rem;
-    justify-content: center;
-    margin-bottom: 2.5rem;
+  .menu__head { text-align: center; margin-bottom: 2.75rem; }
+  .menu__head h2 { text-transform: lowercase; margin: 0.5rem 0; }
+  .menu__sub { font-size: 0.875rem; font-weight: 300; color: var(--muted); max-width: 420px; margin: 0 auto; text-transform: lowercase; }
+
+  .menu__nav { display: flex; gap: 0.35rem; flex-wrap: wrap; justify-content: center; margin-bottom: 2.5rem; }
+  .menu__navbtn {
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    padding: 0.48rem 1.1rem; border-radius: 50px;
+    border: 1px solid var(--border, rgba(255,255,255,0.08));
+    background: var(--glass, rgba(255,255,255,0.03));
+    font-family: var(--font-body); font-size: 0.75rem; font-weight: 400;
+    color: var(--muted); cursor: pointer;
+    transition: color 0.2s, border-color 0.2s, background 0.2s, box-shadow 0.2s;
+    text-transform: lowercase; white-space: nowrap;
   }
-  .menu__tab {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 0.5rem 1.1rem;
-    border-radius: 50px;
-    border: 1px solid var(--border);
-    background: var(--glass);
-    font-family: var(--font-body);
-    font-size: 0.75rem;
-    font-weight: 400;
-    color: var(--muted);
-    cursor: pointer;
-    transition: all 0.22s ease;
-    text-transform: lowercase;
-    white-space: nowrap;
-  }
-  .menu__tab:hover {
-    color: var(--cream);
-    border-color: rgba(201,146,74,0.2);
-  }
-  .menu__tab--on {
-    background: linear-gradient(135deg, var(--coral), var(--gold));
-    border-color: transparent;
-    color: var(--bg);
+  .menu__navbtn:hover { color: var(--cream, #F0E8DC); border-color: rgba(255,255,255,0.15); }
+  .menu__navbtn--on {
+    background: rgba(201,146,74,0.12);
+    border-color: rgba(201,146,74,0.45);
+    color: var(--btn-color, #C9924A);
     font-weight: 600;
-    box-shadow: 0 2px 14px rgba(201,146,74,0.25);
+    box-shadow: 0 2px 16px rgba(201,146,74,0.18);
   }
-  .menu__tab--on:hover { color: var(--bg); }
-  .menu__tab-icon { font-size: 0.9rem; line-height: 1; }
-
-  /* ── Grid ────────────────────────────────────────────────── */
-  .menu__grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-    gap: 1rem;
+  .menu__navbtn-count {
+    font-size: 0.65rem; background: rgba(255,255,255,0.06);
+    border-radius: 50px; padding: 1px 5px; color: var(--muted);
   }
+  .menu__navbtn--on .menu__navbtn-count { background: rgba(201,146,74,0.18); color: var(--btn-color, #C9924A); }
 
-  /* ── Card ────────────────────────────────────────────────── */
+  .menu__lane { position: relative; }
+  .menu__lane--hidden { display: none; }
+
+  .menu__track {
+    display: flex; gap: 1rem; overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 0.5rem 0 1.5rem;
+    scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  }
+  .menu__track::-webkit-scrollbar { display: none; }
+
   .menu__card {
-    position: relative;
+    position: relative; flex: 0 0 172px; scroll-snap-align: start;
+    border-radius: 16px; padding: 1.25rem 1rem 1.1rem;
+    background: var(--glass, rgba(255,255,255,0.03));
+    border: 1px solid var(--border, rgba(255,255,255,0.07));
+    display: flex; flex-direction: column; align-items: flex-start; gap: 0.7rem;
+    transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
   }
-  .menu__card[hidden] { display: none; }
-  .menu__card:hover .menu__glow { opacity: 1; }
-  .menu__card:hover .menu__emoji { transform: scale(1.06) rotate(-2deg); }
-  .menu__glow {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 50% 0%, rgba(201,146,74,0.05), transparent 65%);
-    opacity: 0;
-    transition: opacity 0.35s;
-    pointer-events: none;
-  }
+  .menu__card:hover { transform: translateY(-3px); border-color: rgba(201,146,74,0.3); box-shadow: 0 8px 28px rgba(0,0,0,0.2); }
+  .menu__card:focus-visible { outline: 2px solid #C9924A; outline-offset: 2px; }
+  .menu__card:active { transform: scale(0.97); }
 
-  /* tag */
+  .menu__card-shine {
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% -10%, rgba(201,146,74,0.07), transparent 60%);
+    opacity: 0; pointer-events: none; transition: opacity 0.3s;
+  }
+  .menu__card:hover .menu__card-shine { opacity: 1; }
+
   .menu__tag {
-    position: absolute;
-    top: 8px; right: 8px;
-    font-family: var(--font-body);
-    font-size: 0.58rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    text-transform: lowercase;
-    padding: 0.25rem 0.6rem;
-    border-radius: 50px;
-    z-index: 2;
+    position: absolute; top: 8px; right: 8px;
+    font-size: 0.55rem; font-weight: 700; letter-spacing: 0.06em;
+    text-transform: lowercase; padding: 2px 7px; border-radius: 50px;
   }
-  .menu__tag--bestseller { background: linear-gradient(135deg, var(--coral), var(--gold)); color: var(--bg); }
-  .menu__tag--new        { background: linear-gradient(135deg, #5bdb83, #38bdf8);         color: var(--bg); }
-  .menu__tag--signature  { background: linear-gradient(135deg, var(--gold-lt), var(--gold)); color: var(--bg); }
+  .menu__tag--bestseller { background: linear-gradient(135deg, #E07A5F, #C9924A); color: #0a0a0a; }
+  .menu__tag--new        { background: linear-gradient(135deg, #5bdb83, #38bdf8); color: #0a0a0a; }
+  .menu__tag--signature  { background: linear-gradient(135deg, #f4d07a, #C9924A); color: #0a0a0a; }
 
-  /* emoji */
-  .menu__emoji {
-    height: 88px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2.5rem;
-    background: rgba(255,255,255,0.02);
-    flex-shrink: 0;
-    transition: transform 0.3s;
-  }
-
-  /* info */
-  .menu__info {
-    padding: 0.9rem 1rem 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.45rem;
-    flex: 1;
-  }
-  .menu__name-row {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 0.5rem;
-  }
-  .menu__name {
-    font-family: var(--font-body);
-    font-size: 0.88rem;
-    font-weight: 500;
-    color: var(--cream);
-    margin: 0;
-    line-height: 1.3;
-    text-transform: lowercase;
-    flex: 1;
-  }
-  .menu__size {
-    font-size: 0.6rem;
-    font-weight: 400;
-    letter-spacing: 0.06em;
-    color: rgba(201,146,74,0.65);
-    border: 1px solid rgba(201,146,74,0.18);
-    border-radius: 50px;
-    padding: 1px 6px;
-    flex-shrink: 0;
-    white-space: nowrap;
-    margin-top: 1px;
-    text-transform: lowercase;
-  }
-  .menu__desc {
-    font-size: 0.74rem;
-    font-weight: 300;
-    color: var(--muted);
-    line-height: 1.5;
-    margin: 0;
-    flex: 1;
-    text-transform: lowercase;
-  }
-  .menu__foot {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-top: 0.5rem;
-    border-top: 1px solid rgba(240,232,220,0.05);
-    margin-top: auto;
-  }
-  .menu__price {
-    font-family: var(--font-display);
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: var(--gold-lt);
-    font-style: italic;
-  }
-  .menu__add {
-    width: 28px; height: 28px;
-    border-radius: 50%;
-    border: 1px solid rgba(201,146,74,0.25);
-    background: rgba(201,146,74,0.04);
-    color: var(--gold);
+  .menu__icon-wrap {
+    width: 52px; height: 52px; border-radius: 14px;
+    background: rgba(255,255,255,0.04);
     display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.25s, box-shadow 0.2s;
-    flex-shrink: 0;
+    transition: background 0.25s; flex-shrink: 0;
   }
-  .menu__add:hover {
-    background: linear-gradient(135deg, var(--coral), var(--gold));
-    color: var(--bg);
-    border-color: transparent;
-    transform: rotate(90deg) scale(1.1);
-    box-shadow: 0 3px 10px rgba(201,146,74,0.3);
-  }
+  .menu__card:hover .menu__icon-wrap { background: rgba(201,146,74,0.08); }
+  .menu__icon { color: var(--gold-lt, #E8C97A); display: block; }
 
-  /* empty */
-  .menu__empty {
-    text-align: center;
-    padding: 3rem;
-    color: var(--muted);
-    font-size: 0.85rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 1.5rem;
-  }
-  .menu__empty span:last-child { font-size: 0.85rem; }
+  .menu__card-body { display: flex; flex-direction: column; gap: 0.2rem; width: 100%; }
+  .menu__card-name { font-family: var(--font-body); font-size: 0.8rem; font-weight: 500; color: var(--cream, #F0E8DC); margin: 0; line-height: 1.35; text-transform: lowercase; }
+  .menu__card-size { font-size: 0.6rem; letter-spacing: 0.05em; color: rgba(201,146,74,0.6); border: 1px solid rgba(201,146,74,0.15); border-radius: 50px; padding: 1px 5px; align-self: flex-start; text-transform: lowercase; }
+  .menu__card-price { font-family: var(--font-display); font-size: 1rem; font-weight: 500; color: var(--gold-lt, #E8C97A); font-style: italic; margin: 0.15rem 0 0; }
 
-  /* responsive */
+  .menu__arrow {
+    position: absolute; top: 50%; transform: translateY(-60%);
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--bg, #0e0d0b); border: 1px solid rgba(255,255,255,0.1);
+    color: var(--cream, #F0E8DC); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s; z-index: 3; box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+  }
+  .menu__arrow--prev { left: -14px; }
+  .menu__arrow--next { right: -14px; }
+  .menu__arrow:hover { background: rgba(201,146,74,0.1); }
+  @media (max-width: 600px) { .menu__arrow { display: none; } }
+
+  /* DRAWER */
+  .mdrawer { position: fixed; inset: 0; z-index: 200; display: flex; align-items: flex-end; justify-content: center; }
+  .mdrawer__backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.65); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); cursor: pointer; }
+  .mdrawer__sheet {
+    position: relative; z-index: 1; width: 100%; max-width: 480px;
+    background: #141210;
+    border-radius: 24px 24px 0 0; border-top: 1px solid rgba(255,255,255,0.08);
+    padding: 0 1.75rem 2.5rem; overflow: hidden;
+    animation: drawerIn 0.32s cubic-bezier(0.22,1,0.36,1) forwards;
+  }
+  @keyframes drawerIn  { from { transform: translateY(100%); } to { transform: translateY(0); } }
+  @keyframes drawerOut { from { transform: translateY(0);    } to { transform: translateY(100%); } }
+  .mdrawer--closing .mdrawer__sheet { animation: drawerOut 0.22s ease-in forwards; }
+
+  .mdrawer__sheet::before {
+    content: ''; display: block; width: 36px; height: 4px; border-radius: 2px;
+    background: rgba(255,255,255,0.12); margin: 0.85rem auto 0;
+  }
+  .mdrawer__close {
+    position: absolute; top: 1.1rem; right: 1.25rem;
+    width: 32px; height: 32px; border-radius: 50%;
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    color: var(--muted, #888); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s, color 0.2s;
+  }
+  .mdrawer__close:hover { background: rgba(255,255,255,0.1); color: var(--cream, #F0E8DC); }
+
+  .mdrawer__icon-stage { position: relative; display: flex; align-items: center; justify-content: center; height: 110px; margin: 1rem 0 0; }
+  .mdrawer__bigicon { color: var(--drawer-color, #E8C97A); position: relative; z-index: 1; filter: drop-shadow(0 4px 16px rgba(201,146,74,0.35)); transition: color 0.3s; }
+  .mdrawer__glow-ring { position: absolute; inset: 0; background: radial-gradient(circle, rgba(201,146,74,0.1) 0%, transparent 70%); border-radius: 50%; }
+
+  .mdrawer__body { padding-top: 0.6rem; }
+  .mdrawer__meta { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem; }
+  .mdrawer__tag { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.06em; text-transform: lowercase; padding: 2px 8px; border-radius: 50px; }
+  .mdrawer__tag--bestseller { background: linear-gradient(135deg, #E07A5F, #C9924A); color: #0a0a0a; }
+  .mdrawer__tag--new        { background: linear-gradient(135deg, #5bdb83, #38bdf8); color: #0a0a0a; }
+  .mdrawer__tag--signature  { background: linear-gradient(135deg, #f4d07a, #C9924A); color: #0a0a0a; }
+  .mdrawer__size { font-size: 0.65rem; color: var(--muted, #888); border: 1px solid rgba(255,255,255,0.1); border-radius: 50px; padding: 2px 8px; text-transform: lowercase; }
+
+  .mdrawer__name { font-family: var(--font-body); font-size: 1.35rem; font-weight: 500; color: var(--cream, #F0E8DC); text-transform: lowercase; margin: 0 0 0.55rem; line-height: 1.25; }
+  .mdrawer__desc { font-size: 0.83rem; font-weight: 300; color: var(--muted, #888); line-height: 1.65; margin: 0 0 1.25rem; text-transform: lowercase; }
+
+  .mdrawer__price-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  .mdrawer__price { font-family: var(--font-display); font-size: 1.75rem; font-weight: 500; color: var(--drawer-color, #E8C97A); font-style: italic; transition: color 0.3s; }
+  .mdrawer__note {
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    padding: 0.6rem 1.2rem; border-radius: 50px;
+    background: rgba(201,146,74,0.1); border: 1px solid rgba(201,146,74,0.3);
+    color: #E8C97A; font-family: var(--font-body); font-size: 0.78rem; font-weight: 500;
+    cursor: pointer; transition: background 0.2s, box-shadow 0.2s; text-transform: lowercase;
+  }
+  .mdrawer__note:hover { background: rgba(201,146,74,0.2); box-shadow: 0 4px 14px rgba(201,146,74,0.2); }
+
   @media (max-width: 540px) {
-    .menu__grid { grid-template-columns: 1fr 1fr; gap: 0.65rem; }
-    .menu__emoji { height: 64px; font-size: 1.8rem; }
-    .menu__desc { display: none; }
-    .menu__info { padding: 0.65rem 0.75rem 0.75rem; }
+    .menu__card { flex: 0 0 148px; padding: 1rem 0.85rem; }
+    .menu__icon-wrap { width: 44px; height: 44px; }
+    .menu__card-name { font-size: 0.75rem; }
+    .mdrawer__sheet { padding: 0 1.25rem 2rem; }
+    .mdrawer__name { font-size: 1.15rem; }
+    .mdrawer__price { font-size: 1.45rem; }
   }
-  @media (max-width: 360px) {
-    .menu__grid { grid-template-columns: 1fr; }
+  @media (min-width: 900px) {
+    .mdrawer { align-items: center; }
+    .mdrawer__sheet { border-radius: 20px; max-width: 440px; }
+    .mdrawer__sheet::before { display: none; }
   }
+
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
+  .reveal.in { opacity: 1; transform: none; }
 </style>
 
 <script>
-  const tabs  = document.querySelectorAll<HTMLButtonElement>('.menu__tab');
-  const cards = document.querySelectorAll<HTMLElement>('.menu__card');
-  const empty = document.getElementById('menu-empty')!;
+document.addEventListener('DOMContentLoaded', function () {
 
-  function stagger(visible: HTMLElement[]) {
-    visible.forEach((c, i) => {
-      c.style.animationDelay = `${i * 0.035}s`;
-      c.style.animationName = 'none';
-      void c.offsetHeight;
-      c.style.animationName = '';
+  var raw = (document.getElementById('menu-data') || {}).textContent || '[]';
+  var items = JSON.parse(raw);
+
+  var catColors = {
+    'coffee':     '#C9924A',
+    'signature':  '#E8A87C',
+    'non-coffee': '#7FB069',
+    'food':       '#E07A5F',
+    'snack':      '#F2CC8F',
+    'beer':       '#F4A261'
+  };
+
+  var tabs   = document.querySelectorAll('.menu__navbtn');
+  var lanes  = document.querySelectorAll('.menu__lane');
+  var drawer = document.getElementById('menu-drawer');
+  var isOpen = false;
+  var currentItem = null;
+
+  // populate counts + apply active style to first tab
+  tabs.forEach(function (tab, i) {
+    var cat = tab.getAttribute('data-cat');
+    var count = items.filter(function (it) { return it.category === cat; }).length;
+    var countEl = tab.querySelector('.menu__navbtn-count');
+    if (countEl) countEl.textContent = count;
+    if (i === 0) activateTab(tab);
+  });
+
+  function activateTab(tab) {
+    var cat   = tab.getAttribute('data-cat');
+    var color = catColors[cat] || '#C9924A';
+
+    tabs.forEach(function (t) {
+      t.classList.remove('menu__navbtn--on');
+      t.setAttribute('aria-selected', 'false');
+      t.style.removeProperty('--btn-color');
+    });
+    tab.classList.add('menu__navbtn--on');
+    tab.setAttribute('aria-selected', 'true');
+    tab.style.setProperty('--btn-color', color);
+
+    // update active tab border/shadow colour inline so no color-mix needed
+    tab.style.borderColor   = color.replace(')', ', 0.45)').replace('rgb', 'rgba');
+    tab.style.boxShadow     = '0 2px 16px ' + hexToRgba(color, 0.18);
+    tab.style.background    = hexToRgba(color, 0.10);
+    tab.style.color         = color;
+
+    lanes.forEach(function (lane) {
+      if (lane.getAttribute('data-lane') === cat) {
+        lane.classList.remove('menu__lane--hidden');
+      } else {
+        lane.classList.add('menu__lane--hidden');
+      }
     });
   }
 
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      const cat = tab.dataset.cat!;
-      tabs.forEach(t => { t.classList.remove('menu__tab--on'); t.setAttribute('aria-selected','false'); });
-      tab.classList.add('menu__tab--on');
-      tab.setAttribute('aria-selected','true');
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () { activateTab(tab); });
+  });
 
-      const vis: HTMLElement[] = [];
-      cards.forEach(c => {
-        const show = cat === 'all' || c.dataset.cat === cat;
-        c.hidden = !show;
-        if (show) vis.push(c);
-      });
-      empty.hidden = vis.length > 0;
-      stagger(vis);
+  // arrows
+  document.querySelectorAll('.menu__arrow').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var trackId = btn.getAttribute('data-track');
+      var track   = document.querySelector('[data-track="' + trackId + '"]');
+      if (!track) return;
+      var dir = btn.classList.contains('menu__arrow--next') ? 1 : -1;
+      track.scrollBy({ left: dir * 300, behavior: 'smooth' });
     });
   });
 
-  tabs[0]?.click();
+  // drawer
+  function openDrawer(item) {
+    currentItem = item;
+    var color   = catColors[item.category] || '#C9924A';
+    var isID    = document.documentElement.lang === 'id';
 
-  // add to visit note
-  document.querySelectorAll<HTMLButtonElement>('.menu__add').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const name = btn.dataset.item!;
-      window.dispatchEvent(new CustomEvent('pc:toast', { detail:{ type:'success', title:'noted! ☕', message:`${name} added to your visit list.` } }));
-      // @ts-ignore
-      if (window.plausible) window.plausible('Menu Item Click', { props:{ item: name } });
+    // clone svg paths from the card into the big drawer icon
+    var cardIcon = document.querySelector('.menu__card[data-id="' + item.id + '"] .menu__icon');
+    var drawerIcon = document.getElementById('drawer-icon');
+    if (cardIcon && drawerIcon) {
+      drawerIcon.innerHTML = cardIcon.innerHTML;
+    }
+
+    // tag
+    var tagEl = document.getElementById('drawer-tag');
+    if (item.tag) {
+      tagEl.style.display = '';
+      tagEl.className = 'mdrawer__tag mdrawer__tag--' + item.tag;
+      tagEl.textContent = item.tag === 'bestseller' ? 'best seller' : item.tag === 'new' ? 'new' : 'signature';
+    } else {
+      tagEl.style.display = 'none';
+    }
+
+    // size
+    var sizeEl = document.getElementById('drawer-size');
+    if (item.size) { sizeEl.style.display = ''; sizeEl.textContent = item.size; }
+    else           { sizeEl.style.display = 'none'; }
+
+    document.getElementById('drawer-name').textContent  = isID ? item.nameId : item.name;
+    document.getElementById('drawer-desc').textContent  = (isID ? item.descId : item.desc) || '';
+    document.getElementById('drawer-price').textContent = item.price;
+
+    // colour accents
+    var sheet = drawer.querySelector('.mdrawer__sheet');
+    sheet.style.setProperty('--drawer-color', color);
+    document.getElementById('drawer-price').style.color = color;
+    document.getElementById('drawer-icon').style.color  = color;
+    var glowRing = drawer.querySelector('.mdrawer__glow-ring');
+    if (glowRing) glowRing.style.background = 'radial-gradient(circle, ' + hexToRgba(color, 0.12) + ' 0%, transparent 70%)';
+
+    drawer.style.display = 'flex';
+    drawer.classList.remove('mdrawer--closing');
+    // restart animation
+    sheet.style.animation = 'none';
+    void sheet.offsetHeight;
+    sheet.style.animation = '';
+    document.body.style.overflow = 'hidden';
+    isOpen = true;
+
+    setTimeout(function () {
+      var closeBtn = drawer.querySelector('.mdrawer__close');
+      if (closeBtn) closeBtn.focus();
+    }, 60);
+  }
+
+  function closeDrawer() {
+    if (!isOpen) return;
+    drawer.classList.add('mdrawer--closing');
+    var sheet = drawer.querySelector('.mdrawer__sheet');
+    function onEnd() {
+      drawer.style.display = 'none';
+      drawer.classList.remove('mdrawer--closing');
+      document.body.style.overflow = '';
+      isOpen = false;
+      sheet.removeEventListener('animationend', onEnd);
+    }
+    sheet.addEventListener('animationend', onEnd);
+  }
+
+  document.querySelectorAll('.menu__card').forEach(function (card) {
+    card.addEventListener('click', function () {
+      var id   = card.getAttribute('data-id');
+      var item = items.find(function (i) { return i.id === id; });
+      if (item) openDrawer(item);
     });
+  });
+
+  var backdrop = drawer.querySelector('.mdrawer__backdrop');
+  var closeBtn = drawer.querySelector('.mdrawer__close');
+  var noteBtn  = document.getElementById('drawer-note');
+
+  backdrop.addEventListener('click', closeDrawer);
+  closeBtn.addEventListener('click', closeDrawer);
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && isOpen) closeDrawer();
+  });
+
+  noteBtn.addEventListener('click', function () {
+    if (!currentItem) return;
+    window.dispatchEvent(new CustomEvent('pc:toast', {
+      detail: { type: 'success', title: 'noted! ☕', message: currentItem.name + ' added to your visit list.' }
+    }));
+    if (window.plausible) window.plausible('Menu Item Click', { props: { item: currentItem.name } });
+    closeDrawer();
   });
 
   // language
-  document.addEventListener('pc:lang', ((e: CustomEvent) => {
-    const isID = e.detail.isID as boolean;
-    document.querySelectorAll<HTMLElement>('[data-en][data-id]').forEach(el => {
-      const val = isID ? el.dataset.id : el.dataset.en;
-      if (val !== undefined) el.textContent = val;
+  document.addEventListener('pc:lang', function (e) {
+    var isID = e.detail && e.detail.isID;
+    document.querySelectorAll('[data-en][data-id]').forEach(function (el) {
+      var val = isID ? el.getAttribute('data-id') : el.getAttribute('data-en');
+      if (val !== null) el.textContent = val;
     });
-    tabs.forEach(tab => {
-      const raw = isID ? tab.dataset.id : tab.dataset.en;
-      if (!raw) return;
-      const [icon, ...rest] = raw.split(' ');
-      const iconEl = tab.querySelector('.menu__tab-icon');
-      const labelEl = tab.querySelector('.menu__tab-label');
-      if (iconEl) iconEl.textContent = icon;
-      if (labelEl) labelEl.textContent = rest.join(' ');
+    tabs.forEach(function (tab) {
+      var raw = isID ? tab.getAttribute('data-id') : tab.getAttribute('data-en');
+      if (raw !== null) {
+        var labelEl = tab.querySelector('.menu__navbtn-label');
+        if (labelEl) labelEl.textContent = raw;
+      }
     });
-  }) as EventListener);
+    if (isOpen && currentItem) openDrawer(currentItem);
+  });
 
-  // reveal on scroll
-  const ro = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  // reveal
+  var ro = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) e.target.classList.add('in'); });
   }, { threshold: 0.08 });
-  document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+  document.querySelectorAll('.reveal').forEach(function (el) { ro.observe(el); });
+
+  // hex helper — avoids color-mix entirely
+  function hexToRgba(hex, alpha) {
+    var r = parseInt(hex.slice(1,3),16);
+    var g = parseInt(hex.slice(3,5),16);
+    var b = parseInt(hex.slice(5,7),16);
+    return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
+  }
+
+});
 </script>

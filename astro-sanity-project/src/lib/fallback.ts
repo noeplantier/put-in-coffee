@@ -7,12 +7,12 @@
 import type { MenuItem, Review, ExperienceFeature, SiteSettings } from '../types/index.js';
 
 export const fallbackSettings: Partial<SiteSettings> = {
-  siteName: 'Putin Coffee',
+  siteName: 'put.in coffee',
   tagline: 'Where Waves Meet Coffee',
   description: 'Bali\'s most soulful beachfront café on Pantai Biaung, Sanur.',
   heroHeadline: 'Where Waves',
   heroHeadlineItalic: 'Meet Coffee',
-  heroSubtitle: 'Sip specialty coffee as the tide rolls in. Putin Coffee is Sanur\'s most soulful beachfront café — nestled on the black sand shores of Pantai Biaung.',
+  heroSubtitle: 'Sip specialty coffee as the tide rolls in. put.in coffee is Sanur\'s most soulful beachfront café — nestled on the black sand shores of Pantai Biaung.',
   address: 'Jl. Pantai Biaung, Sanur, Denpasar, Bali 80228',
   phone: '+62 812 3456 7890',
   email: 'hello@putincoffee.com',
@@ -21,7 +21,9 @@ export const fallbackSettings: Partial<SiteSettings> = {
   totalReviews: 49,
   averageRating: 5,
   hours: [
-    { label: 'Mon – Sun', time: '7:00 AM – 10:00 PM', isToday: true },
+    { label: 'Mon – Fri', time: '5:00 AM – 12:00 PM', isToday: true },
+    { label: 'Fri – Sun', time: '12:00 PM – 3:00 AM', isToday: true },
+
     { label: 'Kitchen closes', time: '9:30 PM' },
     { label: 'Live Music Fri & Sat', time: '6:00 PM – 9:00 PM' },
   ],
@@ -65,19 +67,19 @@ export const fallbackReviews: Review[] = [
     _id: 'r1', _type: 'review', authorName: 'Sophie M.', authorLocation: 'Paris, France',
     rating: 5, visitDate: 'March 2025', avatarInitial: 'S',
     avatarGradient: 'from-pc-gold to-yellow-500', isVerified: true, order: 1,
-    reviewText: 'Woke up at sunrise just for Putin Coffee — best decision of my entire Bali trip! The view from the beachfront is absolutely magical. Their cold brew is perfection, and the staff remembered my name after just two visits.',
+    reviewText: 'Woke up at sunrise just for put.in coffee — best decision of my entire Bali trip! The view from the beachfront is absolutely magical. Their cold brew is perfection, and the staff remembered my name after just two visits.',
   },
   {
     _id: 'r2', _type: 'review', authorName: 'James K.', authorLocation: 'Melbourne, Australia',
     rating: 5, visitDate: 'January 2025', avatarInitial: 'J',
     avatarGradient: 'from-pc-teal to-cyan-500', isVerified: true, order: 2,
-    reviewText: 'I\'ve been to coffee shops all over Bali — Canggu, Ubud, Seminyak — but Putin Coffee at Pantai Biaung is on a completely different level. The sound of the waves while sipping their Sunset Latte is an experience money can\'t buy.',
+    reviewText: 'I\'ve been to coffee shops all over Bali — Canggu, Ubud, Seminyak — but put.in coffee at Pantai Biaung is on a completely different level. The sound of the waves while sipping their Sunset Latte is an experience money can\'t buy.',
   },
   {
     _id: 'r3', _type: 'review', authorName: 'Yuki T.', authorLocation: 'Tokyo, Japan',
     rating: 5, visitDate: 'February 2025', avatarInitial: 'Y',
     avatarGradient: 'from-green-500 to-emerald-600', isVerified: true, order: 3,
-    reviewText: 'The black sand beach, the driftwood decor, the incredible coffee — Putin Coffee is pure Bali magic. Their Pandan Matcha Latte is the best I\'ve had anywhere in Asia. I was there for a coffee and stayed three hours.',
+    reviewText: 'The black sand beach, the driftwood decor, the incredible coffee — put.in coffee is pure Bali magic. Their Pandan Matcha Latte is the best I\'ve had anywhere in Asia. I was there for a coffee and stayed three hours.',
   },
   {
     _id: 'r4', _type: 'review', authorName: 'Maria L.', authorLocation: 'Rome, Italy',
@@ -89,13 +91,13 @@ export const fallbackReviews: Review[] = [
     _id: 'r5', _type: 'review', authorName: 'Alex R.', authorLocation: 'London, UK',
     rating: 5, visitDate: 'December 2024', avatarInitial: 'A',
     avatarGradient: 'from-purple-500 to-violet-600', isVerified: true, order: 5,
-    reviewText: 'Finally found my perfect Bali coffee spot! Putin Coffee has incredible vibes, amazing staff, and coffee that rivals anything in Seminyak — with so much more soul and authenticity.',
+    reviewText: 'Finally found my perfect Bali coffee spot! put.in coffee has incredible vibes, amazing staff, and coffee that rivals anything in Seminyak — with so much more soul and authenticity.',
   },
   {
     _id: 'r6', _type: 'review', authorName: 'Chen W.', authorLocation: 'Singapore',
     rating: 5, visitDate: 'November 2024', avatarInitial: 'C',
     avatarGradient: 'from-pink-500 to-rose-600', isVerified: true, order: 6,
-    reviewText: 'We visited Putin Coffee every single morning for 10 days straight. The Biaung Breakfast Bowl is healthy, huge, and absolutely delicious. The Pantai Biaung location is unbeatable — like having breakfast at the edge of the world.',
+    reviewText: 'We visited put.in coffee every single morning for 10 days straight. The Biaung Breakfast Bowl is healthy, huge, and absolutely delicious. The Pantai Biaung location is unbeatable — like having breakfast at the edge of the world.',
   },
 ];
 

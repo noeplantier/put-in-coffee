@@ -1,123 +1,138 @@
 ---
 // src/pages/index.astro
-// ══════════════════════════════════════════════════════════════
-// HOME PAGE — Fetches all data from Sanity at build time,
-// falls back to static data if Sanity isn't configured.
-// ══════════════════════════════════════════════════════════════
+// put.in café · home page · EN / ID · v2
 
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/Hero.astro';
-import WaveDivider from '../components/WaveDivider.astro';
-import Menu from '../components/Menu.astro';
-import Reviews from '../components/Reviews.astro';
-import ReservationForm from '../components/ReservationForm.astro';
-import UI from '../components/UI.astro';
+import BaseLayout       from '../layouts/BaseLayout.astro';
+import Hero             from '../components/Hero.astro';
+import WaveDivider      from '../components/WaveDivider.astro';
+import Menu             from '../components/Menu.astro';
+import Reviews          from '../components/Reviews.astro';
+import ReservationForm  from '../components/ReservationForm.astro';
+import UI               from '../components/UI.astro';
 
 import {
-  getSiteSettings,
-  getMenuItems,
-  getReviews,
-  getExperienceFeatures,
-  validateSanityConfig,
+  getSiteSettings, getMenuItems, getReviews,
+  getExperienceFeatures, validateSanityConfig,
 } from '../lib/sanity.ts';
-
 import {
-  fallbackSettings,
-  fallbackMenuItems,
-  fallbackReviews,
-  fallbackFeatures,
+  fallbackSettings, fallbackMenuItems,
+  fallbackReviews, fallbackFeatures,
 } from '../lib/fallback.ts';
 
-// ── Fetch from Sanity (build time) ──────────────────────────
 const isSanityReady = validateSanityConfig();
-
 const [sanitySettings, sanityMenu, sanityReviews, sanityFeatures] = isSanityReady
-  ? await Promise.all([
-      getSiteSettings(),
-      getMenuItems(),
-      getReviews(),
-      getExperienceFeatures(),
-    ])
+  ? await Promise.all([getSiteSettings(), getMenuItems(), getReviews(), getExperienceFeatures()])
   : [null, [], [], []];
 
-// Merge CMS data with fallbacks
 const settings  = { ...fallbackSettings, ...sanitySettings };
-const menuItems = sanityMenu.length > 0   ? sanityMenu   : fallbackMenuItems;
+const menuItems = sanityMenu.length    > 0 ? sanityMenu    : fallbackMenuItems;
 const reviews   = sanityReviews.length > 0 ? sanityReviews : fallbackReviews;
 const features  = sanityFeatures.length > 0 ? sanityFeatures : fallbackFeatures;
+
+// ── Experience features (carousel data) ─────────────────────
+const expFeatures = [
+  {
+    id: 'beachfront',
+    icon: `<path d="M3 17c2-4 5-7 9-7s7 3 9 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/><path d="M1 20h22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M12 10V6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="4" r="2" stroke="currentColor" stroke-width="1.5" fill="none"/>`,
+    en:  { label: 'Beachfront Tables', title: 'Your table, the sea, nothing between', body: 'Sit close enough to hear the tide. Our terrace opens directly onto Pantai Biaung — the wild, uncrowded stretch of black-sand coast where fishing boats still pull ashore at dawn. No fence, no barrier, just the Indian Ocean and your coffee.' },
+    id_: { label: 'Meja di Tepi Pantai', title: 'Mejamu, lautan, tak ada yang menghalangi', body: 'Duduk cukup dekat untuk mendengar ombak. Teras kami langsung menghadap Pantai Biaung — hamparan pantai berpasir hitam yang liar dan sepi, tempat perahu nelayan masih menepi saat fajar. Tak ada pagar, tak ada penghalang — hanya Samudra Hindia dan kopimu.' },
+    stat: { value: '180°', label: { en: 'ocean view', id_: 'pemandangan laut' } },
+    accent: '#4A9CA8',
+  },
+  {
+    id: 'roastery',
+    icon: `<path d="M8 3h8l1 5H7L8 3z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/><path d="M7 8c0 5 1.5 9 5 9s5-4 5-9" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M10 14c.5-1 2.5-1 3 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>`,
+    en:  { label: 'Specialty Roastery', title: 'Bali in every cup, no shortcuts', body: 'We source green beans from smallholder farms in Kintamani and Munduk — Bali\'s volcanic highlands where altitude and volcanic soil produce a cup with natural sweetness and low bitterness. Roasted in-house weekly. What you drink was probably roasted this week.' },
+    id_: { label: 'Roastery Spesial', title: 'Bali di setiap tegukan, tanpa jalan pintas', body: 'Kami memilih biji hijau dari petani kecil di Kintamani dan Munduk — dataran tinggi vulkanik Bali di mana ketinggian dan tanah vulkanik menghasilkan cita rasa manis alami dengan kepahitan rendah. Sangrai langsung di sini setiap minggu. Kopi yang kamu minum kemungkinan besar baru disangrai pekan ini.' },
+    stat: { value: '1200m', label: { en: 'altitude grown', id_: 'ditanam di ketinggian' } },
+    accent: '#C9924A',
+  },
+  {
+    id: 'sunset',
+    icon: `<circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>`,
+    en:  { label: 'Sunset Sessions', title: 'The hour when the whole sky turns gold', body: 'Every evening, when the sun drops over the strait toward Nusa Penida, Pantai Biaung turns amber. We keep a cold beer cold and a warm latte warm for that exact moment. Friday and Saturday evenings bring live acoustic sets — local musicians, no PA overkill, just music you can still talk through.' },
+    id_: { label: 'Sesi Matahari Terbenam', title: 'Saat seluruh langit berubah menjadi emas', body: 'Setiap sore, saat matahari turun ke selat menuju Nusa Penida, Pantai Biaung berubah menjadi keemasan. Kami menyiapkan bir dingin dan latte hangat tepat untuk momen itu. Jumat dan Sabtu sore ada penampilan akustik live — musisi lokal, tanpa PA berlebihan, sekadar musik yang tetap bisa kamu ajak bicara.' },
+    stat: { value: 'Fri – Sat', label: { en: 'live acoustic', id_: 'musik akustik live' } },
+    accent: '#E8A87C',
+  },
+  {
+    id: 'nomad',
+    icon: `<rect x="3" y="5" width="18" height="13" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M8 5V4a1 1 0 011-1h6a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="11.5" r="2" stroke="currentColor" stroke-width="1.3" fill="none"/><path d="M8.5 15.5a4 4 0 017 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>`,
+    en:  { label: 'Remote-Work Ready', title: 'Ocean views don\'t have to mean bad WiFi', body: 'We run a dedicated 100 Mbps fibre line — not a shared residential line — and keep the password on the table. Power sockets at every inside seat. Plenty of shade on the terrace for screen-readable conditions. Come for a quick coffee, stay for the whole sprint.' },
+    id_: { label: 'Siap untuk Remote Work', title: 'Pemandangan laut bukan berarti WiFi lemot', body: 'Kami menggunakan jalur serat optik 100 Mbps khusus — bukan jalur residensial berbagi — dan password selalu ada di meja. Colokan listrik di setiap kursi dalam. Banyak naungan di teras agar layar tetap terbaca. Datang untuk kopi cepat, bertahan untuk seluruh sesi kerja.' },
+    stat: { value: '100 Mbps', label: { en: 'dedicated fibre', id_: 'serat optik khusus' } },
+    accent: '#7FB069',
+  },
+  {
+    id: 'events',
+    icon: `<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/><circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>`,
+    en:  { label: 'Private Events', title: 'The ocean as your backdrop, always', body: 'Birthdays, elopements, team retreats, product launches — we\'ve hosted them all with the same beachfront backdrop and the same unhurried service. The space holds up to 80 guests. Catering, decoration coordination, and a full drinks programme can be arranged. Enquire for a bespoke quote.' },
+    id_: { label: 'Acara Privat', title: 'Lautan sebagai latarmu, selalu', body: 'Ulang tahun, elopement, team retreat, peluncuran produk — semua pernah kami adakan dengan latar pantai yang sama dan pelayanan yang sama tenangnya. Kapasitas hingga 80 tamu. Katering, koordinasi dekorasi, dan program minuman lengkap bisa diatur. Hubungi kami untuk penawaran khusus.' },
+    stat: { value: '80', label: { en: 'guests max', id_: 'tamu maks' } },
+    accent: '#E07A5F',
+  },
+];
+
+// ── About stats ──────────────────────────────────────────────
+const aboutStats = [
+  { value: '5★', en: 'Google Rating',    id_: 'Rating Google' },
+  { value: '49+', en: 'Reviews',          id_: 'Ulasan' },
+  { value: 'Bali', en: 'Highland Beans',  id_: 'Biji Kopi Dataran Tinggi' },
+  { value: '7am',  en: 'Opens Daily',     id_: 'Buka Setiap Hari' },
+];
 ---
 
-<BaseLayout
-  title={`${settings.siteName} — Beachfront Café on Pantai Biaung, Sanur Bali`}
-  description={settings.description}
->
-  <!-- Shared UI: cursor, progress bar, toasts, back-to-top, cookie banner -->
+<BaseLayout title={`${settings.siteName}`} description={settings.description}>
   <UI />
-
-  <!-- ══ HERO ═════════════════════════════════════════════════ -->
   <Hero settings={settings} />
 
-
-  <!-- ══ REVIEWS ════════════════════════════════════════════ -->
+  <!-- ══ REVIEWS ═══════════════════════════════════════════════ -->
   <Reviews reviews={reviews} settings={settings} />
 
-  <!-- ══ ABOUT ════════════════════════════════════════════════ -->
-  <section class="section bg-pc-bg2 relative overflow-hidden" id="about" aria-label="Our story">
-    <!-- Background watermark -->
-    <div class="absolute top-1/2 -left-4 -translate-y-1/2 font-display text-[12rem] font-bold text-white/[0.015] select-none pointer-events-none whitespace-nowrap" aria-hidden="true">COFFEE</div>
+  <!-- ══ ABOUT ═════════════════════════════════════════════════ -->
+  <section class="pc-section" id="about" aria-label="Our story">
+    <div class="pc-container">
+      <div class="about__grid">
 
-    <div class="container relative">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-
-        <!-- Image column -->
-        <div class="reveal-scale">
-          <div class="relative rounded-xl overflow-hidden aspect-[4/5]">
+        <!-- Image -->
+        <div class="about__img-col reveal-scale">
+          <div class="about__img-frame">
             <img
               src="/hero.jpg"
-              alt="Putin Coffee beachfront atmosphere"
-              class="w-full h-full object-cover"
-              loading="lazy"
-              decoding="async"
-            >
-            <!-- Badge -->
-            <div class="absolute bottom-4 right-4 bg-pc-gold text-[#0a0800] rounded-xl p-4 text-center shadow-card">
-              <span class="block font-display text-3xl font-bold leading-none">2019</span>
-              <span class="text-xs tracking-widest uppercase">Est. Sanur</span>
+              alt="put.in café beachfront"
+              class="about__img"
+              loading="lazy" decoding="async"
+            />
+            <div class="about__badge">
+              <span class="about__badge-year">2019</span>
+              <span class="about__badge-sub" data-en="Est. Sanur" data-id="Berdiri di Sanur">Est. Sanur</span>
             </div>
           </div>
         </div>
 
-        <!-- Text column -->
-        <div>
-          <p class="eyebrow mb-3 reveal">{settings.aboutEyebrow ?? 'Our Story'}</p>
-          <h2 class="text-pc-cream mb-6 reveal reveal-delay-1">
-            {settings.aboutTitle ?? 'Born from the Waves, Brewed with Soul'}
+        <!-- Text -->
+        <div class="about__text-col">
+          <p class="eyebrow reveal" data-en="Our Story" data-id="Kisah Kami">Our Story</p>
+          <h2 class="about__h2 reveal" data-en="Born from the Waves,<br>Brewed with Soul" data-id="Lahir dari Ombak,<br>Diseduh dengan Jiwa">
+            Born from the Waves,<br>Brewed with Soul
           </h2>
-
-          {/* Sanity portable text or fallback */}
-          <div class="prose-beach space-y-4 reveal reveal-delay-2">
-            <p class="text-pc-muted leading-relaxed">
-              Putin Coffee was born from a simple dream: bring world-class specialty coffee to the most breathtaking stretch of Sanur's coastline. On the wild black-sand shores of Pantai Biaung, where fishing boats rest and sunsets turn the sky amber — we built our haven.
+          <div class="about__prose">
+            <p data-en="put.in was born from a simple dream: bring world-class specialty coffee to the most breathtaking stretch of Denpasar's coastline. On the wild black-sand shores of Pantai Biaung, where fishing boats rest and sunsets turn the sky amber — we built our haven."
+               data-id="put.in lahir dari mimpi sederhana: menghadirkan kopi spesial kelas dunia ke pantai Denpasar yang paling memukau. Di tepian Pantai Biaung yang liar berpasir hitam, tempat perahu nelayan beristirahat dan matahari terbenam mewarnai langit keemasan — kami membangun surga kami.">
+              put.in was born from a simple dream: bring world-class specialty coffee to the most breathtaking stretch of Denspasar's coastline. On the wild black-sand shores of Pantai Biaung, where fishing boats rest and sunsets turn the sky amber — we built our haven.
             </p>
-            <p class="text-pc-muted leading-relaxed">
-              Every cup we craft honors the ritual of the sea. Our beans are sourced from Bali's highland farms, roasted in-house, and brewed with the patience of the tides.
+            <p data-en="Every cup we craft honours the ritual of the sea. Our beans are sourced from Bali's highland farms, roasted in-house, and brewed with the patience of the tides."
+               data-id="Setiap cangkir yang kami hadirkan menghormati ritual laut. Biji kopi kami berasal dari ladang dataran tinggi Bali, disangrai langsung di sini, dan diseduh dengan kesabaran seperti pasang surut.">
+              Every cup we craft honours the ritual of the sea. Our beans are sourced from Bali's highland farms, roasted in-house, and brewed with the patience of the tides.
             </p>
           </div>
 
-          <!-- Stats grid -->
-          <div class="grid grid-cols-2 gap-3 mt-8">
-            {(settings.stats ?? [
-              { value: '5★', label: 'Google Rating' },
-              { value: '49+', label: 'Reviews' },
-              { value: 'Bali', label: 'Highland Beans' },
-              { value: '7am', label: 'Sunrise Opening' },
-            ]).map((stat, i) => (
-              <div
-                class={`card p-4 reveal`}
-                style={`transition-delay: ${100 + i * 80}ms`}
-              >
-                <div class="font-display text-2xl text-pc-gold">{stat.value}</div>
-                <div class="text-xs text-pc-muted mt-1">{stat.label}</div>
+          <!-- Stats -->
+          <div class="about__stats">
+            {aboutStats.map((s, i) => (
+              <div class="about__stat reveal" style={`transition-delay:${80 + i * 60}ms`}>
+                <span class="about__stat-value">{s.value}</span>
+                <span class="about__stat-label" data-en={s.en} data-id={s.id_}>{s.en}</span>
               </div>
             ))}
           </div>
@@ -130,49 +145,77 @@ const features  = sanityFeatures.length > 0 ? sanityFeatures : fallbackFeatures;
   <!-- ══ MENU ══════════════════════════════════════════════════ -->
   <Menu items={menuItems} />
 
-  <!-- ══ EXPERIENCE ════════════════════════════════════════════ -->
-  <section class="section bg-gradient-to-b from-pc-bg3 to-pc-bg2" id="experience" aria-label="The experience">
-    <div class="container">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+  <!-- ══ EXPERIENCE (carousel) ═════════════════════════════════ -->
+  <section class="pc-section xp" id="experience" aria-label="The experience">
+    <div class="pc-container">
 
-        <!-- Features list -->
-        <div>
-          <p class="eyebrow mb-3 reveal">Why Come Here</p>
-          <h2 class="text-pc-cream mb-10 reveal reveal-delay-1">The Putin Coffee<br>Experience</h2>
-          <div class="space-y-7">
-            {features.map((feat, i) => (
-              <div class={`flex gap-4 items-start reveal`} style={`transition-delay: ${100 + i * 80}ms`}>
-                <div class="w-12 h-12 flex-shrink-0 rounded-xl bg-pc-gold/10 border border-pc-gold/20 flex items-center justify-center text-xl">
-                  {feat.icon}
+      <header class="xp__head">
+        <p class="eyebrow reveal" data-en="why come here" data-id="mengapa datang ke sini">why come here</p>
+        <h2 class="xp__title reveal" data-en="the put.in experience" data-id="pengalaman put.in">the put.in experience</h2>
+      </header>
+
+      <!-- Carousel -->
+      <div class="xp__carousel" id="xp-carousel" aria-label="Experience features" role="region">
+
+        <!-- Track -->
+        <div class="xp__track" id="xp-track">
+          {expFeatures.map((feat, i) => (
+            <article
+              class={`xp__slide${i === 0 ? ' xp__slide--active' : ''}`}
+              data-slide={i}
+              aria-hidden={i !== 0 ? 'true' : 'false'}
+              style={`--slide-accent:${feat.accent}`}
+            >
+              <div class="xp__slide-inner">
+                <!-- Left: content -->
+                <div class="xp__content">
+                  <div class="xp__icon-wrap" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" class="xp__icon" set:html={feat.icon}/>
+                  </div>
+                  <p class="xp__label" data-en={feat.en.label} data-id={feat.id_.label}>{feat.en.label}</p>
+                  <h3 class="xp__slide-title" data-en={feat.en.title} data-id={feat.id_.title}>{feat.en.title}</h3>
+                  <p class="xp__body" data-en={feat.en.body} data-id={feat.id_.body}>{feat.en.body}</p>
+                  <div class="xp__stat">
+                    <span class="xp__stat-value">{feat.stat.value}</span>
+                    <span class="xp__stat-label" data-en={feat.stat.label.en} data-id={feat.stat.label.id_}>{feat.stat.label.en}</span>
+                  </div>
                 </div>
-                <div>
-                  <h3 class="text-pc-cream text-base font-medium mb-1">{feat.title}</h3>
-                  <p class="text-pc-muted text-sm leading-relaxed">{feat.description}</p>
+                <!-- Right: number + ambient -->
+                <div class="xp__num-col" aria-hidden="true">
+                  <span class="xp__big-num">{String(i + 1).padStart(2,'0')}</span>
+                  <div class="xp__ambient"></div>
                 </div>
               </div>
-            ))}
-          </div>
+            </article>
+          ))}
         </div>
 
-        <!-- Visual grid -->
-        <div class="grid grid-cols-2 gap-3 reveal-scale">
-          {[
-            { emoji: '🌅', title: 'Sunrise to Sunset', desc: 'Open 7am–10pm, 7 days a week' },
-            { emoji: '📶', title: 'Fast WiFi', desc: '100Mbps for digital nomads' },
-            { emoji: '🌿', title: 'Plant-Based', desc: 'Oat, almond, coconut always' },
-            { emoji: '🐾', title: 'Dog-Friendly', desc: 'Four-pawed guests welcome' },
-          ].map(card => (
-            <div class="card p-5 text-center hover:border-pc-gold/20">
-              <div class="text-3xl mb-2">{card.emoji}</div>
-              <h4 class="text-sm font-semibold text-pc-cream mb-1">{card.title}</h4>
-              <p class="text-xs text-pc-muted">{card.desc}</p>
-            </div>
-          ))}
-          <!-- Span 2 -->
-          <div class="card p-5 text-center col-span-2 bg-gradient-to-br from-pc-gold/5 to-pc-teal/5 hover:border-pc-gold/20">
-            <div class="text-3xl mb-2">🏝️</div>
-            <h4 class="text-sm font-semibold text-pc-cream mb-1">Private Events & Elopements</h4>
-            <p class="text-xs text-pc-muted">Celebrate life's moments with the ocean as your backdrop. Weddings, birthdays, team retreats.</p>
+        <!-- Navigation -->
+        <div class="xp__nav">
+          <!-- Dots + labels -->
+          <div class="xp__dots" role="tablist" aria-label="Go to slide">
+            {expFeatures.map((feat, i) => (
+              <button
+                class={`xp__dot${i === 0 ? ' xp__dot--on' : ''}`}
+                data-goto={i}
+                role="tab"
+                aria-selected={i === 0 ? 'true' : 'false'}
+                aria-label={feat.en.label}
+                type="button"
+              >
+                <span class="xp__dot-line"></span>
+                <span class="xp__dot-label" data-en={feat.en.label} data-id={feat.id_.label}>{feat.en.label}</span>
+              </button>
+            ))}
+          </div>
+          <!-- Arrow pair -->
+          <div class="xp__arrows">
+            <button class="xp__arrow" id="xp-prev" type="button" aria-label="Previous">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M11 4L6 9l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="xp__arrow" id="xp-next" type="button" aria-label="Next">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M7 4l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
           </div>
         </div>
 
@@ -180,40 +223,50 @@ const features  = sanityFeatures.length > 0 ? sanityFeatures : fallbackFeatures;
     </div>
   </section>
 
-  <!-- ══ LOCATION ──────────────────────────────────────────── -->
-  <section class="section bg-pc-bg2" id="location" aria-label="Location and hours">
-    <div class="container">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-        <div>
-          <p class="eyebrow mb-3 reveal">Find Us</p>
-          <h2 class="text-pc-cream mb-8 reveal reveal-delay-1">Come Visit Us<br>on the Shore</h2>
+  <!-- ══ LOCATION ══════════════════════════════════════════════ -->
+  <section class="pc-section" id="location" aria-label="Location and hours">
+    <div class="pc-container">
+      <div class="loc__grid">
 
-          {[
-            { icon: '📍', label: 'Address', text: settings.address ?? 'Jl. Pantai Biaung, Sanur, Denpasar, Bali 80228' },
-            { icon: '📞', label: 'Phone', text: settings.phone ?? '+62 812 3456 7890' },
-            { icon: '✉️', label: 'Email', text: settings.email ?? 'hello@putincoffee.com' },
-          ].map((item, i) => (
-            <div class={`flex gap-3 items-start pb-5 mb-5 border-b border-white/[0.08] last:border-0 reveal`} style={`transition-delay: ${100 + i * 80}ms`}>
-              <div class="w-10 h-10 rounded-lg bg-pc-gold/10 border border-pc-gold/15 flex items-center justify-center text-base flex-shrink-0">{item.icon}</div>
-              <div>
-                <p class="text-xs tracking-widest uppercase text-pc-muted mb-1">{item.label}</p>
-                <p class="text-sm text-pc-cream">{item.text}</p>
+        <!-- Info -->
+        <div class="loc__info">
+          <p class="eyebrow reveal" data-en="Find Us" data-id="Temukan Kami">Find Us</p>
+          <h2 class="loc__h2 reveal" data-en="Come Visit Us<br>on the Shore" data-id="Kunjungi Kami<br>di Tepi Pantai">
+            Come Visit Us<br>on the Shore
+          </h2>
+
+          <div class="loc__contacts">
+            {[
+              { icon: `<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="12" cy="9" r="2.5" stroke="currentColor" stroke-width="1.4" fill="none"/>`, en: settings.address ?? 'Jl. Pantai Biaung, Sanur, Denpasar, Bali 80228', id_: settings.address ?? 'Jl. Pantai Biaung, Sanur, Denpasar, Bali 80228', label: { en: 'Address', id_: 'Alamat' } },
+              { icon: `<path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.09-1.26a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z" stroke="currentColor" stroke-width="1.4" fill="none"/>`, en: settings.phone ?? '+62 819-1633-4989', id_: settings.phone ?? '+62 819-1633-4989', label: { en: 'Phone', id_: 'Telepon' } },
+              { icon: `<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="1.4" fill="none"/><polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="1.4" fill="none"/>`, en: settings.email ?? 'hello@putincoffee.com', id_: settings.email ?? 'hello@putincoffee.com', label: { en: 'Email', id_: 'Email' } },
+            ].map((item, i) => (
+              <div class="loc__contact-item reveal" style={`transition-delay:${80 + i * 60}ms`}>
+                <div class="loc__contact-icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" set:html={item.icon}/>
+                </div>
+                <div>
+                  <p class="loc__contact-label" data-en={item.label.en} data-id={item.label.id_}>{item.label.en}</p>
+                  <p class="loc__contact-val" data-en={item.en} data-id={item.id_}>{item.en}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
 
           <!-- Hours -->
-          <div class="reveal">
-            <p class="text-xs tracking-widest uppercase text-pc-muted mb-3">Hours</p>
-            <div class="space-y-2">
+          <div class="loc__hours reveal">
+            <p class="loc__hours-head" data-en="Hours" data-id="Jam Buka">Hours</p>
+            <div class="loc__hours-list">
               {(settings.hours ?? [
-                { label: 'Mon – Sun', time: '7:00 AM – 10:00 PM', isToday: true },
-                { label: 'Kitchen closes', time: '9:30 PM' },
-                { label: 'Live Music Fri & Sat', time: '6:00 PM – 9:00 PM' },
+                { en: 'Mon – Fri',          id_: 'Sen – Jumat',           time: '6:00 AM – 12:00 PM', highlight: true  },
+                { en: 'Fri – Sun',          id_: 'Jumat – Minggu',           time: '12:00 PM – 3.00 AM', highlight: true  },
+
+                { en: 'Kitchen closes',     id_: 'Dapur tutup',         time: '9:30 PM',            highlight: false },
+                { en: 'Karaoke & Live Music SUN', id_: 'Karaoke & Musik Live MIN', time: '7:00 PM – 9:00 PM', highlight: false },
               ]).map(h => (
-                <div class={`flex justify-between text-sm ${h.isToday ? 'text-pc-gold font-medium' : ''}`}>
-                  <span class={h.isToday ? 'text-pc-gold' : 'text-pc-muted'}>{h.label}</span>
-                  <span class={h.isToday ? 'text-pc-gold' : 'text-pc-cream'}>{h.time}</span>
+                <div class={`loc__hours-row${h.highlight ? ' loc__hours-row--hi' : ''}`}>
+                  <span data-en={h.en ?? h.label} data-id={h.id_ ?? h.label}>{h.en ?? h.label}</span>
+                  <span>{h.time}</span>
                 </div>
               ))}
             </div>
@@ -221,140 +274,712 @@ const features  = sanityFeatures.length > 0 ? sanityFeatures : fallbackFeatures;
         </div>
 
         <!-- Map card -->
-        <div class="card aspect-[4/3] flex flex-col items-center justify-center gap-4 reveal-scale text-center p-8">
-          <div class="text-5xl animate-float">📍</div>
-          <h3 class="font-display text-pc-cream text-xl">Putin Coffee</h3>
-          <p class="text-pc-muted text-sm">Pantai Biaung, Sanur<br>Bali, Indonesia</p>
+        <div class="loc__map-card reveal-scale">
+          <div class="loc__map-pin" aria-hidden="true">
+            <svg width="52" height="52" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="#C9924A" stroke-width="1.4" fill="rgba(201,146,74,0.08)"/>
+              <circle cx="12" cy="9" r="2.5" stroke="#C9924A" stroke-width="1.4" fill="none"/>
+            </svg>
+          </div>
+          <h3 class="loc__map-name">put.in café</h3>
+          <p class="loc__map-sub" data-en="Pantai Biaung, Sanur · Bali, Indonesia" data-id="Pantai Biaung, Sanur · Bali, Indonesia">Pantai Biaung, Sanur · Bali, Indonesia</p>
           <a
             href={settings.mapLink ?? 'https://www.google.com/maps/place/put.in+coffee+and+beer/data=!4m2!3m1!1s0x0:0x70829e134ab3dd00?sa=X&ved=1t:2428&ictx=111'}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="btn-primary text-sm"
+            target="_blank" rel="noopener noreferrer"
+            class="loc__map-btn"
             data-event="Maps Click"
+            data-en="Open in Google Maps"
+            data-id="Buka di Google Maps"
           >
-            🗺️ Open in Google Maps
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="12" cy="9" r="2.5" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+            Open in Google Maps
           </a>
         </div>
+
       </div>
     </div>
   </section>
 
-  <!-- ══ RESERVATION FORM ───────────────────────────────────── -->
+  <!-- ══ RESERVATION ═══════════════════════════════════════════ -->
   <ReservationForm />
 
-
-  <!-- ══ FOOTER ─────────────────────────────────────────────── -->
-  <footer class="bg-pc-bg border-t border-white/[0.08]" role="contentinfo">
-    <div class="container">
-      <!-- Main grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 py-12 lg:py-16">
+  <!-- ══ FOOTER ════════════════════════════════════════════════ -->
+  <footer class="pc-footer" role="contentinfo">
+    <div class="pc-container">
+      <div class="footer__grid">
 
         <!-- Brand -->
-        <div class="lg:col-span-1">
-          <div class="flex items-center gap-2 font-display text-xl font-bold text-pc-cream mb-4">
-            <span class="text-2xl">☕</span>
-            Putin<span class="text-pc-gold">Coffee</span>
+        <div class="footer__brand">
+          <div class="footer__logo">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 3h8l1 5H7L8 3z" stroke="#C9924A" stroke-width="1.4" fill="none" stroke-linejoin="round"/><path d="M7 8c0 5 1.5 9 5 9s5-4 5-9" stroke="#C9924A" stroke-width="1.4" fill="none"/></svg>
+            put.in<span class="footer__logo-accent">café</span>
           </div>
-          <p class="text-pc-muted text-sm leading-relaxed max-w-xs">
+          <p class="footer__tagline" data-en="Where the ocean meets espresso. Beachfront specialty coffee on Pantai Biaung, Sanur, Bali." data-id="Di mana lautan bertemu espresso. Kopi spesial di tepi pantai Pantai Biaung, Sanur, Bali.">
             Where the ocean meets espresso. Beachfront specialty coffee on Pantai Biaung, Sanur, Bali.
           </p>
-          <div class="flex gap-2 mt-4">
+          <div class="footer__socials">
             {[
-              { href: settings.instagramUrl ?? '#', icon: '📸', label: 'Instagram' },
-              { href: settings.facebookUrl ?? '#', icon: '📘', label: 'Facebook' },
-              { href: `https://wa.me/${settings.whatsapp ?? '+62 819-1633-4989'}`, icon: '💬', label: 'WhatsApp' },
-              { href: settings.tiktokUrl ?? '#', icon: '🎵', label: 'TikTok' },
+              { href: settings.instagramUrl ?? '#', label: 'Instagram', icon: `<rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>` },
+              { href: settings.facebookUrl  ?? '#', label: 'Facebook',  icon: `<path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" stroke="currentColor" stroke-width="1.4" fill="none"/>` },
+              { href: `https://wa.me/${(settings.whatsapp ?? '+62 819-1633-4989').replace(/\s/g,'')}`, label: 'WhatsApp', icon: `<path d="M21 12a9 9 0 01-9 9H5l-2 2V12a9 9 0 119 0z" stroke="currentColor" stroke-width="1.4" fill="none"/>` },
+              { href: settings.tiktokUrl   ?? '#', label: 'TikTok',    icon: `<path d="M9 12a4 4 0 104 4V4a5 5 0 005 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/>` },
             ].map(s => (
-              <a href={s.href} target="_blank" rel="noopener" aria-label={s.label}
-                class="w-9 h-9 rounded-full bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-sm hover:bg-pc-gold/10 hover:border-pc-gold transition-all duration-300">
-                {s.icon}
+              <a href={s.href} target="_blank" rel="noopener" aria-label={s.label} class="footer__social-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" set:html={s.icon}/>
               </a>
             ))}
           </div>
         </div>
 
         <!-- Explore -->
-        <div>
-          <h4 class="text-xs tracking-[0.2em] uppercase text-pc-muted font-semibold mb-4">Explore</h4>
-          <ul class="space-y-2.5">
-            {[['Our Story', '#about'], ['Menu', '#menu'], ['Experience', '#experience'], ['Reviews', '#reviews']].map(([label, href]) => (
-              <li><a href={href} class="text-sm text-pc-muted hover:text-pc-cream transition-colors">{label}</a></li>
+        <nav class="footer__nav-col" aria-label="Explore">
+          <h4 class="footer__col-head" data-en="Explore" data-id="Jelajahi">Explore</h4>
+          <ul>
+            {[['Our Story','#about','Kisah Kami'],['Menu','#menu','Menu'],['Experience','#experience','Pengalaman'],['Reviews','#reviews','Ulasan']].map(([en,href,id_]) => (
+              <li><a href={href} class="footer__link" data-en={en} data-id={id_}>{en}</a></li>
             ))}
           </ul>
-        </div>
+        </nav>
 
         <!-- Visit -->
-        <div>
-          <h4 class="text-xs tracking-[0.2em] uppercase text-pc-muted font-semibold mb-4">Visit</h4>
-          <ul class="space-y-2.5">
-            {[['Location', '#location'], ['Reservations', '#contact'], ['Private Events', '#contact'], ['Gift Cards', '#contact']].map(([label, href]) => (
-              <li><a href={href} class="text-sm text-pc-muted hover:text-pc-cream transition-colors">{label}</a></li>
+        <nav class="footer__nav-col" aria-label="Visit">
+          <h4 class="footer__col-head" data-en="Visit" data-id="Kunjungi">Visit</h4>
+          <ul>
+            {[['Location','#location','Lokasi'],['Reservations','#contact','Reservasi'],['Private Events','#contact','Acara Privat'],['Gift Cards','#contact','Kartu Hadiah']].map(([en,href,id_]) => (
+              <li><a href={href} class="footer__link" data-en={en} data-id={id_}>{en}</a></li>
             ))}
           </ul>
-        </div>
+        </nav>
 
         <!-- Connect -->
-        <div>
-          <h4 class="text-xs tracking-[0.2em] uppercase text-pc-muted font-semibold mb-4">Connect</h4>
-          <ul class="space-y-2.5">
-            <li><a href={`tel:${settings.phone}`} class="text-sm text-pc-muted hover:text-pc-cream transition-colors">{settings.phone}</a></li>
-            <li><a href={`mailto:${settings.email}`} class="text-sm text-pc-muted hover:text-pc-cream transition-colors">{settings.email}</a></li>
-            <li><a href={settings.instagramUrl ?? '#'} target="_blank" rel="noopener" class="text-sm text-pc-muted hover:text-pc-cream transition-colors">Instagram</a></li>
-            <li><a href={settings.tiktokUrl ?? '#'} target="_blank" rel="noopener" class="text-sm text-pc-muted hover:text-pc-cream transition-colors">TikTok</a></li>
+        <div class="footer__nav-col">
+          <h4 class="footer__col-head" data-en="Connect" data-id="Hubungi">Connect</h4>
+          <ul>
+            <li><a href={`tel:${settings.phone}`} class="footer__link">{settings.phone ?? '+62 819-1633-4989'}</a></li>
+            <li><a href={`mailto:${settings.email}`} class="footer__link">{settings.email ?? 'hello@putincoffee.com'}</a></li>
+            <li><a href={settings.instagramUrl ?? '#'} target="_blank" rel="noopener" class="footer__link">Instagram</a></li>
+            <li><a href={settings.tiktokUrl ?? '#'} target="_blank" rel="noopener" class="footer__link">TikTok</a></li>
           </ul>
         </div>
+
       </div>
 
-      <!-- Bottom -->
-      <div class="border-t border-white/[0.08] py-5 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-pc-muted flex-wrap">
-        <span>© {new Date().getFullYear()} Putin Coffee · Pantai Biaung, Sanur, Bali, Indonesia</span>
-        <div class="flex gap-4">
-          <a href="/privacy" class="hover:text-pc-cream transition-colors">Privacy Policy</a>
-          <a href="/terms" class="hover:text-pc-cream transition-colors">Terms</a>
-          <a href="/sitemap-index.xml" class="hover:text-pc-cream transition-colors">Sitemap</a>
+      <div class="footer__bottom">
+        <span>© {new Date().getFullYear()} put.in café · Pantai Biaung, Sanur, Bali</span>
+        <div class="footer__bottom-links">
+          <a href="/privacy" class="footer__link" data-en="Privacy Policy" data-id="Kebijakan Privasi">Privacy Policy</a>
+          <a href="/terms"   class="footer__link" data-en="Terms"          data-id="Syarat">Terms</a>
+          <a href="/sitemap-index.xml" class="footer__link">Sitemap</a>
         </div>
-        <span>Made with ☕ in Bali</span>
+        <span data-en="Made with coffee in Bali" data-id="Dibuat dengan kopi di Bali">Made with coffee in Bali</span>
       </div>
     </div>
   </footer>
 </BaseLayout>
 
+<!-- ══ GLOBAL STYLES ══════════════════════════════════════════ -->
+<style is:global>
+  /* ── Design tokens ────────────────────────────────────────── */
+  :root {
+    --section-py: 5rem;
+    --container-px: 1.5rem;
+    --content-width: 1100px;
+    --radius-card: 16px;
+    --radius-sm: 10px;
+    --gold:    #C9924A;
+    --gold-lt: #E8C97A;
+    --coral:   #E07A5F;
+    --cream:   #F0E8DC;
+    --muted:   rgba(240,232,220,0.45);
+    --border:  rgba(240,232,220,0.08);
+    --glass:   rgba(240,232,220,0.03);
+    --bg:      #0e0d0b;
+    --bg2:     #131110;
+  }
+
+  /* ── Shared layout helpers ────────────────────────────────── */
+  .pc-section {
+    padding: var(--section-py) 0;
+  }
+  .pc-container {
+    max-width: var(--content-width);
+    margin: 0 auto;
+    padding: 0 var(--container-px);
+  }
+  .eyebrow {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  /* ── Reveal animations ────────────────────────────────────── */
+  .reveal {
+    opacity: 0; transform: translateY(18px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+  .reveal.in { opacity: 1; transform: none; }
+  .reveal-scale {
+    opacity: 0; transform: scale(0.97);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal-scale.in { opacity: 1; transform: none; }
+
+  /* ═══════════════════════════════════════════════════════════
+     ABOUT
+  ═══════════════════════════════════════════════════════════ */
+  .about__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  @media (max-width: 860px) {
+    .about__grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  }
+
+  .about__img-frame {
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+    aspect-ratio: 4 / 5;
+  }
+  .about__img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .about__badge {
+    position: absolute; bottom: 16px; right: 16px;
+    background: var(--gold); color: #0a0800;
+    border-radius: var(--radius-sm); padding: 0.85rem 1rem;
+    text-align: center;
+  }
+  .about__badge-year {
+    display: block;
+    font-family: var(--font-display, serif);
+    font-size: 1.75rem; font-weight: 700; line-height: 1;
+  }
+  .about__badge-sub {
+    display: block; font-size: 0.65rem;
+    letter-spacing: 0.12em; text-transform: uppercase; margin-top: 3px;
+  }
+
+  .about__h2 {
+    font-size: clamp(1.6rem, 3vw, 2.25rem);
+    color: var(--cream); margin: 0.6rem 0 1.5rem; line-height: 1.2;
+    text-transform: lowercase;
+  }
+  .about__prose {
+    display: flex; flex-direction: column; gap: 0.85rem;
+    margin-bottom: 2rem;
+  }
+  .about__prose p {
+    font-size: 0.9rem; font-weight: 300;
+    color: var(--muted); line-height: 1.75;
+  }
+  .about__stats {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem;
+  }
+  .about__stat {
+    background: var(--glass); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 1rem 1.1rem;
+  }
+  .about__stat-value {
+    display: block;
+    font-family: var(--font-display, serif);
+    font-size: 1.45rem; color: var(--gold); font-style: italic;
+  }
+  .about__stat-label {
+    display: block; font-size: 0.7rem;
+    color: var(--muted); margin-top: 3px; text-transform: lowercase;
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     EXPERIENCE CAROUSEL
+  ═══════════════════════════════════════════════════════════ */
+  .xp { background: var(--bg2); }
+
+  .xp__head {
+    text-align: center; margin-bottom: 3rem;
+  }
+  .xp__title {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    color: var(--cream); text-transform: lowercase; margin: 0.5rem 0 0;
+  }
+
+  /* Carousel wrapper */
+  .xp__carousel { position: relative; }
+
+  /* Track: slides laid out horizontally, overflow hidden */
+  .xp__track {
+    display: grid;
+    grid-template-columns: 1fr;
+    position: relative;
+  }
+
+  /* Each slide stacked; only active is visible */
+  .xp__slide {
+    grid-column: 1;
+    grid-row: 1;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(32px);
+    transition: opacity 0.45s ease, transform 0.45s ease;
+    will-change: opacity, transform;
+  }
+  .xp__slide--active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0);
+  }
+  .xp__slide--exit-left {
+    opacity: 0;
+    transform: translateX(-32px);
+  }
+
+  .xp__slide-inner {
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    gap: 3rem;
+    background: var(--glass);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 3rem 3rem 3rem 3.5rem;
+    min-height: 340px;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  @media (max-width: 760px) {
+    .xp__slide-inner {
+      grid-template-columns: 1fr;
+      padding: 2rem 1.5rem;
+      min-height: auto;
+      gap: 1.5rem;
+    }
+    .xp__num-col { display: none; }
+  }
+
+  /* Left bar accent */
+  .xp__slide-inner::before {
+    content: '';
+    position: absolute; left: 0; top: 20%; bottom: 20%;
+    width: 3px;
+    background: var(--slide-accent, var(--gold));
+    border-radius: 0 2px 2px 0;
+    opacity: 0.7;
+  }
+
+  /* Icon */
+  .xp__icon-wrap {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.25rem;
+  }
+  .xp__icon { color: var(--slide-accent, var(--gold-lt)); }
+
+  .xp__label {
+    font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--slide-accent, var(--gold));
+    margin-bottom: 0.6rem;
+  }
+  .xp__slide-title {
+    font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+    font-weight: 500; color: var(--cream); text-transform: lowercase;
+    line-height: 1.25; margin: 0 0 1rem;
+  }
+  .xp__body {
+    font-size: 0.875rem; font-weight: 300;
+    color: var(--muted); line-height: 1.8;
+    max-width: 560px; margin: 0 0 1.5rem;
+  }
+  .xp__stat {
+    display: inline-flex; align-items: baseline; gap: 0.5rem;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 50px; padding: 0.35rem 0.9rem;
+  }
+  .xp__stat-value {
+    font-family: var(--font-display, serif);
+    font-size: 1rem; font-style: italic;
+    color: var(--slide-accent, var(--gold-lt));
+  }
+  .xp__stat-label {
+    font-size: 0.68rem; color: var(--muted); text-transform: lowercase;
+  }
+
+  /* Right: big number */
+  .xp__num-col {
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .xp__big-num {
+    font-family: var(--font-display, serif);
+    font-size: 7rem; font-weight: 700; font-style: italic;
+    color: var(--slide-accent, var(--gold));
+    opacity: 0.08; line-height: 1;
+    user-select: none;
+  }
+  .xp__ambient {
+    position: absolute; inset: -20px;
+    background: radial-gradient(circle, var(--slide-accent, rgba(201,146,74,0.12)) 0%, transparent 70%);
+    opacity: 0.25; pointer-events: none;
+  }
+
+  /* Navigation */
+  .xp__nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1.75rem;
+    gap: 1rem;
+  }
+
+  /* Dots */
+  .xp__dots {
+    display: flex; gap: 0.25rem; flex-wrap: wrap; flex: 1;
+  }
+  .xp__dot {
+    display: flex; align-items: center; gap: 0.5rem;
+    background: none; border: none; cursor: pointer;
+    padding: 0.5rem 0; color: var(--muted);
+    font-family: var(--font-body, sans-serif);
+    font-size: 0.72rem; text-transform: lowercase;
+    transition: color 0.2s;
+    flex-direction: column; align-items: flex-start;
+  }
+  .xp__dot:hover { color: var(--cream); }
+  .xp__dot--on { color: var(--cream); }
+  .xp__dot-line {
+    display: block; width: 28px; height: 2px;
+    background: var(--border);
+    border-radius: 2px;
+    transition: width 0.3s, background 0.3s;
+  }
+  .xp__dot--on .xp__dot-line {
+    width: 40px;
+    background: var(--gold);
+  }
+  .xp__dot-label { font-size: 0.68rem; }
+  @media (max-width: 600px) {
+    .xp__dot-label { display: none; }
+    .xp__dot-line { width: 20px; }
+    .xp__dot--on .xp__dot-line { width: 32px; }
+  }
+
+  /* Arrows */
+  .xp__arrows {
+    display: flex; gap: 0.5rem; flex-shrink: 0;
+  }
+  .xp__arrow {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: var(--glass); border: 1px solid var(--border);
+    color: var(--muted); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .xp__arrow:hover {
+    background: rgba(201,146,74,0.08);
+    border-color: rgba(201,146,74,0.3);
+    color: var(--cream);
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     LOCATION
+  ═══════════════════════════════════════════════════════════ */
+  .loc__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem; align-items: start;
+  }
+  @media (max-width: 860px) {
+    .loc__grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  }
+
+  .loc__h2 {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    color: var(--cream); text-transform: lowercase;
+    margin: 0.6rem 0 1.75rem; line-height: 1.2;
+  }
+  .loc__contacts { display: flex; flex-direction: column; gap: 0; }
+  .loc__contact-item {
+    display: flex; gap: 0.85rem; align-items: flex-start;
+    padding: 1.1rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .loc__contact-item:last-child { border-bottom: none; }
+  .loc__contact-icon {
+    width: 38px; height: 38px; flex-shrink: 0;
+    border-radius: var(--radius-sm);
+    background: rgba(201,146,74,0.06);
+    border: 1px solid rgba(201,146,74,0.12);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gold);
+  }
+  .loc__contact-label {
+    font-size: 0.65rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted); margin: 0 0 3px;
+  }
+  .loc__contact-val {
+    font-size: 0.875rem; color: var(--cream); margin: 0;
+  }
+
+  .loc__hours { margin-top: 1.75rem; }
+  .loc__hours-head {
+    font-size: 0.65rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem;
+  }
+  .loc__hours-list { display: flex; flex-direction: column; gap: 0.55rem; }
+  .loc__hours-row {
+    display: flex; justify-content: space-between;
+    font-size: 0.875rem; color: var(--muted);
+  }
+  .loc__hours-row--hi { color: var(--gold); font-weight: 500; }
+  .loc__hours-row--hi span { color: var(--gold); }
+
+  /* Map card */
+  .loc__map-card {
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center; gap: 0.75rem;
+    background: var(--glass); border: 1px solid var(--border);
+    border-radius: 20px; padding: 3rem 2rem;
+    position: sticky; top: 100px;
+  }
+  .loc__map-name {
+    font-family: var(--font-display, serif);
+    font-size: 1.35rem; color: var(--cream); font-style: italic; margin: 0;
+  }
+  .loc__map-sub { font-size: 0.82rem; color: var(--muted); margin: 0; }
+  .loc__map-btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    margin-top: 0.5rem;
+    padding: 0.7rem 1.4rem; border-radius: 50px;
+    background: linear-gradient(135deg, var(--coral), var(--gold));
+    color: #0a0800; font-size: 0.8rem; font-weight: 600;
+    text-decoration: none; text-transform: lowercase;
+    transition: opacity 0.2s, box-shadow 0.2s;
+  }
+  .loc__map-btn:hover {
+    opacity: 0.9;
+    box-shadow: 0 6px 20px rgba(201,146,74,0.3);
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     FOOTER
+  ═══════════════════════════════════════════════════════════ */
+  .pc-footer {
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    padding-top: 0;
+  }
+  .footer__grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem;
+    padding: 3.5rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  @media (max-width: 860px) {
+    .footer__grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .footer__brand { grid-column: 1 / -1; }
+  }
+  @media (max-width: 540px) {
+    .footer__grid { grid-template-columns: 1fr; }
+  }
+
+  .footer__logo {
+    display: flex; align-items: center; gap: 0.45rem;
+    font-family: var(--font-display, serif);
+    font-size: 1.15rem; font-weight: 700; color: var(--cream);
+    text-transform: lowercase; margin-bottom: 0.75rem;
+    font-style: italic;
+  }
+  .footer__logo-accent { color: var(--gold); }
+  .footer__tagline {
+    font-size: 0.8rem; color: var(--muted); line-height: 1.7;
+    max-width: 280px; margin: 0 0 1rem;
+  }
+  .footer__socials { display: flex; gap: 0.5rem; }
+  .footer__social-btn {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--muted); text-decoration: none;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .footer__social-btn:hover {
+    background: rgba(201,146,74,0.1);
+    border-color: rgba(201,146,74,0.3);
+    color: var(--gold);
+  }
+
+  .footer__col-head {
+    font-size: 0.65rem; font-weight: 600; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--muted); margin: 0 0 1rem;
+  }
+  .footer__nav-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.55rem; }
+  .footer__link {
+    font-size: 0.82rem; color: var(--muted); text-decoration: none;
+    transition: color 0.2s; text-transform: lowercase;
+  }
+  .footer__link:hover { color: var(--cream); }
+
+  .footer__bottom {
+    display: flex; flex-wrap: wrap; gap: 1rem;
+    justify-content: space-between; align-items: center;
+    padding: 1.25rem 0;
+    font-size: 0.75rem; color: var(--muted);
+  }
+  .footer__bottom-links { display: flex; gap: 1.25rem; }
+
+  /* ── prefers-reduced-motion ────────────────────────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    .reveal, .reveal-scale, .xp__slide { transition: none !important; }
+  }
+</style>
+
+<!-- ══ PAGE SCRIPTS ═══════════════════════════════════════════ -->
 <script>
-  // Newsletter form
-  const nlForm = document.getElementById('newsletter-form') as HTMLFormElement;
+document.addEventListener('DOMContentLoaded', function () {
+
+  // ── Intersection observer (reveals) ────────────────────────
+  var ro = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); ro.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal, .reveal-scale').forEach(function (el) { ro.observe(el); });
+
+  // ── Experience carousel ────────────────────────────────────
+  var slides = document.querySelectorAll('.xp__slide');
+  var dots   = document.querySelectorAll('.xp__dot');
+  var prevBtn = document.getElementById('xp-prev');
+  var nextBtn = document.getElementById('xp-next');
+  var current = 0;
+  var total   = slides.length;
+  var autoTimer = null;
+
+  function goTo(idx) {
+    if (idx === current) return;
+    // Exit current
+    slides[current].classList.remove('xp__slide--active');
+    slides[current].classList.add('xp__slide--exit-left');
+    slides[current].setAttribute('aria-hidden', 'true');
+    dots[current].classList.remove('xp__dot--on');
+    dots[current].setAttribute('aria-selected', 'false');
+
+    // Tiny delay to allow exit animation to start, then reset
+    var exiting = slides[current];
+    setTimeout(function () {
+      exiting.classList.remove('xp__slide--exit-left');
+    }, 420);
+
+    current = (idx + total) % total;
+
+    slides[current].classList.add('xp__slide--active');
+    slides[current].setAttribute('aria-hidden', 'false');
+    dots[current].classList.add('xp__dot--on');
+    dots[current].setAttribute('aria-selected', 'true');
+  }
+
+  dots.forEach(function (dot) {
+    dot.addEventListener('click', function () {
+      clearTimeout(autoTimer);
+      goTo(parseInt(dot.getAttribute('data-goto') || '0'));
+      scheduleAuto();
+    });
+  });
+
+  if (prevBtn) prevBtn.addEventListener('click', function () {
+    clearTimeout(autoTimer); goTo(current - 1); scheduleAuto();
+  });
+  if (nextBtn) nextBtn.addEventListener('click', function () {
+    clearTimeout(autoTimer); goTo(current + 1); scheduleAuto();
+  });
+
+  // Touch / swipe
+  var touchStartX = 0;
+  var track = document.getElementById('xp-track');
+  if (track) {
+    track.addEventListener('touchstart', function (e) {
+      touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+    track.addEventListener('touchend', function (e) {
+      var dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 50) {
+        clearTimeout(autoTimer);
+        goTo(dx < 0 ? current + 1 : current - 1);
+        scheduleAuto();
+      }
+    }, { passive: true });
+  }
+
+  // Keyboard
+  document.addEventListener('keydown', function (e) {
+    var carousel = document.getElementById('xp-carousel');
+    if (!carousel) return;
+    var rect = carousel.getBoundingClientRect();
+    var inView = rect.top < window.innerHeight && rect.bottom > 0;
+    if (!inView) return;
+    if (e.key === 'ArrowLeft')  { clearTimeout(autoTimer); goTo(current - 1); scheduleAuto(); }
+    if (e.key === 'ArrowRight') { clearTimeout(autoTimer); goTo(current + 1); scheduleAuto(); }
+  });
+
+  function scheduleAuto() {
+    autoTimer = setTimeout(function () {
+      goTo(current + 1);
+      scheduleAuto();
+    }, 6000);
+  }
+  scheduleAuto();
+
+  // ── Language switching ─────────────────────────────────────
+  document.addEventListener('pc:lang', function (e) {
+    var isID = e.detail && e.detail.isID;
+    document.querySelectorAll('[data-en][data-id]').forEach(function (el) {
+      // Skip elements with inner HTML (h2 with <br>)
+      if (el.children.length > 0) return;
+      var val = isID ? el.getAttribute('data-id') : el.getAttribute('data-en');
+      if (val !== null) el.textContent = val;
+    });
+    // Handle h2 tags with <br> (about + location headings)
+    document.querySelectorAll('h2[data-en][data-id]').forEach(function (el) {
+      var raw = isID ? el.getAttribute('data-id') : el.getAttribute('data-en');
+      if (raw !== null) el.innerHTML = raw;
+    });
+  });
+
+  // ── Plausible tracking ─────────────────────────────────────
+  var mapsBtn = document.querySelector('[data-event="Maps Click"]');
+  if (mapsBtn) {
+    mapsBtn.addEventListener('click', function () {
+      if (window.plausible) window.plausible('Maps Click');
+    });
+  }
+
+  // ── Newsletter ─────────────────────────────────────────────
+  var nlForm = document.getElementById('newsletter-form');
   if (nlForm) {
-    nlForm.addEventListener('submit', async (e) => {
+    nlForm.addEventListener('submit', async function (e) {
       e.preventDefault();
-      const emailInput = nlForm.querySelector<HTMLInputElement>('input[type="email"]')!;
-      if (!emailInput.value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value)) {
-        window.dispatchEvent(new CustomEvent('pc:toast', {
-          detail: { type: 'error', title: 'Invalid email', message: 'Please enter a valid email.' }
-        }));
+      var emailInput = nlForm.querySelector('input[type="email"]');
+      if (!emailInput || !emailInput.value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value)) {
+        window.dispatchEvent(new CustomEvent('pc:toast', { detail: { type: 'error', title: 'Invalid email', message: 'Please enter a valid email.' } }));
         return;
       }
       try {
-        await fetch('/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams(new FormData(nlForm) as unknown as Record<string,string>).toString(),
-        });
-        window.dispatchEvent(new CustomEvent('pc:toast', {
-          detail: { type: 'success', title: "You're subscribed! 🌊", message: 'Welcome to the Putin Coffee family!' }
-        }));
-        // @ts-ignore
+        await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(new FormData(nlForm)).toString() });
+        window.dispatchEvent(new CustomEvent('pc:toast', { detail: { type: 'success', title: "You're in! ☕", message: 'Welcome to the put.in family!' } }));
         if (window.plausible) window.plausible('Newsletter Signup');
         emailInput.value = '';
       } catch {
-        window.dispatchEvent(new CustomEvent('pc:toast', {
-          detail: { type: 'error', title: 'Error', message: 'Please try again later.' }
-        }));
+        window.dispatchEvent(new CustomEvent('pc:toast', { detail: { type: 'error', title: 'Error', message: 'Please try again later.' } }));
       }
     });
   }
 
-  // Maps tracking
-  document.querySelector('[data-event="Maps Click"]')?.addEventListener('click', () => {
-    // @ts-ignore
-    if (window.plausible) window.plausible('Maps Click');
-  });
+});
 </script>

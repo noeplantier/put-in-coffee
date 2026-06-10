@@ -1,503 +1,852 @@
 ---
 // src/components/ReservationForm.astro
-// Reservation & contact · refined · lowercase · EN / ID
-// Netlify Forms — no backend needed
+// put.in café · reservation & contact · v2 · EN / ID
+// No backend — DM pré-rempli Instagram + Netlify Forms fallback
 ---
 
-<!-- ══ CONTACT ════════════════════════════════════════════════ -->
-<section class="res pc-section" id="contact" aria-label="reserve a table">
-  <div class="wrap res__inner">
+<section class="res" id="contact" aria-label="reserve a table">
+  <div class="res__container">
+    <div class="res__inner">
 
-    <!-- ── left: info ─────────────────────────────────────── -->
-    <div class="res__info">
+      <!-- ══ LEFT: info ═════════════════════════════════════ -->
+      <div class="res__info">
 
-      <p class="eyebrow reveal" data-en="get in touch" data-id="hubungi kami">get in touch</p>
+        <p class="eyebrow res__reveal"
+           data-en="get in touch" data-id="hubungi kami">get in touch</p>
 
-      <h2 class="res__title reveal">
-        <span data-en="reserve your" data-id="pesan meja anda">reserve your</span><br>
-        <em data-en="slice of paradise" data-id="surga tepi pantai">slice of paradise</em>
-      </h2>
+        <h2 class="res__title res__reveal">
+          <span data-en="reserve your" data-id="pesan meja anda">reserve your</span><br>
+          <em data-en="slice of paradise" data-id="surga tepi pantai">slice of paradise</em>
+        </h2>
 
-      <p class="res__sub reveal" 
-         data-en="sunrise coffee, romantic sunset dinners, or a private beach event — we'll make every moment count at pantai biaung."
-         data-id="kopi pagi hari, makan malam romantis, atau acara privat di tepi pantai — kami akan membuat setiap momen berharga di pantai biaung.">
-        sunrise coffee, romantic sunset dinners, or a private beach event — we'll make every moment count at pantai biaung.
-      </p>
+        <p class="res__sub res__reveal"
+           data-en="sunrise coffee, romantic sunset dinners, or a private beach event — we'll make every moment count at pantai biaung."
+           data-id="kopi pagi hari, makan malam romantis, atau acara privat di tepi pantai — kami akan membuat setiap momen berharga di pantai biaung.">
+          sunrise coffee, romantic sunset dinners, or a private beach event — we'll make every moment count at pantai biaung.
+        </p>
 
-      <!-- info cards -->
-      <div class="res__cards reveal">
-        <div class="res__card pc-card">
-          <span class="res__card-icon" aria-hidden="true">🕐</span>
-          <div>
-            <strong data-en="hours" data-id="jam buka">hours</strong>
-            <span data-en="7am – 11pm · daily" data-id="07.00 – 23.00 · setiap hari">7am – 11pm · daily</span>
-          </div>
+        <!-- ── Real-time status pill ──────────────────────── -->
+        <div class="res__status res__reveal" id="res-status-bar">
+          <span class="res__status-dot" id="res-dot"></span>
+          <span class="res__status-label" id="res-status-text"
+                data-open-en="open now" data-open-id="buka sekarang"
+                data-closed-en="closed" data-closed-id="tutup">—</span>
+          <span class="res__status-sep" aria-hidden="true">·</span>
+          <span class="res__status-time" id="res-time">—</span>
+          <span class="res__status-tz">WITA</span>
         </div>
-        <div class="res__card pc-card">
-          <span class="res__card-icon" aria-hidden="true">📍</span>
-          <div>
-            <strong data-en="location" data-id="lokasi">location</strong>
-            <span data-en="Pantai Biaung, Denpasar, Bali" data-id="Pantai Biaung, Denpasar, Bali">Pantai Biaung, Denpasar, Bali</span>
-          </div>
-        </div>
-        <div class="res__card pc-card">
-          <span class="res__card-icon" aria-hidden="true">⚡</span>
-          <div>
-            <strong data-en="response" data-id="respons">response</strong>
-            <span data-en="within 2 hours · no card needed" data-id="dalam 2 jam · tanpa kartu kredit">within 2 hours · no card needed</span>
-          </div>
-        </div>
-        <div class="res__card pc-card">
-          <span class="res__card-icon" aria-hidden="true">🌊</span>
-          <div>
-            <strong data-en="vibe" data-id="suasana">vibe</strong>
-            <span data-en="beachfront · free wifi · dogs welcome" data-id="tepi pantai · wifi gratis · boleh bawa anjing">beachfront · free wifi · dogs welcome</span>
-          </div>
-        </div>
-        <div class="res__card pc-card">
-          <span class="res__card-icon" aria-hidden="true">🅿️</span>
-          <div>
-            <strong data-en="parking" data-id="parkir">parking</strong>
-            <span data-en="free on-site parking · motorbike & car" data-id="parkir gratis · motor & mobil">free on-site parking · motorbike & car</span>
-          </div>
-        </div>
-        <div class="res__card pc-card">
-          <span class="res__card-icon" aria-hidden="true">🎵</span>
-          <div>
-            <strong data-en="live music" data-id="musik live">live music</strong>
-            <span data-en="fri & sat evenings · local artists" data-id="jumat & sabtu malam · seniman lokal">fri & sat evenings · local artists</span>
-          </div>
-        </div>
-      </div>
 
-      <!-- social -->
-      <div class="res__socials reveal">
-        <a href=" https://www.instagram.com/put.in.coffee/" class="res__social-btn" target="_blank" rel="noopener" aria-label="instagram">📸</a>
-        <a href="https://www.tiktok.com/@put.in_coffee" class="res__social-btn" target="_blank" rel="noopener" aria-label="tiktok">🎵</a>
-        <a
-          id="whatsapp-link"
-          href="https://wa.me/628123456789"
-          class="res__social-btn res__social-wa"
-          target="_blank" rel="noopener"
-          aria-label="whatsapp"
+        <!-- ── Info cards ─────────────────────────────────── -->
+        <div class="res__cards res__reveal">
+
+          <!-- Hours -->
+          <div class="res__card">
+            <div class="res__card-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M12 7v5l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="res__card-text">
+              <strong data-en="hours" data-id="jam buka">hours</strong>
+              <span id="res-hours-dynamic" data-en="7am – 11pm · daily" data-id="07.00 – 23.00 · setiap hari">7am – 11pm · daily</span>
+            </div>
+          </div>
+
+          <!-- Location -->
+          <div class="res__card">
+            <div class="res__card-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                <circle cx="12" cy="9" r="2.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
+              </svg>
+            </div>
+            <div class="res__card-text">
+              <strong data-en="location" data-id="lokasi">location</strong>
+              <span data-en="Pantai Biaung, Sanur, Bali" data-id="Pantai Biaung, Sanur, Bali">Pantai Biaung, Sanur, Bali</span>
+            </div>
+          </div>
+
+          <!-- Response -->
+          <div class="res__card">
+            <div class="res__card-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" fill="none"/>
+              </svg>
+            </div>
+            <div class="res__card-text">
+              <strong data-en="response" data-id="respons">response</strong>
+              <span data-en="within 2 hours · no card needed" data-id="dalam 2 jam · tanpa kartu kredit">within 2 hours · no card needed</span>
+            </div>
+          </div>
+
+          <!-- Vibe -->
+          <div class="res__card">
+            <div class="res__card-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M3 17c2-4 5-7 9-7s7 3 9 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+                <path d="M1 20h22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M12 10V6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <circle cx="12" cy="4" r="2" stroke="currentColor" stroke-width="1.5" fill="none"/>
+              </svg>
+            </div>
+            <div class="res__card-text">
+              <strong data-en="vibe" data-id="suasana">vibe</strong>
+              <span data-en="beachfront · free wifi · dogs welcome" data-id="tepi pantai · wifi gratis · boleh bawa anjing">beachfront · free wifi · dogs welcome</span>
+            </div>
+          </div>
+
+          <!-- Parking -->
+          <div class="res__card">
+            <div class="res__card-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                <path d="M9 17V7h4a3 3 0 010 6H9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="res__card-text">
+              <strong data-en="parking" data-id="parkir">parking</strong>
+              <span data-en="free on-site · motorbike & car" data-id="parkir gratis · motor & mobil">free on-site · motorbike & car</span>
+            </div>
+          </div>
+
+          <!-- Live music — updated: Karaoke + live music SUN -->
+          <div class="res__card">
+            <div class="res__card-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M9 18V5l12-2v13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="6" cy="18" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                <circle cx="18" cy="16" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/>
+              </svg>
+            </div>
+            <div class="res__card-text">
+              <strong data-en="live music" data-id="musik live">live music</strong>
+              <span data-en="karaoke & live music · sundays 7–9pm" data-id="karaoke & musik live · minggu 19.00–21.00">karaoke & live music · sundays 7–9pm</span>
+            </div>
+          </div>
+
+        </div><!-- /.res__cards -->
+
+        <!-- ── Social links ───────────────────────────────── -->
+        <div class="res__socials res__reveal">
+
+          <!-- Instagram -->
+          <a href="https://www.instagram.com/put.in.coffee/"
+             class="res__social-btn res__social-ig"
+             target="_blank" rel="noopener" aria-label="Instagram @put.in.coffee">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="2" y="2" width="20" height="20" rx="5.5" stroke="url(#ig-grad)" stroke-width="1.7" fill="none"/>
+              <circle cx="12" cy="12" r="4.5" stroke="url(#ig-grad)" stroke-width="1.7" fill="none"/>
+              <circle cx="17.5" cy="6.5" r="1.2" fill="#E07A5F"/>
+              <defs>
+                <linearGradient id="ig-grad" x1="2" y1="22" x2="22" y2="2" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#F58529"/>
+                  <stop offset="40%" stop-color="#DD2A7B"/>
+                  <stop offset="100%" stop-color="#8134AF"/>
+                </linearGradient>
+              </defs>
+            </svg>
+            <span>@put.in.coffee</span>
+          </a>
+
+          <!-- TikTok -->
+          <a href="https://www.tiktok.com/@put.in_coffee"
+             class="res__social-btn res__social-tt"
+             target="_blank" rel="noopener" aria-label="TikTok @put.in_coffee">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V9a8.18 8.18 0 004.78 1.52V7.08a4.85 4.85 0 01-1.01-.39z" fill="currentColor"/>
+            </svg>
+            <span>@put.in_coffee</span>
+          </a>
+
+          <!-- WhatsApp -->
+          <a href="https://wa.me/6281916334989"
+             id="whatsapp-link"
+             class="res__social-btn res__social-wa"
+             target="_blank" rel="noopener" aria-label="WhatsApp">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" fill="#25D366"/>
+              <path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.975-1.306A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a7.96 7.96 0 01-4.073-1.115l-.292-.173-3.032.796.809-2.965-.19-.305A7.96 7.96 0 014 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z" fill="#25D366"/>
+            </svg>
+            <span data-en="chat on whatsapp" data-id="chat whatsapp">chat on whatsapp</span>
+          </a>
+
+          <!-- Share -->
+          <button id="share-btn" class="res__social-btn res__social-share" aria-label="Share this page" type="button">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="18" cy="5" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/>
+              <circle cx="6" cy="12" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/>
+              <circle cx="18" cy="19" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/>
+              <path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+            <span data-en="share" data-id="bagikan">share</span>
+          </button>
+
+        </div><!-- /.res__socials -->
+      </div><!-- /.res__info -->
+
+      <!-- ══ RIGHT: form ════════════════════════════════════ -->
+      <div class="res__form-wrap res__reveal-scale" id="res-form-container">
+
+        <form
+          id="res-form"
+          class="res__form"
+          name="reservation"
+          method="POST"
+          data-netlify="true"
+          netlify-honeypot="bot-field"
+          novalidate
         >
-          <span aria-hidden="true">💬</span>
-          <span class="res__wa-label" data-en="chat on whatsapp" data-id="chat whatsapp">chat on whatsapp</span>
-        </a>
-        <button id="share-btn" class="res__social-btn" aria-label="share this page">🔗</button>
-      </div>
+          <input type="hidden" name="form-name" value="reservation"/>
+          <p aria-hidden="true" style="display:none">
+            <label>skip: <input name="bot-field" tabindex="-1" autocomplete="off"/></label>
+          </p>
 
-    </div>
+          <h3 class="res__form-title" data-en="make a reservation" data-id="buat reservasi">make a reservation</h3>
 
-    <!-- ── right: form ─────────────────────────────────────── -->
-    <div class="res__form-wrap reveal-scale" id="res-form-container">
-
-      <form
-        id="res-form"
-        class="res__form"
-        name="reservation"
-        method="POST"
-        data-netlify="true"
-        netlify-honeypot="bot-field"
-        novalidate
-      >
-        <input type="hidden" name="form-name" value="reservation">
-        <p class="res__honeypot" aria-hidden="true">
-          <label>skip: <input name="bot-field" tabindex="-1" autocomplete="off"></label>
-        </p>
-
-        <h3 class="res__form-title" data-en="make a reservation" data-id="buat reservasi">make a reservation</h3>
-
-        <!-- row 1 -->
-        <div class="res__row">
-          <div class="res__field">
-            <label for="r-name" class="res__label">
-              <span data-en="full name" data-id="nama lengkap">full name</span>
-              <span class="res__req" aria-label="required">*</span>
-            </label>
-            <input type="text" id="r-name" name="name" class="pc-input" placeholder="your name" required autocomplete="name">
+          <!-- Row 1: name + email -->
+          <div class="res__row">
+            <div class="res__field">
+              <label for="r-name" class="res__label">
+                <span data-en="full name" data-id="nama lengkap">full name</span>
+                <span class="res__req" aria-label="required">*</span>
+              </label>
+              <input type="text" id="r-name" name="name" class="res__input" placeholder="your name" required autocomplete="name"/>
+            </div>
+            <div class="res__field">
+              <label for="r-email" class="res__label">
+                <span data-en="email" data-id="email">email</span>
+                <span class="res__req">*</span>
+              </label>
+              <input type="email" id="r-email" name="email" class="res__input" placeholder="you@email.com" required autocomplete="email"/>
+            </div>
           </div>
-          <div class="res__field">
-            <label for="r-email" class="res__label">
-              <span data-en="email" data-id="email">email</span>
-              <span class="res__req">*</span>
-            </label>
-            <input type="email" id="r-email" name="email" class="pc-input" placeholder="you@email.com" required autocomplete="email">
+
+          <!-- Row 2: phone + guests -->
+          <div class="res__row">
+            <div class="res__field">
+              <label for="r-phone" class="res__label">
+                <span data-en="whatsapp / phone" data-id="whatsapp / telepon">whatsapp / phone</span>
+              </label>
+              <input type="tel" id="r-phone" name="phone" class="res__input" placeholder="+62 …" autocomplete="tel"/>
+            </div>
+            <div class="res__field">
+              <label for="r-guests" class="res__label">
+                <span data-en="guests" data-id="jumlah tamu">guests</span>
+              </label>
+              <select id="r-guests" name="guests" class="res__input">
+                <option value="" data-en="select…" data-id="pilih…">select…</option>
+                <option value="1"    data-en="1 guest"             data-id="1 tamu">1 guest</option>
+                <option value="2"    data-en="2 guests"            data-id="2 tamu">2 guests</option>
+                <option value="3-5"  data-en="3–5 guests"          data-id="3–5 tamu">3–5 guests</option>
+                <option value="6-10" data-en="6–10 guests"         data-id="6–10 tamu">6–10 guests</option>
+                <option value="10+"  data-en="10+ (private event)" data-id="10+ (acara privat)">10+ (private event)</option>
+              </select>
+            </div>
           </div>
+
+          <!-- Row 3: date + time -->
+          <div class="res__row">
+            <div class="res__field">
+              <label for="r-date" class="res__label">
+                <span data-en="preferred date" data-id="tanggal pilihan">preferred date</span>
+              </label>
+              <input type="date" id="r-date" name="date" class="res__input"/>
+            </div>
+            <div class="res__field">
+              <label for="r-time" class="res__label">
+                <span data-en="preferred time" data-id="waktu pilihan">preferred time</span>
+              </label>
+              <select id="r-time" name="time" class="res__input">
+                <option value="">select time…</option>
+                <option value="07:00" data-en="7:00 am — sunrise"   data-id="07.00 — matahari terbit">7:00 am — sunrise</option>
+                <option value="09:00" data-en="9:00 am — morning"   data-id="09.00 — pagi">9:00 am — morning</option>
+                <option value="12:00" data-en="12:00 pm — lunch"    data-id="12.00 — makan siang">12:00 pm — lunch</option>
+                <option value="15:00" data-en="3:00 pm — afternoon" data-id="15.00 — sore">3:00 pm — afternoon</option>
+                <option value="17:30" data-en="5:30 pm — sunset"    data-id="17.30 — senja">5:30 pm — sunset</option>
+                <option value="19:00" data-en="7:00 pm — dinner"    data-id="19.00 — makan malam">7:00 pm — dinner</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Special requests -->
+          <div class="res__field">
+            <label for="r-msg" class="res__label">
+              <span data-en="special requests" data-id="permintaan khusus">special requests</span>
+            </label>
+            <textarea id="r-msg" name="message" class="res__input" rows="3"
+              placeholder="allergies, special occasions, seating preferences…"></textarea>
+          </div>
+
+          <!-- Action buttons -->
+          <div class="res__actions">
+            <!-- Primary: send DM to Instagram -->
+            <button type="button" id="res-ig-btn" class="res__btn-primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <rect x="2" y="2" width="20" height="20" rx="5.5" stroke="currentColor" stroke-width="1.6" fill="none"/>
+                <circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.6" fill="none"/>
+                <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/>
+              </svg>
+              <span class="res__btn-text" data-en="send via instagram DM" data-id="kirim via instagram DM">send via instagram DM</span>
+            </button>
+
+            <!-- Secondary: Netlify form fallback -->
+            <button type="submit" id="res-submit" class="res__btn-secondary">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M22 2L11 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M22 2L15 22l-4-9-9-4 20-7z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span class="res__btn-text" data-en="send reservation" data-id="kirim reservasi">send reservation</span>
+            </button>
+          </div>
+
+          <p class="res__note"
+             data-en="we reply within 2 hours · free · no credit card needed"
+             data-id="kami membalas dalam 2 jam · gratis · tanpa kartu kredit">
+            we reply within 2 hours · free · no credit card needed
+          </p>
+        </form>
+
+        <!-- Success state -->
+        <div id="res-success" class="res__success" hidden>
+          <div class="res__success-anim" aria-hidden="true">
+            <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+              <circle cx="28" cy="28" r="26" stroke="#C9924A" stroke-width="1.5" fill="rgba(201,146,74,0.08)"/>
+              <path d="M17 28l8 8 14-16" stroke="#5bdb83" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3 data-en="reservation received!" data-id="reservasi diterima!">reservation received!</h3>
+          <p data-en="we'll confirm your table within 2 hours. see you at pantai biaung"
+             data-id="kami akan mengkonfirmasi meja anda dalam 2 jam. sampai jumpa di pantai biaung">
+            we'll confirm your table within 2 hours. see you at pantai biaung
+          </p>
+          <a href="#menu" class="res__btn-outline" data-en="explore the menu" data-id="lihat menu">explore the menu</a>
         </div>
 
-        <!-- row 2 -->
-        <div class="res__row">
-          <div class="res__field">
-            <label for="r-phone" class="res__label">
-              <span data-en="whatsapp / phone" data-id="whatsapp / telepon">whatsapp / phone</span>
-            </label>
-            <input type="tel" id="r-phone" name="phone" class="pc-input" placeholder="+62 …" autocomplete="tel">
-          </div>
-          <div class="res__field">
-            <label for="r-guests" class="res__label">
-              <span data-en="guests" data-id="jumlah tamu">guests</span>
-            </label>
-            <select id="r-guests" name="guests" class="pc-input">
-              <option value="" data-en="select…" data-id="pilih…">select…</option>
-              <option value="1"   data-en="1 guest"            data-id="1 tamu">1 guest</option>
-              <option value="2"   data-en="2 guests"           data-id="2 tamu">2 guests</option>
-              <option value="3-5" data-en="3–5 guests"         data-id="3–5 tamu">3–5 guests</option>
-              <option value="6-10"data-en="6–10 guests"        data-id="6–10 tamu">6–10 guests</option>
-              <option value="10+" data-en="10+ (private event)"data-id="10+ (acara privat)">10+ (private event)</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- row 3 -->
-        <div class="res__row">
-          <div class="res__field">
-            <label for="r-date" class="res__label">
-              <span data-en="preferred date" data-id="tanggal pilihan">preferred date</span>
-            </label>
-            <input type="date" id="r-date" name="date" class="pc-input">
-          </div>
-          <div class="res__field">
-            <label for="r-time" class="res__label">
-              <span data-en="preferred time" data-id="waktu pilihan">preferred time</span>
-            </label>
-            <select id="r-time" name="time" class="pc-input">
-              <option value="">select time…</option>
-              <option value="07:00" data-en="7:00 am — sunrise 🌅" data-id="07.00 — matahari terbit 🌅">7:00 am — sunrise 🌅</option>
-              <option value="09:00" data-en="9:00 am — morning ☀️" data-id="09.00 — pagi ☀️">9:00 am — morning ☀️</option>
-              <option value="12:00" data-en="12:00 pm — lunch 🍽️"  data-id="12.00 — makan siang 🍽️">12:00 pm — lunch 🍽️</option>
-              <option value="15:00" data-en="3:00 pm — afternoon 🌤️" data-id="15.00 — sore 🌤️">3:00 pm — afternoon 🌤️</option>
-              <option value="17:30" data-en="5:30 pm — sunset 🌅"  data-id="17.30 — senja 🌅">5:30 pm — sunset 🌅</option>
-              <option value="19:00" data-en="7:00 pm — dinner 🌙"  data-id="19.00 — makan malam 🌙">7:00 pm — dinner 🌙</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- notes -->
-        <div class="res__field">
-          <label for="r-msg" class="res__label">
-            <span data-en="special requests" data-id="permintaan khusus">special requests</span>
-          </label>
-          <textarea id="r-msg" name="message" class="pc-input" rows="3"
-            placeholder="allergies, special occasions, seating preferences…"
-          ></textarea>
-        </div>
-
-        <!-- submit -->
-        <button type="submit" id="res-submit" class="btn btn-primary res__submit">
-          <span class="res__submit-text" data-en="☕ send reservation" data-id="☕ kirim reservasi">☕ send reservation</span>
-        </button>
-
-        <p class="res__note"
-           data-en="we reply within 2 hours · free · no credit card needed"
-           data-id="kami membalas dalam 2 jam · gratis · tanpa kartu kredit">
-          we reply within 2 hours · free · no credit card needed
-        </p>
-      </form>
-
-      <!-- success -->
-      <div id="res-success" class="res__success" hidden>
-        <div class="res__success-icon">🎉</div>
-        <h3 data-en="reservation received!" data-id="reservasi diterima!">reservation received!</h3>
-        <p data-en="we'll confirm your table within 2 hours. see you at pantai biaung 🌊"
-           data-id="kami akan mengkonfirmasi meja anda dalam 2 jam. sampai jumpa di pantai biaung 🌊">
-          we'll confirm your table within 2 hours. see you at pantai biaung 🌊
-        </p>
-        <a href="#menu" class="btn btn-outline" data-en="← explore menu" data-id="← lihat menu">← explore menu</a>
-      </div>
-
-    </div>
-  </div>
+      </div><!-- /.res__form-wrap -->
+    </div><!-- /.res__inner -->
+  </div><!-- /.res__container -->
 </section>
 
 <style>
-  /* ── Layout ──────────────────────────────────────────────── */
-  .res__inner {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5rem;
-    align-items: start;
-  }
-  @media (max-width: 860px) {
-    .res__inner { grid-template-columns: 1fr; gap: 3rem; }
-  }
+/* ── Container ──────────────────────────────────────────────── */
+.res {
+  padding: var(--section-py, 5rem) 0;
+}
+.res__container {
+  max-width: var(--content-width, 1100px);
+  margin: 0 auto;
+  padding: 0 var(--container-px, 1.5rem);
+}
+.res__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: start;
+}
+@media (max-width: 860px) {
+  .res__inner { grid-template-columns: 1fr; gap: 3rem; }
+}
 
-  /* ── Left info ───────────────────────────────────────────── */
-  .res__title {
-    text-transform: lowercase;
-    margin: 0.4rem 0 1rem;
-  }
-  .res__title em {
-    font-style: italic;
-    font-weight: 400;
-    background: linear-gradient(135deg, var(--gold-lt), var(--gold));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .res__sub {
-    font-size: 0.88rem;
-    font-weight: 300;
-    color: var(--muted);
-    line-height: 1.7;
-    margin: 0 0 2rem;
-    text-transform: lowercase;
-  }
+/* ── Reveals ────────────────────────────────────────────────── */
+.res__reveal {
+  opacity: 0; transform: translateY(18px);
+  transition: opacity .55s ease, transform .55s ease;
+}
+.res__reveal.in { opacity: 1; transform: none; }
+.res__reveal-scale {
+  opacity: 0; transform: scale(0.97);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.res__reveal-scale.in { opacity: 1; transform: none; }
 
-  /* info cards grid */
-  .res__cards {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.65rem;
-    margin-bottom: 2rem;
-  }
-  .res__card {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.65rem;
-    padding: 0.8rem 0.9rem;
-    cursor: default;
-  }
-  .res__card-icon { font-size: 1.1rem; flex-shrink: 0; line-height: 1.4; }
-  .res__card div {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-  .res__card strong {
-    font-size: 0.68rem;
-    font-weight: 600;
-    color: var(--cream);
-    letter-spacing: 0.06em;
-    text-transform: lowercase;
-  }
-  .res__card span {
-    font-size: 0.68rem;
-    font-weight: 300;
-    color: var(--muted);
-    text-transform: lowercase;
-    line-height: 1.4;
-  }
+/* ── Eyebrow ────────────────────────────────────────────────── */
+.eyebrow {
+  font-size: .7rem; font-weight: 600; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--gold, #C9924A);
+  display: block; margin-bottom: .5rem;
+}
 
-  /* socials */
-  .res__socials {
-    display: flex;
-    align-items: center;
-    gap: 0.55rem;
-    flex-wrap: wrap;
-  }
-  .res__social-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 38px; height: 38px;
-    border-radius: 50%;
-    background: var(--glass);
-    border: 1px solid var(--border);
-    font-size: 0.95rem;
-    cursor: pointer;
-    text-decoration: none;
-    transition: transform 0.2s, border-color 0.2s, background 0.2s;
-    color: var(--cream);
-  }
-  .res__social-btn:hover {
-    transform: translateY(-2px);
-    border-color: rgba(201,146,74,0.3);
-    background: rgba(201,146,74,0.06);
-    color: var(--cream);
-  }
-  .res__social-wa {
-    width: auto;
-    border-radius: 50px;
-    padding: 0 1rem;
-    background: rgba(37,211,102,0.07);
-    border-color: rgba(37,211,102,0.18);
-    color: #4ade80;
-    gap: 6px;
-  }
-  .res__social-wa:hover { border-color: rgba(37,211,102,0.35); color: #4ade80; }
-  .res__wa-label { font-size: 0.74rem; font-weight: 400; white-space: nowrap; }
+/* ── Title ──────────────────────────────────────────────────── */
+.res__title {
+  font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+  font-weight: 400; text-transform: lowercase;
+  color: var(--cream, #F0E8DC);
+  margin: 0 0 1rem; line-height: 1.2;
+}
+.res__title em {
+  font-style: italic; font-weight: 400;
+  background: linear-gradient(135deg, var(--gold-lt, #E8C97A), var(--gold, #C9924A));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.res__sub {
+  font-size: .875rem; font-weight: 300; color: var(--muted, rgba(240,232,220,0.45));
+  line-height: 1.7; margin: 0 0 1.5rem; text-transform: lowercase;
+}
 
-  /* ── Form ────────────────────────────────────────────────── */
-  .res__form {
-    background: var(--glass);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 2rem;
-    backdrop-filter: blur(12px);
-  }
-  .res__honeypot { display: none; }
-  .res__form-title {
-    font-family: var(--font-display);
-    font-size: 1.35rem;
-    font-weight: 500;
-    color: var(--cream);
-    margin: 0 0 1.5rem;
-    text-transform: lowercase;
-  }
-  .res__row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.85rem;
-  }
-  @media (max-width: 500px) { .res__row { grid-template-columns: 1fr; } }
-  .res__field {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    margin-bottom: 0.85rem;
-  }
-  .res__label {
-    font-size: 0.68rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-    text-transform: lowercase;
-    display: flex;
-    gap: 2px;
-    align-items: center;
-  }
-  .res__req { color: var(--coral); }
-  select.pc-input option { background: #1a1110; color: var(--cream); }
-  input[type="date"].pc-input::-webkit-calendar-picker-indicator { filter: invert(0.6); cursor: pointer; }
-  textarea.pc-input { resize: none; line-height: 1.6; }
+/* ── Status pill ────────────────────────────────────────────── */
+.res__status {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .38rem .9rem; border-radius: 50px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.03);
+  margin-bottom: 1.5rem;
+  font-size: .72rem; font-weight: 400; text-transform: lowercase;
+}
+.res__status-dot {
+  width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+  background: #888; transition: background .4s;
+}
+.res__status-dot.open  { background: #5bdb83; box-shadow: 0 0 7px rgba(91,219,131,.55); animation: res-pulse 2.5s ease-in-out infinite; }
+.res__status-dot.closed{ background: #666; }
+@keyframes res-pulse { 0%,100%{box-shadow:0 0 5px rgba(91,219,131,.4);} 50%{box-shadow:0 0 12px rgba(91,219,131,.7);} }
+.res__status-label { font-weight: 600; color: var(--muted, rgba(240,232,220,.45)); transition: color .4s; }
+.res__status-label.open   { color: #5bdb83; }
+.res__status-label.closed { color: var(--muted); }
+.res__status-sep { color: rgba(255,255,255,.15); }
+.res__status-time { font-family: var(--font-display, serif); font-style: italic; color: var(--gold-lt, #E8C97A); }
+.res__status-tz { font-size: .6rem; letter-spacing: .08em; color: var(--muted); }
 
-  .res__submit {
-    width: 100%;
-    margin-top: 0.25rem;
-    font-size: 0.8rem;
-  }
-  .res__note {
-    text-align: center;
-    font-size: 0.66rem;
-    font-weight: 300;
-    color: var(--muted);
-    margin: 0.65rem 0 0;
-    line-height: 1.5;
-    text-transform: lowercase;
-  }
+/* ── Info cards ─────────────────────────────────────────────── */
+.res__cards {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: .6rem; margin-bottom: 2rem;
+}
+.res__card {
+  display: flex; align-items: flex-start; gap: .7rem;
+  padding: .85rem 1rem;
+  background: var(--glass, rgba(240,232,220,.03));
+  border: 1px solid var(--border, rgba(240,232,220,.08));
+  border-radius: 12px;
+  transition: border-color .2s, background .2s;
+}
+.res__card:hover {
+  border-color: rgba(201,146,74,.2);
+  background: rgba(201,146,74,.04);
+}
+.res__card-icon {
+  width: 34px; height: 34px; flex-shrink: 0;
+  border-radius: 9px;
+  background: rgba(201,146,74,.07);
+  border: 1px solid rgba(201,146,74,.12);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gold, #C9924A);
+}
+.res__card-text {
+  display: flex; flex-direction: column; gap: 2px; min-width: 0;
+}
+.res__card-text strong {
+  font-size: .68rem; font-weight: 600;
+  color: var(--cream, #F0E8DC); letter-spacing: .05em; text-transform: lowercase;
+}
+.res__card-text span {
+  font-size: .68rem; font-weight: 300;
+  color: var(--muted, rgba(240,232,220,.45)); text-transform: lowercase; line-height: 1.45;
+}
 
-  /* ── Success ─────────────────────────────────────────────── */
-  .res__success {
-    background: var(--glass);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 3rem 2rem;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    min-height: 380px;
-    justify-content: center;
-  }
-  [hidden] { display: none !important; }
-  .res__success-icon { font-size: 3rem; animation: pop-in 0.5s cubic-bezier(0.34,1.56,0.64,1); }
-  @keyframes pop-in { from { transform: scale(0); } to { transform: scale(1); } }
-  .res__success h3 {
-    font-family: var(--font-display);
-    font-size: 1.6rem;
-    font-weight: 500;
-    text-transform: lowercase;
-    margin: 0;
-  }
-  .res__success p { font-size: 0.85rem; max-width: 280px; text-transform: lowercase; }
+/* ── Social buttons ─────────────────────────────────────────── */
+.res__socials {
+  display: flex; align-items: center; gap: .5rem; flex-wrap: wrap;
+}
+.res__social-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: .4rem; height: 38px;
+  border-radius: 50px; padding: 0 .95rem;
+  background: var(--glass, rgba(240,232,220,.03));
+  border: 1px solid var(--border, rgba(240,232,220,.08));
+  font-size: .72rem; font-weight: 400; color: var(--muted);
+  cursor: pointer; text-decoration: none;
+  transition: border-color .2s, background .2s, color .2s, transform .15s;
+  white-space: nowrap;
+}
+.res__social-btn:hover { transform: translateY(-2px); }
 
-  /* reveal */
-  .reveal-scale {
-    opacity: 0;
-    transform: scale(0.97);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-  }
-  .reveal-scale.in { opacity: 1; transform: scale(1); }
+/* Instagram gradient border on hover */
+.res__social-ig { color: rgba(240,232,220,.65); }
+.res__social-ig:hover {
+  background: rgba(221,42,123,.08);
+  border-color: rgba(221,42,123,.3);
+  color: #f77737;
+}
 
-  @media (max-width: 500px) {
-    .res__form { padding: 1.25rem; }
-  }
+/* TikTok */
+.res__social-tt { color: rgba(240,232,220,.65); }
+.res__social-tt:hover {
+  background: rgba(255,255,255,.06);
+  border-color: rgba(255,255,255,.2);
+  color: var(--cream);
+}
+
+/* WhatsApp */
+.res__social-wa {
+  background: rgba(37,211,102,.06);
+  border-color: rgba(37,211,102,.18);
+  color: #4ade80;
+}
+.res__social-wa:hover {
+  background: rgba(37,211,102,.12);
+  border-color: rgba(37,211,102,.35);
+  color: #4ade80;
+}
+
+/* Share */
+.res__social-share { color: rgba(240,232,220,.5); padding: 0 .8rem; }
+.res__social-share:hover {
+  border-color: rgba(201,146,74,.3);
+  background: rgba(201,146,74,.06);
+  color: var(--gold);
+}
+
+/* ── Form wrapper ───────────────────────────────────────────── */
+.res__form, .res__success {
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 20px;
+  padding: 2rem 2rem 1.75rem;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.res__form-title {
+  font-family: var(--font-display, serif);
+  font-size: 1.25rem; font-weight: 500;
+  color: var(--cream); margin: 0 0 1.5rem; text-transform: lowercase;
+}
+
+/* ── Form grid ──────────────────────────────────────────────── */
+.res__row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: .85rem;
+}
+@media (max-width: 500px) { .res__row { grid-template-columns: 1fr; } }
+.res__field { display: flex; flex-direction: column; gap: 5px; margin-bottom: .85rem; }
+.res__label {
+  font-size: .67rem; font-weight: 500; letter-spacing: .09em;
+  text-transform: lowercase; color: var(--muted);
+  display: flex; gap: 3px; align-items: center;
+}
+.res__req { color: var(--coral, #E07A5F); }
+
+/* ── Inputs ─────────────────────────────────────────────────── */
+.res__input {
+  width: 100%; box-sizing: border-box;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 10px;
+  padding: .6rem .85rem;
+  font-family: var(--font-body, sans-serif);
+  font-size: .83rem; font-weight: 300;
+  color: var(--cream, #F0E8DC);
+  outline: none;
+  transition: border-color .2s, background .2s, box-shadow .2s;
+  -webkit-appearance: none;
+}
+.res__input::placeholder { color: rgba(240,232,220,.2); }
+.res__input:focus {
+  border-color: rgba(201,146,74,.5);
+  background: rgba(201,146,74,.04);
+  box-shadow: 0 0 0 3px rgba(201,146,74,.1);
+}
+.res__input.error { border-color: rgba(224,122,95,.5); box-shadow: 0 0 0 3px rgba(224,122,95,.1); }
+select.res__input option { background: #1a1714; color: var(--cream); }
+input[type="date"].res__input::-webkit-calendar-picker-indicator { filter: invert(0.55); cursor: pointer; }
+textarea.res__input { resize: none; line-height: 1.6; }
+
+/* ── Action buttons ─────────────────────────────────────────── */
+.res__actions {
+  display: flex; gap: .65rem; margin-top: .25rem;
+}
+@media (max-width: 500px) { .res__actions { flex-direction: column; } }
+
+.res__btn-primary {
+  flex: 1;
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  padding: .72rem 1.25rem; border-radius: 50px;
+  background: linear-gradient(135deg, #DD2A7B, #F58529);
+  color: #fff; font-family: var(--font-body, sans-serif);
+  font-size: .8rem; font-weight: 600; text-transform: lowercase;
+  border: none; cursor: pointer;
+  transition: opacity .2s, box-shadow .2s, transform .15s;
+  box-shadow: 0 4px 16px rgba(221,42,123,.25);
+}
+.res__btn-primary:hover {
+  opacity: .92;
+  box-shadow: 0 6px 22px rgba(221,42,123,.38);
+}
+.res__btn-primary:active { transform: scale(.97); }
+
+.res__btn-secondary {
+  flex: 1;
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  padding: .72rem 1.25rem; border-radius: 50px;
+  background: rgba(201,146,74,.1);
+  border: 1px solid rgba(201,146,74,.3);
+  color: var(--gold-lt, #E8C97A);
+  font-family: var(--font-body, sans-serif);
+  font-size: .8rem; font-weight: 500; text-transform: lowercase;
+  cursor: pointer;
+  transition: background .2s, box-shadow .2s, transform .15s;
+}
+.res__btn-secondary:hover {
+  background: rgba(201,146,74,.18);
+  box-shadow: 0 4px 16px rgba(201,146,74,.2);
+}
+.res__btn-secondary:active { transform: scale(.97); }
+.res__btn-secondary:disabled { opacity: .5; cursor: not-allowed; }
+
+.res__note {
+  text-align: center; font-size: .65rem; font-weight: 300;
+  color: var(--muted); margin: .75rem 0 0; text-transform: lowercase; line-height: 1.5;
+}
+
+/* ── Success ────────────────────────────────────────────────── */
+[hidden] { display: none !important; }
+.res__success {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 1rem; text-align: center;
+  min-height: 360px; justify-content: center;
+}
+.res__success-anim { animation: res-pop .5s cubic-bezier(.34,1.56,.64,1); }
+@keyframes res-pop { from{transform:scale(0);opacity:0;} to{transform:scale(1);opacity:1;} }
+.res__success h3 {
+  font-family: var(--font-display, serif);
+  font-size: 1.5rem; font-weight: 500; text-transform: lowercase;
+  color: var(--cream); margin: 0;
+}
+.res__success p { font-size: .85rem; max-width: 280px; text-transform: lowercase; color: var(--muted); margin: 0; }
+.res__btn-outline {
+  display: inline-flex; align-items: center; gap: .4rem;
+  padding: .65rem 1.3rem; border-radius: 50px;
+  background: var(--glass); border: 1px solid var(--border);
+  color: var(--muted); font-size: .8rem; text-decoration: none; text-transform: lowercase;
+  transition: border-color .2s, color .2s;
+}
+.res__btn-outline:hover { border-color: rgba(201,146,74,.3); color: var(--cream); }
+
+@media (max-width: 500px) {
+  .res__form, .res__success { padding: 1.35rem; }
+  .res__cards { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .res__reveal, .res__reveal-scale, .res__status-dot { transition: none !important; animation: none !important; }
+}
 </style>
 
 <script>
-  // date min
-  const dateInput = document.getElementById('r-date') as HTMLInputElement;
-  if (dateInput) {
-    const n = new Date();
-    const p = (v: number) => String(v).padStart(2,'0');
-    dateInput.min = `${n.getFullYear()}-${p(n.getMonth()+1)}-${p(n.getDate())}`;
+(function () {
+
+  /* ── Real-time WITA clock ──────────────────────────────── */
+  var SCHEDULE = [
+    { days:[1,2,3,4], open:6,  close:24 },
+    { days:[5],       open:6,  close:27 },
+    { days:[6,0],     open:12, close:27 },
+  ];
+
+  function isOpenNow(now) {
+    var wita = new Date(now.getTime() + 8 * 3600000);
+    var day  = wita.getUTCDay();
+    var h    = wita.getUTCHours() + wita.getUTCMinutes() / 60;
+    for (var i = 0; i < SCHEDULE.length; i++) {
+      var s = SCHEDULE[i];
+      if (s.days.indexOf(day) === -1) continue;
+      if (h >= s.open && h < s.close) return true;
+      if (s.close > 24 && h < (s.close - 24)) return true;
+    }
+    // previous day late window
+    var prev = (day + 6) % 7;
+    for (var j = 0; j < SCHEDULE.length; j++) {
+      var ps = SCHEDULE[j];
+      if (ps.days.indexOf(prev) === -1 || ps.close <= 24) continue;
+      if (h < (ps.close - 24)) return true;
+    }
+    return false;
   }
 
-  // form
-  const form       = document.getElementById('res-form') as HTMLFormElement;
-  const submitBtn  = document.getElementById('res-submit') as HTMLButtonElement;
-  const success    = document.getElementById('res-success')!;
-  const submitText = submitBtn?.querySelector('.res__submit-text') as HTMLElement;
+  function updateClock() {
+    var now  = new Date();
+    var wita = new Date(now.getTime() + 8 * 3600000);
+    var h    = wita.getUTCHours();
+    var m    = wita.getUTCMinutes();
+    var ampm = h >= 12 ? 'PM' : 'AM';
+    var h12  = h % 12 || 12;
+    var timeStr = h12 + ':' + (m < 10 ? '0' + m : m) + ' ' + ampm;
+    var open = isOpenNow(now);
+    var isID = document.documentElement.lang === 'id';
 
-  const toast = (type: string, title: string, msg: string) =>
-    window.dispatchEvent(new CustomEvent('pc:toast', { detail:{ type, title, message: msg } }));
+    var timeEl  = document.getElementById('res-time');
+    var dotEl   = document.getElementById('res-dot');
+    var statEl  = document.getElementById('res-status-text');
+    var hoursEl = document.getElementById('res-hours-dynamic');
 
-  form?.addEventListener('submit', async e => {
-    e.preventDefault();
-    const name  = (document.getElementById('r-name')  as HTMLInputElement).value.trim();
-    const email = (document.getElementById('r-email') as HTMLInputElement).value.trim();
-    if (!name)    { toast('error','name required','please enter your full name.'); return; }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { toast('error','invalid email','please enter a valid email.'); return; }
-
-    submitBtn.disabled = true;
-    if (submitText) submitText.textContent = 'sending… ✈️';
-
-    try {
-      const res = await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(new FormData(form) as unknown as Record<string,string>).toString(),
-      });
-      if (res.ok) {
-        form.hidden = true;
-        success.hidden = false;
-        // @ts-ignore
-        if (window.plausible) window.plausible('Reservation Submit');
-        toast('success','reservation received! 🎉',"we'll confirm your table within 2 hours.");
-      } else throw new Error();
-    } catch {
-      toast('error','something went wrong','please try whatsapp or call us directly.');
-      submitBtn.disabled = false;
-      if (submitText) submitText.textContent = '☕ send reservation';
+    if (timeEl) timeEl.textContent = timeStr;
+    if (dotEl) dotEl.className = 'res__status-dot ' + (open ? 'open' : 'closed');
+    if (statEl) {
+      statEl.className = 'res__status-label ' + (open ? 'open' : 'closed');
+      statEl.textContent = open
+        ? (isID ? statEl.getAttribute('data-open-id') : statEl.getAttribute('data-open-en'))
+        : (isID ? statEl.getAttribute('data-closed-id') : statEl.getAttribute('data-closed-en'));
     }
-  });
+    if (hoursEl) {
+      // Show today's hours inline
+      var today = new Date(now.getTime() + 8 * 3600000).getUTCDay();
+      var todayHours = '';
+      if ([1,2,3,4].indexOf(today) !== -1) todayHours = isID ? '06.00 – 24.00 · setiap hari' : '6am – midnight · daily';
+      else todayHours = isID ? '12.00 – 03.00 · akhir pekan' : '12pm – 3am · weekend';
+      hoursEl.textContent = todayHours;
+    }
+  }
 
-  // share
-  document.getElementById('share-btn')?.addEventListener('click', async () => {
-    try {
-      if (navigator.share) {
-        await navigator.share({ title:'put.in coffee — pantai biaung', text:'the best coffee spot on the beach ☕🌊', url: location.href });
-      } else {
-        await navigator.clipboard.writeText(location.href);
-        toast('success','link copied! 🔗','share put.in coffee with your friends');
-      }
-    } catch {}
-  });
+  /* ── Build Instagram DM URL from form ──────────────────── */
+  function buildIgDmUrl() {
+    var name    = (document.getElementById('r-name')?.value   || '').trim();
+    var email   = (document.getElementById('r-email')?.value  || '').trim();
+    var phone   = (document.getElementById('r-phone')?.value  || '').trim();
+    var guests  = (document.getElementById('r-guests')?.value || '').trim();
+    var date    = (document.getElementById('r-date')?.value   || '').trim();
+    var time    = (document.getElementById('r-time')?.value   || '').trim();
+    var msg     = (document.getElementById('r-msg')?.value    || '').trim();
 
-  document.getElementById('whatsapp-link')?.addEventListener('click', () => {
-    // @ts-ignore
-    if (window.plausible) window.plausible('WhatsApp Click');
-  });
+    var lines = [
+      'Hi put.in café! 👋',
+      '',
+      'I\'d like to make a reservation:',
+      '• Name: '    + (name    || '—'),
+      '• Email: '   + (email   || '—'),
+      '• Phone: '   + (phone   || '—'),
+      '• Guests: '  + (guests  || '—'),
+      '• Date: '    + (date    || '—'),
+      '• Time: '    + (time    || '—'),
+    ];
+    if (msg) lines.push('• Notes: ' + msg);
+    lines.push('', 'Looking forward to your reply! 🌊');
+    return 'https://ig.me/m/put.in.coffee?text=' + encodeURIComponent(lines.join('\n'));
+  }
 
-  // language
-  document.addEventListener('pc:lang', ((e: CustomEvent) => {
-    const isID = e.detail.isID as boolean;
-    document.querySelectorAll<HTMLElement>('[data-en][data-id]').forEach(el => {
-      if (el.tagName === 'SELECT' || el.tagName === 'OPTION') return;
-      const val = isID ? el.dataset.id : el.dataset.en;
-      if (val !== undefined) el.textContent = val;
+  function validateForm() {
+    var name  = (document.getElementById('r-name')?.value  || '').trim();
+    var email = (document.getElementById('r-email')?.value || '').trim();
+    var valid = true;
+    var nameEl  = document.getElementById('r-name');
+    var emailEl = document.getElementById('r-email');
+    if (!name)  { nameEl?.classList.add('error');   valid = false; }
+    else          nameEl?.classList.remove('error');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { emailEl?.classList.add('error');  valid = false; }
+    else emailEl?.classList.remove('error');
+    return valid;
+  }
+
+  function toast(type, title, msg) {
+    window.dispatchEvent(new CustomEvent('pc:toast', { detail: { type: type, title: title, message: msg } }));
+  }
+
+  /* ── Init ──────────────────────────────────────────────── */
+  document.addEventListener('DOMContentLoaded', function () {
+
+    /* Date min */
+    var dateInput = document.getElementById('r-date');
+    if (dateInput) {
+      var n = new Date();
+      var pad = function(v) { return String(v).padStart(2, '0'); };
+      dateInput.min = n.getFullYear() + '-' + pad(n.getMonth() + 1) + '-' + pad(n.getDate());
+    }
+
+    /* Clock */
+    updateClock();
+    setInterval(updateClock, 30000);
+
+    /* Reveal observer */
+    var ro = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); ro.unobserve(e.target); }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.res__reveal, .res__reveal-scale').forEach(function (el) { ro.observe(el); });
+
+    /* Instagram DM button */
+    var igBtn = document.getElementById('res-ig-btn');
+    if (igBtn) {
+      igBtn.addEventListener('click', function () {
+        if (!validateForm()) {
+          toast('error', 'missing info', 'please fill in your name and email first.');
+          return;
+        }
+        var url = buildIgDmUrl();
+        window.open(url, '_blank', 'noopener,noreferrer');
+        if (window.plausible) window.plausible('Reservation IG DM');
+      });
+    }
+
+    /* Netlify form submit (fallback) */
+    var form = document.getElementById('res-form');
+    var submitBtn = document.getElementById('res-submit');
+    var success   = document.getElementById('res-success');
+
+    if (form) {
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        if (!validateForm()) {
+          toast('error', 'missing info', 'please fill in your name and email.');
+          return;
+        }
+        if (submitBtn) { submitBtn.disabled = true; }
+        var btnText = submitBtn?.querySelector('.res__btn-text');
+        if (btnText) btnText.textContent = 'sending…';
+        try {
+          var res = await fetch('/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams(new FormData(form)).toString(),
+          });
+          if (res.ok) {
+            form.hidden = true;
+            if (success) success.hidden = false;
+            if (window.plausible) window.plausible('Reservation Submit');
+            toast('success', 'reservation received! 🎉', "we'll confirm within 2 hours.");
+          } else throw new Error();
+        } catch (_) {
+          toast('error', 'something went wrong', 'try whatsapp or message us on instagram.');
+          if (submitBtn) { submitBtn.disabled = false; }
+          if (btnText) btnText.textContent = 'send reservation';
+        }
+      });
+    }
+
+    /* Share */
+    var shareBtn = document.getElementById('share-btn');
+    if (shareBtn) {
+      shareBtn.addEventListener('click', async function () {
+        try {
+          if (navigator.share) {
+            await navigator.share({ title: 'put.in café · pantai biaung', text: 'beachfront coffee & good vibes ☕🌊', url: location.href });
+          } else {
+            await navigator.clipboard.writeText(location.href);
+            toast('success', 'link copied!', 'share put.in café with your friends');
+          }
+        } catch (_) {}
+      });
+    }
+
+    /* WhatsApp tracking */
+    var waLink = document.getElementById('whatsapp-link');
+    if (waLink) {
+      waLink.addEventListener('click', function () {
+        if (window.plausible) window.plausible('WhatsApp Click');
+      });
+    }
+
+    /* Language */
+    document.addEventListener('pc:lang', function (e) {
+      var isID = e.detail && e.detail.isID;
+      document.querySelectorAll('[data-en][data-id]').forEach(function (el) {
+        if (el.tagName === 'SELECT' || el.tagName === 'OPTION' || el.children.length > 0) return;
+        var val = isID ? el.getAttribute('data-id') : el.getAttribute('data-en');
+        if (val !== null) el.textContent = val;
+      });
+      document.querySelectorAll('option[data-en]').forEach(function (o) {
+        var val = isID ? o.getAttribute('data-id') : o.getAttribute('data-en');
+        if (val) o.textContent = val;
+      });
+      updateClock();
     });
-    document.querySelectorAll<HTMLOptionElement>('option[data-en]').forEach(o => {
-      const val = isID ? o.dataset.id : o.dataset.en;
-      if (val) o.textContent = val;
-    });
-  }) as EventListener);
 
-  // reveal
-  const ro = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); ro.unobserve(e.target); } });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal, .reveal-scale').forEach(el => ro.observe(el));
+  });
+})();
 </script>

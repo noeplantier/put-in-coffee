@@ -119,8 +119,6 @@ const aboutStats = [
   <UI />
   <Hero settings={settings} />
 
-  <!-- ══ REVIEWS ═══════════════════════════════════════════════ -->
-  <Reviews reviews={reviews} settings={settings} />
 
   <!-- ══ ABOUT ═════════════════════════════════════════════════ -->
   <section class="pc-section" id="about" aria-label="Our story">
@@ -230,6 +228,11 @@ const aboutStats = [
       </div>
     </div>
   </section>
+
+
+
+  <!-- ══ REVIEWS ═══════════════════════════════════════════════ -->
+  <Reviews reviews={reviews} settings={settings} />
 
   <!-- ══ MENU ══════════════════════════════════════════════════ -->
   <Menu items={menuItems} />
@@ -376,7 +379,7 @@ const aboutStats = [
   --border: rgba(240,232,220,0.08);
   --glass:  rgba(240,232,220,0.03);
   --bg:     #0e0d0b;
-  --bg2:    #131110;
+  --bg2:    #0e0d0b;
 }
 
 /* ── Layout helpers ─────────────────────────────────────────── */
@@ -613,7 +616,7 @@ const aboutStats = [
 /* ════════════════════════════════════════════════════════════
    FOOTER
 ════════════════════════════════════════════════════════════ */
-.pc-footer { background:var(--bg); border-top:1px solid var(--border); }
+.pc-footer { border-top:1px solid var(--border); }
 .footer__grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:3rem; padding:3.5rem 0; border-bottom:1px solid var(--border); }
 @media (max-width:860px) { .footer__grid { grid-template-columns:1fr 1fr; gap:2rem; } .footer__brand { grid-column:1/-1; } }
 @media (max-width:540px) { .footer__grid { grid-template-columns:1fr; } }

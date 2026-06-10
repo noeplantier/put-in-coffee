@@ -1,6 +1,6 @@
 ---
 // src/components/Menu.astro
-// put.in café · menu v2 · carousel + drawer · EN / ID
+// put.in café · menu v3 · luxury restaurant card · EN / ID
 
 interface Item {
   id: string; name: string; nameId: string;
@@ -23,9 +23,9 @@ const items: Item[] = [
   { id:'ic7', icon:'vanilla',       name:'ice vanilla latte',      nameId:'es latte vanila',        desc:'madagascar vanilla with cold espresso',                                                         descId:'vanila madagaskar dengan espresso dingin',                                                    price:'24K / 27K', category:'coffee',     size:'M / L' },
   { id:'ic8', icon:'brown-sugar',   name:'ice brown sugar latte',  nameId:'es latte gula aren',     desc:'house brown sugar syrup & espresso',                                                            descId:'sirup gula aren spesial & espresso',                                                          price:'24K / 27K', category:'coffee',     size:'M / L' },
   { id:'ic9', icon:'hazelnut',      name:'ice hazelnut latte',     nameId:'es latte hazelnut',      desc:'nutty hazelnut with rich cold latte',                                                           descId:'hazelnut kacang dengan es latte',                                                             price:'24K / 27K', category:'coffee',     size:'M / L' },
-  { id:'s1',  icon:'blonde',        name:'ice blonde',             nameId:'es blonde',  tag:'signature', desc:'single shot, butterscotch, caramel, fresh milk, cream, sea salt & caramel crumbles',      descId:'single shot, karamel mentega, karamel, susu segar, krim, garam laut & remah karamel',        price:'25K / 28K', category:'signature',  size:'M / L' },
-  { id:'s2',  icon:'beige',         name:'ice beige',              nameId:'es beige',   tag:'bestseller', desc:'single shot, palm sugar, fresh milk, cream, sea salt',                                   descId:'single shot, gula aren, susu segar, krim, garam laut',                                        price:'25K / 28K', category:'signature',  size:'M / L' },
-  { id:'s3',  icon:'cocoa-coffee',  name:'ice coca coffee',        nameId:'es kopi kakao', tag:'new',  desc:'double shot, cocoa, caramel sauce, fresh milk',                                             descId:'double shot, kakao, saus karamel, susu segar',                                                price:'26K / 29K', category:'signature',  size:'M / L' },
+  { id:'s1',  icon:'blonde',        name:'ice blonde',             nameId:'es blonde',  tag:'signature',   desc:'single shot, butterscotch, caramel, fresh milk, cream, sea salt & caramel crumbles',   descId:'single shot, karamel mentega, karamel, susu segar, krim, garam laut & remah karamel',        price:'25K / 28K', category:'signature',  size:'M / L' },
+  { id:'s2',  icon:'beige',         name:'ice beige',              nameId:'es beige',   tag:'bestseller',  desc:'single shot, palm sugar, fresh milk, cream, sea salt',                                  descId:'single shot, gula aren, susu segar, krim, garam laut',                                        price:'25K / 28K', category:'signature',  size:'M / L' },
+  { id:'s3',  icon:'cocoa-coffee',  name:'ice coca coffee',        nameId:'es kopi kakao', tag:'new',      desc:'double shot, cocoa, caramel sauce, fresh milk',                                         descId:'double shot, kakao, saus karamel, susu segar',                                                price:'26K / 29K', category:'signature',  size:'M / L' },
   { id:'nc1', icon:'choc-hazelnut', name:'chocolate hazelnut',     nameId:'coklat hazelnut',        desc:'rich chocolate blended with roasted hazelnut',                                                  descId:'coklat kaya berpadu hazelnut panggang',                                                       price:'24K / 27K', category:'non-coffee', size:'M / L' },
   { id:'nc2', icon:'chocolate',     name:'chocolate',              nameId:'coklat',                 desc:'creamy house chocolate blend',                                                                  descId:'campuran coklat krim spesial',                                                                price:'20K / 23K', category:'non-coffee', size:'M / L' },
   { id:'nc3', icon:'matcha',        name:'matcha',                 nameId:'matcha',                 desc:'ceremonial grade japanese green tea',                                                           descId:'teh hijau jepang kelas upacara',                                                              price:'20K / 23K', category:'non-coffee', size:'M / L' },
@@ -57,12 +57,12 @@ const items: Item[] = [
 ];
 
 const tabs = [
-  { id:'coffee',     en:'coffee',      id_:'kopi',          color:'#C9924A' },
-  { id:'signature',  en:'signature',   id_:'spesial',       color:'#E8A87C' },
-  { id:'non-coffee', en:'non-coffee',  id_:'non-kopi',      color:'#7FB069' },
-  { id:'food',       en:'food',        id_:'makanan',       color:'#E07A5F' },
-  { id:'snack',      en:'snacks',      id_:'camilan',       color:'#F2CC8F' },
-  { id:'beer',       en:'beer & more', id_:'bir & lainnya', color:'#F4A261' },
+  { id:'coffee',     en:'coffee',       id_:'kopi',          color:'#C9924A', sub:{ en:'espresso & filter', id_:'espresso & filter' } },
+  { id:'signature',  en:'signature',    id_:'spesial',       color:'#E8A87C', sub:{ en:'house originals', id_:'kreasi asli' } },
+  { id:'non-coffee', en:'non-coffee',   id_:'non-kopi',      color:'#7FB069', sub:{ en:'tea, matcha & more', id_:'teh, matcha & lainnya' } },
+  { id:'food',       en:'food',         id_:'makanan',       color:'#E07A5F', sub:{ en:'rice, noodles & pasta', id_:'nasi, mie & pasta' } },
+  { id:'snack',      en:'snacks',       id_:'camilan',       color:'#F2CC8F', sub:{ en:'toast, fries & bites', id_:'roti bakar, kentang & cemilan' } },
+  { id:'beer',       en:'beer & more',  id_:'bir & lainnya', color:'#F4A261', sub:{ en:'draft, tower & cocktails', id_:'draught, tower & koktail' } },
 ];
 
 const icons: Record<string, string> = {
@@ -110,284 +110,493 @@ const icons: Record<string, string> = {
 };
 ---
 
+<!-- ══ MENU ════════════════════════════════════════════════════ -->
 <section class="menu" id="menu" aria-label="our menu">
   <div class="menu__wrap">
 
+    <!-- Header -->
     <header class="menu__head reveal">
       <p class="eyebrow" data-en="what we brew" data-id="apa yang kami sajikan">what we brew</p>
       <h2 data-en="the put.in menu" data-id="menu put.in">the put.in menu</h2>
       <p class="menu__sub"
-        data-en="bali highland beans, honest food, ocean breeze — served daily from 7am."
-        data-id="biji kopi pegunungan bali, makanan jujur, angin laut — disajikan setiap hari mulai jam 7.">
+         data-en="bali highland beans, honest food, ocean breeze — served daily from 7am."
+         data-id="biji kopi pegunungan bali, makanan jujur, angin laut — disajikan setiap hari mulai jam 7.">
         bali highland beans, honest food, ocean breeze — served daily from 7am.
       </p>
     </header>
 
-    <nav class="menu__nav" role="tablist" aria-label="menu categories">
+    <!-- Category tabs — styled as a restaurant menu divider -->
+    <nav class="menu__tabs" role="tablist" aria-label="menu categories">
       {tabs.map((t, i) => (
         <button
-          class="menu__navbtn"
+          class="menu__tab"
           data-cat={t.id}
           data-color={t.color}
           data-en={t.en}
           data-id={t.id_}
+          data-sub-en={t.sub.en}
+          data-sub-id={t.sub.id_}
           role="tab"
           aria-selected="false"
+          type="button"
         >
-          <span class="menu__navbtn-label">{t.en}</span>
-          <span class="menu__navbtn-count"></span>
+          <span class="menu__tab-name">{t.en}</span>
+          <span class="menu__tab-sub">{t.sub.en}</span>
         </button>
       ))}
     </nav>
 
+    <!-- Category sections -->
     {tabs.map((t, ti) => (
-      <div class={`menu__lane${ti === 0 ? '' : ' menu__lane--hidden'}`} data-lane={t.id} role="tabpanel">
-        <div class="menu__track" data-track={t.id}>
+      <div
+        class={`menu__section${ti === 0 ? '' : ' menu__section--hidden'}`}
+        data-section={t.id}
+        role="tabpanel"
+        style={`--cat-color:${t.color}`}
+      >
+        <!-- Section header -->
+        <div class="menu__section-head">
+          <div class="menu__section-rule"></div>
+          <span class="menu__section-title" data-en={t.en} data-id={t.id_}>{t.en}</span>
+          <span class="menu__section-subtitle" data-en={t.sub.en} data-id={t.sub.id_}>{t.sub.en}</span>
+          <div class="menu__section-rule"></div>
+        </div>
+
+        <!-- Items grid: restaurant list style -->
+        <div class="menu__list">
           {items.filter(item => item.category === t.id).map((item) => (
             <button
-              class="menu__card"
+              class="menu__item"
               data-id={item.id}
-              data-cat={item.category}
-              aria-label={`view ${item.name}`}
               type="button"
+              aria-label={`view ${item.name} — ${item.price}`}
             >
-              {item.tag && (
-                <span class={`menu__tag menu__tag--${item.tag}`}>
-                  {item.tag === 'bestseller' ? 'best seller' : item.tag === 'new' ? 'new' : 'signature'}
+              <!-- Left: icon + name -->
+              <div class="menu__item-left">
+                <div class="menu__item-icon" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" set:html={icons[item.icon] ?? icons['espresso']}/>
+                </div>
+                <div class="menu__item-info">
+                  <span class="menu__item-name" data-en={item.name} data-id={item.nameId}>{item.name}</span>
+                  {item.desc && (
+                    <span class="menu__item-desc" data-en={item.desc} data-id={item.descId ?? item.desc}>{item.desc}</span>
+                  )}
+                  <div class="menu__item-badges">
+                    {item.tag && (
+                      <span class={`menu__badge menu__badge--${item.tag}`}>
+                        {item.tag === 'bestseller' ? 'best seller' : item.tag === 'new' ? 'new' : 'signature'}
+                      </span>
+                    )}
+                    {item.size && (
+                      <span class="menu__badge menu__badge--size">{item.size}</span>
+                    )}
+                  </div>
+                </div>
+              </div>
+              <!-- Dotted rule -->
+              <span class="menu__item-dots" aria-hidden="true"></span>
+              <!-- Right: price + zoom cue -->
+              <div class="menu__item-right">
+                <span class="menu__item-price">{item.price}</span>
+                <span class="menu__item-zoom" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.2"/>
+                    <path d="M9.5 9.5l2.5 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                    <path d="M4 6h4M6 4v4" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+                  </svg>
                 </span>
-              )}
-              <div class="menu__icon-wrap" aria-hidden="true">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" class="menu__icon" set:html={icons[item.icon] ?? icons['espresso']}/>
               </div>
-              <div class="menu__card-body">
-                <h3 class="menu__card-name" data-en={item.name} data-id={item.nameId}>{item.name}</h3>
-                {item.size && <span class="menu__card-size">{item.size}</span>}
-                <p class="menu__card-price">{item.price}</p>
-              </div>
-              <div class="menu__card-shine" aria-hidden="true"></div>
             </button>
           ))}
         </div>
-        <button class="menu__arrow menu__arrow--prev" data-track={t.id} aria-label="scroll left" type="button">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <button class="menu__arrow menu__arrow--next" data-track={t.id} aria-label="scroll right" type="button">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
       </div>
     ))}
 
   </div>
 </section>
 
-<!-- DRAWER -->
-<div class="mdrawer" id="menu-drawer" aria-modal="true" role="dialog" aria-label="item detail" style="display:none">
-  <div class="mdrawer__backdrop"></div>
-  <div class="mdrawer__sheet">
-    <button class="mdrawer__close" type="button" aria-label="close">
-      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 4l10 10M14 4L4 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+<!-- ══ MODAL / DETAIL ═════════════════════════════════════════ -->
+<div class="mmodal" id="menu-modal" aria-modal="true" role="dialog" aria-label="item detail" style="display:none">
+  <div class="mmodal__backdrop"></div>
+  <div class="mmodal__panel">
+
+    <!-- Close -->
+    <button class="mmodal__close" type="button" aria-label="close">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <path d="M4 4l10 10M14 4L4 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
     </button>
-    <div class="mdrawer__icon-stage">
-      <svg width="72" height="72" viewBox="0 0 24 24" fill="none" id="drawer-icon" class="mdrawer__bigicon"></svg>
-      <div class="mdrawer__glow-ring" aria-hidden="true"></div>
+
+    <!-- Ambient glow -->
+    <div class="mmodal__ambient" id="modal-ambient" aria-hidden="true"></div>
+
+    <!-- Icon stage -->
+    <div class="mmodal__icon-stage">
+      <div class="mmodal__icon-ring" aria-hidden="true"></div>
+      <svg width="80" height="80" viewBox="0 0 24 24" fill="none" id="modal-icon" class="mmodal__icon"></svg>
     </div>
-    <div class="mdrawer__body">
-      <div class="mdrawer__meta">
-        <span class="mdrawer__tag" id="drawer-tag" style="display:none"></span>
-        <span class="mdrawer__size" id="drawer-size" style="display:none"></span>
+
+    <!-- Content -->
+    <div class="mmodal__content">
+      <div class="mmodal__meta">
+        <span class="mmodal__tag" id="modal-tag" style="display:none"></span>
+        <span class="mmodal__size" id="modal-size" style="display:none"></span>
       </div>
-      <h2 class="mdrawer__name" id="drawer-name"></h2>
-      <p class="mdrawer__desc" id="drawer-desc"></p>
-      <div class="mdrawer__price-row">
-        <span class="mdrawer__price" id="drawer-price"></span>
-        <button class="mdrawer__note" type="button" id="drawer-note" aria-label="note item">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-          <span data-en="add to list" data-id="tambah ke daftar">add to list</span>
-        </button>
+      <h2 class="mmodal__name" id="modal-name"></h2>
+      <p class="mmodal__desc" id="modal-desc"></p>
+
+      <!-- Price row -->
+      <div class="mmodal__footer">
+        <div class="mmodal__price-block">
+          <span class="mmodal__price-label" data-en="price" data-id="harga">price</span>
+          <span class="mmodal__price" id="modal-price"></span>
+        </div>
+        <a href="#contact" class="mmodal__cta" id="modal-cta"
+           data-en="reserve a table" data-id="pesan meja">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M9 18V5l12-2v13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="6" cy="18" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/>
+            <circle cx="18" cy="16" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/>
+          </svg>
+          reserve a table
+        </a>
       </div>
     </div>
+
   </div>
 </div>
 
+<!-- Item data -->
 <script type="application/json" id="menu-data" set:html={JSON.stringify(items)}></script>
 
 <style>
-  .menu__card { appearance: none; background: none; border: none; text-align: left; cursor: pointer; padding: 0; }
-  .menu { padding: var(--section-py, 5rem) 0; }
-  .menu__wrap { max-width: var(--content-width, 1140px); margin: 0 auto; padding: 0 1.5rem; }
+/* ── Reset ──────────────────────────────────────────────────── */
+.menu__item, .menu__tab {
+  appearance: none; background: none; border: none;
+  text-align: left; cursor: pointer; padding: 0;
+  font-family: inherit;
+}
 
-  .menu__head { text-align: center; margin-bottom: 2.75rem; }
-  .menu__head h2 { text-transform: lowercase; margin: 0.5rem 0; }
-  .menu__sub { font-size: 0.875rem; font-weight: 300; color: var(--muted); max-width: 420px; margin: 0 auto; text-transform: lowercase; }
+/* ── Section ────────────────────────────────────────────────── */
+.menu { padding: var(--section-py, 5rem) 0; }
+.menu__wrap { max-width: var(--content-width, 1100px); margin: 0 auto; padding: 0 var(--container-px, 1.5rem); }
 
-  .menu__nav { display: flex; gap: 0.35rem; flex-wrap: wrap; justify-content: center; margin-bottom: 2.5rem; }
-  .menu__navbtn {
-    display: inline-flex; align-items: center; gap: 0.45rem;
-    padding: 0.48rem 1.1rem; border-radius: 50px;
-    border: 1px solid var(--border, rgba(255,255,255,0.08));
-    background: var(--glass, rgba(255,255,255,0.03));
-    font-family: var(--font-body); font-size: 0.75rem; font-weight: 400;
-    color: var(--muted); cursor: pointer;
-    transition: color 0.2s, border-color 0.2s, background 0.2s, box-shadow 0.2s;
-    text-transform: lowercase; white-space: nowrap;
-  }
-  .menu__navbtn:hover { color: var(--cream, #F0E8DC); border-color: rgba(255,255,255,0.15); }
-  .menu__navbtn--on {
-    background: rgba(201,146,74,0.12);
-    border-color: rgba(201,146,74,0.45);
-    color: var(--btn-color, #C9924A);
-    font-weight: 600;
-    box-shadow: 0 2px 16px rgba(201,146,74,0.18);
-  }
-  .menu__navbtn-count {
-    font-size: 0.65rem; background: rgba(255,255,255,0.06);
-    border-radius: 50px; padding: 1px 5px; color: var(--muted);
-  }
-  .menu__navbtn--on .menu__navbtn-count { background: rgba(201,146,74,0.18); color: var(--btn-color, #C9924A); }
+/* ── Header ─────────────────────────────────────────────────── */
+.menu__head { text-align: center; margin-bottom: 3rem; }
+.menu__head h2 { text-transform: lowercase; margin: .5rem 0; font-size: clamp(1.7rem, 3.5vw, 2.5rem); color: var(--cream, #F0E8DC); }
+.eyebrow { font-size: .7rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--gold, #C9924A); display: block; }
+.menu__sub { font-size: .875rem; font-weight: 300; color: var(--muted, rgba(240,232,220,.45)); max-width: 400px; margin: .5rem auto 0; text-transform: lowercase; line-height: 1.65; }
 
-  .menu__lane { position: relative; }
-  .menu__lane--hidden { display: none; }
+/* ── Category tabs ──────────────────────────────────────────── */
+.menu__tabs {
+  display: flex; flex-wrap: wrap; gap: .4rem;
+  justify-content: center;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border, rgba(240,232,220,.08));
+}
+.menu__tab {
+  display: flex; flex-direction: column; align-items: center;
+  padding: .65rem 1.1rem;
+  border-radius: 12px;
+  border: 1px solid var(--border, rgba(240,232,220,.08));
+  background: var(--glass, rgba(240,232,220,.03));
+  transition: border-color .2s, background .2s, box-shadow .2s, transform .15s;
+  min-width: 90px; gap: 2px;
+}
+.menu__tab:hover { transform: translateY(-1px); }
+.menu__tab:active { transform: scale(.97); }
+.menu__tab-name {
+  font-size: .75rem; font-weight: 500; color: var(--muted, rgba(240,232,220,.45));
+  text-transform: lowercase; letter-spacing: .02em; transition: color .2s;
+  white-space: nowrap;
+}
+.menu__tab-sub {
+  font-size: .58rem; font-weight: 300; color: rgba(240,232,220,.2);
+  text-transform: lowercase; letter-spacing: .03em; transition: color .2s;
+  white-space: nowrap;
+}
+.menu__tab--on {
+  border-color: var(--tab-color, rgba(201,146,74,.45));
+  background: var(--tab-bg, rgba(201,146,74,.08));
+  box-shadow: 0 2px 18px var(--tab-shadow, rgba(201,146,74,.15));
+}
+.menu__tab--on .menu__tab-name { color: var(--tab-color, #C9924A); font-weight: 600; }
+.menu__tab--on .menu__tab-sub  { color: var(--tab-color, rgba(201,146,74,.6)); opacity: .7; }
 
-  .menu__track {
-    display: flex; gap: 1rem; overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    padding: 0.5rem 0 1.5rem;
-    scrollbar-width: none; -webkit-overflow-scrolling: touch;
-  }
-  .menu__track::-webkit-scrollbar { display: none; }
+/* ── Section panel ──────────────────────────────────────────── */
+.menu__section--hidden { display: none; }
+.menu__section { animation: section-in .38s ease both; }
+@keyframes section-in { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:none; } }
 
-  .menu__card {
-    position: relative; flex: 0 0 172px; scroll-snap-align: start;
-    border-radius: 16px; padding: 1.25rem 1rem 1.1rem;
-    background: var(--glass, rgba(255,255,255,0.03));
-    border: 1px solid var(--border, rgba(255,255,255,0.07));
-    display: flex; flex-direction: column; align-items: flex-start; gap: 0.7rem;
-    transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
-    overflow: hidden;
-  }
-  .menu__card:hover { transform: translateY(-3px); border-color: rgba(201,146,74,0.3); box-shadow: 0 8px 28px rgba(0,0,0,0.2); }
-  .menu__card:focus-visible { outline: 2px solid #C9924A; outline-offset: 2px; }
-  .menu__card:active { transform: scale(0.97); }
+/* Section header — restaurant divider */
+.menu__section-head {
+  display: flex; align-items: center; gap: 1rem;
+  margin-bottom: 2rem;
+}
+.menu__section-rule {
+  flex: 1; height: 1px;
+  background: linear-gradient(to right, transparent, var(--cat-color, #C9924A), transparent);
+  opacity: .3;
+}
+.menu__section-title {
+  font-family: var(--font-display, serif);
+  font-size: 1.1rem; font-style: italic; font-weight: 400;
+  color: var(--cat-color, #C9924A); white-space: nowrap;
+}
+.menu__section-subtitle {
+  font-size: .62rem; font-weight: 300; letter-spacing: .1em;
+  color: var(--muted, rgba(240,232,220,.4)); white-space: nowrap; text-transform: lowercase;
+}
 
-  .menu__card-shine {
-    position: absolute; inset: 0;
-    background: radial-gradient(circle at 50% -10%, rgba(201,146,74,0.07), transparent 60%);
-    opacity: 0; pointer-events: none; transition: opacity 0.3s;
-  }
-  .menu__card:hover .menu__card-shine { opacity: 1; }
+/* ── Items list ─────────────────────────────────────────────── */
+.menu__list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+@media (max-width: 700px) { .menu__list { grid-template-columns: 1fr; } }
 
-  .menu__tag {
-    position: absolute; top: 8px; right: 8px;
-    font-size: 0.55rem; font-weight: 700; letter-spacing: 0.06em;
-    text-transform: lowercase; padding: 2px 7px; border-radius: 50px;
-  }
-  .menu__tag--bestseller { background: linear-gradient(135deg, #E07A5F, #C9924A); color: #0a0a0a; }
-  .menu__tag--new        { background: linear-gradient(135deg, #5bdb83, #38bdf8); color: #0a0a0a; }
-  .menu__tag--signature  { background: linear-gradient(135deg, #f4d07a, #C9924A); color: #0a0a0a; }
+/* ── Single item row ────────────────────────────────────────── */
+.menu__item {
+  display: flex; align-items: center; gap: .75rem;
+  padding: .95rem 1rem;
+  border-bottom: 1px solid rgba(240,232,220,.05);
+  border-radius: 0;
+  transition: background .18s, transform .18s;
+  position: relative; width: 100%;
+}
+/* Alternate rows: left column gets right border */
+.menu__list > .menu__item:nth-child(odd) {
+  border-right: 1px solid rgba(240,232,220,.05);
+}
+@media (max-width: 700px) {
+  .menu__list > .menu__item:nth-child(odd) { border-right: none; }
+}
+.menu__item:hover {
+  background: rgba(255,255,255,.025);
+  transform: scale(1.012);
+  z-index: 1;
+  border-radius: 10px;
+}
+.menu__item:active { transform: scale(.985); }
+.menu__item:focus-visible { outline: 2px solid var(--cat-color, #C9924A); outline-offset: 2px; border-radius: 8px; }
 
-  .menu__icon-wrap {
-    width: 52px; height: 52px; border-radius: 14px;
-    background: rgba(255,255,255,0.04);
-    display: flex; align-items: center; justify-content: center;
-    transition: background 0.25s; flex-shrink: 0;
-  }
-  .menu__card:hover .menu__icon-wrap { background: rgba(201,146,74,0.08); }
-  .menu__icon { color: var(--gold-lt, #E8C97A); display: block; }
+/* Icon */
+.menu__item-icon {
+  width: 38px; height: 38px; flex-shrink: 0;
+  border-radius: 10px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.06);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--cat-color, #C9924A);
+  transition: background .18s;
+}
+.menu__item:hover .menu__item-icon {
+  background: rgba(var(--cat-color-rgb, 201,146,74), .1);
+}
 
-  .menu__card-body { display: flex; flex-direction: column; gap: 0.2rem; width: 100%; }
-  .menu__card-name { font-family: var(--font-body); font-size: 0.8rem; font-weight: 500; color: var(--cream, #F0E8DC); margin: 0; line-height: 1.35; text-transform: lowercase; }
-  .menu__card-size { font-size: 0.6rem; letter-spacing: 0.05em; color: rgba(201,146,74,0.6); border: 1px solid rgba(201,146,74,0.15); border-radius: 50px; padding: 1px 5px; align-self: flex-start; text-transform: lowercase; }
-  .menu__card-price { font-family: var(--font-display); font-size: 1rem; font-weight: 500; color: var(--gold-lt, #E8C97A); font-style: italic; margin: 0.15rem 0 0; }
+/* Info */
+.menu__item-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.menu__item-name {
+  font-size: .83rem; font-weight: 500;
+  color: var(--cream, #F0E8DC); text-transform: lowercase; line-height: 1.3;
+  /* truncate on small screens */
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.menu__item:hover .menu__item-name { white-space: normal; }
+.menu__item-desc {
+  font-size: .68rem; font-weight: 300; color: var(--muted, rgba(240,232,220,.4));
+  text-transform: lowercase; line-height: 1.4;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.menu__item:hover .menu__item-desc { white-space: normal; }
 
-  .menu__arrow {
-    position: absolute; top: 50%; transform: translateY(-60%);
-    width: 36px; height: 36px; border-radius: 50%;
-    background: var(--bg, #0e0d0b); border: 1px solid rgba(255,255,255,0.1);
-    color: var(--cream, #F0E8DC); cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: background 0.2s; z-index: 3; box-shadow: 0 2px 12px rgba(0,0,0,0.4);
-  }
-  .menu__arrow--prev { left: -14px; }
-  .menu__arrow--next { right: -14px; }
-  .menu__arrow:hover { background: rgba(201,146,74,0.1); }
-  @media (max-width: 600px) { .menu__arrow { display: none; } }
+/* Badges */
+.menu__item-badges { display: flex; gap: .3rem; flex-wrap: wrap; margin-top: 2px; }
+.menu__badge {
+  font-size: .52rem; font-weight: 700; letter-spacing: .06em; text-transform: lowercase;
+  padding: 1px 6px; border-radius: 50px;
+}
+.menu__badge--bestseller { background: linear-gradient(135deg, #E07A5F, #C9924A); color: #0a0a0a; }
+.menu__badge--new        { background: linear-gradient(135deg, #5bdb83, #38bdf8); color: #0a0a0a; }
+.menu__badge--signature  { background: linear-gradient(135deg, #f4d07a, #C9924A); color: #0a0a0a; }
+.menu__badge--size       { background: rgba(201,146,74,.12); border: 1px solid rgba(201,146,74,.2); color: rgba(232,199,122,.7); }
 
-  /* DRAWER */
-  .mdrawer { position: fixed; inset: 0; z-index: 200; display: flex; align-items: flex-end; justify-content: center; }
-  .mdrawer__backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.65); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); cursor: pointer; }
-  .mdrawer__sheet {
-    position: relative; z-index: 1; width: 100%; max-width: 480px;
-    background: #141210;
-    border-radius: 24px 24px 0 0; border-top: 1px solid rgba(255,255,255,0.08);
-    padding: 0 1.75rem 2.5rem; overflow: hidden;
-    animation: drawerIn 0.32s cubic-bezier(0.22,1,0.36,1) forwards;
-  }
-  @keyframes drawerIn  { from { transform: translateY(100%); } to { transform: translateY(0); } }
-  @keyframes drawerOut { from { transform: translateY(0);    } to { transform: translateY(100%); } }
-  .mdrawer--closing .mdrawer__sheet { animation: drawerOut 0.22s ease-in forwards; }
+/* Dotted rule — the luxury element */
+.menu__item-dots {
+  flex: 1; min-width: 12px;
+  border-bottom: 1px dashed rgba(240,232,220,.1);
+  margin: 0 .4rem; align-self: flex-end;
+  margin-bottom: 8px;
+}
 
-  .mdrawer__sheet::before {
-    content: ''; display: block; width: 36px; height: 4px; border-radius: 2px;
-    background: rgba(255,255,255,0.12); margin: 0.85rem auto 0;
-  }
-  .mdrawer__close {
-    position: absolute; top: 1.1rem; right: 1.25rem;
-    width: 32px; height: 32px; border-radius: 50%;
-    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
-    color: var(--muted, #888); cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: background 0.2s, color 0.2s;
-  }
-  .mdrawer__close:hover { background: rgba(255,255,255,0.1); color: var(--cream, #F0E8DC); }
+/* Price + zoom */
+.menu__item-right {
+  display: flex; align-items: center; gap: .5rem; flex-shrink: 0;
+}
+.menu__item-price {
+  font-family: var(--font-display, serif); font-style: italic;
+  font-size: .95rem; font-weight: 500;
+  color: var(--cat-color, #C9924A); white-space: nowrap;
+}
+.menu__item-zoom {
+  color: rgba(240,232,220,.18);
+  transition: color .18s;
+  display: flex; align-items: center;
+}
+.menu__item:hover .menu__item-zoom { color: var(--cat-color, rgba(201,146,74,.6)); }
 
-  .mdrawer__icon-stage { position: relative; display: flex; align-items: center; justify-content: center; height: 110px; margin: 1rem 0 0; }
-  .mdrawer__bigicon { color: var(--drawer-color, #E8C97A); position: relative; z-index: 1; filter: drop-shadow(0 4px 16px rgba(201,146,74,0.35)); transition: color 0.3s; }
-  .mdrawer__glow-ring { position: absolute; inset: 0; background: radial-gradient(circle, rgba(201,146,74,0.1) 0%, transparent 70%); border-radius: 50%; }
+/* ═══════════════════════════════════════════════════════════
+   MODAL
+═══════════════════════════════════════════════════════════ */
+.mmodal {
+  position: fixed; inset: 0; z-index: 300;
+  display: flex; align-items: center; justify-content: center;
+  padding: 1rem;
+}
+.mmodal__backdrop {
+  position: absolute; inset: 0;
+  background: rgba(5,4,3,.82);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  cursor: pointer;
+}
+.mmodal__panel {
+  position: relative; z-index: 1;
+  width: 100%; max-width: 420px;
+  background: #171410;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 24px;
+  overflow: hidden;
+  padding: 0 2rem 2rem;
+  animation: modal-in .38s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes modal-in {
+  from { transform: scale(.92) translateY(16px); opacity: 0; }
+  to   { transform: scale(1)   translateY(0);    opacity: 1; }
+}
+.mmodal--closing .mmodal__panel {
+  animation: modal-out .22s ease-in forwards;
+}
+@keyframes modal-out {
+  from { transform: scale(1)   translateY(0);    opacity: 1; }
+  to   { transform: scale(.92) translateY(16px); opacity: 0; }
+}
 
-  .mdrawer__body { padding-top: 0.6rem; }
-  .mdrawer__meta { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem; }
-  .mdrawer__tag { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.06em; text-transform: lowercase; padding: 2px 8px; border-radius: 50px; }
-  .mdrawer__tag--bestseller { background: linear-gradient(135deg, #E07A5F, #C9924A); color: #0a0a0a; }
-  .mdrawer__tag--new        { background: linear-gradient(135deg, #5bdb83, #38bdf8); color: #0a0a0a; }
-  .mdrawer__tag--signature  { background: linear-gradient(135deg, #f4d07a, #C9924A); color: #0a0a0a; }
-  .mdrawer__size { font-size: 0.65rem; color: var(--muted, #888); border: 1px solid rgba(255,255,255,0.1); border-radius: 50px; padding: 2px 8px; text-transform: lowercase; }
+/* Ambient radial glow behind icon */
+.mmodal__ambient {
+  position: absolute; top: -60px; left: 50%; transform: translateX(-50%);
+  width: 280px; height: 280px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--modal-color, rgba(201,146,74,.18)) 0%, transparent 70%);
+  pointer-events: none; z-index: 0;
+  transition: background .35s;
+}
 
-  .mdrawer__name { font-family: var(--font-body); font-size: 1.35rem; font-weight: 500; color: var(--cream, #F0E8DC); text-transform: lowercase; margin: 0 0 0.55rem; line-height: 1.25; }
-  .mdrawer__desc { font-size: 0.83rem; font-weight: 300; color: var(--muted, #888); line-height: 1.65; margin: 0 0 1.25rem; text-transform: lowercase; }
+/* Close */
+.mmodal__close {
+  position: absolute; top: 1.1rem; right: 1.25rem;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+  color: rgba(240,232,220,.45); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .2s, color .2s; z-index: 2;
+  appearance: none;
+}
+.mmodal__close:hover { background: rgba(255,255,255,.1); color: var(--cream, #F0E8DC); }
 
-  .mdrawer__price-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
-  .mdrawer__price { font-family: var(--font-display); font-size: 1.75rem; font-weight: 500; color: var(--drawer-color, #E8C97A); font-style: italic; transition: color 0.3s; }
-  .mdrawer__note {
-    display: inline-flex; align-items: center; gap: 0.45rem;
-    padding: 0.6rem 1.2rem; border-radius: 50px;
-    background: rgba(201,146,74,0.1); border: 1px solid rgba(201,146,74,0.3);
-    color: #E8C97A; font-family: var(--font-body); font-size: 0.78rem; font-weight: 500;
-    cursor: pointer; transition: background 0.2s, box-shadow 0.2s; text-transform: lowercase;
-  }
-  .mdrawer__note:hover { background: rgba(201,146,74,0.2); box-shadow: 0 4px 14px rgba(201,146,74,0.2); }
+/* Icon stage */
+.mmodal__icon-stage {
+  position: relative; display: flex; align-items: center; justify-content: center;
+  height: 120px; margin: 1rem 0 0; z-index: 1;
+}
+.mmodal__icon-ring {
+  position: absolute;
+  width: 96px; height: 96px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.06);
+  background: rgba(255,255,255,.025);
+}
+.mmodal__icon {
+  position: relative; z-index: 1;
+  color: var(--modal-color, #E8C97A);
+  filter: drop-shadow(0 6px 20px var(--modal-shadow, rgba(201,146,74,.45)));
+  transition: color .3s;
+}
 
-  @media (max-width: 540px) {
-    .menu__card { flex: 0 0 148px; padding: 1rem 0.85rem; }
-    .menu__icon-wrap { width: 44px; height: 44px; }
-    .menu__card-name { font-size: 0.75rem; }
-    .mdrawer__sheet { padding: 0 1.25rem 2rem; }
-    .mdrawer__name { font-size: 1.15rem; }
-    .mdrawer__price { font-size: 1.45rem; }
-  }
-  @media (min-width: 900px) {
-    .mdrawer { align-items: center; }
-    .mdrawer__sheet { border-radius: 20px; max-width: 440px; }
-    .mdrawer__sheet::before { display: none; }
-  }
+/* Content */
+.mmodal__content { position: relative; z-index: 1; padding-top: .75rem; }
+.mmodal__meta { display: flex; align-items: center; gap: .5rem; margin-bottom: .6rem; }
+.mmodal__tag {
+  font-size: .58rem; font-weight: 700; letter-spacing: .06em; text-transform: lowercase;
+  padding: 2px 8px; border-radius: 50px;
+}
+.mmodal__tag--bestseller { background: linear-gradient(135deg, #E07A5F, #C9924A); color: #0a0a0a; }
+.mmodal__tag--new        { background: linear-gradient(135deg, #5bdb83, #38bdf8); color: #0a0a0a; }
+.mmodal__tag--signature  { background: linear-gradient(135deg, #f4d07a, #C9924A); color: #0a0a0a; }
+.mmodal__size {
+  font-size: .62rem; color: var(--muted); border: 1px solid rgba(255,255,255,.1);
+  border-radius: 50px; padding: 2px 8px; text-transform: lowercase;
+}
 
-  .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
-  .reveal.in { opacity: 1; transform: none; }
+.mmodal__name {
+  font-family: var(--font-display, serif);
+  font-size: clamp(1.3rem, 4vw, 1.65rem); font-weight: 400; font-style: italic;
+  color: var(--cream, #F0E8DC); text-transform: lowercase; margin: 0 0 .7rem; line-height: 1.2;
+}
+.mmodal__desc {
+  font-size: .85rem; font-weight: 300; color: var(--muted, rgba(240,232,220,.5));
+  line-height: 1.7; margin: 0 0 1.5rem; text-transform: lowercase;
+}
+
+/* Footer */
+.mmodal__footer {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(240,232,220,.07);
+}
+.mmodal__price-block { display: flex; flex-direction: column; gap: 2px; }
+.mmodal__price-label { font-size: .6rem; font-weight: 400; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.mmodal__price {
+  font-family: var(--font-display, serif); font-style: italic;
+  font-size: 1.65rem; font-weight: 400;
+  color: var(--modal-color, #E8C97A); line-height: 1; transition: color .3s;
+}
+.mmodal__cta {
+  display: inline-flex; align-items: center; gap: .45rem;
+  padding: .65rem 1.25rem; border-radius: 50px;
+  background: var(--modal-color, #C9924A);
+  /* darken text on colored bg */
+  color: #0a0800;
+  font-family: var(--font-body, sans-serif);
+  font-size: .78rem; font-weight: 600; text-decoration: none; text-transform: lowercase;
+  transition: opacity .2s, box-shadow .2s;
+  white-space: nowrap;
+}
+.mmodal__cta:hover { opacity: .88; box-shadow: 0 4px 16px var(--modal-shadow, rgba(201,146,74,.35)); }
+
+/* Responsive modal on very small screens */
+@media (max-width: 480px) {
+  .mmodal__panel { max-width: 100%; border-radius: 20px 20px 0 0; }
+  .mmodal { align-items: flex-end; padding: 0; }
+  .mmodal__icon-stage { height: 100px; }
+}
+
+/* ── Reveal ─────────────────────────────────────────────────── */
+.reveal { opacity:0; transform:translateY(18px); transition:opacity .55s ease,transform .55s ease; }
+.reveal.in { opacity:1; transform:none; }
+
+/* ── Reduced motion ─────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .menu__item, .menu__tab, .mmodal__panel { transition:none!important; animation:none!important; }
+}
 </style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
-  var raw = (document.getElementById('menu-data') || {}).textContent || '[]';
+  /* ── Data ───────────────────────────────────────────────── */
+  var raw   = (document.getElementById('menu-data') || {}).textContent || '[]';
   var items = JSON.parse(raw);
 
   var catColors = {
@@ -396,194 +605,198 @@ document.addEventListener('DOMContentLoaded', function () {
     'non-coffee': '#7FB069',
     'food':       '#E07A5F',
     'snack':      '#F2CC8F',
-    'beer':       '#F4A261'
+    'beer':       '#F4A261',
   };
 
-  var tabs   = document.querySelectorAll('.menu__navbtn');
-  var lanes  = document.querySelectorAll('.menu__lane');
-  var drawer = document.getElementById('menu-drawer');
-  var isOpen = false;
-  var currentItem = null;
+  /* ── Helpers ────────────────────────────────────────────── */
+  function hexToRgba(hex, a) {
+    var r = parseInt(hex.slice(1,3),16);
+    var g = parseInt(hex.slice(3,5),16);
+    var b = parseInt(hex.slice(5,7),16);
+    return 'rgba('+r+','+g+','+b+','+a+')';
+  }
 
-  // populate counts + apply active style to first tab
-  tabs.forEach(function (tab, i) {
-    var cat = tab.getAttribute('data-cat');
-    var count = items.filter(function (it) { return it.category === cat; }).length;
-    var countEl = tab.querySelector('.menu__navbtn-count');
-    if (countEl) countEl.textContent = count;
-    if (i === 0) activateTab(tab);
-  });
+  /* ── Category tabs ──────────────────────────────────────── */
+  var tabs     = document.querySelectorAll('.menu__tab');
+  var sections = document.querySelectorAll('.menu__section');
 
   function activateTab(tab) {
     var cat   = tab.getAttribute('data-cat');
     var color = catColors[cat] || '#C9924A';
+    var bg    = hexToRgba(color, 0.09);
+    var shadow= hexToRgba(color, 0.16);
 
-    tabs.forEach(function (t) {
-      t.classList.remove('menu__navbtn--on');
-      t.setAttribute('aria-selected', 'false');
-      t.style.removeProperty('--btn-color');
+    tabs.forEach(function(t) {
+      t.classList.remove('menu__tab--on');
+      t.setAttribute('aria-selected','false');
+      t.style.removeProperty('--tab-color');
+      t.style.removeProperty('--tab-bg');
+      t.style.removeProperty('--tab-shadow');
     });
-    tab.classList.add('menu__navbtn--on');
-    tab.setAttribute('aria-selected', 'true');
-    tab.style.setProperty('--btn-color', color);
+    tab.classList.add('menu__tab--on');
+    tab.setAttribute('aria-selected','true');
+    tab.style.setProperty('--tab-color', color);
+    tab.style.setProperty('--tab-bg', bg);
+    tab.style.setProperty('--tab-shadow', shadow);
 
-    // update active tab border/shadow colour inline so no color-mix needed
-    tab.style.borderColor   = color.replace(')', ', 0.45)').replace('rgb', 'rgba');
-    tab.style.boxShadow     = '0 2px 16px ' + hexToRgba(color, 0.18);
-    tab.style.background    = hexToRgba(color, 0.10);
-    tab.style.color         = color;
-
-    lanes.forEach(function (lane) {
-      if (lane.getAttribute('data-lane') === cat) {
-        lane.classList.remove('menu__lane--hidden');
+    sections.forEach(function(s) {
+      if (s.getAttribute('data-section') === cat) {
+        s.classList.remove('menu__section--hidden');
+        // retrigger animation
+        s.style.animation = 'none';
+        void s.offsetHeight;
+        s.style.animation = '';
       } else {
-        lane.classList.add('menu__lane--hidden');
+        s.classList.add('menu__section--hidden');
       }
     });
   }
 
-  tabs.forEach(function (tab) {
-    tab.addEventListener('click', function () { activateTab(tab); });
+  tabs.forEach(function(tab) {
+    tab.addEventListener('click', function() { activateTab(tab); });
   });
+  if (tabs[0]) activateTab(tabs[0]);
 
-  // arrows
-  document.querySelectorAll('.menu__arrow').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var trackId = btn.getAttribute('data-track');
-      var track   = document.querySelector('[data-track="' + trackId + '"]');
-      if (!track) return;
-      var dir = btn.classList.contains('menu__arrow--next') ? 1 : -1;
-      track.scrollBy({ left: dir * 300, behavior: 'smooth' });
-    });
-  });
+  /* ── Modal ──────────────────────────────────────────────── */
+  var modal     = document.getElementById('menu-modal');
+  var backdrop  = modal.querySelector('.mmodal__backdrop');
+  var closeBtn  = modal.querySelector('.mmodal__close');
+  var ambient   = document.getElementById('modal-ambient');
+  var isOpen    = false;
+  var currentItem = null;
 
-  // drawer
-  function openDrawer(item) {
+  function openModal(item) {
     currentItem = item;
     var color   = catColors[item.category] || '#C9924A';
+    var shadow  = hexToRgba(color, 0.45);
+    var glow    = hexToRgba(color, 0.18);
     var isID    = document.documentElement.lang === 'id';
 
-    // clone svg paths from the card into the big drawer icon
-    var cardIcon = document.querySelector('.menu__card[data-id="' + item.id + '"] .menu__icon');
-    var drawerIcon = document.getElementById('drawer-icon');
-    if (cardIcon && drawerIcon) {
-      drawerIcon.innerHTML = cardIcon.innerHTML;
-    }
+    /* icon — clone SVG paths from the list item */
+    var srcIcon   = document.querySelector('.menu__item[data-id="' + item.id + '"] .menu__item-icon svg');
+    var modalIcon = document.getElementById('modal-icon');
+    if (srcIcon && modalIcon) { modalIcon.innerHTML = srcIcon.innerHTML; }
 
-    // tag
-    var tagEl = document.getElementById('drawer-tag');
+    /* ambient + color vars */
+    if (ambient) ambient.style.background = 'radial-gradient(circle, ' + glow + ' 0%, transparent 70%)';
+    var panel = modal.querySelector('.mmodal__panel');
+    panel.style.setProperty('--modal-color', color);
+    panel.style.setProperty('--modal-shadow', shadow);
+    document.getElementById('modal-icon').style.color = color;
+    document.getElementById('modal-price').style.color = color;
+
+    /* tag */
+    var tagEl = document.getElementById('modal-tag');
     if (item.tag) {
       tagEl.style.display = '';
-      tagEl.className = 'mdrawer__tag mdrawer__tag--' + item.tag;
+      tagEl.className = 'mmodal__tag mmodal__tag--' + item.tag;
       tagEl.textContent = item.tag === 'bestseller' ? 'best seller' : item.tag === 'new' ? 'new' : 'signature';
     } else {
       tagEl.style.display = 'none';
     }
 
-    // size
-    var sizeEl = document.getElementById('drawer-size');
+    /* size */
+    var sizeEl = document.getElementById('modal-size');
     if (item.size) { sizeEl.style.display = ''; sizeEl.textContent = item.size; }
-    else           { sizeEl.style.display = 'none'; }
+    else             sizeEl.style.display = 'none';
 
-    document.getElementById('drawer-name').textContent  = isID ? item.nameId : item.name;
-    document.getElementById('drawer-desc').textContent  = (isID ? item.descId : item.desc) || '';
-    document.getElementById('drawer-price').textContent = item.price;
+    /* texts */
+    document.getElementById('modal-name').textContent  = isID ? item.nameId : item.name;
+    document.getElementById('modal-desc').textContent  = (isID ? item.descId : item.desc) || '';
+    document.getElementById('modal-price').textContent = item.price;
 
-    // colour accents
-    var sheet = drawer.querySelector('.mdrawer__sheet');
-    sheet.style.setProperty('--drawer-color', color);
-    document.getElementById('drawer-price').style.color = color;
-    document.getElementById('drawer-icon').style.color  = color;
-    var glowRing = drawer.querySelector('.mdrawer__glow-ring');
-    if (glowRing) glowRing.style.background = 'radial-gradient(circle, ' + hexToRgba(color, 0.12) + ' 0%, transparent 70%)';
+    /* CTA color */
+    var ctaEl = document.getElementById('modal-cta');
+    if (ctaEl) {
+      ctaEl.style.background = color;
+      // pick text color based on lightness (simple heuristic)
+      var r = parseInt(color.slice(1,3),16);
+      var g = parseInt(color.slice(3,5),16);
+      var b = parseInt(color.slice(5,7),16);
+      var luma = (0.299*r + 0.587*g + 0.114*b) / 255;
+      ctaEl.style.color = luma > 0.6 ? '#0a0800' : '#ffffff';
+    }
 
-    drawer.style.display = 'flex';
-    drawer.classList.remove('mdrawer--closing');
-    // restart animation
-    sheet.style.animation = 'none';
-    void sheet.offsetHeight;
-    sheet.style.animation = '';
+    modal.style.display = 'flex';
+    modal.classList.remove('mmodal--closing');
+    panel.style.animation = 'none';
+    void panel.offsetHeight;
+    panel.style.animation = '';
     document.body.style.overflow = 'hidden';
     isOpen = true;
-
-    setTimeout(function () {
-      var closeBtn = drawer.querySelector('.mdrawer__close');
-      if (closeBtn) closeBtn.focus();
-    }, 60);
+    setTimeout(function() { closeBtn.focus(); }, 60);
   }
 
-  function closeDrawer() {
+  function closeModal() {
     if (!isOpen) return;
-    drawer.classList.add('mdrawer--closing');
-    var sheet = drawer.querySelector('.mdrawer__sheet');
+    modal.classList.add('mmodal--closing');
+    var panel = modal.querySelector('.mmodal__panel');
     function onEnd() {
-      drawer.style.display = 'none';
-      drawer.classList.remove('mdrawer--closing');
+      modal.style.display = 'none';
+      modal.classList.remove('mmodal--closing');
       document.body.style.overflow = '';
       isOpen = false;
-      sheet.removeEventListener('animationend', onEnd);
+      panel.removeEventListener('animationend', onEnd);
     }
-    sheet.addEventListener('animationend', onEnd);
+    panel.addEventListener('animationend', onEnd);
   }
 
-  document.querySelectorAll('.menu__card').forEach(function (card) {
-    card.addEventListener('click', function () {
-      var id   = card.getAttribute('data-id');
-      var item = items.find(function (i) { return i.id === id; });
-      if (item) openDrawer(item);
+  /* Item click */
+  document.querySelectorAll('.menu__item').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var id   = btn.getAttribute('data-id');
+      var item = items.find(function(i) { return i.id === id; });
+      if (item) openModal(item);
     });
   });
 
-  var backdrop = drawer.querySelector('.mdrawer__backdrop');
-  var closeBtn = drawer.querySelector('.mdrawer__close');
-  var noteBtn  = document.getElementById('drawer-note');
-
-  backdrop.addEventListener('click', closeDrawer);
-  closeBtn.addEventListener('click', closeDrawer);
-
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && isOpen) closeDrawer();
+  backdrop.addEventListener('click', closeModal);
+  closeBtn.addEventListener('click', closeModal);
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && isOpen) closeModal();
   });
 
-  noteBtn.addEventListener('click', function () {
-    if (!currentItem) return;
-    window.dispatchEvent(new CustomEvent('pc:toast', {
-      detail: { type: 'success', title: 'noted! ☕', message: currentItem.name + ' added to your visit list.' }
-    }));
-    if (window.plausible) window.plausible('Menu Item Click', { props: { item: currentItem.name } });
-    closeDrawer();
-  });
-
-  // language
-  document.addEventListener('pc:lang', function (e) {
+  /* ── Language ───────────────────────────────────────────── */
+  document.addEventListener('pc:lang', function(e) {
     var isID = e.detail && e.detail.isID;
-    document.querySelectorAll('[data-en][data-id]').forEach(function (el) {
+
+    // All simple text nodes
+    document.querySelectorAll('[data-en][data-id]').forEach(function(el) {
+      if (el.children.length > 0) return;
       var val = isID ? el.getAttribute('data-id') : el.getAttribute('data-en');
       if (val !== null) el.textContent = val;
     });
-    tabs.forEach(function (tab) {
-      var raw = isID ? tab.getAttribute('data-id') : tab.getAttribute('data-en');
-      if (raw !== null) {
-        var labelEl = tab.querySelector('.menu__navbtn-label');
-        if (labelEl) labelEl.textContent = raw;
-      }
+
+    // Tab sub-labels
+    tabs.forEach(function(tab) {
+      var name = isID ? tab.getAttribute('data-id') : tab.getAttribute('data-en');
+      var sub  = isID ? tab.getAttribute('data-sub-id') : tab.getAttribute('data-sub-en');
+      var nameEl = tab.querySelector('.menu__tab-name');
+      var subEl  = tab.querySelector('.menu__tab-sub');
+      if (nameEl && name !== null) nameEl.textContent = name;
+      if (subEl  && sub  !== null) subEl.textContent  = sub;
     });
-    if (isOpen && currentItem) openDrawer(currentItem);
+
+    // Modal CTA text
+    var ctaEl = document.getElementById('modal-cta');
+    if (ctaEl) {
+      var ctaVal = isID ? ctaEl.getAttribute('data-id') : ctaEl.getAttribute('data-en');
+      if (ctaVal) {
+        var svgEl = ctaEl.querySelector('svg');
+        ctaEl.textContent = ctaVal;
+        if (svgEl) ctaEl.insertBefore(svgEl, ctaEl.firstChild);
+      }
+    }
+
+    // Refresh open modal
+    if (isOpen && currentItem) openModal(currentItem);
   });
 
-  // reveal
-  var ro = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) { if (e.isIntersecting) e.target.classList.add('in'); });
-  }, { threshold: 0.08 });
-  document.querySelectorAll('.reveal').forEach(function (el) { ro.observe(el); });
-
-  // hex helper — avoids color-mix entirely
-  function hexToRgba(hex, alpha) {
-    var r = parseInt(hex.slice(1,3),16);
-    var g = parseInt(hex.slice(3,5),16);
-    var b = parseInt(hex.slice(5,7),16);
-    return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
-  }
+  /* ── Reveal ─────────────────────────────────────────────── */
+  var ro = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.06 });
+  document.querySelectorAll('.reveal').forEach(function(el) { ro.observe(el); });
 
 });
 </script>

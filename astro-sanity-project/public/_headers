@@ -1,0 +1,13 @@
+# ══════════════════════════════════════════════════════════════
+#  put.in coffee — Netlify _headers (public folder)
+# ══════════════════════════════════════════════════════════════
+
+# Webmanifest
+/site.webmanifest
+  Content-Type: application/manifest+json
+  Cache-Control: public, max-age=86400
+
+# Service worker cache buster
+/sw.js
+  Cache-Control: no-cache
+

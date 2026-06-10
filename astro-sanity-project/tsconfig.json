@@ -1,19 +1,24 @@
 {
+  "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "strictNullChecks": true,
     "allowJs": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "bundler",
+    "baseUrl": ".",
+    "paths": {
+      "@/*":           ["./src/*"],
+      "@components/*": ["./src/components/*"],
+      "@layouts/*":    ["./src/layouts/*"],
+      "@lib/*":        ["./src/lib/*"],
+      "@types/*":      ["./src/types/*"]
+    },
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
     "skipLibCheck": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "moduleResolution": "Node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve"
+    "noEmit": true
   },
-  "include": ["src", "sanity"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*", "public/**/*", ".astro/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

@@ -1,0 +1,24 @@
+# ══════════════════════════════════════════════════════════════
+#  put.in coffee — Netlify _redirects (public folder)
+#  Complements netlify.toml redirects
+# ══════════════════════════════════════════════════════════════
+
+# Quick Instagram shortlink
+/ig           https://www.instagram.com/put.in.coffee/   302
+/instagram    https://www.instagram.com/put.in.coffee/   302
+/order        https://www.instagram.com/put.in.coffee/   302
+
+# WhatsApp shortlink
+/wa           https://wa.me/6281916334989                302
+/whatsapp     https://wa.me/6281916334989                302
+
+# TikTok shortlink
+/tiktok       https://www.tiktok.com/@put.in_coffee      302
+
+# Google Maps shortlink
+/maps         https://www.google.com/maps/place/put.in+coffee+and+beer/data=!4m2!3m1!1s0x0:0x70829e134ab3dd00   302
+/location     https://www.google.com/maps/place/put.in+coffee+and+beer/data=!4m2!3m1!1s0x0:0x70829e134ab3dd00   302
+
+# SPA fallback
+/*            /index.html                                 200
+

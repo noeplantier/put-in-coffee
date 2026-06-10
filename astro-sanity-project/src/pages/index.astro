@@ -1,6 +1,6 @@
 ---
 // src/pages/index.astro
-// put.in café · home page · EN / ID · v3
+// put.in coffee · home page · EN / ID · v3
 
 import BaseLayout       from '../layouts/BaseLayout.astro';
 import Hero             from '../components/Hero.astro';
@@ -116,7 +116,6 @@ const aboutStats = [
 ---
 
 <BaseLayout title={`${settings.siteName}`} description={settings.description}>
-  <UI />
   <Hero settings={settings} />
 
 
@@ -126,7 +125,7 @@ const aboutStats = [
       <div class="about__grid">
 
         <!-- Photo carousel -->
-        <div class="about__carousel reveal-scale" id="about-carousel" aria-label="put.in café photos" role="region">
+        <div class="about__carousel reveal-scale" id="about-carousel" aria-label="put.in coffee photos" role="region">
 
           <!-- Slides -->
           <div class="about__slides" id="about-track">
@@ -188,12 +187,6 @@ const aboutStats = [
                 </button>
               </div>
             </div>
-          </div>
-
-          <!-- Year badge -->
-          <div class="about__year-badge" aria-hidden="true">
-            <span class="about__year-num">2026</span>
-            <span class="about__year-sub" data-en="Est. Denpasar" data-id="Berdiri di Sanur">Est. Denpasar</span>
           </div>
         </div>
 
@@ -291,7 +284,7 @@ const aboutStats = [
               <circle cx="12" cy="9" r="2.5" stroke="#C9924A" stroke-width="1.4" fill="none"/>
             </svg>
           </div>
-          <h3 class="loc__map-name">put.in café</h3>
+          <h3 class="loc__map-name">put.in coffee</h3>
           <p class="loc__map-sub" data-en="Pantai Biaung, Sanur · Bali, Indonesia" data-id="Pantai Biaung, Sanur · Bali, Indonesia">Pantai Biaung, Sanur · Bali, Indonesia</p>
           <a
             href={settings.mapLink ?? 'https://www.google.com/maps/place/put.in+coffee+and+beer/data=!4m2!3m1!1s0x0:0x70829e134ab3dd00?sa=X&ved=1t:2428&ictx=111'}
@@ -317,7 +310,7 @@ const aboutStats = [
         <div class="footer__brand">
           <div class="footer__logo">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 3h8l1 5H7L8 3z" stroke="#C9924A" stroke-width="1.4" fill="none" stroke-linejoin="round"/><path d="M7 8c0 5 1.5 9 5 9s5-4 5-9" stroke="#C9924A" stroke-width="1.4" fill="none"/></svg>
-            put.in<span class="footer__logo-accent">café</span>
+            put.in coffee
           </div>
           <p class="footer__tagline" data-en="Where the ocean meets espresso. Beachfront specialty coffee on Pantai Biaung, Sanur, Bali." data-id="Di mana lautan bertemu espresso. Kopi spesial di tepi pantai Pantai Biaung, Sanur, Bali.">Where the ocean meets espresso. Beachfront specialty coffee on Pantai Biaung, Sanur, Bali.</p>
           <div class="footer__socials">
@@ -351,7 +344,7 @@ const aboutStats = [
         </div>
       </div>
       <div class="footer__bottom">
-        <span>© {new Date().getFullYear()} put.in café · Pantai Biaung, Sanur, Bali</span>
+        <span>© {new Date().getFullYear()} put.in coffee · Pantai Biaung, Sanur, Bali</span>
         <div class="footer__bottom-links">
           <a href="/privacy" class="footer__link" data-en="Privacy Policy" data-id="Kebijakan Privasi">Privacy Policy</a>
           <a href="/terms" class="footer__link" data-en="Terms" data-id="Syarat">Terms</a>

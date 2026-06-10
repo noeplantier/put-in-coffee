@@ -1,0 +1,32 @@
+{
+  "name": "put.in coffee",
+  "short_name": "put.in",
+  "description": "Beachfront specialty coffee on Pantai Biaung, Denpasar, Bali.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0e0d0b",
+  "theme_color": "#C9924A",
+  "orientation": "portrait-primary",
+  "lang": "en",
+  "categories": ["food", "lifestyle"],
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable any" }
+  ],
+  "shortcuts": [
+    {
+      "name": "View Menu",
+      "short_name": "Menu",
+      "description": "Browse the put.in coffee menu",
+      "url": "/#menu",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Reserve a Table",
+      "short_name": "Reserve",
+      "description": "Make a reservation",
+      "url": "/#contact",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

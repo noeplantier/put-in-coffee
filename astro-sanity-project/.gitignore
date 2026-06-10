@@ -1,0 +1,54 @@
+# ══════════════════════════════════════════════════════════════
+#  put.in coffee — .gitignore
+# ══════════════════════════════════════════════════════════════
+
+# Build output
+dist/
+.astro/
+
+# Dependencies
+node_modules/
+
+# Environment variables — NEVER commit these
+.env
+.env.local
+.env.development
+.env.production
+.env.staging
+*.env
+
+# Netlify local
+.netlify/
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Editor
+.vscode/settings.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+# Runtime / cache
+.cache/
+.parcel-cache/
+*.tsbuildinfo
+
+# Sensitive / credentials
+sanity.config.ts.local
+*.pem
+*.key
+*.cert
+

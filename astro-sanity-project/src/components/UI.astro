@@ -24,33 +24,6 @@
   ↑
 </button>
 
-<!-- ── Toast Container ─────────────────────────────────────── -->
-<div
-  id="toast-container"
-  class="fixed top-24 right-4 flex flex-col gap-3 z-toast pointer-events-none"
-  aria-live="polite"
-  aria-atomic="true"
-></div>
-
-<!-- ── Cookie Consent ──────────────────────────────────────── -->
-<div
-  id="cookie-banner"
-  class="fixed bottom-0 left-0 right-0 z-cookie bg-pc-bg2/98 border-t border-white/[0.08] backdrop-blur-xl p-4 md:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 translate-y-full transition-transform duration-500"
-  role="dialog"
-  aria-label="Cookie consent"
-  aria-modal="true"
->
-  <p class="text-sm text-pc-muted flex-1">
-    🍪 We use cookies to enhance your experience. By continuing, you agree to our
-    <a href="/privacy" class="text-pc-gold underline">Privacy Policy</a> and
-    <a href="/cookies" class="text-pc-gold underline">Cookie Policy</a>.
-  </p>
-  <div class="flex gap-2 flex-shrink-0">
-    <button id="cookie-decline" class="px-4 py-2 rounded-pill border border-white/[0.08] text-pc-muted text-sm hover:border-pc-muted hover:text-pc-cream transition-colors">Essential Only</button>
-    <button id="cookie-accept" class="px-4 py-2 rounded-pill bg-pc-gold text-[#0a0800] font-semibold text-sm hover:shadow-gold-sm transition-shadow">Accept All</button>
-  </div>
-</div>
-
 <script>
   // ── Scroll progress ──────────────────────────────────────
   const progressBar = document.getElementById('scroll-progress')!;

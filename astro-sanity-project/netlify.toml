@@ -1,86 +1,71 @@
-# netlify.toml — Putin Coffee Production Configuration
+# ══════════════════════════════════════════════════════════════
+#  put.in coffee — Netlify configuration
+#  Astro SSG · Edge headers · Forms · Redirects
+# ══════════════════════════════════════════════════════════════
 
 [build]
-  publish = "dist"
-  command = "npm run build"
-  functions = "netlify/functions"
+  command         = "npm run build"
+  publish         = "dist"
+  ignore          = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- ."
 
 [build.environment]
-  NODE_VERSION = "20"
-  NPM_FLAGS = "--prefix=/dev/null"
+  NODE_VERSION    = "20"
+  NPM_FLAGS       = "--legacy-peer-deps"
 
-# ── Contexts ─────────────────────────────────────────────────────
-[context.production]
-  command = "npm run build"
-
-[context.deploy-preview]
-  command = "npm run build"
-
-[context.branch-deploy]
-  command = "npm run build"
-
-# ── Dev server ────────────────────────────────────────────────────
+# ── Dev server ─────────────────────────────────────────────
 [dev]
-  command = "npm run dev"
-  port = 4321
-  targetPort = 4321
-  autoLaunch = false
+  command         = "npm run dev"
+  port            = 4321
+  targetPort      = 4321
+  autoLaunch      = false
 
-# ── Redirects ─────────────────────────────────────────────────────
-[[redirects]]
-  from = "http://putincoffee.com/*"
-  to = "https://putincoffee.com/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "http://www.putincoffee.com/*"
-  to = "https://putincoffee.com/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "https://www.putincoffee.com/*"
-  to = "https://putincoffee.com/:splat"
-  status = 301
-  force = true
-
-# Catch-all: serve 404 page
-[[redirects]]
-  from = "/*"
-  to = "/404"
-  status = 404
-
-# ── Security & Performance Headers ────────────────────────────────
+# ══════════════════════════════════════════════════════════════
+#  SECURITY HEADERS — applied to every response
+# ══════════════════════════════════════════════════════════════
 [[headers]]
   for = "/*"
   [headers.values]
-    # Security
+
+    # Prevents clickjacking
     X-Frame-Options = "DENY"
+
+    # Stops MIME-type sniffing
     X-Content-Type-Options = "nosniff"
-    X-XSS-Protection = "1; mode=block"
+
+    # Forces HTTPS for 2 years, includes subdomains
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+
+    # Controls referrer information
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "camera=(), microphone=(), geolocation=(self), payment=()"
-    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+
+    # Disables browser features not needed
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), accelerometer=(), gyroscope=(), magnetometer=(), autoplay=(self), picture-in-picture=(self)"
+
+    # XSS protection for older browsers
+    X-XSS-Protection = "1; mode=block"
+
+    # Content Security Policy — tight but functional
+    # Allows: self, Leaflet CDN, Google Maps, Fonts, Plausible, Instagram
     Content-Security-Policy = """
       default-src 'self';
-      script-src 'self' 'unsafe-inline' https://plausible.io;
-      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-      font-src 'self' https://fonts.gstatic.com data:;
-      img-src 'self' data: https://res.cloudinary.com https://cdn.sanity.io;
-      connect-src 'self' https://plausible.io https://*.sanity.io;
-      frame-src 'none';
-      object-src 'none';
-      base-uri 'self';
+      script-src  'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://plausible.io;
+      style-src   'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
+      font-src    'self' https://fonts.gstatic.com data:;
+      img-src     'self' data: blob: https://*.openstreetmap.org https://*.cartocdn.com https://*.tile.openstreetmap.org https://www.google.com https://maps.googleapis.com;
+      connect-src 'self' https://plausible.io https://*.supabase.co https://api.anthropic.com;
+      frame-src   'none';
+      object-src  'none';
+      base-uri    'self';
       form-action 'self';
       upgrade-insecure-requests;
     """
-    # Performance
-    X-DNS-Prefetch-Control = "on"
 
-# Cache static assets aggressively
+    # Cache-Control for HTML pages (always revalidate)
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# ── Static assets — long cache ──────────────────────────────
 [[headers]]
-  for = "/_assets/*"
+  for = "/_astro/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
@@ -89,41 +74,96 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# HTML: no cache (always fresh)
+# ── Images — 30 days cache ─────────────────────────────────
 [[headers]]
-  for = "/*.html"
+  for = "*.jpg"
   [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate"
-
-# Service worker: no cache
+    Cache-Control = "public, max-age=2592000, stale-while-revalidate=86400"
 [[headers]]
-  for = "/sw.js"
+  for = "*.jpeg"
   [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate"
-
-# Sitemap
+    Cache-Control = "public, max-age=2592000, stale-while-revalidate=86400"
 [[headers]]
-  for = "/sitemap*.xml"
+  for = "*.png"
   [headers.values]
-    Cache-Control = "public, max-age=86400"
-    Content-Type = "application/xml; charset=UTF-8"
+    Cache-Control = "public, max-age=2592000, stale-while-revalidate=86400"
+[[headers]]
+  for = "*.webp"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000, stale-while-revalidate=86400"
+[[headers]]
+  for = "*.svg"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000, stale-while-revalidate=86400"
 
-# ── Netlify Forms ─────────────────────────────────────────────────
-# Forms are auto-detected from HTML. No config needed here.
-# Add spam filtering:
+# ── Netlify Forms ──────────────────────────────────────────
+[[headers]]
+  for = "/contact"
+  [headers.values]
+    X-Robots-Tag = "index, follow"
+
+# ══════════════════════════════════════════════════════════════
+#  REDIRECTS
+# ══════════════════════════════════════════════════════════════
+
+# Force HTTPS (Netlify handles this but explicit is better)
+[[redirects]]
+  from   = "http://putincoffee.com/*"
+  to     = "https://www.putincoffee.com/:splat"
+  status = 301
+  force  = true
+
+[[redirects]]
+  from   = "http://www.putincoffee.com/*"
+  to     = "https://www.putincoffee.com/:splat"
+  status = 301
+  force  = true
+
+# www → non-www (or reverse — choose one)
+[[redirects]]
+  from   = "https://putincoffee.com/*"
+  to     = "https://www.putincoffee.com/:splat"
+  status = 301
+  force  = true
+
+# Legacy URL cleanup
+[[redirects]]
+  from   = "/home"
+  to     = "/"
+  status = 301
+
+[[redirects]]
+  from   = "/reservation"
+  to     = "/#contact"
+  status = 301
+
+[[redirects]]
+  from   = "/reserve"
+  to     = "/#contact"
+  status = 301
+
+[[redirects]]
+  from   = "/order"
+  to     = "https://www.instagram.com/put.in.coffee/"
+  status = 302
+
+# SPA fallback (Astro SSG generates HTML, but keep as safety net)
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 200
+
+# ══════════════════════════════════════════════════════════════
+#  NETLIFY FORMS
+# ══════════════════════════════════════════════════════════════
 [forms]
-  # Fields named "bot-field" act as honeypot automatically
+  # Spam filter — enabled globally
+  spam_filter = true
 
-# ── Edge Functions (optional) ─────────────────────────────────────
-# Uncomment when you add A/B testing or geo-routing:
-# [[edge_functions]]
-#   path = "/*"
-#   function = "geo-redirect"
+# ══════════════════════════════════════════════════════════════
+#  FUNCTIONS (optional — for future server-side logic)
+# ══════════════════════════════════════════════════════════════
+[functions]
+  directory       = "netlify/functions"
+  node_bundler    = "esbuild"
 
-# ── Plugin: Lighthouse CI ─────────────────────────────────────────
-[[plugins]]
-  package = "@netlify/plugin-lighthouse"
-  [plugins.inputs]
-    audits = [
-      { path = "/", thresholds = { performance = 0.9, accessibility = 0.95, "best-practices" = 0.9, seo = 0.95 } }
-    ]

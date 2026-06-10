@@ -1,0 +1,20 @@
+# ══════════════════════════════════════════════════════════════
+#  put.in coffee · robots.txt
+# ══════════════════════════════════════════════════════════════
+
+User-agent: *
+Allow: /
+
+# Block build artefacts & sensitive paths
+Disallow: /_astro/
+Disallow: /netlify/
+Disallow: /.git/
+Disallow: /node_modules/
+Disallow: /.env
+
+# Sitemap
+Sitemap: https://www.putincoffee.com/sitemap-index.xml
+
+# Crawl delay (be kind to servers)
+Crawl-delay: 2
+

@@ -1,571 +1,440 @@
 ---
-// src/components/Header.astro
-// put.in coffee · single-page anchor nav · EN / ID · v4
+// src/components/Header.astro  ·  put.in coffee  ·  v6
+// Transparent → glass on scroll · favicon-matched logo · gradient underline · EN/ID
 ---
 
 <header class="pch" id="site-header" role="banner">
+  <div id="pch-progress" class="pch__progress" aria-hidden="true"></div>
+
   <div class="pch__inner">
 
-    <!-- ── Logo ──────────────────────────────────────────── -->
-    <a href="#hero" class="pch__logo" aria-label="put.in coffee — back to top">
-      <div class="pch__logo-mark" aria-hidden="true">
-        <svg width="34" height="34" viewBox="0 0 36 36" fill="none">
-          <circle cx="18" cy="18" r="17" stroke="url(#lg1)" stroke-width="1.4"/>
-          <path d="M10 19h3l1 5H22l1-5h3" stroke="url(#lg1)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-          <path d="M13 19V15a5 5 0 0110 0v4" stroke="url(#lg1)" stroke-width="1.3" stroke-linecap="round" fill="none"/>
-          <path d="M16 15c0-1.1.9-2 2-2s2 .9 2 2" stroke="url(#lg1)" stroke-width="1.1" stroke-linecap="round" fill="none"/>
-          <path d="M18 13v-2" stroke="url(#lg1)" stroke-width="1.2" stroke-linecap="round"/>
+    <!-- ── LOGO ──────────────────────────────────────────── -->
+    <a href="#hero" class="pch__logo" aria-label="put.in coffee — home">
+      <!-- favicon-style mark: coffee cup with steam + circle ring -->
+      <div class="pch__mark" aria-hidden="true">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <linearGradient id="lg1" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stop-color="#E8A87C"/>
-              <stop offset="100%" stop-color="#C9924A"/>
+            <linearGradient id="mg" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#C9924A"/>
+              <stop offset="100%" stop-color="#E8A87C"/>
             </linearGradient>
           </defs>
+          <!-- outer ring -->
+          <circle cx="18" cy="18" r="16.5" stroke="url(#mg)" stroke-width="1.3" fill="none"/>
+          <!-- cup body -->
+          <path d="M11 15h14l-1.4 7.5a1.5 1.5 0 01-1.47 1.25H13.87a1.5 1.5 0 01-1.47-1.25L11 15z"
+                stroke="url(#mg)" stroke-width="1.25" fill="rgba(201,146,74,0.08)" stroke-linejoin="round"/>
+          <!-- cup handle -->
+          <path d="M25 17.5h1.5a2 2 0 010 4H25" stroke="url(#mg)" stroke-width="1.25" stroke-linecap="round" fill="none"/>
+          <!-- saucer line -->
+          <path d="M10 23.75h16" stroke="url(#mg)" stroke-width="1.1" stroke-linecap="round"/>
+          <!-- steam wisps -->
+          <path d="M15 13c0-1 1-1.5 1-2.5" stroke="url(#mg)" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+          <path d="M18 12.5c0-1.2 1-1.8 1-3" stroke="url(#mg)" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+          <path d="M21 13c0-1 1-1.5 1-2.5" stroke="url(#mg)" stroke-width="1.1" stroke-linecap="round" fill="none"/>
         </svg>
+        <!-- animated steam dots -->
         <span class="pch__steam pch__steam--a" aria-hidden="true"></span>
         <span class="pch__steam pch__steam--b" aria-hidden="true"></span>
       </div>
-      <div class="pch__logo-text">
+      <div class="pch__wordmark">
         <span class="pch__brand">put.in coffee</span>
-        <span class="pch__tagline" data-en="pantai biaung · denpasar · bali" data-id="pantai biaung · denpasar · bali">pantai biaung · denpasar · bali</span>
+        <span class="pch__sub"
+              data-en="pantai biaung · denpasar · bali"
+              data-id="pantai biaung · denpasar · bali">
+          pantai biaung · denpasar · bali
+        </span>
       </div>
     </a>
 
-    <!-- ── Desktop nav (centre) ───────────────────────────── -->
+    <!-- ── NAV — perfectly centred ───────────────────────── -->
     <nav class="pch__nav" aria-label="Page sections">
       <ul role="list">
-        <li><a href="#hero"     class="pch__link" data-en="home"     data-id="beranda"><span class="pch__link-label">home</span><span class="pch__link-bar" aria-hidden="true"></span></a></li>
-        <li><a href="#about"    class="pch__link" data-en="our story" data-id="kisah kami"><span class="pch__link-label">our story</span><span class="pch__link-bar" aria-hidden="true"></span></a></li>
-        <li><a href="#reviews"  class="pch__link" data-en="reviews"  data-id="ulasan"><span class="pch__link-label">reviews</span><span class="pch__link-bar" aria-hidden="true"></span></a></li>
-        <li><a href="#menu"     class="pch__link" data-en="menu"     data-id="menu"><span class="pch__link-label">menu</span><span class="pch__link-bar" aria-hidden="true"></span></a></li>
-        <li><a href="#location" class="pch__link" data-en="location" data-id="lokasi"><span class="pch__link-label">location</span><span class="pch__link-bar" aria-hidden="true"></span></a></li>
-        <li><a href="#contact"  class="pch__link" data-en="contact"  data-id="kontak"><span class="pch__link-label">contact</span><span class="pch__link-bar" aria-hidden="true"></span></a></li>
+        <li><a href="#hero"     class="pch__link" data-nav-link data-en="home"      data-id="beranda">   <span class="pch__lbl">home</span>      <span class="pch__bar" aria-hidden="true"></span></a></li>
+        <li><a href="#about"    class="pch__link" data-nav-link data-en="our story" data-id="kisah kami"><span class="pch__lbl">our story</span> <span class="pch__bar" aria-hidden="true"></span></a></li>
+        <li><a href="#reviews"  class="pch__link" data-nav-link data-en="reviews"   data-id="ulasan">    <span class="pch__lbl">reviews</span>   <span class="pch__bar" aria-hidden="true"></span></a></li>
+        <li><a href="#menu"     class="pch__link" data-nav-link data-en="menu"      data-id="menu">      <span class="pch__lbl">menu</span>      <span class="pch__bar" aria-hidden="true"></span></a></li>
+        <li><a href="#location" class="pch__link" data-nav-link data-en="location"  data-id="lokasi">    <span class="pch__lbl">location</span>  <span class="pch__bar" aria-hidden="true"></span></a></li>
+        <li><a href="#contact"  class="pch__link" data-nav-link data-en="contact"   data-id="kontak">    <span class="pch__lbl">contact</span>   <span class="pch__bar" aria-hidden="true"></span></a></li>
       </ul>
     </nav>
 
-    <!-- ── Right controls ─────────────────────────────────── -->
+    <!-- ── CONTROLS ──────────────────────────────────────── -->
     <div class="pch__controls">
-      <!-- Language toggle -->
-      <button id="pch-lang" class="pch__lang" aria-label="Toggle language EN / ID" aria-pressed="false" type="button">
-        <span class="pch__lang-en">EN</span>
-        <span class="pch__lang-sep" aria-hidden="true"></span>
-        <span class="pch__lang-id">ID</span>
+
+      <!-- Language pill -->
+      <button class="pch__lang" id="pch-lang" data-lang-toggle
+          aria-label="Switch language EN  ID" aria-pressed="false" type="button">
+        <span class="pch__l-en">EN</span>
+        <span class="pch__l-sep" aria-hidden="true"></span>
+        <span class="pch__l-id">ID</span>
       </button>
+      <script>
+        document.getElementById('pch-lang')?.addEventListener('click', function () {
+          const isID = this.getAttribute('aria-pressed') === 'false';
+          this.setAttribute('aria-pressed', String(isID));
+          document.dispatchEvent(new CustomEvent('pc:lang', { detail: { isID } }));
+        });
+      </script>
 
       <!-- Order Now → Instagram -->
-      <a
-        href="https://www.instagram.com/put.in.coffee/"
-        target="_blank" rel="noopener noreferrer"
-        class="pch__cta" id="pch-order-btn"
-        data-en="order now" data-id="pesan sekarang"
-        aria-label="Order now via Instagram"
-      >
+      <a href="https://www.instagram.com/put.in.coffee/"
+         target="_blank" rel="noopener noreferrer"
+         class="pch__cta" id="pch-cta"
+         data-event="Order Now Click"
+         data-en="order now" data-id="pesan sekarang"
+         aria-label="Order now via Instagram">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="pch__cta-icon">
           <rect x="2" y="2" width="20" height="20" rx="5.5" stroke="currentColor" stroke-width="1.9" fill="none"/>
           <circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.9" fill="none"/>
           <circle cx="17.5" cy="6.5" r="1.3" fill="currentColor"/>
         </svg>
-        <span class="pch__cta-label">order now</span>
+        <span class="pch__cta-lbl">order now</span>
       </a>
 
-      <!-- Hamburger -->
-      <button id="pch-ham" class="pch__ham" aria-label="Open menu" aria-expanded="false" aria-controls="pch-mobile" type="button">
-        <span class="pch__bar pch__bar--1"></span>
-        <span class="pch__bar pch__bar--2"></span>
-        <span class="pch__bar pch__bar--3"></span>
+      <!-- Hamburger — mobile only -->
+      <button class="pch__ham" id="pch-ham"
+              aria-label="Open navigation" aria-expanded="false" aria-controls="pch-mobile"
+              type="button">
+        <span class="pch__hb pch__hb--1"></span>
+        <span class="pch__hb pch__hb--2"></span>
+        <span class="pch__hb pch__hb--3"></span>
       </button>
     </div>
   </div>
-
-  <!-- Scroll progress line -->
-  <div class="pch__progress" id="pch-progress" aria-hidden="true"></div>
 </header>
 
 <!-- ══ MOBILE OVERLAY ════════════════════════════════════════ -->
 <div id="pch-mobile" class="pchm" role="dialog" aria-label="Navigation" aria-modal="true" aria-hidden="true">
   <div class="pchm__bg" aria-hidden="true"></div>
+  <!-- noise texture -->
+  <div class="pchm__noise" aria-hidden="true"></div>
 
-  <button id="pchm-close" class="pchm__close" aria-label="Close menu" type="button">
+  <!-- Close -->
+  <button class="pchm__close" id="pchm-close" aria-label="Close menu" type="button">
     <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
       <path d="M4 4l10 10M14 4L4 14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
     </svg>
   </button>
 
-  <div class="pchm__logo-row" aria-hidden="true">
-    <span class="pchm__logo-brand">put.in coffee</span>
-    <span class="pchm__logo-sub" data-en="pantai biaung · denpasar · bali" data-id="pantai biaung · denpasar · bali">pantai biaung · denpasar · bali</span>
+  <!-- Brand -->
+  <div class="pchm__brand" aria-hidden="true">
+    <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
+      <defs><linearGradient id="mmg" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#C9924A"/><stop offset="100%" stop-color="#E8A87C"/></linearGradient></defs>
+      <circle cx="18" cy="18" r="16.5" stroke="url(#mmg)" stroke-width="1.3" fill="none"/>
+      <path d="M11 15h14l-1.4 7.5a1.5 1.5 0 01-1.47 1.25H13.87a1.5 1.5 0 01-1.47-1.25L11 15z" stroke="url(#mmg)" stroke-width="1.25" fill="rgba(201,146,74,0.08)" stroke-linejoin="round"/>
+      <path d="M25 17.5h1.5a2 2 0 010 4H25" stroke="url(#mmg)" stroke-width="1.25" stroke-linecap="round" fill="none"/>
+      <path d="M10 23.75h16" stroke="url(#mmg)" stroke-width="1.1" stroke-linecap="round"/>
+    </svg>
+    <div>
+      <span class="pchm__brand-name">put.in coffee</span>
+      <span class="pchm__brand-sub"
+            data-en="pantai biaung · denpasar · bali"
+            data-id="pantai biaung · denpasar · bali">pantai biaung · denpasar · bali</span>
+    </div>
   </div>
 
+  <!-- Links -->
   <nav class="pchm__nav" aria-label="Mobile navigation">
-    <a href="#hero"     class="pchm__link" data-en="home"      data-id="beranda"    style="--mi:0"><span class="pchm__num">01</span><span class="pchm__mlabel">home</span></a>
-    <a href="#about"    class="pchm__link" data-en="our story" data-id="kisah kami" style="--mi:1"><span class="pchm__num">02</span><span class="pchm__mlabel">our story</span></a>
-    <a href="#reviews"  class="pchm__link" data-en="reviews"   data-id="ulasan"     style="--mi:2"><span class="pchm__num">03</span><span class="pchm__mlabel">reviews</span></a>
-    <a href="#menu"     class="pchm__link" data-en="menu"      data-id="menu"       style="--mi:3"><span class="pchm__num">04</span><span class="pchm__mlabel">menu</span></a>
-    <a href="#location" class="pchm__link" data-en="location"  data-id="lokasi"     style="--mi:4"><span class="pchm__num">05</span><span class="pchm__mlabel">location</span></a>
-    <a href="#contact"  class="pchm__link" data-en="contact"   data-id="kontak"     style="--mi:5"><span class="pchm__num">06</span><span class="pchm__mlabel">contact</span></a>
+    {[
+      { id:'hero',     en:'home',      id_:'beranda' },
+      { id:'about',    en:'our story', id_:'kisah kami' },
+      { id:'reviews',  en:'reviews',   id_:'ulasan' },
+      { id:'menu',     en:'menu',      id_:'menu' },
+      { id:'location', en:'location',  id_:'lokasi' },
+      { id:'contact',  en:'contact',   id_:'kontak' },
+    ].map((l, i) => (
+      <a href={`#${l.id}`} class="pchm__link" data-nav-link
+         data-en={l.en} data-id={l.id_} style={`--mi:${i}`}>
+        <span class="pchm__n">{String(i+1).padStart(2,'0')}</span>
+        <span class="pchm__lbl">{l.en}</span>
+      </a>
+    ))}
   </nav>
 
+  <!-- Mobile CTA -->
   <a href="https://www.instagram.com/put.in.coffee/" target="_blank" rel="noopener noreferrer"
      class="pchm__cta" data-en="order now on instagram" data-id="pesan via instagram">
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <rect x="2" y="2" width="20" height="20" rx="5.5" stroke="currentColor" stroke-width="1.8" fill="none"/>
       <circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8" fill="none"/>
       <circle cx="17.5" cy="6.5" r="1.3" fill="currentColor"/>
     </svg>
-    order now on instagram
+    <span>order now on instagram</span>
   </a>
 
-  <button id="pchm-lang" class="pchm__lang-btn" aria-label="Toggle language" aria-pressed="false" type="button">
-    <span class="pchm__lang-en">EN</span>
-    <span class="pchm__lang-sep" aria-hidden="true">/</span>
-    <span class="pchm__lang-id">ID</span>
+  <!-- Mobile lang -->
+  <button class="pchm__lang-btn" data-lang-toggle
+          aria-label="Toggle language" aria-pressed="false" type="button">
+    <span class="pchm__l-en">EN</span>
+    <span class="pchm__l-sep" aria-hidden="true">/</span>
+    <span class="pchm__l-id">ID</span>
   </button>
 </div>
 
 <style>
-/* ══ GLOBAL TOKENS ═══════════════════════════════════════════ */
-:root {
-  --nav-h:        72px;
-  --gold:         #C9924A;
-  --gold-lt:      #E8C97A;
-  --coral:        #E07A5F;
-  --cream:        #ffffff;
-  --muted:        rgba(255,255,255,0.52);
-  --border:       rgba(255,255,255,0.1);
-  --glass:        rgba(255,255,255,0.04);
-  --bg:           #0e0d0b;
-  --font-body:    'Jost', 'Inter', sans-serif;
-  --font-display: 'Cormorant Garamond', Georgia, serif;
-  /* CTA gradient — shared with "order now" underline */
-  --cta-from:     #C9924A;
-  --cta-to:       #E8A87C;
-}
-html { scroll-behavior: smooth; }
+/* ══ TOKENS ══════════════════════════════════════════════════ */
+:root { --nav-h:72px; --g-from:#C9924A; --g-to:#E8A87C; }
 
 /* ══ HEADER SHELL ════════════════════════════════════════════ */
 .pch {
+  font-family: var(--font-body, sans-serif);
   position: fixed; inset: 0 0 auto 0; z-index: 300;
-  height: var(--nav-h);
-  font-family: var(--font-body);
-  /* always transparent — glass only after scroll */
+  height: var(--nav-h); 
   background: transparent;
-  transition: background .4s ease, backdrop-filter .4s ease, box-shadow .4s ease;
+  transition: background .38s ease, backdrop-filter .38s ease, box-shadow .38s ease;
 }
 .pch.is-scrolled {
-  background: rgba(14,13,11,0.75);
-  backdrop-filter: blur(20px) saturate(1.6);
-  -webkit-backdrop-filter: blur(20px) saturate(1.6);
-  box-shadow: 0 1px 0 rgba(255,255,255,0.06), 0 8px 32px rgba(0,0,0,0.4);
+  background: rgba(10,9,6,.82);
+  backdrop-filter: blur(22px) saturate(1.6);
+  -webkit-backdrop-filter: blur(22px) saturate(1.6);
+  box-shadow: 0 1px 0 rgba(255,255,255,.06), 0 8px 32px rgba(0,0,0,.45);
+}
+/* scroll progress line */
+.pch__progress {
+  position: absolute; bottom: 0; left: 0;
+  height: 1.5px; width: 0%;
+  background: linear-gradient(90deg, var(--g-from), var(--g-to));
+  transition: width .08s linear;
+  pointer-events: none;
 }
 
-/* ── Inner: logo | nav (centre, auto margins) | controls ──── */
+/* ══ INNER — logo | [nav centred] | controls ════════════════ */
 .pch__inner {
-  max-width: 1200px; margin: 0 auto;
-  padding: 0 2rem;
-  height: 100%;
-  display: flex; align-items: center;
-  gap: 0;
+  max-width: 1100px; margin: 0 auto; padding: 0 1.5rem;
+  height: 100%; display: flex; align-items: center;
+  position: relative; /* for absolute nav */
 }
 
 /* ══ LOGO ════════════════════════════════════════════════════ */
 .pch__logo {
   display: flex; align-items: center; gap: 10px;
   text-decoration: none; flex-shrink: 0;
-  margin-right: auto; /* push nav to centre, controls to right */
+  /* push via margin so logo sits left, controls right, nav truly centres */
+  margin-right: auto;
 }
-.pch__logo-mark {
-  position: relative; width: 34px; height: 34px;
-  display: flex; align-items: center; justify-content: center;
-}
+.pch__mark { position: relative; width: 36px; height: 36px; flex-shrink: 0; }
+/* steam wisps */
 .pch__steam {
-  position: absolute; bottom: 100%;
-  width: 2px; border-radius: 4px;
-  background: var(--gold-lt); opacity: 0;
-  animation: steam-rise 2.8s ease-in-out infinite;
+  position: absolute; bottom: 101%; width: 2px; border-radius: 4px;
+  background: var(--g-to); opacity: 0;
+  animation: steam 2.8s ease-in-out infinite;
 }
-.pch__steam--a { left: 33%; height: 7px; animation-delay: 0s; }
-.pch__steam--b { left: 58%; height: 5px; animation-delay: 0.7s; }
-@keyframes steam-rise {
-  0%   { opacity:0; transform:translateY(0) scaleX(1); }
-  35%  { opacity:.55; }
-  100% { opacity:0; transform:translateY(-14px) scaleX(.2); }
+.pch__steam--a { left: 32%; height: 6px; animation-delay: 0s; }
+.pch__steam--b { left: 55%; height: 5px; animation-delay: .65s; }
+@keyframes steam {
+  0%  { opacity: 0; transform: translateY(0) scaleX(1); }
+  35% { opacity: .5; }
+  100%{ opacity: 0; transform: translateY(-14px) scaleX(.2); }
 }
-
+.pch__wordmark { display: flex; flex-direction: column; }
 .pch__brand {
-  display: block;
-  font-family: var(--font-display);
-  font-size: 1.1rem; font-weight: 600; font-style: italic;
-  color: #ffffff;
-  line-height: 1.2; white-space: nowrap;
-  letter-spacing: -.01em;
+font-family: var(--font-body, sans-serif);  font-size: 1.05rem; font-weight: 600; 
+  color: #fff; letter-spacing: -.01em; line-height: 1.2; white-space: nowrap;
 }
-.pch__tagline {
-  display: block;
-  font-size: .56rem; letter-spacing: .13em; text-transform: lowercase;
-  color: rgba(255,255,255,.38); line-height: 1; margin-top: 2px;
-  white-space: nowrap;
+.pch__sub {
+  font-size: .52rem; letter-spacing: .13em; text-transform: lowercase;
+  color: rgba(255,255,255,.32); line-height: 1; margin-top: 2px; white-space: nowrap;
 }
 
-/* ══ DESKTOP NAV — perfectly centred ════════════════════════ */
-.pch__nav {
-  display: none;
-  position: absolute; left: 50%; transform: translateX(-50%);
+/* ══ DESKTOP NAV — absolutely centred ═══════════════════════ */
+.pch__nav { display: none; }
+@media (min-width: 960px) {
+  .pch__nav {
+    display: block;
+    position: absolute; left: 50%; transform: translateX(-50%);
+  }
 }
-@media (min-width: 960px) { .pch__nav { display: block; } }
-
-.pch__nav ul {
-  display: flex; gap: 2.25rem;
-  list-style: none; margin: 0; padding: 0;
-  align-items: center;
-}
-
+.pch__nav ul { display: flex; gap: 2.15rem; list-style: none; }
 .pch__link {
   position: relative; display: inline-block;
-  font-size: .74rem; font-weight: 500; letter-spacing: .09em; text-transform: lowercase;
-  color: rgba(255,255,255,.7); text-decoration: none;
-  padding-bottom: 4px;
-  transition: color .22s;
+  font-size: .72rem; font-weight: 500; letter-spacing: .08em; text-transform: lowercase;
+  color: rgba(255,255,255,.62); text-decoration: none; padding-bottom: 4px;
+  transition: color .2s;
 }
-.pch__link:hover,
-.pch__link.is-active { color: #ffffff; }
-
-/* Animated underline — same gradient as CTA button */
-.pch__link-bar {
+.pch__link:hover, .pch__link.is-active { color: #fff; }
+/* gradient underline */
+.pch__bar {
   position: absolute; bottom: 0; left: 0;
   height: 1.5px; width: 0;
-  background: linear-gradient(90deg, var(--cta-from), var(--cta-to));
-  border-radius: 1px;
-  transition: width .28s cubic-bezier(.4,0,.2,1);
+  background: linear-gradient(90deg, var(--g-from), var(--g-to));
+  border-radius: 1px; transition: width .28s cubic-bezier(.4,0,.2,1);
 }
-.pch__link:hover .pch__link-bar,
-.pch__link.is-active .pch__link-bar { width: 100%; }
-
+.pch__link:hover .pch__bar, .pch__link.is-active .pch__bar { width: 100%; }
 
 
 /* ══ CONTROLS ════════════════════════════════════════════════ */
-.pch__controls {
-  display: flex; align-items: center; gap: .6rem;
-  flex-shrink: 0;
-  margin-left: auto; /* right-align against logo's margin-right:auto */
-}
+.pch__controls { display: flex; align-items: center; gap: .6rem; margin-left: auto; }
 
 /* Language toggle */
 .pch__lang {
   display: none; align-items: center; gap: 5px;
-  font-family: var(--font-body); font-size: .64rem; font-weight: 600; letter-spacing: .12em;
-  text-transform: uppercase;
-  background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.14); border-radius: 50px;
+  background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); border-radius: 50px;
   padding: 5px 11px; cursor: pointer;
+  font-family: var(--font-body, sans-serif); font-size: .62rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+  color: rgba(255,255,255,.5);
   transition: border-color .2s, background .2s;
-  color: rgba(255,255,255,.55);
 }
 @media (min-width: 640px) { .pch__lang { display: flex; } }
-.pch__lang:hover { border-color: rgba(232,199,122,.4); background: rgba(232,199,122,.07); }
-.pch__lang-sep { width: 1px; height: 10px; background: rgba(255,255,255,.15); }
+.pch__lang:hover { border-color: rgba(232,168,124,.4); background: rgba(201,146,74,.07); }
+.pch__l-sep { width: 1px; height: 9px; background: rgba(255,255,255,.15); }
+.pch__lang[aria-pressed="false"] .pch__l-en { color: var(--g-to); font-weight: 700; }
+.pch__lang[aria-pressed="false"] .pch__l-id { color: rgba(255,255,255,.35); }
+.pch__lang[aria-pressed="true"]  .pch__l-id { color: var(--g-to); font-weight: 700; }
+.pch__lang[aria-pressed="true"]  .pch__l-en { color: rgba(255,255,255,.35); }
 
-/* Active language highlight */
-.pch__lang[aria-pressed="false"] .pch__lang-en { color: var(--gold-lt); font-weight: 700; }
-.pch__lang[aria-pressed="false"] .pch__lang-id  { color: rgba(255,255,255,.38); }
-.pch__lang[aria-pressed="true"]  .pch__lang-id  { color: var(--gold-lt); font-weight: 700; }
-.pch__lang[aria-pressed="true"]  .pch__lang-en  { color: rgba(255,255,255,.38); }
-
-/* CTA — Order Now */
+/* CTA */
 .pch__cta {
   display: none; align-items: center; gap: .45rem;
   padding: .52rem 1.1rem; border-radius: 50px;
-  background: linear-gradient(135deg, var(--cta-from), var(--cta-to));
-  color: #0a0800; text-decoration: none;
-  font-family: var(--font-body); font-size: .73rem; font-weight: 700;
-  letter-spacing: .05em; text-transform: lowercase;
+  background: linear-gradient(135deg, var(--g-from), var(--g-to));
+  color: #0a0600; text-decoration: none;
+  font-family: var(--font-body, sans-serif); font-size: .73rem; font-weight: 700; letter-spacing: .05em; text-transform: lowercase;
   white-space: nowrap;
-  box-shadow: 0 3px 14px rgba(201,146,74,.35);
+  box-shadow: 0 3px 14px rgba(201,146,74,.32);
   transition: opacity .2s, box-shadow .2s, transform .15s;
 }
 @media (min-width: 580px) { .pch__cta { display: flex; } }
-.pch__cta:hover  { opacity: .9; box-shadow: 0 5px 22px rgba(201,146,74,.5); transform: translateY(-1px); }
+.pch__cta:hover { opacity: .9; box-shadow: 0 5px 22px rgba(201,146,74,.48); transform: translateY(-1px); }
 .pch__cta:active { transform: scale(.97); }
-.pch__cta-icon  { flex-shrink: 0; }
 
-/* Hamburger — mobile only */
-.pch__ham {
-  display: flex; flex-direction: column; gap: 5px;
-  padding: 9px; background: none; border: none; cursor: pointer;
-  border-radius: 8px; transition: background .2s;
-}
+/* Hamburger */
+.pch__ham { display: flex; flex-direction: column; gap: 5px; padding: 9px; background: none; border: none; cursor: pointer; border-radius: 8px; transition: background .2s; }
 @media (min-width: 960px) { .pch__ham { display: none; } }
 .pch__ham:hover { background: rgba(255,255,255,.06); }
-.pch__bar {
-  display: block; border-radius: 2px;
-  background: #ffffff;
-  transition: transform .28s cubic-bezier(.4,0,.2,1), opacity .2s, width .28s;
-  transform-origin: center;
-}
-.pch__bar--1 { width: 22px; height: 1.5px; }
-.pch__bar--2 { width: 16px; height: 1.5px; }
-.pch__bar--3 { width: 22px; height: 1.5px; }
-.pch__ham:hover .pch__bar--2 { width: 22px; }
-.pch__ham[aria-expanded="true"] .pch__bar--1 { transform: translateY(6.5px) rotate(45deg);  width: 22px; }
-.pch__ham[aria-expanded="true"] .pch__bar--2 { opacity: 0; transform: scaleX(0); }
-.pch__ham[aria-expanded="true"] .pch__bar--3 { transform: translateY(-6.5px) rotate(-45deg); }
-
-/* Progress bar */
-.pch__progress {
-  position: absolute; bottom: 0; left: 0;
-  height: 1.5px; width: 0%;
-  background: linear-gradient(90deg, var(--cta-from), var(--cta-to));
-  transition: width .08s linear;
-}
+.pch__hb { display: block; height: 1.5px; border-radius: 2px; background: #fff; transition: transform .28s cubic-bezier(.4,0,.2,1), opacity .2s, width .28s; transform-origin: center; }
+.pch__hb--1 { width: 22px; }
+.pch__hb--2 { width: 15px; }
+.pch__hb--3 { width: 22px; }
+.pch__ham:hover .pch__hb--2 { width: 22px; }
+.pch__ham[aria-expanded="true"] .pch__hb--1 { transform: translateY(6.5px) rotate(45deg); width: 22px; }
+.pch__ham[aria-expanded="true"] .pch__hb--2 { opacity: 0; transform: scaleX(0); }
+.pch__ham[aria-expanded="true"] .pch__hb--3 { transform: translateY(-6.5px) rotate(-45deg); }
 
 /* ══ MOBILE OVERLAY ══════════════════════════════════════════ */
 .pchm {
   position: fixed; inset: 0; z-index: 290;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: .6rem; padding: 2rem;
-  opacity: 0; pointer-events: none;
-  transition: opacity .3s ease;
-  overflow: hidden;
+  gap: .65rem; padding: 2rem; overflow: hidden;
+  opacity: 0; pointer-events: none; transition: opacity .28s ease;
 }
 .pchm[aria-hidden="false"] { opacity: 1; pointer-events: auto; }
-
-.pchm__bg {
-  position: absolute; inset: 0;
-  background: linear-gradient(165deg, #0e0d0b 0%, #13100b 55%, #0d0b10 100%);
-}
-.pchm__bg::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: radial-gradient(ellipse at 70% 30%, rgba(201,146,74,.06) 0%, transparent 60%);
-}
-
-.pchm__close {
-  position: absolute; top: 1.25rem; right: 1.25rem; z-index: 1;
-  width: 38px; height: 38px; border-radius: 50%;
-  background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
-  color: rgba(255,255,255,.55); cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: background .2s, color .2s, transform .2s;
-}
+.pchm__bg { position: absolute; inset: 0; background: linear-gradient(165deg,#0a0906 0%,#13100b 55%,#0d0b10 100%); }
+.pchm__noise { position: absolute; inset: 0; opacity: .025; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size: 200px; }
+.pchm__close { position: absolute; top: 1.25rem; right: 1.25rem; z-index: 1; width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); color: rgba(255,255,255,.55); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .2s, color .2s, transform .2s; }
 .pchm__close:hover { background: rgba(255,255,255,.12); color: #fff; transform: rotate(90deg); }
-
-.pchm__logo-row {
-  display: flex; flex-direction: column; align-items: center; gap: 3px;
-  margin-bottom: .35rem; z-index: 1;
-}
-.pchm__logo-brand {
-  font-family: var(--font-display); font-size: 1.45rem; font-weight: 600; font-style: italic;
-  color: #ffffff; letter-spacing: -.01em;
-}
-.pchm__logo-sub { font-size: .56rem; letter-spacing: .14em; color: rgba(255,255,255,.3); text-transform: lowercase; }
-
+.pchm__brand { display: flex; align-items: center; gap: 10px; margin-bottom: .35rem; z-index: 1; }
+.pchm__brand-name { display: block; font-family: var(--font-display, serif); font-size: 1.45rem; font-weight: 600; font-style: italic; color: #fff; }
+.pchm__brand-sub { display: block; font-size: .52rem; letter-spacing: .13em; color: rgba(255,255,255,.28); text-transform: lowercase; }
 .pchm__nav { display: flex; flex-direction: column; align-items: center; gap: .1rem; z-index: 1; width: 100%; }
-
-.pchm__link {
-  display: flex; align-items: center; gap: 1rem;
-  text-decoration: none; padding: .55rem 1.5rem;
-  border-radius: 10px; width: 100%; max-width: 300px;
-  opacity: 0; transform: translateX(-20px);
-  transition: background .18s;
-}
-.pchm[aria-hidden="false"] .pchm__link {
-  animation: pchm-in .34s ease forwards;
-  animation-delay: calc(var(--mi) * 0.05s + 0.04s);
-}
-@keyframes pchm-in { to { opacity:1; transform:translateX(0); } }
+.pchm__link { display: flex; align-items: center; gap: 1rem; text-decoration: none; padding: .55rem 1.5rem; border-radius: 10px; width: 100%; max-width: 300px; opacity: 0; transform: translateX(-18px); transition: background .18s; }
+.pchm[aria-hidden="false"] .pchm__link { animation: pchm-in .33s ease forwards; animation-delay: calc(var(--mi) * .05s + .04s); }
+@keyframes pchm-in { to { opacity:1; transform:none; } }
 .pchm__link:hover { background: rgba(255,255,255,.04); }
 .pchm__link.is-active { background: rgba(201,146,74,.08); }
-
-.pchm__num { font-size: .57rem; font-weight: 600; letter-spacing: .14em; color: rgba(201,146,74,.5); flex-shrink: 0; width: 20px; }
-.pchm__mlabel {
-  font-family: var(--font-display); font-size: 1.8rem; font-weight: 500;
-  color: #ffffff; text-transform: lowercase; line-height: 1.15;
-  transition: color .2s;
-}
-.pchm__link:hover .pchm__mlabel,
-.pchm__link.is-active .pchm__mlabel {
-  background: linear-gradient(120deg, var(--cta-from), var(--cta-to));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-}
-
-.pchm__cta {
-  display: inline-flex; align-items: center; gap: .5rem;
-  margin-top: .5rem;
-  padding: .78rem 2rem; border-radius: 50px;
-  background: linear-gradient(135deg, var(--cta-from), var(--cta-to));
-  color: #0a0800; text-decoration: none;
-  font-family: var(--font-body); font-size: .78rem; font-weight: 700; letter-spacing: .05em;
-  text-transform: lowercase; z-index: 1;
-  box-shadow: 0 6px 24px rgba(201,146,74,.28);
-  opacity: 0; transition: transform .2s, box-shadow .2s;
-}
-.pchm[aria-hidden="false"] .pchm__cta { animation: pchm-in .34s ease .38s forwards; }
+.pchm__n { font-size: .56rem; font-weight: 600; letter-spacing: .14em; background: linear-gradient(135deg,var(--g-from),var(--g-to)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; flex-shrink: 0; width: 20px; }
+.pchm__lbl { font-family: var(--font-display, serif); font-size: 1.8rem; font-weight: 500; color: #fff; text-transform: lowercase; line-height: 1.15; transition: color .18s; }
+.pchm__link:hover .pchm__lbl, .pchm__link.is-active .pchm__lbl { background: linear-gradient(135deg,var(--g-from),var(--g-to)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.pchm__cta { display: inline-flex; align-items: center; gap: .5rem; margin-top: .5rem; padding: .78rem 2rem; border-radius: 50px; background: linear-gradient(135deg,var(--g-from),var(--g-to)); color: #0a0600; text-decoration: none; font-family: var(--font-body, sans-serif); font-size: .78rem; font-weight: 700; letter-spacing: .05em; text-transform: lowercase; z-index: 1; box-shadow: 0 6px 24px rgba(201,146,74,.28); opacity: 0; transition: transform .2s, box-shadow .2s; }
+.pchm[aria-hidden="false"] .pchm__cta { animation: pchm-in .33s ease .38s forwards; }
 .pchm__cta:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(201,146,74,.42); }
-
-.pchm__lang-btn {
-  display: flex; align-items: center; gap: 5px; z-index: 1;
-  font-family: var(--font-body); font-size: .63rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
-  color: rgba(255,255,255,.45);
-  background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); border-radius: 50px;
-  padding: 5px 12px; cursor: pointer;
-  transition: color .2s, border-color .2s;
-  opacity: 0;
-}
-.pchm[aria-hidden="false"] .pchm__lang-btn { animation: pchm-in .34s ease .44s forwards; }
-.pchm__lang-btn:hover { color: var(--gold-lt); border-color: rgba(232,199,122,.3); }
-.pchm__lang-sep { color: rgba(255,255,255,.15); font-size: .6rem; }
-.pchm__lang-btn[aria-pressed="false"] .pchm__lang-en { color: var(--gold-lt); font-weight: 700; }
-.pchm__lang-btn[aria-pressed="true"]  .pchm__lang-id  { color: var(--gold-lt); font-weight: 700; }
+.pchm__lang-btn { display: flex; align-items: center; gap: 5px; z-index: 1; font-family: var(--font-body, sans-serif); font-size: .62rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.42); background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); border-radius: 50px; padding: 5px 12px; cursor: pointer; transition: color .2s, border-color .2s; opacity: 0; }
+.pchm[aria-hidden="false"] .pchm__lang-btn { animation: pchm-in .33s ease .44s forwards; }
+.pchm__lang-btn:hover { color: var(--g-to); border-color: rgba(232,168,124,.3); }
+.pchm__l-sep { color: rgba(255,255,255,.15); }
+.pchm__lang-btn[aria-pressed="false"] .pchm__l-en { color: var(--g-to); font-weight: 700; }
+.pchm__lang-btn[aria-pressed="true"]  .pchm__l-id { color: var(--g-to); font-weight: 700; }
 
 @media (min-width: 960px) { .pchm { display: none !important; } }
-
 @media (prefers-reduced-motion: reduce) {
-  .pch__steam, .pchm__link, .pchm__cta, .pchm__lang-btn { animation: none !important; opacity:1 !important; transform:none !important; }
-  html { scroll-behavior: auto; }
+  .pch__steam, .pchm__link, .pchm__cta, .pchm__lang-btn { animation: none !important; opacity: 1 !important; transform: none !important; }
 }
 </style>
 
 <script>
 (function () {
+  var header = document.getElementById('site-header');
+  var ham    = document.getElementById('pch-ham');
+  var mobile = document.getElementById('pch-mobile');
+  var mClose = document.getElementById('pchm-close');
+  var prog   = document.getElementById('pch-progress');
 
-  /* ── Refs ─────────────────────────────────────────────────── */
-  var header   = document.getElementById('site-header');
-  var ham      = document.getElementById('pch-ham');
-  var mobile   = document.getElementById('pch-mobile');
-  var mClose   = document.getElementById('pchm-close');
-  var deskLang = document.getElementById('pch-lang');
-  var mobLang  = document.getElementById('pchm-lang');
-  var progress = document.getElementById('pch-progress');
-  var orderBtn = document.getElementById('pch-order-btn');
-  var isID     = false;
-
-  /* ── Scroll: glass + progress + active spy ─────────────────── */
-  var sectionIds = ['hero','about','reviews','menu','location','contact'];
-
-  function updateActive() {
-    var fromTop  = window.scrollY + (window.innerHeight * 0.32);
-    var activeId = null;
-    for (var i = 0; i < sectionIds.length; i++) {
-      var el = document.getElementById(sectionIds[i]);
-      if (el && el.offsetTop <= fromTop) activeId = sectionIds[i];
-    }
-    document.querySelectorAll('.pch__link, .pchm__link').forEach(function(a) {
-      var href = a.getAttribute('href') || '';
-      a.classList.toggle('is-active', href === '#' + activeId);
-    });
-  }
-
-  function onScroll() {
+  /* scroll → glass + progress */
+  var SECS = ['hero','about','reviews','menu','location','contact'];
+  function onScroll () {
     if (header) header.classList.toggle('is-scrolled', window.scrollY > 50);
-    if (progress) {
+    if (prog) {
       var total = document.documentElement.scrollHeight - window.innerHeight;
-      progress.style.width = (total > 0 ? (window.scrollY / total) * 100 : 0) + '%';
+      prog.style.width = (total > 0 ? window.scrollY / total * 100 : 0) + '%';
     }
-    updateActive();
+    // active spy
+    var fromTop = window.scrollY + window.innerHeight * .33;
+    var active = null;
+    SECS.forEach(function (id) { var el = document.getElementById(id); if (el && el.offsetTop <= fromTop) active = id; });
+    document.querySelectorAll('[data-nav-link]').forEach(function (a) {
+      a.classList.toggle('is-active', (a.getAttribute('href') || '') === '#' + active);
+    });
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  /* ── Smooth-scroll anchors ──────────────────────────────────── */
-  function scrollTo(id) {
-    var target = document.getElementById(id);
-    if (!target) return;
-    var offset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 72;
-    var top    = target.getBoundingClientRect().top + window.scrollY - offset;
-    window.scrollTo({ top: top, behavior: 'smooth' });
+  /* smooth scroll */
+  function scrollTo (id) {
+    var el = document.getElementById(id); if (!el) return;
+    var off = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 72;
+    window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - off, behavior: 'smooth' });
   }
-
-  function onAnchorClick(e) {
-    var href = this.getAttribute('href') || '';
-    if (!href.startsWith('#')) return;
-    var id = href.slice(1);
-    e.preventDefault();
-    if (!id) { window.scrollTo({ top: 0, behavior: 'smooth' }); }
-    else      { scrollTo(id); }
-    closeMobile();
-  }
-
-  document.querySelectorAll('.pch__link, .pchm__link, .pch__logo').forEach(function(a) {
-    a.addEventListener('click', onAnchorClick);
+  document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var id = (a.getAttribute('href') || '').slice(1); if (!id) return;
+      e.preventDefault(); scrollTo(id); closeMobile();
+    });
   });
 
-  /* ── Mobile menu ────────────────────────────────────────────── */
-  function openMobile() {
+  /* mobile menu */
+  function openMobile () {
     if (!mobile || !ham) return;
-    mobile.setAttribute('aria-hidden', 'false');
-    ham.setAttribute('aria-expanded', 'true');
-    document.body.style.overflow = 'hidden';
-    // re-trigger entry animations
-    document.querySelectorAll('.pchm__link, .pchm__cta, .pchm__lang-btn').forEach(function(el) {
-      el.style.animation = 'none'; void el.offsetHeight; el.style.animation = '';
-    });
-    setTimeout(function() {
-      var f = mobile.querySelector('.pchm__link');
-      if (f) f.focus();
-    }, 80);
+    mobile.setAttribute('aria-hidden','false'); ham.setAttribute('aria-expanded','true'); document.body.style.overflow='hidden';
+    mobile.querySelectorAll('.pchm__link,.pchm__cta,.pchm__lang-btn').forEach(function (el) { el.style.animation='none'; void el.offsetHeight; el.style.animation=''; });
   }
-  function closeMobile() {
+  function closeMobile () {
     if (!mobile || !ham) return;
-    mobile.setAttribute('aria-hidden', 'true');
-    ham.setAttribute('aria-expanded', 'false');
-    document.body.style.overflow = '';
+    mobile.setAttribute('aria-hidden','true'); ham.setAttribute('aria-expanded','false'); document.body.style.overflow='';
   }
-
   if (ham)    ham.addEventListener('click', openMobile);
   if (mClose) mClose.addEventListener('click', closeMobile);
-  if (mobile) { var bg = mobile.querySelector('.pchm__bg'); if (bg) bg.addEventListener('click', closeMobile); }
-  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeMobile(); });
+  if (mobile) { var mbg = mobile.querySelector('.pchm__bg'); if (mbg) mbg.addEventListener('click', closeMobile); }
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMobile(); });
 
-  /* ── Language ───────────────────────────────────────────────── */
-  function applyLang(id) {
-    isID = id;
-    if (deskLang) deskLang.setAttribute('aria-pressed', String(isID));
-    if (mobLang)  mobLang.setAttribute('aria-pressed',  String(isID));
-    document.documentElement.lang = isID ? 'id' : 'en';
-
-    /* All simple text nodes */
-    document.querySelectorAll('[data-en][data-id]').forEach(function(el) {
-      if (el.children.length > 0) return;
-      var val = isID ? el.getAttribute('data-id') : el.getAttribute('data-en');
-      if (val !== null) el.textContent = val;
+  /* language sync */
+  document.addEventListener('pc:lang', function (e) {
+    var id = !!(e.detail && e.detail.isID);
+    /* aria-pressed on both lang buttons */
+    document.querySelectorAll('[data-lang-toggle]').forEach(function (b) { b.setAttribute('aria-pressed', String(id)); });
+    /* desktop nav labels */
+    document.querySelectorAll('.pch__link[data-en][data-id]').forEach(function (a) {
+      var lbl = a.querySelector('.pch__lbl'); var v = id ? a.getAttribute('data-id') : a.getAttribute('data-en'); if (lbl && v) lbl.textContent = v;
     });
-
-    /* Desktop nav link labels */
-    document.querySelectorAll('.pch__link[data-en][data-id]').forEach(function(a) {
-      var lbl = a.querySelector('.pch__link-label');
-      if (lbl) { var v = isID ? a.getAttribute('data-id') : a.getAttribute('data-en'); if (v) lbl.textContent = v; }
+    /* mobile nav labels */
+    document.querySelectorAll('.pchm__link[data-en][data-id]').forEach(function (a) {
+      var lbl = a.querySelector('.pchm__lbl'); var v = id ? a.getAttribute('data-id') : a.getAttribute('data-en'); if (lbl && v) lbl.textContent = v;
     });
-
-    /* Mobile nav labels */
-    document.querySelectorAll('.pchm__link[data-en][data-id]').forEach(function(a) {
-      var lbl = a.querySelector('.pchm__mlabel');
-      if (lbl) { var v = isID ? a.getAttribute('data-id') : a.getAttribute('data-en'); if (v) lbl.textContent = v; }
-    });
-
-    /* Order Now CTA — span.pch__cta-label */
-    if (orderBtn) {
-      var lbl = orderBtn.querySelector('.pch__cta-label');
-      if (lbl) lbl.textContent = isID ? (orderBtn.getAttribute('data-id') || 'pesan sekarang') : (orderBtn.getAttribute('data-en') || 'order now');
+    /* CTA label */
+    var cta = document.getElementById('pch-cta'); var ctaLbl = cta && cta.querySelector('.pch__cta-lbl');
+    if (cta && ctaLbl) ctaLbl.textContent = id ? (cta.getAttribute('data-id') || 'pesan sekarang') : (cta.getAttribute('data-en') || 'order now');
+    /* mobile CTA */
+    var mcta = document.querySelector('.pchm__cta'); if (mcta) {
+      var v2 = id ? mcta.getAttribute('data-id') : mcta.getAttribute('data-en');
+      if (v2) { var svgEl = mcta.querySelector('svg'); var spEl = mcta.querySelector('span'); if (spEl) spEl.textContent = v2; }
     }
+    /* sub-labels (tagline) */
+    document.querySelectorAll('.pch__sub[data-en][data-id], .pchm__brand-sub[data-en][data-id]').forEach(function (el) {
+      var v3 = id ? el.getAttribute('data-id') : el.getAttribute('data-en'); if (v3) el.textContent = v3;
+    });
+  });
 
-    /* Mobile CTA — preserve SVG */
-    var mobCta = document.querySelector('.pchm__cta');
-    if (mobCta) {
-      var v = isID ? mobCta.getAttribute('data-id') : mobCta.getAttribute('data-en');
-      if (v) {
-        var svg = mobCta.querySelector('svg');
-        mobCta.textContent = v;
-        if (svg) mobCta.insertBefore(svg, mobCta.firstChild);
-      }
-    }
-
-    /* Dispatch global event → Menu, ReservationForm, index.astro, etc. */
-    document.dispatchEvent(new CustomEvent('pc:lang', { detail: { isID: isID }, bubbles: true }));
-  }
-
-  if (deskLang) deskLang.addEventListener('click', function() { applyLang(!isID); });
-  if (mobLang)  mobLang.addEventListener('click',  function() { applyLang(!isID); });
-
-  /* Plausible */
-  if (orderBtn) orderBtn.addEventListener('click', function() { if (window.plausible) window.plausible('Order Now Click'); });
-
+  /* plausible */
+  var cta = document.getElementById('pch-cta');
+  if (cta) cta.addEventListener('click', function () { if (window.plausible) window.plausible('Order Now Click'); });
 })();
 </script>

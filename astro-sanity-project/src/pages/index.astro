@@ -111,7 +111,7 @@ const aboutStats = [
   { value: '5★',  en: 'Google Rating',   id_: 'Rating Google' },
   { value: '49+', en: 'Reviews',          id_: 'Ulasan' },
   { value: 'Bali',en: 'Highland Beans',  id_: 'Biji Kopi Pegunungan' },
-  { value: '7am', en: 'Opens Daily',      id_: 'Buka Setiap Hari' },
+  { value: '5am', en: 'Opens Daily',      id_: 'Buka Setiap Hari' },
 ];
 ---
 
@@ -246,14 +246,13 @@ const aboutStats = [
             {[
               { svg:`<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="12" cy="9" r="2.5" stroke="currentColor" stroke-width="1.4" fill="none"/>`, en:settings.address??'Jl. Pantai Biaung, Sanur, Denpasar, Bali 80228', id_:settings.address??'Jl. Pantai Biaung, Sanur, Denpasar, Bali 80228', lab:{en:'Address',id_:'Alamat'} },
               { svg:`<path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.09-1.26a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z" stroke="currentColor" stroke-width="1.4" fill="none"/>`, en:settings.phone??'+62 819-1633-4989', id_:settings.phone??'+62 819-1633-4989', lab:{en:'Phone',id_:'Telepon'} },
-              { svg:`<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="1.4" fill="none"/><polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="1.4" fill="none"/>`, en:settings.email??'hello@putincoffee.com', id_:settings.email??'hello@putincoffee.com', lab:{en:'Email',id_:'Email'} },
+              { svg:`<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="1.4" fill="none"/><polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="1.4" fill="none"/>`,  },
             ].map((item, i) => (
               <div class="loc__contact-item reveal" style={`transition-delay:${80+i*60}ms`}>
                 <div class="loc__contact-icon" aria-hidden="true">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" set:html={item.svg}/>
                 </div>
                 <div>
-                  <p class="loc__contact-label" data-en={item.lab.en} data-id={item.lab.id_}>{item.lab.en}</p>
                   <p class="loc__contact-val" data-en={item.en} data-id={item.id_}>{item.en}</p>
                 </div>
               </div>

@@ -1,0 +1,176 @@
+---
+// src/components/GlobalScripts.astro
+// put.in coffee · Global JS — reveal observer · language · scroll helpers
+---
+
+<script>
+(function () {
+'use strict';
+
+/* ════════════════════════════════════════════════════════════
+   1. INTERSECTION OBSERVER — scroll-driven reveals
+════════════════════════════════════════════════════════════ */
+var ro = new IntersectionObserver(function (entries) {
+  entries.forEach(function (entry) {
+    if (!entry.isIntersecting) return;
+    var el = entry.target;
+    el.classList.add('visible');
+    ro.unobserve(el);
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+function initReveal() {
+  document.querySelectorAll('[data-reveal], [data-stagger]').forEach(function (el) {
+    ro.observe(el);
+  });
+}
+
+/* ════════════════════════════════════════════════════════════
+   2. SMOOTH ANCHOR SCROLL (compensates for fixed header)
+════════════════════════════════════════════════════════════ */
+function onAnchorClick(e) {
+  var href = this.getAttribute('href') || '';
+  if (!href.startsWith('#')) return;
+  var id = href.slice(1);
+  e.preventDefault();
+  if (!id) { window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+  var target = document.getElementById(id);
+  if (!target) return;
+  var navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 72;
+  var top = target.getBoundingClientRect().top + window.scrollY - navH;
+  window.scrollTo({ top: top, behavior: 'smooth' });
+}
+
+/* ════════════════════════════════════════════════════════════
+   3. GLOBAL LANGUAGE — sync [data-en][data-id] anywhere
+════════════════════════════════════════════════════════════ */
+var isID = false;
+
+function applyLang(id) {
+  isID = id;
+  document.documentElement.lang = isID ? 'id' : 'en';
+
+  // Simple text nodes
+  document.querySelectorAll('[data-en][data-id]').forEach(function (el) {
+    if (el.children.length > 0) return;
+    var val = isID ? el.getAttribute('data-id') : el.getAttribute('data-en');
+    if (val !== null) el.textContent = val;
+  });
+
+  // h2 elements with <br> tags (need innerHTML)
+  document.querySelectorAll('h2[data-en][data-id]').forEach(function (el) {
+    var raw = isID ? el.getAttribute('data-id') : el.getAttribute('data-en');
+    if (raw !== null) el.innerHTML = raw;
+  });
+
+  // img alt attributes
+  document.querySelectorAll('img[data-en-alt][data-id-alt]').forEach(function (img) {
+    img.setAttribute('alt', isID ? img.getAttribute('data-id-alt') : img.getAttribute('data-en-alt'));
+  });
+
+  // Buttons/links that have child elements (preserve SVGs)
+  document.querySelectorAll('button[data-en][data-id], a[data-en][data-id]').forEach(function (btn) {
+    if (!btn.querySelector('[data-preserve]')) return;
+    var val = isID ? btn.getAttribute('data-id') : btn.getAttribute('data-en');
+    if (!val) return;
+    var svgs = Array.from(btn.querySelectorAll('svg'));
+    btn.textContent = val;
+    svgs.forEach(function (s, i) {
+      if (i === 0) btn.insertBefore(s, btn.firstChild);
+      else btn.appendChild(s);
+    });
+  });
+
+  // Dispatch for component-level listeners
+  document.dispatchEvent(new CustomEvent('pc:lang', { detail: { isID: isID }, bubbles: true }));
+}
+
+/* ════════════════════════════════════════════════════════════
+   4. PAGE PROGRESS BAR (gradient line at top)
+════════════════════════════════════════════════════════════ */
+function updateProgress() {
+  var el = document.getElementById('page-progress');
+  if (!el) return;
+  var total = document.documentElement.scrollHeight - window.innerHeight;
+  el.style.width = (total > 0 ? (window.scrollY / total) * 100 : 0) + '%';
+}
+
+/* ════════════════════════════════════════════════════════════
+   5. SECTION ACTIVE SPY
+════════════════════════════════════════════════════════════ */
+var SECTION_IDS = ['hero','about','reviews','menu','location','contact'];
+
+function updateActive() {
+  var fromTop = window.scrollY + (window.innerHeight * 0.35);
+  var active  = null;
+  SECTION_IDS.forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el && el.offsetTop <= fromTop) active = id;
+  });
+  document.querySelectorAll('[data-nav-link]').forEach(function (a) {
+    var href = a.getAttribute('href') || '';
+    a.classList.toggle('is-active', href === '#' + active);
+  });
+}
+
+/* ════════════════════════════════════════════════════════════
+   6. CURSOR GLOW (desktop only, subtle follow)
+════════════════════════════════════════════════════════════ */
+function initCursorGlow() {
+  if (window.matchMedia('(hover: none)').matches) return;
+  var glow = document.createElement('div');
+  glow.id = 'cursor-glow';
+  glow.style.cssText = 'position:fixed;width:280px;height:280px;border-radius:50%;pointer-events:none;z-index:1;background:radial-gradient(circle,rgba(201,146,74,0.06) 0%,transparent 70%);transform:translate(-50%,-50%);transition:transform 0.08s,opacity 0.4s;opacity:0;will-change:transform;top:0;left:0;';
+  document.body.appendChild(glow);
+  var mx=0,my=0,cx=0,cy=0,raf=null;
+  document.addEventListener('mousemove',function(e){ mx=e.clientX; my=e.clientY; glow.style.opacity='1'; },{ passive:true });
+  document.addEventListener('mouseleave',function(){ glow.style.opacity='0'; });
+  function lerp(a,b,t){ return a+(b-a)*t; }
+  function loop(){
+    cx=lerp(cx,mx,0.12); cy=lerp(cy,my,0.12);
+    glow.style.left=cx+'px'; glow.style.top=cy+'px';
+    raf=requestAnimationFrame(loop);
+  }
+  loop();
+}
+
+/* ════════════════════════════════════════════════════════════
+   BOOT
+════════════════════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', function () {
+  initReveal();
+  initCursorGlow();
+
+  // Anchor clicks
+  document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', onAnchorClick);
+  });
+
+  // Scroll
+  window.addEventListener('scroll', function () {
+    updateProgress();
+    updateActive();
+  }, { passive: true });
+  updateProgress();
+  updateActive();
+
+  // Language toggle buttons — both desktop and mobile
+  document.querySelectorAll('[data-lang-toggle]').forEach(function (btn) {
+    btn.addEventListener('click', function () { applyLang(!isID); });
+  });
+
+  // Plausible
+  document.querySelectorAll('[data-event]').forEach(function (el) {
+    el.addEventListener('click', function () {
+      var ev = el.getAttribute('data-event');
+      if (ev && window.plausible) window.plausible(ev);
+    });
+  });
+
+  // Toast utility (used by other components)
+  window.pcToast = function (type, title, msg) {
+    window.dispatchEvent(new CustomEvent('pc:toast', { detail: { type: type, title: title, message: msg } }));
+  };
+});
+})();
+</script>

@@ -3,6 +3,8 @@
 import '../styles/global.css'; 
 // Importation du Header (ajustez le chemin selon votre structure)
 import Header from '../components/Header.astro'; 
+import Header from '../components/Navigation.astro'; 
+
 ---
 
 <!DOCTYPE html>
@@ -15,6 +17,7 @@ import Header from '../components/Header.astro';
   </head>
   <body>
     <Header />
+    <Navigation/>
 
     <main>
       <slot />

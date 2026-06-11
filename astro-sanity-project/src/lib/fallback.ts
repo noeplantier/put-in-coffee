@@ -15,7 +15,6 @@ export const fallbackSettings: Partial<SiteSettings> = {
   heroSubtitle: 'Sip specialty coffee as the tide rolls in. put.in coffee is Denpasar\'s most soulful beachfront café — nestled on the black sand shores of Pantai Biaung.',
   address: 'Jl. Pantai Biaung, Denpasar, Bali 80228',
   phone: '+62 812 3456 7890',
-  email: 'hello@putincoffee.com',
   whatsapp: '628123456789',
   mapLink: 'https://maps.google.com/?q=-8.6932,115.2631',
   totalReviews: 49,

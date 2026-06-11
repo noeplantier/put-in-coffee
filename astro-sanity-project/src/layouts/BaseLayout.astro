@@ -1,216 +1,209 @@
 ---
 // src/layouts/BaseLayout.astro
-// ══════════════════════════════════════════════════════════════
-// BASE LAYOUT — Wraps every page
-// Handles: SEO meta, fonts, Plausible, PWA, structured data, Header
-// ══════════════════════════════════════════════════════════════
+// put.in coffee · global HTML shell · design tokens · animation system
+import Header from '../components/Header.astro'; 
 
-import '../styles/global.css';
-import { getPlausibleScriptUrl, getPlausibleDomain } from '../lib/analytics.ts';
-import { cloudinary, HERO_IMAGE_ID } from '../lib/cloudinary.ts';
-import Header from '../components/Header.astro'; // Ajout de l'import du Header
-
-export interface Props {
-  title?: string;
-  description?: string;
-  ogImage?: string;
-  ogType?: 'website' | 'article';
-  noindex?: boolean;
-  schema?: Record<string, unknown>; // JSON-LD override
-}
-
+interface Props { title?: string; description?: string; }
 const {
-  title = 'put.in coffee — Beachfront Café on Pantai Biaung, Sanur Bali',
-  description = "Sip specialty coffee where the waves meet the sand. Putin Coffee is Denpasar's most magical beachfront café on Pantai Biaung — 5-star reviewed, unforgettable vibes. Open daily 7am–10pm.",
-  ogImage = cloudinary.og(HERO_IMAGE_ID),
-  ogType = 'website',
-  noindex = false,
-  schema,
+  title       = "put.in coffee · Pantai Biaung · Denpasar · Bali",
+  description = "Specialty coffee on the shoreline. Beachfront café at Pantai Biaung, Denpasar, Bali.",
 } = Astro.props;
-
-const canonicalUrl = new URL(Astro.url.pathname, import.meta.env.PUBLIC_SITE_URL || 'https://putincoffee.com').toString();
-const plausibleScript = getPlausibleScriptUrl();
-const plausibleDomain = getPlausibleDomain();
-
-const defaultSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'CafeOrCoffeeShop',
-  name: 'Putin Coffee',
-  description,
-  url: 'https://putincoffee.com',
-  telephone: '+62812345678',
-  email: 'hello@putincoffee.com',
-  image: ogImage,
-  currenciesAccepted: 'IDR, USD',
-  priceRange: '$$',
-  servesCuisine: ['Coffee', 'Breakfast', 'Brunch', 'Indonesian'],
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: 'Jl. Pantai Biaung',
-    addressLocality: 'Sanur',
-    addressRegion: 'Bali',
-    postalCode: '80228',
-    addressCountry: 'ID',
-  },
-  geo: { '@type': 'GeoCoordinates', latitude: -8.6932, longitude: 115.2631 },
-  openingHoursSpecification: [{
-    '@type': 'OpeningHoursSpecification',
-    dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'],
-    opens: '07:00', closes: '22:00',
-  }],
-  aggregateRating: {
-    '@type': 'AggregateRating',
-    ratingValue: '5.0',
-    bestRating: '5',
-    worstRating: '1',
-    reviewCount: '49',
-  },
-  sameAs: [
-    'https://instagram.com/putincoffee',
-    'https://facebook.com/putincoffee',
-  ],
-};
-
-const finalSchema = schema ?? defaultSchema;
 ---
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-  <!-- ── Charset & Viewport ─────────────────────────────────── -->
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-
-  <!-- ── Security Headers ──────────────────────────────────── -->
-  <meta http-equiv="X-Content-Type-Options" content="nosniff">
-  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
-  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(self)">
-
-  <!-- ── Primary SEO ─────────────────────────────────────────── -->
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content={description}/>
+  <meta name="theme-color" content="#C9924A"/>
   <title>{title}</title>
-  <meta name="description" content={description}>
-  <meta name="author" content="Putin Coffee">
-  {noindex ? <meta name="robots" content="noindex, nofollow"> : <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">}
-  <link rel="canonical" href={canonicalUrl}>
-
-  <!-- ── Open Graph ─────────────────────────────────────────── -->
-  <meta property="og:type" content={ogType}>
-  <meta property="og:url" content={canonicalUrl}>
-  <meta property="og:title" content={title}>
-  <meta property="og:description" content={description}>
-  <meta property="og:image" content={ogImage}>
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:site_name" content="Putin Coffee">
-  <meta property="og:locale" content="en_US">
-
-  <!-- ── Twitter Card ────────────────────────────────────────── -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content={title}>
-  <meta name="twitter:description" content={description}>
-  <meta name="twitter:image" content={ogImage}>
-
-  <!-- ── PWA & Mobile ───────────────────────────────────────── -->
-  <meta name="theme-color" content="#060f1e">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Putin Coffee">
-  <link rel="manifest" href="/manifest.json">
-
-  <!-- ── Performance: Preconnect & DNS Prefetch ─────────────── -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://res.cloudinary.com">
-  <link rel="dns-prefetch" href="https://cdn.sanity.io">
-  <link rel="dns-prefetch" href="https://plausible.io">
-
-  <!-- ── Google Fonts ───────────────────────────────────────── -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap"
-    rel="stylesheet"
-  >
-
-  <!-- ── Favicon ────────────────────────────────────────────── -->
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-
-  <!-- ── JSON-LD Structured Data ────────────────────────────── -->
-  <script type="application/ld+json" set:html={JSON.stringify(finalSchema)}></script>
-
-  <!-- ── Plausible Analytics ────────────────────────────────── -->
-  <script
-    defer
-    data-domain={plausibleDomain}
-    src={plausibleScript}
-  ></script>
-
-  <!-- ── Critical Inline Styles ─────────────────────────────── -->
-  <style>:root { --nav-h: 80px; } body { margin: 0; }</style>
+  <link rel="canonical" href="https://www.putincoffee.com/"/>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+  <link rel="manifest" href="/site.webmanifest"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <!-- Leaflet map CSS (lazy-loaded) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" media="print" onload="this.media='all'"/>
 </head>
-
-<body class="bg-pc-bg text-pc-text overflow-x-hidden">
-
-
-  <!-- ── Header Component ───────────────────────────────────── -->
-  <Header />
-
-  <!-- ── Main Content ───────────────────────────────────────── -->
-  <main id="main">
-    <slot />
-  </main>
-
-  <!-- ── Service Worker registration ──────────────────────── -->
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js', { scope: '/' })
-          .then(reg => console.log('SW registered:', reg.scope))
-          .catch(err => console.log('SW skipped (local):', err.message));
-      });
-    }
-  </script>
-
-  <!-- ── Global client-side utilities ───────────────────────── -->
-  <script>
-    // Intersection Observer: reveal animations
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
-
-    document.querySelectorAll('.reveal, .reveal-scale').forEach(el => observer.observe(el));
-
-    // Smooth anchor scroll with nav offset
-    document.querySelectorAll('a[href^="#"]').forEach(link => {
-      link.addEventListener('click', (e) => {
-        const href = (link as HTMLAnchorElement).getAttribute('href');
-        if (!href || href === '#') return;
-        const target = document.querySelector(href);
-        if (target) {
-          e.preventDefault();
-          window.scrollTo({
-            top: (target as HTMLElement).offsetTop - 80,
-            behavior: 'smooth'
-          });
-        }
-      });
-    });
-
-    // Performance mark
-    if (performance?.mark) {
-      performance.mark('page-interactive');
-      window.addEventListener('load', () => {
-        performance.mark('page-loaded');
-        performance.measure('load', 'page-interactive', 'page-loaded');
-        const [m] = performance.getEntriesByName('load');
-        console.log(`✅ Putin Coffee: ${m?.duration?.toFixed(0)}ms`);
-      });
-    }
-  </script>
+<body>
+ <Header />
+  <slot/>
 </body>
 </html>
+
+<style is:global>
+/* ════════════════════════════════════════════════════════════
+   DESIGN SYSTEM — put.in coffee 2026
+════════════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* Brand — SINGLE gradient, no colour diversity */
+  --g-from:       #C9924A;
+  --g-to:         #E8A87C;
+  --gradient:     linear-gradient(135deg, var(--g-from), var(--g-to));
+  --gradient-90:  linear-gradient(90deg,  var(--g-from), var(--g-to));
+  --gradient-rev: linear-gradient(135deg, var(--g-to),   var(--g-from));
+
+  /* Surfaces */
+  --bg:           #0a0906;
+  --bg2:          #0f0d0b;
+  --bg3:          #141210;
+  --glass:        rgba(255,255,255,0.032);
+  --glass-hi:     rgba(255,255,255,0.058);
+
+  /* Text */
+  --cream:        #F5EFE6;
+  --muted:        rgba(245,239,230,0.42);
+  --muted-hi:     rgba(245,239,230,0.65);
+
+  /* Borders */
+  --border:       rgba(245,239,230,0.07);
+  --border-hi:    rgba(245,239,230,0.14);
+
+  /* Fonts */
+  --font-body:    'Jost', 'Inter', system-ui, sans-serif;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+
+  /* Layout */
+  --nav-h:        72px;
+  --section-py:   5.5rem;
+  --content-w:    1100px;
+  --px:           1.5rem;
+  --radius:       16px;
+  --radius-lg:    24px;
+
+  /* Animation */
+  --ease-out:     cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: var(--nav-h);
+}
+
+body {
+  background: var(--bg);
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-weight: 300;
+  line-height: 1.7;
+  overflow-x: hidden;
+
+}
+
+/* ── Layout ──────────────────────────────────────────────────── */
+.pc-section    { padding: var(--section-py) 0; }
+.pc-container  { max-width: var(--content-w); margin: 0 auto; padding: 0 var(--px); width: 100%; }
+
+/* ── Typography tokens ───────────────────────────────────────── */
+.eyebrow {
+  display: block;
+  font-size: 0.62rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
+  background: var(--gradient); -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; background-clip: text;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 2.75rem);
+  font-weight: 500; font-style: italic; color: var(--cream);
+  text-transform: lowercase; line-height: 1.15; margin: 0.5rem 0;
+}
+.section-sub {
+  font-size: 0.875rem; font-weight: 300; color: var(--muted);
+  line-height: 1.75; max-width: 500px; text-transform: lowercase;
+}
+.grad-text {
+  background: var(--gradient); -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+/* ── Glass card ──────────────────────────────────────────────── */
+.glass-card {
+  background: var(--glass); border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: border-color .3s var(--ease-out), background .3s var(--ease-out),
+              transform .3s var(--ease-out), box-shadow .3s var(--ease-out);
+}
+.glass-card:hover {
+  border-color: rgba(201,146,74,.24); background: var(--glass-hi);
+  transform: translateY(-3px); box-shadow: 0 14px 44px rgba(0,0,0,.28);
+}
+
+/* ── Scroll-driven reveal animations ─────────────────────────── */
+[data-reveal] {
+  opacity: 0; transform: translateY(22px);
+  transition: opacity .65s var(--ease-out), transform .65s var(--ease-out);
+}
+[data-reveal].visible               { opacity: 1; transform: none; }
+[data-reveal="scale"]               { transform: scale(.96) translateY(10px); }
+[data-reveal="scale"].visible       { transform: scale(1)   translateY(0); }
+[data-reveal="left"]                { transform: translateX(-26px); }
+[data-reveal="left"].visible        { transform: none; }
+[data-reveal="right"]               { transform: translateX(26px); }
+[data-reveal="right"].visible       { transform: none; }
+[data-reveal="fade"]                { transform: none; }
+[data-reveal="fade"].visible        { opacity: 1; }
+
+/* Stagger containers */
+[data-stagger] > * {
+  opacity: 0; transform: translateY(16px);
+  transition: opacity .5s var(--ease-out), transform .5s var(--ease-out);
+}
+[data-stagger].visible > *             { opacity: 1; transform: none; }
+[data-stagger].visible > *:nth-child(1){ transition-delay: .04s; }
+[data-stagger].visible > *:nth-child(2){ transition-delay: .10s; }
+[data-stagger].visible > *:nth-child(3){ transition-delay: .16s; }
+[data-stagger].visible > *:nth-child(4){ transition-delay: .22s; }
+[data-stagger].visible > *:nth-child(5){ transition-delay: .28s; }
+[data-stagger].visible > *:nth-child(6){ transition-delay: .34s; }
+[data-stagger].visible > *:nth-child(7){ transition-delay: .40s; }
+
+/* ── Buttons ─────────────────────────────────────────────────── */
+.btn-primary {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .7rem 1.5rem; border-radius: 50px;
+  background: var(--gradient); color: #0a0600;
+  font-family: var(--font-body); font-size: .8rem; font-weight: 700;
+  letter-spacing: .04em; text-decoration: none; text-transform: lowercase;
+  border: none; cursor: pointer; white-space: nowrap;
+  box-shadow: 0 4px 20px rgba(201,146,74,.32);
+  transition: opacity .2s, box-shadow .2s, transform .15s;
+}
+.btn-primary:hover  { opacity: .9; box-shadow: 0 6px 28px rgba(201,146,74,.48); transform: translateY(-1px); }
+.btn-primary:active { transform: scale(.97); }
+
+.btn-outline {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .7rem 1.5rem; border-radius: 50px;
+  background: rgba(255,255,255,.05); border: 1px solid rgba(245,239,230,.16);
+  color: rgba(245,239,230,.78);
+  font-family: var(--font-body); font-size: .8rem; font-weight: 500;
+  letter-spacing: .04em; text-decoration: none; text-transform: lowercase;
+  cursor: pointer; backdrop-filter: blur(8px); white-space: nowrap;
+  transition: border-color .2s, background .2s, color .2s, transform .15s;
+}
+.btn-outline:hover { border-color: rgba(245,239,230,.3); background: rgba(255,255,255,.09); color: var(--cream); transform: translateY(-1px); }
+
+/* ── Leaflet dark theme ──────────────────────────────────────── */
+.leaflet-container  { background: var(--bg2) !important; font-family: var(--font-body) !important; }
+.leaflet-control-attribution { background: rgba(10,9,6,.7) !important; color: rgba(245,239,230,.28) !important; font-size: .52rem !important; }
+.leaflet-control-attribution a { color: rgba(201,146,74,.5) !important; }
+.leaflet-control-zoom a { background: rgba(15,13,11,.9) !important; border-color: rgba(245,239,230,.1) !important; color: rgba(245,239,230,.65) !important; }
+.leaflet-control-zoom a:hover { background: rgba(201,146,74,.12) !important; color: var(--g-to) !important; }
+.leaflet-popup-content-wrapper { background: #1c1712 !important; border: 1px solid rgba(201,146,74,.22) !important; border-radius: 14px !important; box-shadow: 0 8px 40px rgba(0,0,0,.55) !important; color: var(--cream) !important; }
+.leaflet-popup-tip { background: #1c1712 !important; }
+.leaflet-popup-close-button { color: rgba(245,239,230,.35) !important; }
+.leaflet-popup-close-button:hover { color: var(--cream) !important; }
+
+/* ── Reduced motion ──────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+  html { scroll-behavior: auto; }
+  [data-reveal], [data-stagger] > * { opacity: 1 !important; transform: none !important; }
+}
+</style>

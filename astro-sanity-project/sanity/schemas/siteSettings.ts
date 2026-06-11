@@ -81,7 +81,7 @@ export const siteSettings = defineType({
     defineField({ name: 'totalReviews', title: 'Total Google Reviews', type: 'number',
       initialValue: 49, validation: R => R.min(0) }),
     defineField({ name: 'averageRating', title: 'Average Rating (1-5)', type: 'number',
-      initialValue: 5.0, validation: R => R.min(1).max(5) }),
+    })
     defineField({ name: 'reviewsGoogleUrl', title: 'Google Reviews URL', type: 'url' }),
   ],
 

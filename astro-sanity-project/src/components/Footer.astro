@@ -1,0 +1,253 @@
+---
+// src/components/Footer.astro  ·  put.in coffee  ·  v2
+// 4-column grid footer · gradient logo · social buttons · legal nav · EN/ID
+---
+
+<footer class="ft" role="contentinfo" id="footer">
+  <div class="ft__top" aria-hidden="true"></div>
+
+  <div class="ft__body">
+    <div class="pc-container">
+      <div class="ft__grid" data-stagger>
+
+      
+    <!-- ── LOGO ──────────────────────────────────────────── -->
+    <a href="#hero" class="pch__logo" aria-label="put.in coffee — home">
+      <!-- favicon-style mark: coffee cup with steam + circle ring -->
+      <div class="pch__mark" aria-hidden="true">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="mg" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#C9924A"/>
+              <stop offset="100%" stop-color="#E8A87C"/>
+            </linearGradient>
+          </defs>
+          <!-- outer ring -->
+          <circle cx="18" cy="18" r="16.5" stroke="url(#mg)" stroke-width="1.3" fill="none"/>
+          <!-- cup body -->
+          <path d="M11 15h14l-1.4 7.5a1.5 1.5 0 01-1.47 1.25H13.87a1.5 1.5 0 01-1.47-1.25L11 15z"
+                stroke="url(#mg)" stroke-width="1.25" fill="rgba(201,146,74,0.08)" stroke-linejoin="round"/>
+          <!-- cup handle -->
+          <path d="M25 17.5h1.5a2 2 0 010 4H25" stroke="url(#mg)" stroke-width="1.25" stroke-linecap="round" fill="none"/>
+          <!-- saucer line -->
+          <path d="M10 23.75h16" stroke="url(#mg)" stroke-width="1.1" stroke-linecap="round"/>
+          <!-- steam wisps -->
+          <path d="M15 13c0-1 1-1.5 1-2.5" stroke="url(#mg)" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+          <path d="M18 12.5c0-1.2 1-1.8 1-3" stroke="url(#mg)" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+          <path d="M21 13c0-1 1-1.5 1-2.5" stroke="url(#mg)" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+        </svg>
+        <!-- animated steam dots -->
+        <span class="pch__steam pch__steam--a" aria-hidden="true"></span>
+        <span class="pch__steam pch__steam--b" aria-hidden="true"></span>
+      </div>
+      <div class="pch__wordmark">
+        <span class="pch__brand">put.in coffee</span>
+        <span class="pch__sub"
+              data-en="pantai biaung · denpasar · bali"
+              data-id="pantai biaung · denpasar · bali">
+          pantai biaung · denpasar · bali
+        </span>
+      </div>
+    </a>
+
+          <!-- Social -->
+          <div class="ft__socials">
+            <a href="https://www.instagram.com/put.in.coffee/" target="_blank" rel="noopener" class="ft__soc ft__soc--ig" aria-label="Instagram @put.in.coffee">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <rect x="2" y="2" width="20" height="20" rx="5.5" stroke="currentColor" stroke-width="1.7" fill="none"/>
+                <circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.7" fill="none"/>
+                <circle cx="17.5" cy="6.5" r="1.3" fill="currentColor"/>
+              </svg>
+            </a>
+            <a href="https://wa.me/6281916334989" target="_blank" rel="noopener" class="ft__soc ft__soc--wa" aria-label="WhatsApp">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M21 12a9 9 0 01-9 9H5l-2 2V12a9 9 0 119 0z" stroke="currentColor" stroke-width="1.6" fill="none"/>
+              </svg>
+            </a>
+            <a href="https://www.tiktok.com/@put.in_coffee" target="_blank" rel="noopener" class="ft__soc" aria-label="TikTok @put.in_coffee">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M9 12a4 4 0 104 4V4a5 5 0 005 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+              </svg>
+            </a>
+            <a href="https://www.google.com/maps/place/put.in+coffee+and+beer" target="_blank" rel="noopener" class="ft__soc" aria-label="Google Maps">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                <circle cx="12" cy="9" r="2.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- ── Col 2: Explore ─────────────────────────────── -->
+        <nav class="ft__col" aria-label="Explore">
+          <h4 class="ft__col-head" data-en="explore" data-id="jelajahi">explore</h4>
+          <ul class="ft__list">
+            {[
+              { href:'#about',    en:'our story',  id_:'kisah kami' },
+              { href:'#reviews',  en:'reviews',    id_:'ulasan' },
+              { href:'#menu',     en:'menu',       id_:'menu' },
+              { href:'#location', en:'location',   id_:'lokasi' },
+            ].map(l => (
+              <li>
+                <a href={l.href} class="ft__link" data-en={l.en} data-id={l.id_}>{l.en}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <!-- ── Col 3: Visit ───────────────────────────────── -->
+        <nav class="ft__col" aria-label="Visit">
+          <h4 class="ft__col-head" data-en="visit" data-id="kunjungi">visit</h4>
+          <ul class="ft__list">
+            {[
+              { href:'#contact', en:'reservations',   id_:'reservasi' },
+              { href:'#contact', en:'private events', id_:'acara privat' },
+              { href:'#contact', en:'gift cards',     id_:'kartu hadiah' },
+              { href:'https://www.google.com/maps/place/put.in+coffee+and+beer', en:'get directions', id_:'dapatkan arah' },
+            ].map(l => (
+              <li>
+                <a href={l.href} class="ft__link"
+                   target={l.href.startsWith('http') ? '_blank' : undefined}
+                   rel={l.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                   data-en={l.en} data-id={l.id_}>{l.en}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <!-- ── Col 4: Connect ─────────────────────────────── -->
+        <div class="ft__col">
+          <h4 class="ft__col-head" data-en="connect" data-id="hubungi">connect</h4>
+          <ul class="ft__list">
+            <li>
+              <a href="tel:+6281916334989" class="ft__link ft__link--icon">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.09-1.26a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+                +62 819-1633-4989
+              </a>
+            </li>
+          
+            <li>
+              <span class="ft__link ft__link--icon ft__link--addr">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="12" cy="9" r="2.5" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>
+                <span data-en="Jl. Pantai Biaung, Sanur, Denpasar, Bali 80228" data-id="Jl. Pantai Biaung, Sanur, Denpasar, Bali 80228">
+                  Jl. Pantai Biaung, Sanur, Denpasar, Bali 80228
+                </span>
+              </span>
+            </li>
+            <li class="ft__hours-mini">
+              <span class="ft__hours-label" data-en="mon–fri" data-id="sen–jumat">mon–fri</span>
+              <span class="ft__hours-time">6am – midnight</span>
+            </li>
+            <li class="ft__hours-mini">
+              <span class="ft__hours-label" data-en="fri–sun" data-id="jumat–minggu">fri–sun</span>
+              <span class="ft__hours-time">12pm – 3am</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom bar -->
+  <div class="ft__bottom">
+    <div class="pc-container">
+      <div class="ft__bottom-inner">
+        <span class="ft__copy">
+          © <span id="ft-year"></span> put.in coffee
+          <span class="ft__copy-sep" aria-hidden="true">·</span>
+          <span data-en="pantai biaung, denpasar, bali" data-id="pantai biaung, denpasar, bali">pantai biaung, denpasar, bali</span>
+        </span>
+        <nav class="ft__legal" aria-label="Legal">
+          <a href="/privacy" class="ft__legal-link" data-en="privacy policy" data-id="kebijakan privasi">privacy policy</a>
+          <span aria-hidden="true">·</span>
+          <a href="/terms" class="ft__legal-link" data-en="terms" data-id="syarat">terms</a>
+          <span aria-hidden="true">·</span>
+          <a href="/sitemap-index.xml" class="ft__legal-link">sitemap</a>
+        </nav>
+        <span class="ft__made" data-en="made with coffee in bali ☕" data-id="dibuat dengan kopi di bali ☕">
+          made with coffee in bali ☕
+        </span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+/* ── Footer ───────────────────────────────────────────── */
+.ft { position: relative; background: var(--bg2, #0f0d0b); }
+
+/* Gradient top border */
+.ft__top { height: 1px; background: linear-gradient(90deg, transparent 0%, rgba(201,146,74,.35) 30%, rgba(232,168,124,.5) 50%, rgba(201,146,74,.35) 70%, transparent 100%); }
+
+/* Body */
+.ft__body { padding: 3.5rem 0 0; }
+
+/* 4-col grid */
+.ft__grid { display: grid; grid-template-columns: 1.8fr 1fr 1fr 1.2fr; gap: 3rem; padding-bottom: 3rem; border-bottom: 1px solid var(--border, rgba(245,239,230,.07)); }
+@media (max-width: 900px) { .ft__grid { grid-template-columns: 1fr 1fr; gap: 2rem; } }
+@media (max-width: 540px) { .ft__grid { grid-template-columns: 1fr; gap: 1.75rem; } }
+
+/* Brand col */
+.ft__logo { display: inline-flex; align-items: center; gap: 9px; text-decoration: none; margin-bottom: .85rem; }
+.ft__logo-name { font-family: var(--font-display, 'Cormorant Garamond', serif); font-size: 1.05rem; font-weight: 600; font-style: italic; background: linear-gradient(135deg, #C9924A, #E8A87C); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.ft__tagline { font-size: .78rem; font-weight: 300; color: var(--muted, rgba(245,239,230,.42)); line-height: 1.7; max-width: 260px; margin: 0 0 1.1rem; text-transform: lowercase; }
+
+/* Socials */
+.ft__socials { display: flex; gap: .45rem; }
+.ft__soc { width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,.04); border: 1px solid rgba(245,239,230,.08); display: flex; align-items: center; justify-content: center; color: var(--muted, rgba(245,239,230,.42)); text-decoration: none; transition: background .2s, color .2s, border-color .2s, transform .18s; }
+.ft__soc:hover { transform: translateY(-2px); background: rgba(201,146,74,.1); border-color: rgba(201,146,74,.3); color: #E8A87C; }
+.ft__soc--ig:hover { background: rgba(221,42,123,.08); border-color: rgba(221,42,123,.3); color: #f77737; }
+.ft__soc--wa:hover { background: rgba(37,211,102,.08); border-color: rgba(37,211,102,.28); color: #4ade80; }
+
+/* Nav cols */
+.ft__col { display: flex; flex-direction: column; gap: 0; }
+.ft__col-head { font-size: .6rem; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; background: linear-gradient(135deg, #C9924A, #E8A87C); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem; }
+.ft__list { list-style: none; display: flex; flex-direction: column; gap: .5rem; }
+.ft__link { font-size: .8rem; font-weight: 300; color: var(--muted, rgba(245,239,230,.42)); text-decoration: none; text-transform: lowercase; transition: color .2s, padding-left .15s; display: block; }
+.ft__link:hover { color: var(--cream, #F5EFE6); padding-left: 4px; }
+.ft__link--icon { display: flex; align-items: flex-start; gap: .5rem; padding-left: 0 !important; }
+.ft__link--icon svg { flex-shrink: 0; color: rgba(201,146,74,.55); margin-top: 3px; }
+.ft__link--addr { cursor: default; }
+.ft__link--addr:hover { color: var(--muted, rgba(245,239,230,.42)); }
+.ft__hours-mini { display: flex; justify-content: space-between; gap: .5rem; padding-top: .25rem; }
+.ft__hours-label { font-size: .72rem; color: var(--muted, rgba(245,239,230,.42)); text-transform: lowercase; }
+.ft__hours-time { font-family: var(--font-display, serif); font-style: italic; font-size: .72rem; background: linear-gradient(135deg, #C9924A, #E8A87C); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Bottom bar */
+.ft__bottom { background: rgba(0,0,0,.25); padding: 1rem 0; }
+.ft__bottom-inner { display: flex; flex-wrap: wrap; gap: .75rem 1.5rem; justify-content: space-between; align-items: center; }
+.ft__copy { font-size: .7rem; color: var(--muted, rgba(245,239,230,.42)); text-transform: lowercase; display: flex; align-items: center; gap: .4rem; flex-wrap: wrap; }
+.ft__copy-sep { color: rgba(245,239,230,.2); }
+.ft__legal { display: flex; align-items: center; gap: .5rem; font-size: .68rem; color: rgba(245,239,230,.2); }
+.ft__legal-link { font-size: .68rem; color: var(--muted, rgba(245,239,230,.42)); text-decoration: none; text-transform: lowercase; transition: color .2s; }
+.ft__legal-link:hover { color: #E8A87C; }
+.ft__made { font-size: .68rem; color: var(--muted, rgba(245,239,230,.42)); text-transform: lowercase; }
+</style>
+
+<script>
+(function () {
+  /* current year */
+  var y = document.getElementById('ft-year'); if (y) y.textContent = new Date().getFullYear();
+
+  /* smooth anchor scroll for footer links */
+  document.querySelectorAll('.ft__link[href^="#"], .ft__logo[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var id = (a.getAttribute('href') || '').slice(1); if (!id) return;
+      var el = document.getElementById(id); if (!el) return;
+      e.preventDefault();
+      var off = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 72;
+      window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - off, behavior: 'smooth' });
+    });
+  });
+
+  /* language */
+  document.addEventListener('pc:lang', function (e) {
+    var id = !!(e.detail && e.detail.isID);
+    document.querySelectorAll('.ft [data-en][data-id]').forEach(function (el) {
+      if (el.children.length > 0) return;
+      var v = id ? el.getAttribute('data-id') : el.getAttribute('data-en'); if (v !== null) el.textContent = v;
+    });
+  });
+})();
+</script>

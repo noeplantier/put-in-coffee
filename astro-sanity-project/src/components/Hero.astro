@@ -1,87 +1,84 @@
 ---
-// src/components/Hero.astro
-// put.in coffee · hero v2 · EN / ID
-
-import type { SiteSettings } from '../types/index.ts';
-export interface Props { settings?: Partial<SiteSettings>; }
-const { settings = {} } = Astro.props;
-
-const subtitle   = settings?.heroSubtitle ?? "specialty coffee on the shoreline. sip slowly, breathe deeply — you're at pantai biaung now.";
-const subtitleId = "kopi spesialti di tepi pantai. minum pelan, nikmati angin — anda sudah di pantai biaung.";
-const reviews    = settings?.totalReviews ?? 49;
+// src/components/Hero.astro  ·  put.in coffee  ·  v3
+// Full-viewport hero · animated reveal · EN/ID · matches v2 design system
 ---
 
 <section class="hero" id="hero" aria-label="welcome to put.in coffee">
 
-  <!-- Background image (loaded via CSS + JS) -->
+  <!-- Background image -->
   <div class="hero__bg" id="hero-bg" aria-hidden="true"></div>
 
-  <!-- Layered overlays -->
+  <!-- Multi-layer overlay -->
   <div class="hero__overlay" aria-hidden="true"></div>
+
+  <!-- Ambient glow orb -->
+  <div class="hero__orb" aria-hidden="true"></div>
 
   <!-- Main content -->
   <div class="hero__body">
 
     <!-- Headline -->
     <h1 class="hero__title" aria-label="put.in coffee — where waves meet coffee">
-      <span class="hero__line-1">put.in coffee</span>
-      <span class="hero__line-2">
-        <span class="hero__line-2-white" data-en="where waves meet coffee" data-id="di mana ombak bertemu kopi">where waves meet coffee</span>
-        <span class="hero__line-2-sep" aria-hidden="true"></span>
+      <span class="hero__t1">put.in coffee</span>
+      <span class="hero__t2" data-en="where waves meet coffee" data-id="di mana ombak bertemu kopi">
+        where waves meet coffee
       </span>
     </h1>
 
     <!-- Subtitle -->
     <p class="hero__sub"
-       data-en={subtitle}
-       data-id={subtitleId}>
-      {subtitle}
+       data-en="specialty coffee on the shoreline. sip slowly..."
+        data-id="kopi spesialti di tepi pantai..."
+        >
+    <p class="hero__sub"
+       data-en="breathe deeply, you're at pantai biaung now."
+       data-id="minum pelan anda sudah di pantai biaung"
+       >
+      specialty coffee on the shoreline. sip slowly..</br>
+      breathe deeply, you're at pantai biaung now..
     </p>
 
     <!-- CTAs -->
     <div class="hero__ctas">
-      <a href="#menu"
-         class="hero__btn hero__btn--primary"
-         data-en="View the menu"
-         data-id="Lihat menu">
-        View the menu
+      <a href="#menu" class="hero__btn hero__btn--primary"
+         data-en="view the menu" data-id="lihat menu">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+        </svg>
+        view the menu
       </a>
-      <a href="#contact"
-         class="hero__btn hero__btn--outline"
-         data-en="Reserve a table"
-         data-id="Reservasi meja">
-        Reserve a table
+      <a href="#contact" class="hero__btn hero__btn--ghost"
+         data-en="reserve a table" data-id="reservasi meja">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+        </svg>
+        reserve a table
       </a>
     </div>
 
     <!-- Google reviews badge -->
-    <div class="hero__reviews" aria-label={`${reviews} five-star Google reviews`}>
-      <!-- Stars -->
-      <div class="hero__stars-row" aria-hidden="true">
+    <div class="hero__badge" aria-label="5.0 stars · 49 Google reviews">
+      <div class="hero__stars" aria-hidden="true">
         {[0,1,2,3,4].map(i => (
-          <svg
-            class="hero__star"
-            style={`animation-delay:${0.9 + i * 0.07}s`}
-            width="14" height="14" viewBox="0 0 14 14" fill="none"
-            aria-hidden="true"
-          >
-            <path d="M7 1l1.545 3.09L12 4.635l-2.5 2.405.59 3.41L7 8.91l-3.09 1.54.59-3.41L2 4.635l3.455-.545L7 1z"
-                  fill="#F4A623" stroke="none"/>
+          <svg class="hero__star" style={`animation-delay:${.9+i*.08}s`}
+               width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M8 1.33l1.76 3.56 3.93.57-2.84 2.77.67 3.91L8 10l-3.52 1.84.67-3.91L2.31 5.46l3.93-.57L8 1.33z"
+                  fill="url(#hsg)"/>
+            <defs>
+              <linearGradient id="hsg" x1="0" y1="0" x2="16" y2="16">
+                <stop offset="0%" stop-color="#C9924A"/>
+                <stop offset="100%" stop-color="#E8A87C"/>
+              </linearGradient>
+            </defs>
           </svg>
         ))}
       </div>
-
-      <!-- Score + count -->
-      <div class="hero__reviews-text">
-        <span class="hero__reviews-score">5.0</span>
-        <span class="hero__reviews-divider" aria-hidden="true">·</span>
-        <span class="hero__reviews-count">
-          <span data-en={`${reviews} reviews on Google`} data-id={`${reviews} ulasan di Google`}>{reviews} reviews on Google</span>
-        </span>
-      </div>
-
-      <!-- Google logo -->
-      <svg class="hero__google-logo" viewBox="0 0 24 24" width="18" height="18" aria-label="Google" role="img">
+      <span class="hero__badge-count"
+            data-en="49 reviews on Google" data-id="49 ulasan di Google">
+        49 reviews on Google
+      </span>
+      <!-- Google logo 4-color -->
+      <svg class="hero__glogo" viewBox="0 0 24 24" width="16" height="16" aria-label="Google" role="img">
         <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
         <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
         <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
@@ -91,7 +88,7 @@ const reviews    = settings?.totalReviews ?? 49;
 
   </div>
 
-  <!-- Scroll indicator -->
+  <!-- Scroll drip -->
   <div class="hero__scroll" aria-hidden="true">
     <div class="hero__scroll-line"></div>
   </div>
@@ -99,380 +96,194 @@ const reviews    = settings?.totalReviews ?? 49;
 </section>
 
 <style>
-/* ── Shell ──────────────────────────────────────────────────── */
+/* ── Shell ─────────────────────────────────────────────── */
 .hero {
-  position: relative;
-  height: 100svh;
-  min-height: 620px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  background: #0b0906;
+  position: relative; height: 100svh; min-height: 620px;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; background: #0a0906;
 }
 
-/* ── Background ─────────────────────────────────────────────── */
+/* ── Background ────────────────────────────────────────── */
 .hero__bg {
   position: absolute; inset: 0; z-index: 0;
   background-image: url('/hero.jpg');
-  background-size: cover;
-  background-position: center 35%;
-  transform: scale(1.06);
-  opacity: 0;
+  background-size: cover; background-position: center 35%;
+  opacity: 0; transform: scale(1.06);
   transition: opacity 1.1s ease, transform 18s ease-out;
-  will-change: transform, opacity;
+  will-change: opacity, transform;
 }
-.hero__bg.loaded {
-  opacity: 1;
-  transform: scale(1);
-}
+.hero__bg.loaded { opacity: 1; transform: scale(1); }
 
-/* ── Overlays ───────────────────────────────────────────────── */
+/* ── Overlay ───────────────────────────────────────────── */
 .hero__overlay {
   position: absolute; inset: 0; z-index: 1;
   background:
-    linear-gradient(
-      to bottom,
-      rgba(11,9,6,0.52)  0%,
-      rgba(11,9,6,0.22) 38%,
-      rgba(11,9,6,0.38) 62%,
-      rgba(11,9,6,0.92) 100%
-    ),
-    linear-gradient(
-      to right,
-      rgba(11,9,6,0.38) 0%,
-      transparent 60%
-    );
+    linear-gradient(to bottom, rgba(10,9,6,.55) 0%, rgba(10,9,6,.18) 38%, rgba(10,9,6,.4) 62%, rgba(10,9,6,.93) 100%),
+    linear-gradient(to right, rgba(10,9,6,.4) 0%, transparent 60%);
 }
 
-/* ── Body ───────────────────────────────────────────────────── */
+/* ── Ambient glow ──────────────────────────────────────── */
+.hero__orb {
+  position: absolute; z-index: 1;
+  width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,146,74,.08) 0%, transparent 70%);
+  bottom: -100px; left: 50%; transform: translateX(-50%);
+  pointer-events: none;
+  animation: orb-pulse 6s ease-in-out infinite;
+}
+@keyframes orb-pulse { 0%,100%{opacity:.6;} 50%{opacity:1;} }
+
+/* ── Body ──────────────────────────────────────────────── */
 .hero__body {
-  position: relative; z-index: 2;
-  text-align: center;
-  max-width: 860px;
-  padding: 0 1.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.75rem;
+  position: relative; z-index: 2; text-align: center;
+  max-width: 860px; padding: 0 1.5rem;
+  display: flex; flex-direction: column; align-items: center; gap: 1.65rem;
 }
 
-/* ── Live badge ─────────────────────────────────────────────── */
+/* ── Live badge ────────────────────────────────────────── */
 .hero__live {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 0.38rem 0.9rem;
-  border-radius: 50px;
-  border: 1px solid rgba(255,255,255,0.1);
-  background: rgba(11,9,6,0.4);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  font-size: 0.68rem;
-  font-weight: 400;
-  letter-spacing: 0.1em;
-  color: rgba(240,232,220,0.55);
-  text-transform: lowercase;
-  animation: hero-fade-down 0.7s ease 0.1s both;
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: .38rem .9rem; border-radius: 50px;
+  border: 1px solid rgba(255,255,255,.1); background: rgba(10,9,6,.42);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  font-size: .68rem; font-weight: 400; letter-spacing: .1em;
+  color: rgba(245,239,230,.52); text-transform: lowercase;
+  animation: hfu 0.7s ease .1s both;
 }
 .hero__live-dot {
-  width: 5px; height: 5px;
-  border-radius: 50%;
-  background: #5bdb83;
-  box-shadow: 0 0 6px #5bdb83;
-  animation: pulse-dot 2.6s ease-in-out infinite;
-  flex-shrink: 0;
+  width: 5px; height: 5px; border-radius: 50%;
+  background: #5bdb83; box-shadow: 0 0 7px rgba(91,219,131,.65); flex-shrink: 0;
+  animation: hdot 2.6s ease-in-out infinite;
 }
-@keyframes pulse-dot {
-  0%,100% { opacity:1; box-shadow:0 0 6px #5bdb83; }
-  50%     { opacity:0.5; box-shadow:0 0 2px #5bdb83; }
-}
+@keyframes hdot { 0%,100%{box-shadow:0 0 6px rgba(91,219,131,.5);} 50%{box-shadow:0 0 2px rgba(91,219,131,.2);} }
 
-/* ── Headline ───────────────────────────────────────────────── */
+/* ── Headline ──────────────────────────────────────────── */
 .hero__title {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.15em;
-  margin: 0;
-  font-family: var(--font-display, serif);
+  display: flex; flex-direction: column; align-items: center; 
+  margin: 0; 
+  font-family: var(--font-body, sans-serif);
+  font-weight: 500; letter-spacing: -.025em; line-height: 1;
+  text-shadow: 0 2px 40px rgba(0,0,0,.5);
+  animation: hfu .9s ease .25s both;
+}
+.hero__t1 {
+  display: block; font-size: clamp(3rem, 10vw, 8rem);
+  color: #fff; text-transform: lowercase;
+  font-family: var(--font-body, sans-serif)
+}
+.hero__t2 {
+  display: flex; align-items: center; justify-content: center; gap: .3em;
+  font-size: clamp(1.4rem, 4.2vw, 3.2rem); 
+  color: #fff; 
   font-weight: 400;
-  letter-spacing: -0.025em;
-  line-height: 1.0;
-  text-shadow: 0 2px 40px rgba(0,0,0,0.5);
-  animation: hero-fade-up 0.9s ease 0.25s both;
+  font-family: var(--font-body, sans-serif)
 }
+.hero__t2-sep { color: rgba(255,255,255,.3); font-style: normal; font-size: .65em; }
 
-/* Line 1: put.in coffee — white, biggest */
-.hero__line-1 {
-  display: block;
-  font-size: clamp(3.2rem, 10vw, 8rem);
-  color: #ffffff;
-  text-transform: lowercase;
-  font-weight: 500;
-  letter-spacing: -0.03em;
-}
-
-/* Line 2: where waves · meet coffee */
-.hero__line-2 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.35em;
-  font-size: clamp(1.6rem, 4.5vw, 3.4rem);
-  text-transform: lowercase;
-}
-.hero__line-2-white {
-  color: rgb(255, 255, 255);
-  font-weight: 500;
-}
-/* Thin separator dot between the two parts */
-.hero__line-2-sep {
-  display: block;
-  width: 4px; height: 4px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.25);
-  flex-shrink: 0;
-  margin-bottom: 2px;
-}
-.hero__line-2-gold {
-  font-style: italic;
-  font-weight: 400;
-  background: linear-gradient(120deg, #E8C97A 0%, #f0d898 50%, #C9924A 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* ── Subtitle ───────────────────────────────────────────────── */
+/* ── Subtitle ──────────────────────────────────────────── */
 .hero__sub {
-  font-family: var(--font-body, sans-serif);
-  font-size: clamp(0.85rem, 2vw, 1rem);
-  font-weight: 300;
-  line-height: 1.72;
-  color: rgb(255, 255, 255);
-  max-width: 460px;
-  margin: 0;
-  text-transform: lowercase;
-  animation: hero-fade-up 0.9s ease 0.42s both;
+  font-family: var(--font-body, 'Jost', sans-serif);
+  font-size: clamp(1.5rem, 2vw, 1rem); font-weight: 300; line-height: 1.72;
+  color: rgba(245,239,230,.78); max-width: 460px; margin: 0; text-transform: lowercase;
+  animation: hfu .9s ease .42s both;
 }
 
-/* ── CTAs ───────────────────────────────────────────────────── */
-.hero__ctas {
-  display: flex;
-  gap: 0.65rem;
-  flex-wrap: wrap;
-  justify-content: center;
-  animation: hero-fade-up 0.9s ease 0.56s both;
-}
-
+/* ── CTAs ──────────────────────────────────────────────── */
+.hero__ctas { display: flex; gap: .65rem; flex-wrap: wrap; justify-content: center; animation: hfu .9s ease .56s both; }
 .hero__btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.72rem 1.6rem;
-  border-radius: 50px;
-  font-family: var(--font-body, sans-serif);
-  font-size: 0.82rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  text-decoration: none;
-  text-transform: lowercase;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.15s;
-  white-space: nowrap;
+  display: inline-flex; align-items: center; gap: .45rem;
+  padding: .72rem 1.6rem; border-radius: 50px;
+  font-family: var(--font-body, sans-serif); font-size: .82rem; font-weight: 600;
+  letter-spacing: .03em; text-decoration: none; text-transform: lowercase;
+  cursor: pointer; white-space: nowrap;
+  transition: opacity .2s, box-shadow .2s, background .2s, transform .15s;
   -webkit-tap-highlight-color: transparent;
 }
-.hero__btn:active { transform: scale(0.97); }
-
-/* Primary: filled gold */
+.hero__btn:active { transform: scale(.97); }
 .hero__btn--primary {
   background: linear-gradient(135deg, #C9924A, #E8A87C);
-  color:rgb(255, 255, 255);
-  border: 1px solid transparent;
-  box-shadow: 0 4px 18px rgba(201,146,74,0.32);
+  color: #0a0600; border: 1px solid transparent;
+  box-shadow: 0 4px 18px rgba(201,146,74,.34);
 }
-.hero__btn--primary:hover {
-  background: linear-gradient(135deg, #d9a05a, #edb88c);
-  box-shadow: 0 6px 24px rgba(201,146,74,0.45);
+.hero__btn--primary:hover { opacity: .9; box-shadow: 0 6px 26px rgba(201,146,74,.5); transform: translateY(-1px); }
+.hero__btn--ghost {
+  background: rgba(255,255,255,.07); color: rgba(245,239,230,.82);
+  border: 1px solid rgba(255,255,255,.18);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
 }
-.hero__btn:focus-visible {
-  outline: 2px solid #C9924A;
-  outline-offset: 3px;
-}
+.hero__btn--ghost:hover { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.28); color: #fff; transform: translateY(-1px); }
 
-/* Outline: ghost */
-.hero__btn--outline {
-  background: rgba(255,255,255,0.06);
-  color: rgba(240,232,220,0.82);
-  border: 1px solid rgba(255,255,255,0.18);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+/* ── Google badge ──────────────────────────────────────── */
+.hero__badge {
+  display: inline-flex; align-items: center; gap: .6rem;
+  padding: .52rem .95rem .52rem .8rem; border-radius: 50px;
+  background: rgba(10,9,6,.52); border: 1px solid rgba(255,255,255,.1);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  animation: hfu .9s ease .7s both;
 }
-.hero__btn--outline:hover {
-  background: rgba(255,255,255,0.11);
-  border-color: rgba(255,255,255,0.28);
-  color: #ffffff;
-}
+.hero__stars { display: flex; gap: 1px; align-items: center; }
+.hero__star { display: block; animation: hstar .3s cubic-bezier(.34,1.56,.64,1) both; }
+@keyframes hstar { from{transform:scale(0);opacity:0;} to{transform:scale(1);opacity:1;} }
+.hero__badge-score { font-family: var(--font-body, sans-serif); font-size: .82rem; font-weight: 700; color: #fff; }
+.hero__badge-sep { color: rgba(255,255,255,.22); font-size: .7rem; }
+.hero__badge-count { font-size: .7rem; font-weight: 300; color: rgba(245,239,230,.48); white-space: nowrap; }
+.hero__glogo { flex-shrink: 0; opacity: .82; }
 
-/* ── Google reviews badge ───────────────────────────────────── */
-.hero__reviews {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.65rem;
-  padding: 0.55rem 1rem 0.55rem 0.85rem;
-  border-radius: 50px;
-  background: rgba(11,9,6,0.5);
-  border: 1px solid rgba(255,255,255,0.1);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  animation: hero-fade-up 0.9s ease 0.7s both;
-}
+/* ── Scroll drip ───────────────────────────────────────── */
+.hero__scroll { position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); z-index: 2; animation: hfi 1s ease 1.2s both; }
+.hero__scroll-line { width: 1px; height: 44px; background: linear-gradient(to bottom, rgba(201,146,74,.55), transparent); animation: drip 2.4s ease-in-out infinite; transform-origin: top; }
+@keyframes drip { 0%{transform:scaleY(0);opacity:0;transform-origin:top;} 45%{transform:scaleY(1);opacity:.75;} 100%{transform:scaleY(1);opacity:0;transform-origin:bottom;} }
 
-.hero__stars-row {
-  display: flex;
-  align-items: center;
-  gap: 1px;
-}
-.hero__star {
-  display: block;
-  animation: star-pop 0.3s cubic-bezier(0.34,1.56,0.64,1) both;
-  flex-shrink: 0;
-}
-@keyframes star-pop {
-  from { transform:scale(0); opacity:0; }
-  to   { transform:scale(1); opacity:1; }
-}
+/* ── Keyframes ─────────────────────────────────────────── */
+@keyframes hfu { from{opacity:0;transform:translateY(18px);} to{opacity:1;transform:none;} }
+@keyframes hfi { from{opacity:0;} to{opacity:1;} }
 
-.hero__reviews-text {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-family: var(--font-body, sans-serif);
-}
-.hero__reviews-score {
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: #ffffff;
-  letter-spacing: 0.01em;
-}
-.hero__reviews-divider {
-  font-size: 0.7rem;
-  color: rgba(255,255,255,0.25);
-}
-.hero__reviews-count {
-  font-size: 0.72rem;
-  font-weight: 300;
-  color: rgba(240,232,220,0.5);
-  white-space: nowrap;
-}
-
-.hero__google-logo {
-  flex-shrink: 0;
-  opacity: 0.8;
-}
-
-/* separator line between stars and text */
-.hero__reviews::after {
-  content: none;
-}
-
-/* ── Scroll indicator ───────────────────────────────────────── */
-.hero__scroll {
-  position: absolute;
-  bottom: 2.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
-  animation: hero-fade-in 1s ease 1.2s both;
-}
-.hero__scroll-line {
-  width: 1px; height: 44px;
-  background: linear-gradient(to bottom, rgba(201,146,74,0.55), transparent);
-  animation: scroll-drip 2.4s ease-in-out infinite;
-  transform-origin: top;
-}
-@keyframes scroll-drip {
-  0%   { transform:scaleY(0); opacity:0; transform-origin:top; }
-  45%  { transform:scaleY(1); opacity:0.75; }
-  100% { transform:scaleY(1); opacity:0; transform-origin:bottom; }
-}
-
-/* ── Keyframes ──────────────────────────────────────────────── */
-@keyframes hero-fade-down {
-  from { opacity:0; transform:translateY(-10px); }
-  to   { opacity:1; transform:translateY(0); }
-}
-@keyframes hero-fade-up {
-  from { opacity:0; transform:translateY(18px); }
-  to   { opacity:1; transform:translateY(0); }
-}
-@keyframes hero-fade-in {
-  from { opacity:0; }
-  to   { opacity:1; }
-}
-
-/* ── Responsive ─────────────────────────────────────────────── */
+/* ── Responsive ────────────────────────────────────────── */
 @media (max-width: 540px) {
-  .hero__body { gap: 1.35rem; }
-  .hero__line-2-sep { display: none; }
-  .hero__line-2 { gap: 0.25em; flex-wrap: wrap; }
-  .hero__reviews-count { display: none; }
-  .hero__ctas { gap: 0.5rem; }
-  .hero__btn { padding: 0.65rem 1.35rem; font-size: 0.78rem; }
+  .hero__body { gap: 1.3rem; }
+  .hero__t2-sep { display: none; }
+  .hero__badge-count { display: none; }
+  .hero__btn { padding: .65rem 1.35rem; font-size: .78rem; }
 }
-
 @media (prefers-reduced-motion: reduce) {
-  .hero__bg,
-  .hero__star,
-  .hero__scroll-line,
-  .hero__live-dot { animation: none !important; transition: none !important; }
+  .hero__bg, .hero__star, .hero__scroll-line, .hero__live-dot, .hero__orb, .hero__body > *, .hero__live, .hero__title, .hero__sub, .hero__ctas, .hero__badge, .hero__scroll { animation: none !important; transition: none !important; }
   .hero__bg.loaded { opacity: 1; transform: none; }
 }
 </style>
 
 <script>
 (function () {
-
-  // ── Background image fade-in + subtle parallax ────────────
+  /* BG image fade-in */
   var bg = document.getElementById('hero-bg');
   if (bg) {
-    // Trigger load via a hidden Image object so we can detect completion
-    var img = new Image();
-    img.onload = function () {
-      if (bg) bg.classList.add('loaded');
-    };
-    img.src = '/hero.jpg';
-    // If already cached
-    if (img.complete) { if (bg) bg.classList.add('loaded'); }
+    var img = new Image(); img.src = '/hero.jpg';
+    img.onload = function () { if (bg) bg.classList.add('loaded'); };
+    if (img.complete) { bg.classList.add('loaded'); }
   }
 
-  // ── Language ──────────────────────────────────────────────
+  /* Language */
   document.addEventListener('pc:lang', function (e) {
-    var isID = e.detail && e.detail.isID;
-
-    // Simple text nodes
-    document.querySelectorAll('[data-en][data-id]').forEach(function (el) {
-      // skip if has child elements (buttons, spans)
+    var id = !!(e.detail && e.detail.isID);
+    document.querySelectorAll('.hero [data-en][data-id]').forEach(function (el) {
+      if (el.tagName === 'SPAN' && el.parentElement && el.parentElement.tagName === 'H1') return; // handled below
       if (el.children.length > 0) return;
-      var val = isID ? el.getAttribute('data-id') : el.getAttribute('data-en');
-      if (val !== null) el.textContent = val;
+      var v = id ? el.getAttribute('data-id') : el.getAttribute('data-en'); if (v !== null) el.textContent = v;
     });
-
-    // CTA buttons — they have plain text directly (no child elements)
+    /* headline line 2 */
+    var t2 = document.querySelector('.hero__t2'); if (t2) {
+      var v2 = id ? (t2.getAttribute('data-id')||'') : (t2.getAttribute('data-en')||''); if (v2) {
+        var parts = v2.split('·'); var sep = t2.querySelector('.hero__t2-sep');
+        t2.childNodes.forEach(function(n){ if(n.nodeType===3) n.remove(); });
+        if (parts[0]) { var tn = document.createTextNode(parts[0].trim() + ' '); t2.insertBefore(tn, sep || t2.firstChild); }
+        if (sep) { t2.appendChild(sep); }
+        if (parts[1]) { var tn2 = document.createTextNode(' ' + parts[1].trim()); t2.appendChild(tn2); }
+      }
+    }
+    /* CTAs */
     document.querySelectorAll('.hero__btn[data-en][data-id]').forEach(function (btn) {
-      var val = isID ? btn.getAttribute('data-id') : btn.getAttribute('data-en');
-      if (val !== null) btn.textContent = val;
+      var svg = btn.querySelector('svg'); var v3 = id ? btn.getAttribute('data-id') : btn.getAttribute('data-en');
+      if (v3) { btn.textContent = v3; if (svg) btn.insertBefore(svg, btn.firstChild); }
     });
   });
-
-  // ── Plausible ─────────────────────────────────────────────
-  document.querySelectorAll('[data-event]').forEach(function (el) {
-    el.addEventListener('click', function () {
-      var ev = el.getAttribute('data-event');
-      if (ev && window.plausible) window.plausible(ev);
-    });
-  });
-
 })();
 </script>

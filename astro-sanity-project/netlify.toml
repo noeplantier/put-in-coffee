@@ -6,7 +6,7 @@
 [build]
   base = "astro-sanity-project"
   command = "npm run build"
-  publish = "astro-sanity-project/dist"
+  publish = "dist"
 
 [build.environment]
   NODE_VERSION = "22.12.0"

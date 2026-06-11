@@ -9,15 +9,14 @@
   publish = "astro-sanity-project/dist"
 
 [build.environment]
-  NODE_VERSION    = "20"
-  NPM_FLAGS       = "--legacy-peer-deps"
+  NODE_VERSION = "20"
+  NPM_FLAGS = "--legacy-peer-deps"
 
-# ── Dev server ─────────────────────────────────────────────
 [dev]
-  command         = "npm run dev"
-  port            = 4321
-  targetPort      = 4321
-  autoLaunch      = false
+  command = "npm run dev"
+  port = 4321
+  targetPort = 4321
+  autoLaunch = false
 
 # ══════════════════════════════════════════════════════════════
 #  SECURITY HEADERS — applied to every response

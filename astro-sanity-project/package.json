@@ -9,22 +9,23 @@
     "npm": ">=10.0.0"
   },
   "scripts": {
-    "dev":     "astro dev",
-    "build":   "astro check && astro build",
+    "dev": "astro dev",
+    "build": "astro check && astro build",
     "preview": "astro preview",
-    "check":   "astro check",
-    "lint":    "eslint src --ext .ts,.astro --report-unused-disable-directives",
-    "clean":   "rm -rf dist .astro node_modules/.cache"
+    "check": "astro check",
+    "lint": "eslint src --ext .ts,.astro --report-unused-disable-directives",
+    "clean": "rm -rf dist .astro node_modules/.cache"
   },
   "dependencies": {
-    "@astrojs/check":       "^0.9.4",
-    "astro":                "^4.16.6",
-    "typescript":           "^5.6.3"
+    "@astrojs/check": "^0.9.4",
+    "astro": "^4.16.6",
+    "typescript": "^5.6.3",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^8.0.0",
-    "@typescript-eslint/parser":        "^8.0.0",
-    "eslint":                           "^9.0.0",
-    "eslint-plugin-astro":              "^1.3.0"
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^9.0.0",
+    "eslint-plugin-astro": "^1.3.0"
   }
 }

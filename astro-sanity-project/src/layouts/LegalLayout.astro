@@ -1,7 +1,6 @@
 ---
-// src/layouts/LegalLayout.astro
-// put.in café · legal pages shared layout · EN / ID
-
+// src/layouts/LegalLayout.astro  ·  put.in coffee
+// Shared legal shell · sticky header · EN/ID · full dark design system
 interface Props {
   title:       string;
   titleId:     string;
@@ -10,6 +9,11 @@ interface Props {
   section:     'privacy' | 'terms' | 'sitemap';
 }
 const { title, titleId, description, lastUpdated, section } = Astro.props;
+const ey = {
+  privacy: { en: 'legal · privacy',      id: 'hukum · privasi'      },
+  terms:   { en: 'legal · terms',         id: 'hukum · ketentuan'    },
+  sitemap: { en: 'navigation · sitemap',  id: 'navigasi · peta situs'},
+}[section];
 ---
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -17,199 +21,365 @@ const { title, titleId, description, lastUpdated, section } = Astro.props;
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="description" content={description}/>
-  <meta name="robots" content="index, follow"/>
   <meta name="theme-color" content="#C9924A"/>
   <title>{title} · put.in coffee</title>
   <link rel="canonical" href={`https://www.putincoffee.com/${section}`}/>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
-  <link rel="manifest" href="/site.webmanifest"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 </head>
 <body>
 
-<!-- ── Minimal nav ─────────────────────────────────────────── -->
+<!-- ── Sticky mini-header ──────────────────────────────── -->
 <header class="lh" id="lh" role="banner">
   <div class="lh__inner">
-    <a href="/" class="lh__logo" aria-label="put.in coffee — home">
-      <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
-        <circle cx="18" cy="18" r="17" stroke="url(#llg)" stroke-width="1.4"/>
-        <path d="M10 19h3l1 5H22l1-5h3" stroke="url(#llg)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        <path d="M13 19V15a5 5 0 0110 0v4" stroke="url(#llg)" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+    <a href="/" class="lh__logo" aria-label="put.in coffee — back to home">
+      <!-- Cup mark — same as main Header -->
+      <svg width="26" height="26" viewBox="0 0 36 36" fill="none">
         <defs>
           <linearGradient id="llg" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stop-color="#E8A87C"/>
-            <stop offset="100%" stop-color="#C9924A"/>
+            <stop offset="0%"   stop-color="#C9924A"/>
+            <stop offset="100%" stop-color="#E8A87C"/>
           </linearGradient>
         </defs>
+        <circle cx="18" cy="18" r="16.5" stroke="url(#llg)" stroke-width="1.3" fill="none"/>
+        <path d="M11 15h14l-1.4 7.5a1.5 1.5 0 01-1.47 1.25H13.87a1.5 1.5 0 01-1.47-1.25L11 15z"
+              stroke="url(#llg)" stroke-width="1.25" fill="rgba(201,146,74,0.07)" stroke-linejoin="round"/>
+        <path d="M25 17.5h1.5a2 2 0 010 4H25" stroke="url(#llg)" stroke-width="1.25" stroke-linecap="round" fill="none"/>
+        <path d="M10 23.75h16" stroke="url(#llg)" stroke-width="1.1" stroke-linecap="round"/>
+        <path d="M15 13c0-1 1-1.5 1-2.5M18 12.5c0-1.2 1-1.8 1-3M21 13c0-1 1-1.5 1-2.5"
+              stroke="url(#llg)" stroke-width="1" stroke-linecap="round"/>
       </svg>
       <div>
         <span class="lh__brand">put.in coffee</span>
         <span class="lh__sub">pantai biaung · denpasar · bali</span>
       </div>
     </a>
-    <div class="lh__controls">
-      <button id="ll-lang" class="lh__lang" aria-label="Toggle language EN / ID" aria-pressed="false" type="button">
-        <span class="l-en">EN</span>
-        <span class="l-sep" aria-hidden="true"></span>
-        <span class="l-id">ID</span>
+
+    <div class="lh__right">
+      <!-- Language toggle -->
+      <button id="ll-lang" class="lh__lang" data-lang-toggle
+              aria-label="Switch language EN / ID"
+              aria-pressed="false" type="button">
+        <span class="ll-en">EN</span>
+        <span class="ll-sep" aria-hidden="true"></span>
+        <span class="ll-id">ID</span>
       </button>
-      <a href="/" class="lh__back" data-en="← back to site" data-id="← kembali ke situs">← back to site</a>
+      <!-- Back link -->
+      <a href="/" class="lh__back"
+         data-en="← back to site" data-id="← kembali ke situs">← back to site</a>
     </div>
   </div>
+  <!-- Read progress bar -->
+  <div class="lh__progress" id="lh-progress" aria-hidden="true"></div>
 </header>
 
-<!-- ── Page wrapper ────────────────────────────────────────── -->
+<!-- ── Main ────────────────────────────────────────────── -->
 <main class="lp" id="main">
 
   <!-- Hero band -->
   <div class="lp__hero">
-    <div class="lp__hero-inner">
-      <p class="lp__eyebrow" id="lp-eyebrow"
-         data-en={section === 'privacy' ? 'legal · privacy' : section === 'terms' ? 'legal · terms' : 'navigation · sitemap'}
-         data-id={section === 'privacy' ? 'hukum · privasi' : section === 'terms' ? 'hukum · ketentuan' : 'navigasi · peta situs'}>
-        {section === 'privacy' ? 'legal · privacy' : section === 'terms' ? 'legal · terms' : 'navigation · sitemap'}
-      </p>
-      <h1 class="lp__title">
-        <span class="lp__title-en" data-en={title}>{title}</span>
-      </h1>
-      <p class="lp__updated" id="lp-updated"
-         data-en={`last updated ${lastUpdated}`}
-         data-id={`terakhir diperbarui ${lastUpdated}`}>
-        last updated {lastUpdated}
-      </p>
-    </div>
-    <div class="lp__hero-line" aria-hidden="true"></div>
+    <p class="lp__eyebrow" data-en={ey.en} data-id={ey.id}>{ey.en}</p>
+    <h1 class="lp__title" data-en={title} data-id={titleId}>{title}</h1>
+    <p class="lp__meta"
+       data-en={`last updated · ${lastUpdated}`}
+       data-id={`terakhir diperbarui · ${lastUpdated}`}>
+      last updated · {lastUpdated}
+    </p>
+    <div class="lp__rule" aria-hidden="true"></div>
   </div>
 
-  <!-- Content slot -->
-  <div class="lp__body">
+  <!-- Content -->
+  <article class="lp__body">
     <div class="lp__container">
       <slot/>
     </div>
-  </div>
+  </article>
 
 </main>
 
-<!-- ── Footer ──────────────────────────────────────────────── -->
+<!-- ── Footer ───────────────────────────────────────────── -->
 <footer class="lf" role="contentinfo">
   <div class="lf__inner">
-    <div class="lf__links">
-      <a href="/privacy" class={`lf__link${section==='privacy'?' lf__link--on':''}`} data-en="Privacy Policy" data-id="Kebijakan Privasi">Privacy Policy</a>
+    <nav class="lf__nav" aria-label="Legal">
+      <a href="/privacy"
+         class={`lf__link${section==='privacy'?' lf__link--on':''}`}
+         data-en="Privacy Policy" data-id="Kebijakan Privasi">Privacy Policy</a>
       <span class="lf__dot" aria-hidden="true">·</span>
-      <a href="/terms"   class={`lf__link${section==='terms'  ?' lf__link--on':''}`} data-en="Terms of Use"   data-id="Syarat Penggunaan">Terms of Use</a>
+      <a href="/terms"
+         class={`lf__link${section==='terms'?' lf__link--on':''}`}
+         data-en="Terms of Use" data-id="Syarat Penggunaan">Terms of Use</a>
       <span class="lf__dot" aria-hidden="true">·</span>
-      <a href="/sitemap-index.xml" class={`lf__link${section==='sitemap'?' lf__link--on':''}`} data-en="Sitemap" data-id="Peta Situs">Sitemap</a>
-    </div>
-    <p class="lf__copy" data-en={`© ${new Date().getFullYear()} put.in coffee · Pantai Biaung, Denpasar, Bali`} data-id={`© ${new Date().getFullYear()} put.in coffee · Pantai Biaung, Denpasar, Bali`}>
-      © {new Date().getFullYear()} put.in coffee · Pantai Biaung, Denpasar, Bali
-    </p>
+      <a href="/sitemap"
+         class={`lf__link${section==='sitemap'?' lf__link--on':''}`}
+         data-en="Sitemap" data-id="Peta Situs">Sitemap</a>
+    </nav>
+    <p class="lf__copy">© {new Date().getFullYear()} put.in coffee · pantai biaung, denpasar, bali</p>
   </div>
 </footer>
 
 <style>
-/* ── Tokens ─────────────────────────────────────────────────── */
+/* ═══ RESET + TOKENS ═════════════════════════════════════ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --gold:#C9924A; --gold-lt:#E8C97A; --coral:#E07A5F;
-  --cream:#F0E8DC; --muted:rgba(240,232,220,0.48);
-  --border:rgba(240,232,220,0.08); --glass:rgba(240,232,220,0.03);
-  --bg:#0e0d0b; --bg2:#131110;
-  --font-body:'Jost','Inter',sans-serif;
+  --g-from:#C9924A;--g-to:#E8A87C;
+  --gradient:linear-gradient(135deg,var(--g-from),var(--g-to));
+  --bg:#0a0906;--bg2:#0f0d0b;--bg3:#141210;
+  --glass:rgba(255,255,255,0.032);--glass-hi:rgba(255,255,255,0.055);
+  --cream:#F5EFE6;--muted:rgba(245,239,230,0.42);--muted-hi:rgba(245,239,230,0.65);
+  --border:rgba(245,239,230,0.07);--border-hi:rgba(245,239,230,0.13);
+  --font-body:'Jost','Inter',system-ui,sans-serif;
   --font-display:'Cormorant Garamond',Georgia,serif;
+  --ease-out:cubic-bezier(0.22,1,0.36,1);
 }
-html{scroll-behavior:smooth; font-size:16px;}
-body{background:var(--bg);color:var(--cream);font-family:var(--font-body);font-weight:300;line-height:1.7;min-height:100vh;display:flex;flex-direction:column;}
+html{scroll-behavior:smooth;font-size:16px;}
+body{
+  background:var(--bg);color:var(--cream);
+  font-family:var(--font-body);font-weight:300;line-height:1.7;
+  overflow-x:hidden;min-height:100vh;
+  display:flex;flex-direction:column;
+  scrollbar-width:thin;scrollbar-color:var(--g-from) transparent;
+}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--gradient);border-radius:2px;}
 
-/* ── Legal header ────────────────────────────────────────────── */
-.lh{position:sticky;top:0;z-index:200;height:64px;background:rgba(14,13,11,0.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
-.lh__inner{max-width:860px;margin:0 auto;padding:0 1.5rem;height:100%;display:flex;align-items:center;justify-content:space-between;gap:1rem;}
+/* ═══ HEADER ═════════════════════════════════════════════ */
+.lh{
+  position:sticky;top:0;z-index:200;height:60px;
+  background:rgba(10,9,6,.88);
+  backdrop-filter:blur(18px) saturate(1.5);
+  -webkit-backdrop-filter:blur(18px) saturate(1.5);
+  border-bottom:1px solid var(--border);
+}
+.lh__inner{
+  max-width:800px;margin:0 auto;padding:0 1.5rem;
+  height:100%;display:flex;align-items:center;justify-content:space-between;gap:1rem;
+}
 .lh__logo{display:flex;align-items:center;gap:9px;text-decoration:none;}
-.lh__brand{display:block;font-family:var(--font-display);font-size:.95rem;font-weight:600;font-style:italic;color:var(--cream);}
-.lh__sub{display:block;font-size:.52rem;letter-spacing:.12em;text-transform:lowercase;color:var(--muted);line-height:1;margin-top:2px;}
-.lh__controls{display:flex;align-items:center;gap:.65rem;}
-.lh__lang{display:flex;align-items:center;gap:4px;font-family:var(--font-body);font-size:.62rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:50px;padding:4px 10px;cursor:pointer;transition:border-color .2s,background .2s;}
-.lh__lang:hover{border-color:rgba(232,199,122,.35);background:rgba(232,199,122,.06);}
-.l-sep{width:1px;height:9px;background:var(--border);}
-.lh__lang[aria-pressed="false"] .l-en{color:var(--gold-lt);font-weight:700;}
-.lh__lang[aria-pressed="false"] .l-id{color:var(--muted);}
-.lh__lang[aria-pressed="true"]  .l-id{color:var(--gold-lt);font-weight:700;}
-.lh__lang[aria-pressed="true"]  .l-en{color:var(--muted);}
-.lh__back{font-size:.72rem;font-weight:400;letter-spacing:.04em;color:var(--muted);text-decoration:none;text-transform:lowercase;transition:color .2s;white-space:nowrap;}
+.lh__brand{
+  display:block;font-family:var(--font-display);
+  font-size:.93rem;font-weight:600;font-style:italic;color:var(--cream);
+}
+.lh__sub{
+  display:block;font-size:.48rem;letter-spacing:.13em;
+  text-transform:lowercase;color:var(--muted);line-height:1;margin-top:2px;
+}
+.lh__right{display:flex;align-items:center;gap:.6rem;}
+/* Lang */
+.lh__lang{
+  display:flex;align-items:center;gap:4px;
+  font-family:var(--font-body);font-size:.61rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);background:rgba(255,255,255,.05);border:1px solid var(--border);
+  border-radius:50px;padding:4px 10px;cursor:pointer;
+  transition:border-color .2s,background .2s;
+}
+.lh__lang:hover{border-color:rgba(232,168,124,.35);background:rgba(201,146,74,.06);}
+.ll-sep{width:1px;height:9px;background:var(--border);}
+.lh__lang[aria-pressed="false"] .ll-en{color:var(--g-to);font-weight:700;}
+.lh__lang[aria-pressed="false"] .ll-id{color:var(--muted);}
+.lh__lang[aria-pressed="true"]  .ll-id{color:var(--g-to);font-weight:700;}
+.lh__lang[aria-pressed="true"]  .ll-en{color:var(--muted);}
+/* Back */
+.lh__back{
+  font-size:.7rem;font-weight:400;color:var(--muted);
+  text-decoration:none;text-transform:lowercase;
+  transition:color .2s;white-space:nowrap;
+}
 .lh__back:hover{color:var(--cream);}
+/* Progress */
+.lh__progress{
+  position:absolute;bottom:0;left:0;height:1.5px;width:0%;
+  background:var(--gradient);transition:width .08s linear;
+}
 
-/* ── Hero band ───────────────────────────────────────────────── */
-.lp__hero{padding:4rem 1.5rem 3rem;text-align:center;position:relative;background:var(--bg2);}
-.lp__hero-inner{max-width:860px;margin:0 auto;}
-.lp__eyebrow{font-size:.62rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:.85rem;}
-.lp__title{font-family:var(--font-display);font-size:clamp(2rem,5vw,3.2rem);font-weight:500;font-style:italic;color:var(--cream);line-height:1.15;text-transform:lowercase;}
-.lp__updated{font-size:.68rem;font-weight:300;letter-spacing:.08em;color:var(--muted);margin-top:.75rem;text-transform:lowercase;}
-.lp__hero-line{position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.3;}
+/* ═══ HERO BAND ══════════════════════════════════════════ */
+.lp__hero{
+  background:var(--bg2);
+  padding:3.25rem 1.5rem 2.75rem;
+  text-align:center;position:relative;
+}
+.lp__eyebrow{
+  font-size:.6rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+  background:var(--gradient);-webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:.75rem;display:block;
+}
+.lp__title{
+  font-family:var(--font-display);
+  font-size:clamp(1.9rem,5vw,3rem);font-weight:500;font-style:italic;
+  color:var(--cream);text-transform:lowercase;line-height:1.1;letter-spacing:-.02em;
+}
+.lp__meta{
+  font-size:.63rem;font-weight:300;letter-spacing:.08em;
+  color:var(--muted);margin-top:.6rem;text-transform:lowercase;
+}
+/* gradient rule at bottom of hero */
+.lp__rule{
+  position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,146,74,.38) 30%,rgba(232,168,124,.55) 50%,rgba(201,146,74,.38) 70%,transparent);
+}
 
-/* ── Body ─────────────────────────────────────────────────────── */
+/* ═══ BODY ════════════════════════════════════════════════ */
 .lp{flex:1;}
-.lp__body{padding:3.5rem 1.5rem 5rem;}
-.lp__container{max-width:720px;margin:0 auto;}
+.lp__body{padding:3rem 1.5rem 5rem;}
+.lp__container{max-width:700px;margin:0 auto;}
 
-/* ── Footer ──────────────────────────────────────────────────── */
-.lf{background:var(--bg2);border-top:1px solid var(--border);padding:1.5rem 1.5rem;}
-.lf__inner{max-width:860px;margin:0 auto;display:flex;flex-wrap:wrap;gap:.75rem;justify-content:space-between;align-items:center;}
-.lf__links{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;}
-.lf__link{font-size:.75rem;font-weight:400;color:var(--muted);text-decoration:none;transition:color .2s;text-transform:lowercase;}
-.lf__link:hover,.lf__link--on{color:var(--gold);}
+/* ═══ FOOTER ══════════════════════════════════════════════ */
+.lf{background:var(--bg2);border-top:1px solid var(--border);padding:1.3rem 1.5rem;}
+.lf__inner{max-width:800px;margin:0 auto;display:flex;flex-wrap:wrap;gap:.75rem;justify-content:space-between;align-items:center;}
+.lf__nav{display:flex;align-items:center;gap:.55rem;flex-wrap:wrap;}
+.lf__link{font-size:.72rem;color:var(--muted);text-decoration:none;text-transform:lowercase;transition:color .2s;}
+.lf__link:hover,.lf__link--on{color:var(--g-to);}
 .lf__dot{color:var(--border);font-size:.6rem;}
-.lf__copy{font-size:.68rem;color:var(--muted);text-transform:lowercase;}
+.lf__copy{font-size:.63rem;color:var(--muted);text-transform:lowercase;}
 
-/* ── Shared legal content styles ─────────────────────────────── */
-.ls{display:flex;flex-direction:column;gap:2.5rem;}
+/* ═══ SHARED LEGAL CONTENT ════════════════════════════════ */
+.ls{display:flex;flex-direction:column;gap:1.15rem;}
 
-/* Section block */
-.ls__block{border:1px solid var(--border);border-radius:16px;padding:1.75rem;background:var(--glass);transition:border-color .25s;}
-.ls__block:hover{border-color:rgba(201,146,74,.18);}
-.ls__block-head{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.1rem;}
-.ls__icon{width:42px;height:42px;flex-shrink:0;border-radius:11px;background:rgba(201,146,74,.08);border:1px solid rgba(201,146,74,.15);display:flex;align-items:center;justify-content:center;color:var(--gold);}
-.ls__num{font-family:var(--font-display);font-size:.72rem;font-style:italic;color:rgba(201,146,74,.5);font-weight:400;margin-top:3px;white-space:nowrap;}
+/* intro */
+.ls__intro{text-align:center;padding-bottom:.25rem;}
+.ls__intro p{
+  font-size:.875rem;font-weight:300;color:var(--muted-hi);
+  line-height:1.8;max-width:550px;margin:0 auto;
+}
 
-.ls__block-title{font-family:var(--font-display);font-size:1.1rem;font-weight:500;font-style:italic;color:var(--cream);margin:0;line-height:1.2;text-transform:lowercase;}
-.ls__block-body{font-size:.85rem;font-weight:300;color:var(--muted);line-height:1.8;}
-.ls__block-body p+p{margin-top:.75rem;}
-.ls__block-body a{color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(201,146,74,.25);transition:border-color .2s;}
-.ls__block-body a:hover{border-color:var(--gold);}
-.ls__block-body ul{padding-left:1.25rem;margin-top:.55rem;display:flex;flex-direction:column;gap:.35rem;}
-.ls__block-body li{color:var(--muted);font-size:.83rem;font-weight:300;line-height:1.65;}
+/* blocks — animated on scroll */
+.ls__block{
+  background:var(--glass);border:1px solid var(--border);border-radius:16px;
+  padding:1.55rem 1.6rem;overflow:hidden;
+  opacity:0;transform:translateY(14px);
+  transition:
+    opacity .55s var(--ease-out),
+    transform .55s var(--ease-out),
+    border-color .28s,
+    background .28s;
+}
+.ls__block.visible{opacity:1;transform:none;}
+.ls__block:hover{border-color:rgba(201,146,74,.22);background:var(--glass-hi);}
+
+.ls__block-head{display:flex;align-items:flex-start;gap:.85rem;margin-bottom:.95rem;}
+
+/* icon box */
+.ls__icon{
+  width:38px;height:38px;flex-shrink:0;border-radius:10px;
+  background:rgba(201,146,74,.08);border:1px solid rgba(201,146,74,.16);
+  display:flex;align-items:center;justify-content:center;color:var(--g-to);
+  transition:background .25s,border-color .25s;
+}
+.ls__block:hover .ls__icon{background:rgba(201,146,74,.12);border-color:rgba(201,146,74,.28);}
+
+.ls__num{
+  font-family:var(--font-display);font-size:.68rem;font-style:italic;
+  color:rgba(201,146,74,.42);margin-bottom:2px;display:block;
+}
+.ls__block-title{
+  font-family:var(--font-display);font-size:1.05rem;font-weight:500;font-style:italic;
+  color:var(--cream);text-transform:lowercase;line-height:1.2;
+}
+
+/* body text */
+.ls__block-body{font-size:.845rem;font-weight:300;color:var(--muted-hi);line-height:1.78;}
+.ls__block-body p+p{margin-top:.65rem;}
+.ls__block-body a{
+  color:var(--g-to);text-decoration:none;
+  border-bottom:1px solid rgba(232,168,124,.18);
+  transition:border-color .18s;
+}
+.ls__block-body a:hover{border-color:var(--g-to);}
 .ls__block-body strong{color:var(--cream);font-weight:500;}
+.ls__block-body ul{
+  padding-left:1.1rem;margin-top:.55rem;
+  display:flex;flex-direction:column;gap:.35rem;
+}
+.ls__block-body li{font-size:.83rem;font-weight:300;color:var(--muted-hi);line-height:1.65;}
 
-/* Intro block — no border, larger text */
-.ls__intro{text-align:center;padding:0 0 .5rem;}
-.ls__intro p{font-size:.9rem;font-weight:300;color:var(--muted);line-height:1.8;max-width:580px;margin:0 auto;}
+/* contact pills */
+.ls__contact-pill{
+  display:inline-flex;align-items:center;gap:.45rem;
+  padding:.38rem .9rem;border-radius:50px;
+  background:rgba(201,146,74,.08);border:1px solid rgba(201,146,74,.2);
+  color:var(--g-to);font-size:.74rem;font-weight:400;
+  text-decoration:none;margin-top:.75rem;
+  transition:background .2s,border-color .2s;
+}
+.ls__contact-pill:hover{background:rgba(201,146,74,.14);border-color:rgba(201,146,74,.35);}
 
-/* Contact pill */
-.ls__contact-pill{display:inline-flex;align-items:center;gap:.5rem;padding:.45rem 1rem;border-radius:50px;background:rgba(201,146,74,.08);border:1px solid rgba(201,146,74,.2);color:var(--gold);font-size:.75rem;font-weight:400;text-decoration:none;margin-top:.75rem;transition:background .2s;}
-.ls__contact-pill:hover{background:rgba(201,146,74,.14);}
+/* sitemap list */
+.sm__list{display:flex;flex-direction:column;}
+.sm__item{
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  padding:.68rem 0;border-bottom:1px solid rgba(245,239,230,.055);
+  text-decoration:none;
+  border-radius:8px;
+  transition:background .15s,padding .15s,border-color .15s;
+}
+.sm__item:last-child{border-bottom:none;}
+.sm__item:hover{background:rgba(201,146,74,.05);padding:.68rem .65rem;}
+.sm__item-left{display:flex;flex-direction:column;gap:2px;}
+.sm__item-name{font-size:.82rem;font-weight:500;color:var(--cream);text-transform:lowercase;transition:color .18s;}
+.sm__item:hover .sm__item-name{color:var(--g-to);}
+.sm__item-desc{font-size:.67rem;font-weight:300;color:var(--muted);}
+.sm__item-arrow{font-size:.82rem;color:rgba(201,146,74,.38);flex-shrink:0;transition:transform .18s,color .18s;}
+.sm__item:hover .sm__item-arrow{color:var(--g-to);transform:translateX(3px);}
 
-@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;}}
+@media(max-width:600px){
+  .lp__body{padding:2rem 1rem 4rem;}
+  .ls__block{padding:1.2rem 1.15rem;}
+  .lh__sub{display:none;}
+  .lf__inner{flex-direction:column;align-items:flex-start;}
+}
+@media(prefers-reduced-motion:reduce){
+  .ls__block{transition:none!important;opacity:1!important;transform:none!important;}
+  .lh__progress{transition:none!important;}
+}
 </style>
 
 <script>
 (function(){
-  var isID = false;
-  var deskBtn = document.getElementById('ll-lang');
-  if(!deskBtn) return;
+  var isID=false;
+  var btn=document.getElementById('ll-lang');
+  var prog=document.getElementById('lh-progress');
 
-  function applyLang(id){
-    isID = id;
-    deskBtn.setAttribute('aria-pressed', String(isID));
-    document.documentElement.lang = isID ? 'id' : 'en';
-    document.querySelectorAll('[data-en][data-id]').forEach(function(el){
-      if(el.children.length > 0) return;
-      var val = isID ? el.getAttribute('data-id') : el.getAttribute('data-en');
-      if(val !== null) el.textContent = val;
-    });
-    document.dispatchEvent(new CustomEvent('pc:lang',{detail:{isID:isID},bubbles:true}));
+  /* scroll progress */
+  if(prog){
+    window.addEventListener('scroll',function(){
+      var total=document.documentElement.scrollHeight-window.innerHeight;
+      prog.style.width=(total>0?window.scrollY/total*100:0)+'%';
+    },{passive:true});
   }
 
-  deskBtn.addEventListener('click', function(){ applyLang(!isID); });
+  /* language */
+  if(btn){
+    function applyLang(id){
+      isID=id;
+      btn.setAttribute('aria-pressed',String(isID));
+      document.documentElement.lang=isID?'id':'en';
+      document.querySelectorAll('[data-en][data-id]').forEach(function(el){
+        if(el.children.length>0)return;
+        var v=isID?el.getAttribute('data-id'):el.getAttribute('data-en');
+        if(v!==null)el.textContent=v;
+      });
+      /* h1 title */
+      var h1=document.querySelector('.lp__title[data-en][data-id]');
+      if(h1){var v=isID?h1.getAttribute('data-id'):h1.getAttribute('data-en');if(v)h1.textContent=v;}
+      document.dispatchEvent(new CustomEvent('pc:lang',{detail:{isID:isID},bubbles:true}));
+    }
+    btn.addEventListener('click',function(){applyLang(!isID);});
+  }
+
+  /* staggered scroll reveal for .ls__block */
+  var ro=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target);}
+    });
+  },{threshold:0.07,rootMargin:'0px 0px -16px 0px'});
+
+  document.querySelectorAll('.ls__block').forEach(function(el,i){
+    el.style.transitionDelay=(i*0.045)+'s';
+    ro.observe(el);
+  });
 })();
 </script>
 

@@ -19,14 +19,14 @@ const {
   <title>{title}</title>
   <link rel="canonical" href="https://www.putincoffee.com/"/>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
-  <link rel="manifest" href="/site.webmanifest"/>
+    <link rel="manifest" href="/site.webmanifest"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <!-- Leaflet map CSS (lazy-loaded) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" media="print" onload="this.media='all'"/>
 </head>
-<body>
+  <body class="overflow-x-hidden">
  <Header />
   <slot/>
 </body>

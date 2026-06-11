@@ -1,52 +1,48 @@
 ---
-// src/pages/sitemap.astro
-// put.in coffee · Visual Sitemap page · EN / ID
+// src/pages/sitemap.astro  ·  put.in coffee  ·  Visual Sitemap
 import LegalLayout from '../layouts/LegalLayout.astro';
-
-const base = 'https://www.putincoffee.com';
 
 const sections = [
   {
-    category: { en: 'main page', id_: 'halaman utama' },
+    en: 'main page', id_: 'halaman utama',
     icon: `<path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><polyline points="9 22 9 12 15 12 15 22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>`,
     links: [
-      { en: 'Hero — put.in coffee',     id_: 'Hero — put.in coffee',          href: '/#hero',       desc: { en: 'Welcome, tagline & CTAs', id_: 'Sambutan, tagline & CTA' } },
-      { en: 'Our Story',                id_: 'Kisah Kami',                     href: '/#about',      desc: { en: 'Photo carousel & brand history', id_: 'Karousel foto & sejarah merek' } },
-      { en: 'Reviews',                  id_: 'Ulasan',                         href: '/#reviews',    desc: { en: 'Guest reviews & ratings', id_: 'Ulasan & rating tamu' } },
-      { en: 'The Menu',                 id_: 'Menu',                           href: '/#menu',       desc: { en: 'Coffee, food, snacks & beer', id_: 'Kopi, makanan, camilan & bir' } },
-      { en: 'Experience',               id_: 'Pengalaman',                     href: '/#experience', desc: { en: 'Beachfront, roastery, sunset sessions', id_: 'Tepi pantai, roastery, sesi senja' } },
-      { en: 'Location & Hours',         id_: 'Lokasi & Jam Buka',             href: '/#location',   desc: { en: 'Interactive map, WITA clock', id_: 'Peta interaktif, jam WITA' } },
-      { en: 'Reserve a Table',          id_: 'Reservasi Meja',                 href: '/#contact',    desc: { en: 'Reservation form & social links', id_: 'Formulir reservasi & tautan sosial' } },
+      { en:'Hero — put.in coffee',  id_:'Hero — put.in coffee',  href:'/#hero',     desc:{en:'Welcome, tagline & CTAs',              id_:'Sambutan, tagline & CTA'} },
+      { en:'Our Story',             id_:'Kisah Kami',            href:'/#about',    desc:{en:'Photo carousel & brand story',          id_:'Karousel foto & kisah merek'} },
+      { en:'Reviews',               id_:'Ulasan',                href:'/#reviews',  desc:{en:'Guest reviews · 4.9★ Google',           id_:'Ulasan tamu · 4.9★ Google'} },
+      { en:'The Menu',              id_:'Menu',                  href:'/#menu',     desc:{en:'Coffee, food, snacks & beer',           id_:'Kopi, makanan, camilan & bir'} },
+      { en:'Location & Hours',      id_:'Lokasi & Jam Buka',     href:'/#location', desc:{en:'Interactive map · WITA live clock',     id_:'Peta interaktif · jam WITA'} },
+      { en:'Reserve a Table',       id_:'Reservasi Meja',        href:'/#contact',  desc:{en:'Reservation form · Instagram DM',       id_:'Formulir reservasi · Instagram DM'} },
     ],
   },
   {
-    category: { en: 'legal', id_: 'hukum' },
+    en: 'legal', id_: 'hukum',
     icon: `<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" stroke-width="1.5" fill="none"/><polyline points="14 2 14 8 20 8" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="9" y1="13" x2="15" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="9" y1="17" x2="12" y2="17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>`,
     links: [
-      { en: 'Privacy Policy',   id_: 'Kebijakan Privasi',    href: '/privacy', desc: { en: 'Data collection, retention & your rights', id_: 'Pengumpulan data, retensi & hak Anda' } },
-      { en: 'Terms of Use',     id_: 'Syarat Penggunaan',    href: '/terms',   desc: { en: 'Acceptable use, disclaimers & governing law', id_: 'Penggunaan yang diterima, penafian & hukum berlaku' } },
-      { en: 'Sitemap',          id_: 'Peta Situs',           href: '/sitemap', desc: { en: 'You are here', id_: 'Anda sedang di sini' } },
+      { en:'Privacy Policy', id_:'Kebijakan Privasi', href:'/privacy', desc:{en:'Data collection, retention & your rights', id_:'Pengumpulan data, retensi & hak Anda'} },
+      { en:'Terms of Use',   id_:'Syarat Penggunaan', href:'/terms',   desc:{en:'Acceptable use, disclaimers & governing law', id_:'Penggunaan diterima, penafian & hukum berlaku'} },
+      { en:'Sitemap',        id_:'Peta Situs',        href:'/sitemap', desc:{en:'You are here',       id_:'Anda sedang di sini'} },
     ],
   },
   {
-    category: { en: 'technical', id_: 'teknis' },
+    en: 'technical', id_: 'teknis',
     icon: `<polyline points="16 18 22 12 16 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><polyline points="8 6 2 12 8 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>`,
     links: [
-      { en: 'XML Sitemap',      id_: 'Sitemap XML',   href: '/sitemap-index.xml', desc: { en: 'Machine-readable sitemap for search engines', id_: 'Sitemap yang dapat dibaca mesin untuk mesin pencari' } },
-      { en: 'robots.txt',       id_: 'robots.txt',    href: '/robots.txt',        desc: { en: 'Crawl rules for search engine bots', id_: 'Aturan crawl untuk bot mesin pencari' } },
+      { en:'XML Sitemap', id_:'Sitemap XML',  href:'/sitemap-index.xml', desc:{en:'Machine-readable sitemap for search engines', id_:'Sitemap untuk mesin pencari'} },
+      { en:'robots.txt',  id_:'robots.txt',   href:'/robots.txt',        desc:{en:'Crawl rules for bots',                        id_:'Aturan crawl untuk bot'} },
     ],
   },
   {
-    category: { en: 'social & shortcuts', id_: 'sosial & pintasan' },
-    icon: `<path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`,
+    en: 'social & shortcuts', id_: 'sosial & pintasan',
+    icon: `<rect x="2" y="2" width="20" height="20" rx="5.5" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/>`,
     links: [
-      { en: 'Instagram',   id_: 'Instagram',  href: 'https://www.instagram.com/put.in.coffee/', desc: { en: '@put.in.coffee', id_: '@put.in.coffee' } },
-      { en: 'TikTok',      id_: 'TikTok',     href: 'https://www.tiktok.com/@put.in_coffee',    desc: { en: '@put.in_coffee', id_: '@put.in_coffee' } },
-      { en: 'WhatsApp',    id_: 'WhatsApp',   href: 'https://wa.me/6281916334989',              desc: { en: '+62 819-1633-4989', id_: '+62 819-1633-4989' } },
-      { en: 'Google Maps', id_: 'Google Maps',href: 'https://www.google.com/maps/place/put.in+coffee+and+beer/', desc: { en: 'Directions to Pantai Biaung', id_: 'Petunjuk ke Pantai Biaung' } },
-      { en: '/ig shortlink',    id_: 'Pintasan /ig',    href: '/ig',    desc: { en: 'Quick redirect to Instagram', id_: 'Pengalihan cepat ke Instagram' } },
-      { en: '/wa shortlink',    id_: 'Pintasan /wa',    href: '/wa',    desc: { en: 'Quick redirect to WhatsApp', id_: 'Pengalihan cepat ke WhatsApp' } },
-      { en: '/maps shortlink',  id_: 'Pintasan /maps',  href: '/maps',  desc: { en: 'Quick redirect to Google Maps', id_: 'Pengalihan cepat ke Google Maps' } },
+      { en:'Instagram',        id_:'Instagram',        href:'https://www.instagram.com/put.in.coffee/', desc:{en:'@put.in.coffee',     id_:'@put.in.coffee'} },
+      { en:'WhatsApp',         id_:'WhatsApp',         href:'https://wa.me/6281916334989',             desc:{en:'+62 819-1633-4989',  id_:'+62 819-1633-4989'} },
+      { en:'TikTok',           id_:'TikTok',           href:'https://www.tiktok.com/@put.in_coffee',   desc:{en:'@put.in_coffee',     id_:'@put.in_coffee'} },
+      { en:'Google Maps',      id_:'Google Maps',      href:'https://www.google.com/maps/search/put.in+coffee+Pantai+Biaung+Denpasar', desc:{en:'Directions to Pantai Biaung', id_:'Petunjuk ke Pantai Biaung'} },
+      { en:'/ig shortlink',    id_:'Pintasan /ig',     href:'/ig',    desc:{en:'Redirect → Instagram',     id_:'Pengalihan → Instagram'} },
+      { en:'/wa shortlink',    id_:'Pintasan /wa',     href:'/wa',    desc:{en:'Redirect → WhatsApp',      id_:'Pengalihan → WhatsApp'} },
+      { en:'/maps shortlink',  id_:'Pintasan /maps',   href:'/maps',  desc:{en:'Redirect → Google Maps',   id_:'Pengalihan → Google Maps'} },
     ],
   },
 ];
@@ -64,34 +60,30 @@ const sections = [
 
   <!-- Intro -->
   <div class="ls__intro">
-    <p data-en="Every corner of the put.in coffee website, mapped like the coastline — clear, navigable, and worth exploring." data-id="Setiap sudut situs put.in coffee, dipetakan seperti garis pantai — jelas, dapat dinavigasi, dan layak dijelajahi.">
+    <p data-en="Every corner of the put.in coffee website, mapped like the coastline — clear, navigable, and worth exploring."
+       data-id="Setiap sudut situs put.in coffee, dipetakan seperti garis pantai — jelas, dapat dinavigasi, dan layak dijelajahi.">
       Every corner of the put.in coffee website, mapped like the coastline — clear, navigable, and worth exploring.
     </p>
   </div>
 
-  {sections.map((section, si) => (
+  {sections.map((sec, si) => (
     <div class="ls__block">
       <div class="ls__block-head">
         <div class="ls__icon" aria-hidden="true">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" set:html={section.icon}/>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" set:html={sec.icon}/>
         </div>
         <div>
-          <p class="ls__num">{String(si + 1).padStart(2, '0')}</p>
-          <h2 class="ls__block-title"
-              data-en={section.category.en}
-              data-id={section.category.id_}>
-            {section.category.en}
-          </h2>
+          <span class="ls__num">{String(si + 1).padStart(2, '0')}</span>
+          <h2 class="ls__block-title" data-en={sec.en} data-id={sec.id_}>{sec.en}</h2>
         </div>
       </div>
       <div class="ls__block-body">
         <div class="sm__list">
-          {section.links.map(link => (
+          {sec.links.map(link => (
             <a href={link.href}
                class="sm__item"
                target={link.href.startsWith('http') ? '_blank' : undefined}
-               rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-            >
+               rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}>
               <div class="sm__item-left">
                 <span class="sm__item-name" data-en={link.en} data-id={link.id_}>{link.en}</span>
                 <span class="sm__item-desc" data-en={link.desc.en} data-id={link.desc.id_}>{link.desc.en}</span>
@@ -107,36 +99,5 @@ const sections = [
   ))}
 
 </div>
-
-<style>
-/* Sitemap-specific list */
-.sm__list{display:flex;flex-direction:column;gap:0;}
-.sm__item{
-  display:flex;align-items:center;justify-content:space-between;gap:1rem;
-  padding:.7rem 0;
-  border-bottom:1px solid rgba(240,232,220,.06);
-  text-decoration:none;
-  transition:background .15s,padding .15s;
-  border-radius:6px;
-}
-.sm__item:last-child{border-bottom:none;}
-.sm__item:hover{
-  background:rgba(201,146,74,.05);
-  padding:.7rem .65rem;
-}
-.sm__item-left{display:flex;flex-direction:column;gap:3px;}
-.sm__item-name{
-  font-size:.83rem;font-weight:500;
-  color:var(--cream);text-transform:lowercase;
-  transition:color .18s;
-}
-.sm__item:hover .sm__item-name{color:var(--gold-lt);}
-.sm__item-desc{font-size:.69rem;font-weight:300;color:var(--muted);}
-.sm__item-arrow{
-  font-size:.85rem;color:rgba(201,146,74,.4);
-  flex-shrink:0;transition:transform .18s,color .18s;
-}
-.sm__item:hover .sm__item-arrow{color:var(--gold);transform:translateX(3px);}
-</style>
 
 </LegalLayout>

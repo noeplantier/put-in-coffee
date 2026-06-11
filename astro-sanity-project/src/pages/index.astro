@@ -230,7 +230,6 @@ const aboutStats = [
   <!-- ══ MENU ══════════════════════════════════════════════════ -->
   <Menu items={menuItems} />
 
-
   <!-- ══ LOCATION ══════════════════════════════════════════════ -->
   <section class="pc-section" id="location" aria-label="Location and hours">
     <div class="pc-container">
@@ -246,7 +245,7 @@ const aboutStats = [
             {[
               { svg:`<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="12" cy="9" r="2.5" stroke="currentColor" stroke-width="1.4" fill="none"/>`, en:settings.address??'Jl. Pantai Biaung, Sanur, Denpasar, Bali 80228', id_:settings.address??'Jl. Pantai Biaung, Sanur, Denpasar, Bali 80228', lab:{en:'Address',id_:'Alamat'} },
               { svg:`<path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.09-1.26a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z" stroke="currentColor" stroke-width="1.4" fill="none"/>`, en:settings.phone??'+62 819-1633-4989', id_:settings.phone??'+62 819-1633-4989', lab:{en:'Phone',id_:'Telepon'} },
-              { svg:`<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="1.4" fill="none"/><polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="1.4" fill="none"/>`,  },
+              { svg:`<path d="M9 12a4 4 0 104 4V4a5 5 0 005 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/>`, en:settings.tiktokUrl??'@put.in_coffee', id_:settings.tiktokUrl??'https://www.tiktok.com/@put.in_coffee', lab:{en:'TikTok',id_:'TikTok'} },
             ].map((item, i) => (
               <div class="loc__contact-item reveal" style={`transition-delay:${80+i*60}ms`}>
                 <div class="loc__contact-icon" aria-hidden="true">
@@ -308,14 +307,14 @@ const aboutStats = [
       <div class="footer__grid">
         <div class="footer__brand">
           <div class="footer__logo">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 3h8l1 5H7L8 3z" stroke="#C9924A" stroke-width="1.4" fill="none" stroke-linejoin="round"/><path d="M7 8c0 5 1.5 9 5 9s5-4 5-9" stroke="#C9924A" stroke-width="1.4" fill="none"/></svg>
             put.in coffee
           </div>
           <p class="footer__tagline" data-en="Where the ocean meets espresso. Beachfront specialty coffee on Pantai Biaung, Denpasar, Bali." data-id="Di mana lautan bertemu espresso. Kopi spesial di tepi pantai Pantai Biaung, Denpasar, Bali.">Where the ocean meets espresso. Beachfront specialty coffee on Pantai Biaung, Denpasar, Bali.</p>
           <div class="footer__socials">
             {[
               { href:settings.instagramUrl??'#', label:'Instagram', svg:`<rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>` },
-              { href:`https://wa.me/${(settings.whatsapp??'+62 819-1633-4989').replace(/\s/g,'')}`, label:'WhatsApp', svg:`<path d="M21 12a9 9 0 01-9 9H5l-2 2V12a9 9 0 119 0z" stroke="currentColor" stroke-width="1.4" fill="none"/>` },
+                { href:`https://wa.me/${(settings.whatsapp??'+62 819-1633-4989').replace(/\s/g,'')}`, label:'WhatsApp', svg:`<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" stroke-width="1.4" fill="none"/>` },
+
               { href:settings.tiktokUrl??'#', label:'TikTok', svg:`<path d="M9 12a4 4 0 104 4V4a5 5 0 005 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/>` },
             ].map(s => (
               <a href={s.href} target="_blank" rel="noopener" aria-label={s.label} class="footer__social-btn">
@@ -336,7 +335,7 @@ const aboutStats = [
           <h4 class="footer__col-head" data-en="Connect" data-id="Hubungi">Connect</h4>
           <ul>
             <li><a href={`tel:${settings.phone}`} class="footer__link">{settings.phone??'+62 819-1633-4989'}</a></li>
-            <li><a href={`mailto:${settings.email}`} class="footer__link">{settings.email??'hello@putincoffee.com'}</a></li>
+            <li><a href={`https://wa.me/${(settings.whatsapp??'+62 819-1633-4989').replace(/\s/g,'')}`} target="_blank" rel="noopener" class="footer__link">WhatsApp</a></li>
             <li><a href={settings.instagramUrl??'#'} target="_blank" rel="noopener" class="footer__link">Instagram</a></li>
             <li><a href={settings.tiktokUrl??'#'} target="_blank" rel="noopener" class="footer__link">TikTok</a></li>
           </ul>
@@ -613,7 +612,8 @@ const aboutStats = [
 @media (max-width:860px) { .footer__grid { grid-template-columns:1fr 1fr; gap:2rem; } .footer__brand { grid-column:1/-1; } }
 @media (max-width:540px) { .footer__grid { grid-template-columns:1fr; } }
 
-.footer__logo { display:flex; align-items:center; gap:.45rem; font-family:var(--font-display,serif); font-size:1.15rem; font-weight:700; color:var(--cream); text-transform:lowercase; margin-bottom:.75rem; font-style:italic; }
+.footer__logo { display:flex; align-items:center; gap:.45rem;   font-family: var(--font-body, sans-serif);
+.font-size:1.15rem; font-weight:700; color:var(--cream); text-transform:lowercase; margin-bottom:.75rem; }
 .footer__logo-accent { color:var(--gold); }
 .footer__tagline { font-size:.8rem; color:var(--muted); line-height:1.7; max-width:280px; margin:0 0 1rem; }
 .footer__socials { display:flex; gap:.5rem; }

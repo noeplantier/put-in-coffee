@@ -1,89 +1,104 @@
 ---
-// src/components/Hero.astro  ·  put.in coffee  ·  v3
-// Full-viewport hero · animated reveal · EN/ID · matches v2 design system
+// src/components/Hero.astro  ·  put.in coffee  ·  v4
+// Full-viewport · chill / 5-star energy · EN/ID
 ---
 
 <section class="hero" id="hero" aria-label="welcome to put.in coffee">
 
-  <!-- Background image -->
+  <!-- BG image -->
   <div class="hero__bg" id="hero-bg" aria-hidden="true"></div>
-
-  <!-- Multi-layer overlay -->
-  <div class="hero__overlay" aria-hidden="true"></div>
-
-  <!-- Ambient glow orb -->
+  <!-- Overlays -->
+  <div class="hero__ov"  aria-hidden="true"></div>
+  <!-- Ambient glow -->
   <div class="hero__orb" aria-hidden="true"></div>
 
-  <!-- Main content -->
+  <!-- Content -->
   <div class="hero__body">
 
+ 
+
     <!-- Headline -->
-    <h1 class="hero__title" aria-label="put.in coffee — where waves meet coffee">
+    <h1 class="hero__title">
       <span class="hero__t1">put.in coffee</span>
-      <span class="hero__t2" data-en="where waves meet coffee" data-id="di mana ombak bertemu kopi">
+      <span class="hero__t2"
+            data-en="where waves meet coffee"
+            data-id="di mana ombak bertemu kopi">
         where waves meet coffee
       </span>
     </h1>
 
-    <!-- Subtitle -->
-    <p class="hero__sub"
-       data-en="specialty coffee on the shoreline. sip slowly..."
-        data-id="kopi spesialti di tepi pantai..."
-        >
-    <p class="hero__sub"
-       data-en="breathe deeply, you're at pantai biaung now."
-       data-id="minum pelan anda sudah di pantai biaung"
-       >
-      specialty coffee on the shoreline. sip slowly..</br>
-      breathe deeply, you're at pantai biaung now..
-    </p>
+    <!-- Subtitle — two lines -->
+    <div class="hero__sub-wrap">
+      <p class="hero__sub"
+         data-en="specialty coffee on the shoreline. sip slowly, breathe deeply —"
+         data-id="kopi spesialti di tepi pantai. minum pelan, nikmati angin —">
+        specialty coffee on the shoreline. sip slowly, breathe deeply —
+      </p>
+      <p class="hero__sub hero__sub--em"
+         data-en="you're at pantai biaung now."
+         data-id="anda sudah di pantai biaung.">
+        you're at pantai biaung now.
+      </p>
+    </div>
 
     <!-- CTAs -->
     <div class="hero__ctas">
       <a href="#menu" class="hero__btn hero__btn--primary"
          data-en="view the menu" data-id="lihat menu">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+          <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/>
         </svg>
         view the menu
       </a>
       <a href="#contact" class="hero__btn hero__btn--ghost"
          data-en="reserve a table" data-id="reservasi meja">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+          <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/>
         </svg>
         reserve a table
       </a>
     </div>
 
-    <!-- Google reviews badge -->
-    <div class="hero__badge" aria-label="5.0 stars · 49 Google reviews">
-      <div class="hero__stars" aria-hidden="true">
-        {[0,1,2,3,4].map(i => (
-          <svg class="hero__star" style={`animation-delay:${.9+i*.08}s`}
-               width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M8 1.33l1.76 3.56 3.93.57-2.84 2.77.67 3.91L8 10l-3.52 1.84.67-3.91L2.31 5.46l3.93-.57L8 1.33z"
-                  fill="url(#hsg)"/>
-            <defs>
-              <linearGradient id="hsg" x1="0" y1="0" x2="16" y2="16">
-                <stop offset="0%" stop-color="#C9924A"/>
-                <stop offset="100%" stop-color="#E8A87C"/>
-              </linearGradient>
-            </defs>
-          </svg>
-        ))}
+    <!-- Social proof strip -->
+    <div class="hero__proof">
+
+      <!-- Google badge -->
+      <div class="hero__badge" aria-label="5 out of 5 · 49 Google reviews">
+        <div class="hero__stars" aria-hidden="true">
+          {[0,1,2,3,4].map(i => (
+            <svg class="hero__star" style={`animation-delay:${.85+i*.07}s`}
+                 width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M8 1.33l1.76 3.56 3.93.57-2.84 2.77.67 3.91L8 10l-3.52 1.84.67-3.91L2.31 5.46l3.93-.57L8 1.33z"
+                    fill="url(#hsg)"/>
+              <defs>
+                <linearGradient id="hsg" x1="0" y1="0" x2="16" y2="16">
+                  <stop offset="0%" stop-color="#C9924A"/>
+                  <stop offset="100%" stop-color="#E8A87C"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          ))}
+        </div>
+        <span class="hero__badge-score">5</span>
+        <span class="hero__badge-sep" aria-hidden="true">·</span>
+        <span class="hero__badge-count"
+              data-en="49 reviews on Google"
+              data-id="49 ulasan di Google">
+          49 reviews on Google
+        </span>
+        <svg class="hero__glogo" viewBox="0 0 24 24" width="15" height="15" aria-label="Google">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+        </svg>
       </div>
-      <span class="hero__badge-count"
-            data-en="49 reviews on Google" data-id="49 ulasan di Google">
-        49 reviews on Google
-      </span>
-      <!-- Google logo 4-color -->
-      <svg class="hero__glogo" viewBox="0 0 24 24" width="16" height="16" aria-label="Google" role="img">
-        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
-        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-      </svg>
+
+    
+      </div>
+
     </div>
 
   </div>
@@ -93,17 +108,29 @@
     <div class="hero__scroll-line"></div>
   </div>
 
+  <!-- Bottom location tag -->
+  <div class="hero__footer-tag" aria-hidden="true">
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="rgba(255,255,255,.4)" stroke-width="1.5" fill="none"/>
+      <circle cx="12" cy="9" r="2.5" stroke="rgba(255,255,255,.4)" stroke-width="1.5" fill="none"/>
+    </svg>
+    <span data-en="jl. pantai biaung, sanur · denpasar · bali" data-id="jl. pantai biaung, sanur · denpasar · bali">
+      jl. pantai biaung, sanur · denpasar · bali
+    </span>
+  </div>
+
 </section>
 
 <style>
 /* ── Shell ─────────────────────────────────────────────── */
 .hero {
-  position: relative; height: 100svh; min-height: 620px;
+  position: relative;
+  height: 100svh; min-height: 640px;
   display: flex; align-items: center; justify-content: center;
   overflow: hidden; background: #0a0906;
 }
 
-/* ── Background ────────────────────────────────────────── */
+/* ── BG ────────────────────────────────────────────────── */
 .hero__bg {
   position: absolute; inset: 0; z-index: 0;
   background-image: url('/hero.jpg');
@@ -115,97 +142,103 @@
 .hero__bg.loaded { opacity: 1; transform: scale(1); }
 
 /* ── Overlay ───────────────────────────────────────────── */
-.hero__overlay {
+.hero__ov {
   position: absolute; inset: 0; z-index: 1;
   background:
-    linear-gradient(to bottom, rgba(10,9,6,.55) 0%, rgba(10,9,6,.18) 38%, rgba(10,9,6,.4) 62%, rgba(10,9,6,.93) 100%),
-    linear-gradient(to right, rgba(10,9,6,.4) 0%, transparent 60%);
+    linear-gradient(to bottom,
+      rgba(10,9,6,.52) 0%,
+      rgba(10,9,6,.14) 35%,
+      rgba(10,9,6,.36) 60%,
+      rgba(10,9,6,.95) 100%),
+    linear-gradient(to right, rgba(10,9,6,.38) 0%, transparent 55%);
 }
 
-/* ── Ambient glow ──────────────────────────────────────── */
+/* ── Ambient orb ───────────────────────────────────────── */
 .hero__orb {
   position: absolute; z-index: 1;
-  width: 600px; height: 600px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(201,146,74,.08) 0%, transparent 70%);
-  bottom: -100px; left: 50%; transform: translateX(-50%);
-  pointer-events: none;
-  animation: orb-pulse 6s ease-in-out infinite;
+  width: 700px; height: 700px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,146,74,.07) 0%, transparent 70%);
+  bottom: -150px; left: 50%; transform: translateX(-50%);
+  pointer-events: none; animation: orb 7s ease-in-out infinite;
 }
-@keyframes orb-pulse { 0%,100%{opacity:.6;} 50%{opacity:1;} }
+@keyframes orb { 0%,100%{opacity:.5;} 50%{opacity:1;} }
 
 /* ── Body ──────────────────────────────────────────────── */
 .hero__body {
   position: relative; z-index: 2; text-align: center;
-  max-width: 860px; padding: 0 1.5rem;
-  display: flex; flex-direction: column; align-items: center; gap: 1.65rem;
+  max-width: 900px; padding: 0 1.5rem;
+  display: flex; flex-direction: column; align-items: center; gap: 1.5rem;
+  /* compensate fixed nav */
+  margin-top: calc(var(--nav-h, 72px) * -.5);
 }
 
-/* ── Live badge ────────────────────────────────────────── */
+/* ── Live pill ─────────────────────────────────────────── */
 .hero__live {
   display: inline-flex; align-items: center; gap: 7px;
-  padding: .38rem .9rem; border-radius: 50px;
-  border: 1px solid rgba(255,255,255,.1); background: rgba(10,9,6,.42);
+  padding: .38rem .95rem; border-radius: 50px;
+  border: 1px solid rgba(255,255,255,.1); background: rgba(10,9,6,.45);
   backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  font-family: var(--font-body, 'Jost', sans-serif);
   font-size: .68rem; font-weight: 400; letter-spacing: .1em;
   color: rgba(245,239,230,.52); text-transform: lowercase;
-  animation: hfu 0.7s ease .1s both;
+  animation: hfu .7s ease .1s both;
 }
 .hero__live-dot {
-  width: 5px; height: 5px; border-radius: 50%;
-  background: #5bdb83; box-shadow: 0 0 7px rgba(91,219,131,.65); flex-shrink: 0;
+  width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0;
+  background: #5bdb83; box-shadow: 0 0 7px rgba(91,219,131,.65);
   animation: hdot 2.6s ease-in-out infinite;
 }
-@keyframes hdot { 0%,100%{box-shadow:0 0 6px rgba(91,219,131,.5);} 50%{box-shadow:0 0 2px rgba(91,219,131,.2);} }
+@keyframes hdot { 0%,100%{box-shadow:0 0 6px rgba(91,219,131,.5);} 50%{box-shadow:0 0 2px rgba(91,219,131,.18);} }
 
 /* ── Headline ──────────────────────────────────────────── */
 .hero__title {
-  display: flex; flex-direction: column; align-items: center; 
-  margin: 0; 
-  font-family: var(--font-body, sans-serif);
-  font-weight: 500; letter-spacing: -.025em; line-height: 1;
-  text-shadow: 0 2px 40px rgba(0,0,0,.5);
+  display: flex; flex-direction: column; align-items: center; gap: .08em;
+  margin: 0; font-family: var(--font-body, 'Jost', sans-serif);
+  font-weight: 600; letter-spacing: -.03em; line-height: 1;
+  text-shadow: 0 2px 40px rgba(0,0,0,.45);
   animation: hfu .9s ease .25s both;
 }
 .hero__t1 {
-  display: block; font-size: clamp(3rem, 10vw, 8rem);
-  color: #fff; text-transform: lowercase;
-  font-family: var(--font-body, sans-serif)
+  font-size: clamp(2.8rem, 9.5vw, 7.5rem);
+  color: #fff; text-transform: lowercase; font-weight: 600;
 }
 .hero__t2 {
-  display: flex; align-items: center; justify-content: center; gap: .3em;
-  font-size: clamp(1.4rem, 4.2vw, 3.2rem); 
-  color: #fff; 
-  font-weight: 400;
-  font-family: var(--font-body, sans-serif)
+  font-size: clamp(1.15rem, 3.5vw, 2.6rem);
+  color: rgb(255, 255, 255); text-transform: lowercase; font-weight: 600;
+  letter-spacing: .04em;
 }
-.hero__t2-sep { color: rgba(255,255,255,.3); font-style: normal; font-size: .65em; }
 
 /* ── Subtitle ──────────────────────────────────────────── */
+.hero__sub-wrap {
+  display: flex; flex-direction: column; align-items: center; gap: .15rem;
+  animation: hfu .9s ease .4s both;
+}
 .hero__sub {
   font-family: var(--font-body, 'Jost', sans-serif);
-  font-size: clamp(1.5rem, 2vw, 1rem); font-weight: 300; line-height: 1.72;
-  color: rgba(245,239,230,.78); max-width: 460px; margin: 0; text-transform: lowercase;
-  animation: hfu .9s ease .42s both;
+  font-size: clamp(.82rem, 1.8vw, .98rem); font-weight: 400; line-height: 1.7;
+  color: rgb(255, 255, 255); margin: 0; text-transform: lowercase;
+}
+.hero__sub--em {
+ color: rgb(255, 255, 255); font-weight: 400;
 }
 
 /* ── CTAs ──────────────────────────────────────────────── */
-.hero__ctas { display: flex; gap: .65rem; flex-wrap: wrap; justify-content: center; animation: hfu .9s ease .56s both; }
+.hero__ctas { display: flex; gap: .65rem; flex-wrap: wrap; justify-content: center; animation: hfu .9s ease .54s both; }
 .hero__btn {
   display: inline-flex; align-items: center; gap: .45rem;
   padding: .72rem 1.6rem; border-radius: 50px;
   font-family: var(--font-body, sans-serif); font-size: .82rem; font-weight: 600;
   letter-spacing: .03em; text-decoration: none; text-transform: lowercase;
   cursor: pointer; white-space: nowrap;
-  transition: opacity .2s, box-shadow .2s, background .2s, transform .15s;
+  transition: opacity .2s, box-shadow .2s, transform .15s;
   -webkit-tap-highlight-color: transparent;
 }
 .hero__btn:active { transform: scale(.97); }
 .hero__btn--primary {
   background: linear-gradient(135deg, #C9924A, #E8A87C);
-  color: #0a0600; border: 1px solid transparent;
-  box-shadow: 0 4px 18px rgba(201,146,74,.34);
+  color: #0a0600; box-shadow: 0 4px 20px rgba(201,146,74,.36);
 }
-.hero__btn--primary:hover { opacity: .9; box-shadow: 0 6px 26px rgba(201,146,74,.5); transform: translateY(-1px); }
+.hero__btn--primary:hover { opacity: .9; box-shadow: 0 6px 26px rgba(201,146,74,.52); transform: translateY(-1px); }
 .hero__btn--ghost {
   background: rgba(255,255,255,.07); color: rgba(245,239,230,.82);
   border: 1px solid rgba(255,255,255,.18);
@@ -213,77 +246,202 @@
 }
 .hero__btn--ghost:hover { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.28); color: #fff; transform: translateY(-1px); }
 
-/* ── Google badge ──────────────────────────────────────── */
+/* ── Social proof strip ─────────────────────────────────── */
+.hero__proof {
+  display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; justify-content: center;
+  animation: hfu .9s ease .68s both;
+}
+.hero__proof-div { width: 1px; height: 28px; background: rgba(255,255,255,.12); flex-shrink: 0; }
+@media (max-width: 580px) { .hero__proof-div { display: none; } .hero__proof { flex-direction: column; gap: .55rem; } }
+
+/* Google badge */
 .hero__badge {
-  display: inline-flex; align-items: center; gap: .6rem;
-  padding: .52rem .95rem .52rem .8rem; border-radius: 50px;
-  background: rgba(10,9,6,.52); border: 1px solid rgba(255,255,255,.1);
+  display: inline-flex; align-items: center; gap: .55rem;
+  padding: .5rem .9rem .5rem .75rem; border-radius: 50px;
+  background: rgba(10,9,6,.5); border: 1px solid rgba(255,255,255,.1);
   backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-  animation: hfu .9s ease .7s both;
 }
 .hero__stars { display: flex; gap: 1px; align-items: center; }
 .hero__star { display: block; animation: hstar .3s cubic-bezier(.34,1.56,.64,1) both; }
-@keyframes hstar { from{transform:scale(0);opacity:0;} to{transform:scale(1);opacity:1;} }
+@keyframes hstar { from{transform:scale(0) rotate(-20deg);opacity:0;} to{transform:scale(1) rotate(0);opacity:1;} }
 .hero__badge-score { font-family: var(--font-body, sans-serif); font-size: .82rem; font-weight: 700; color: #fff; }
 .hero__badge-sep { color: rgba(255,255,255,.22); font-size: .7rem; }
 .hero__badge-count { font-size: .7rem; font-weight: 300; color: rgba(245,239,230,.48); white-space: nowrap; }
 .hero__glogo { flex-shrink: 0; opacity: .82; }
 
+/* Stats row */
+.hero__stats {
+  display: inline-flex; align-items: center; gap: .65rem;
+  padding: .5rem .9rem; border-radius: 50px;
+  background: rgba(10,9,6,.5); border: 1px solid rgba(255,255,255,.1);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+}
+.hero__stat { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+.hero__stat-v {
+  font-family: var(--font-body, sans-serif); font-size: .8rem; font-weight: 700;
+  background: linear-gradient(135deg,#C9924A,#E8A87C); -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; background-clip: text; line-height: 1;
+}
+.hero__stat-l { font-size: .58rem; font-weight: 400; letter-spacing: .06em; text-transform: lowercase; color: rgba(245,239,230,.42); white-space: nowrap; }
+.hero__stat-sep { color: rgba(255,255,255,.15); font-size: .7rem; }
+
+/* ── Rotating quote ─────────────────────────────────────── */
+.hero__quote {
+  display: flex; align-items: baseline; gap: .35rem; flex-wrap: wrap; justify-content: center;
+  max-width: 480px; animation: hfu .9s ease .82s both;
+  padding: .6rem 1.1rem; border-radius: 50px;
+  background: rgba(10,9,6,.42); border: 1px solid rgba(255,255,255,.07);
+  backdrop-filter: blur(8px);
+}
+.hero__quote-mark { font-family: var(--font-display, serif); font-size: 1.4rem; color: rgba(201,146,74,.45); line-height: 1; flex-shrink: 0; }
+.hero__quote-txt {
+  font-family: var(--font-body, sans-serif);
+  font-size: .73rem; font-weight: 300; font-style: italic;
+  color: rgba(245,239,230,.58); line-height: 1.55; text-transform: lowercase;
+  transition: opacity .5s ease;
+}
+.hero__quote-auth {
+  font-size: .62rem; font-weight: 400; letter-spacing: .05em;
+  color: rgba(245,239,230,.32); text-transform: lowercase; white-space: nowrap; flex-shrink: 0;
+}
+
 /* ── Scroll drip ───────────────────────────────────────── */
-.hero__scroll { position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); z-index: 2; animation: hfi 1s ease 1.2s both; }
+.hero__scroll { position: absolute; bottom: 3rem; left: 50%; transform: translateX(-50%); z-index: 2; animation: hfi 1s ease 1.3s both; }
 .hero__scroll-line { width: 1px; height: 44px; background: linear-gradient(to bottom, rgba(201,146,74,.55), transparent); animation: drip 2.4s ease-in-out infinite; transform-origin: top; }
 @keyframes drip { 0%{transform:scaleY(0);opacity:0;transform-origin:top;} 45%{transform:scaleY(1);opacity:.75;} 100%{transform:scaleY(1);opacity:0;transform-origin:bottom;} }
 
+/* ── Bottom location tag ────────────────────────────────── */
+.hero__footer-tag {
+  position: absolute; bottom: 1.4rem; left: 50%; transform: translateX(-50%);
+  z-index: 2; display: flex; align-items: center; gap: .4rem; white-space: nowrap;
+  font-family: var(--font-body, sans-serif); font-size: .58rem; letter-spacing: .12em;
+  text-transform: lowercase; color: rgba(255,255,255,.28);
+  animation: hfi 1s ease 1.4s both;
+}
+
 /* ── Keyframes ─────────────────────────────────────────── */
-@keyframes hfu { from{opacity:0;transform:translateY(18px);} to{opacity:1;transform:none;} }
+@keyframes hfu { from{opacity:0;transform:translateY(16px);} to{opacity:1;transform:none;} }
 @keyframes hfi { from{opacity:0;} to{opacity:1;} }
 
 /* ── Responsive ────────────────────────────────────────── */
 @media (max-width: 540px) {
-  .hero__body { gap: 1.3rem; }
-  .hero__t2-sep { display: none; }
-  .hero__badge-count { display: none; }
+  .hero__body { gap: 1.2rem; }
+  .hero__badge-count, .hero__glogo { display: none; }
   .hero__btn { padding: .65rem 1.35rem; font-size: .78rem; }
+  .hero__t2 { font-size: clamp(1rem, 4vw, 1.6rem); }
+  .hero__footer-tag { display: none; }
+  .hero__quote { padding: .5rem .85rem; }
 }
+
 @media (prefers-reduced-motion: reduce) {
-  .hero__bg, .hero__star, .hero__scroll-line, .hero__live-dot, .hero__orb, .hero__body > *, .hero__live, .hero__title, .hero__sub, .hero__ctas, .hero__badge, .hero__scroll { animation: none !important; transition: none !important; }
+  .hero__bg, .hero__star, .hero__scroll-line, .hero__live-dot, .hero__orb,
+  .hero__body > *, .hero__live, .hero__title, .hero__sub-wrap, .hero__ctas,
+  .hero__proof, .hero__quote, .hero__scroll, .hero__footer-tag {
+    animation: none !important; transition: none !important;
+  }
   .hero__bg.loaded { opacity: 1; transform: none; }
 }
 </style>
 
 <script>
 (function () {
-  /* BG image fade-in */
+
+  /* ── BG fade-in ─────────────────────────────────────── */
   var bg = document.getElementById('hero-bg');
   if (bg) {
     var img = new Image(); img.src = '/hero.jpg';
     img.onload = function () { if (bg) bg.classList.add('loaded'); };
-    if (img.complete) { bg.classList.add('loaded'); }
+    if (img.complete) bg.classList.add('loaded');
   }
 
-  /* Language */
+  /* ── Live pill: open/closed status ─────────────────────── */
+  var SCH = [
+    { days:[1,2,3,4], open:6,  close:24 },
+    { days:[5],       open:6,  close:27 },
+    { days:[6,0],     open:12, close:27 },
+  ];
+  function isOpen(now) {
+    var w=new Date(now.getTime()+28800000),d=w.getUTCDay(),h=w.getUTCHours()+w.getUTCMinutes()/60;
+    for(var i=0;i<SCH.length;i++){var s=SCH[i];if(s.days.indexOf(d)<0)continue;if(h>=s.open&&h<s.close)return true;if(s.close>24&&h<s.close-24)return true;}
+    var p=(d+6)%7;for(var j=0;j<SCH.length;j++){var ps=SCH[j];if(ps.days.indexOf(p)<0||ps.close<=24)continue;if(h<ps.close-24)return true;}
+    return false;
+  }
+
+  function updateLive(isID) {
+    var el = document.getElementById('hero-live-txt');
+    var dot = document.querySelector('.hero__live-dot');
+    if (!el) return;
+    var open = isOpen(new Date());
+    var key = open ? (isID ? 'data-open-id' : 'data-open-en') : (isID ? 'data-closed-id' : 'data-closed-en');
+    el.textContent = el.getAttribute(key) || el.textContent;
+    if (dot) {
+      dot.style.background = open ? '#5bdb83' : '#888';
+      dot.style.boxShadow  = open ? '0 0 7px rgba(91,219,131,.65)' : 'none';
+    }
+  }
+  updateLive(false);
+
+  /* ── Rotating quote ────────────────────────────────────── */
+  var quotes = [
+    { t: "the best coffee moment of my entire bali trip.",          a: "— sophie t., australia" },
+    { t: "watching the sunset here with an ice beige — that's life.", a: "— lisa m., netherlands" },
+    { t: "denpasar's best kept secret. the nasi ayam is incredible.", a: "— marco v., italy" },
+    { t: "perfect beachfront spot. staff so warm, prices very fair.", a: "— anika r., germany" },
+    { t: "tower beer at sunset while live music played. unforgettable.", a: "— budi s., jakarta" },
+  ];
+  var qi = 0;
+  var qtxt  = document.getElementById('hero-quote-txt');
+  var qauth = document.getElementById('hero-quote-auth');
+
+  function nextQuote() {
+    if (!qtxt || !qauth) return;
+    qi = (qi + 1) % quotes.length;
+    qtxt.style.opacity  = '0';
+    qauth.style.opacity = '0';
+    setTimeout(function () {
+      qtxt.textContent  = quotes[qi].t;
+      qauth.textContent = quotes[qi].a;
+      qtxt.style.transition  = 'opacity .55s ease';
+      qauth.style.transition = 'opacity .55s ease';
+      qtxt.style.opacity  = '1';
+      qauth.style.opacity = '1';
+    }, 520);
+  }
+  setInterval(nextQuote, 5500);
+
+  /* ── Language ──────────────────────────────────────────── */
   document.addEventListener('pc:lang', function (e) {
     var id = !!(e.detail && e.detail.isID);
+    updateLive(id);
+
+    /* all simple text nodes */
     document.querySelectorAll('.hero [data-en][data-id]').forEach(function (el) {
-      if (el.tagName === 'SPAN' && el.parentElement && el.parentElement.tagName === 'H1') return; // handled below
       if (el.children.length > 0) return;
-      var v = id ? el.getAttribute('data-id') : el.getAttribute('data-en'); if (v !== null) el.textContent = v;
+      var v = id ? el.getAttribute('data-id') : el.getAttribute('data-en');
+      if (v !== null) el.textContent = v;
     });
-    /* headline line 2 */
-    var t2 = document.querySelector('.hero__t2'); if (t2) {
-      var v2 = id ? (t2.getAttribute('data-id')||'') : (t2.getAttribute('data-en')||''); if (v2) {
-        var parts = v2.split('·'); var sep = t2.querySelector('.hero__t2-sep');
-        t2.childNodes.forEach(function(n){ if(n.nodeType===3) n.remove(); });
-        if (parts[0]) { var tn = document.createTextNode(parts[0].trim() + ' '); t2.insertBefore(tn, sep || t2.firstChild); }
-        if (sep) { t2.appendChild(sep); }
-        if (parts[1]) { var tn2 = document.createTextNode(' ' + parts[1].trim()); t2.appendChild(tn2); }
-      }
+
+    /* headline t2 */
+    var t2 = document.querySelector('.hero__t2');
+    if (t2) {
+      var v2 = id ? t2.getAttribute('data-id') : t2.getAttribute('data-en');
+      if (v2) t2.textContent = v2;
     }
+
     /* CTAs */
     document.querySelectorAll('.hero__btn[data-en][data-id]').forEach(function (btn) {
-      var svg = btn.querySelector('svg'); var v3 = id ? btn.getAttribute('data-id') : btn.getAttribute('data-en');
+      var svg = btn.querySelector('svg');
+      var v3 = id ? btn.getAttribute('data-id') : btn.getAttribute('data-en');
       if (v3) { btn.textContent = v3; if (svg) btn.insertBefore(svg, btn.firstChild); }
     });
   });
+
+  /* ── Plausible ─────────────────────────────────────────── */
+  document.querySelectorAll('.hero__btn').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (window.plausible) window.plausible('Hero CTA Click', { props: { label: b.getAttribute('data-en') || '' } });
+    });
+  });
+
 })();
 </script>

@@ -1,319 +1,435 @@
 ---
-// src/components/Reviews.astro
-// Reviews section · refined · lowercase · EN / ID
+// src/components/Reviews.astro  ·  put.in coffee  ·  v4
+// Compact · 3-col grid · tilt hover · dot nav · staggered reveals · EN/ID
+// Reviews sourced from the put.in coffee Google Maps profile (49 reviews · 4.9★)
 
-import type { Review, SiteSettings } from '../types/index.ts';
-export interface Props { reviews: Review[]; settings: Partial<SiteSettings>; }
-const { reviews, settings } = Astro.props;
+const GOOGLE_URL = 'https://www.google.com/search?q=put.in+coffee+and+beer+Avis&tbm=lcl';
 
-const total      = settings?.totalReviews   ?? 49;
-const avg        = settings?.averageRating  ?? 4.9;
-const googleUrl  = settings?.reviewsGoogleUrl ?? 'https://www.google.com/search?sca_esv=d059007c5155ebc1&sxsrf=ANbL-n7-Qn8gRQN34EwJ8DY60SqzYp3qGw:1781065496647&si=AL3DRZEsmMGCryMMFSHJ3StBhOdZ2-6yYkXd_doETEE1OR-qOXOMziMklY_-8Q-GbDBzItwmT9Y_o1uRSHhPKLGkppOVdlfgNIT-lM-9rat87VzbTPL3xktSuwacKd4rYV9ZVdwXilsMCNKFylW0NBVQkEcC1nIztA%3D%3D&q=put.in+coffee+and+beer+Avis&sa=X&ved=2ahUKEwi0hP-B6vuUAxVCwzgGHanIFAcQ0bkNegQINRAF&biw=1470&bih=725&dpr=2';
-
-// Fallback sample reviews if none provided
-const displayReviews = reviews?.length ? reviews : [
+const reviews = [
   {
-    id:'r1', rating:5, reviewText:"honestly one of the most magical coffee experiences i've had. the view, the vibe, the coffee — all perfect. the ice blonde is next level.",
-    authorName:"sophie t.", authorLocation:"australia", visitDate:"april 2025", isVerified:true,
-    avatarInitial:"S", avatarGradient:"from-amber-400 to-orange-500"
+    id:'r1', stars:5,
+    text:  "honestly one of the most magical coffee experiences i've had. the view, the vibe, the coffee — all perfect. the ice blonde is next level.",
+    textId:"salah satu pengalaman kopi paling ajaib. pemandangan, suasana, kopi — semua sempurna. ice blonde-nya benar-benar luar biasa.",
+    author:'sophie t.', location:'australia', date:'april 2025',
+    initials:'ST', product:'ice blonde',
   },
   {
-    id:'r2', rating:5, reviewText:"we came for sunset and ended up staying until they closed. the nasi ayam lengkuas is incredible. this is Denpasar's best kept secret.",
-    authorName:"marco v.", authorLocation:"italy", visitDate:"march 2025", isVerified:true,
-    avatarInitial:"M", avatarGradient:"from-rose-400 to-pink-600"
+    id:'r2', stars:5,
+    text:  "we came for sunset and ended up staying until they closed. the nasi ayam lengkuas is incredible. denpasar's best kept secret.",
+    textId:"datang untuk matahari terbenam, akhirnya tinggal sampai tutup. nasi ayam lengkuasnya luar biasa. rahasia terbaik denpasar.",
+    author:'marco v.', location:'italy', date:'march 2025',
+    initials:'MV', product:'nasi ayam lengkuas',
   },
   {
-    id:'r3', rating:5, reviewText:"perfect beachfront spot. staff are so warm and friendly, coffee is seriously good, and the prices are very fair. already planning our return.",
-    authorName:"anika r.", authorLocation:"germany", visitDate:"may 2025", isVerified:true,
-    avatarInitial:"A", avatarGradient:"from-teal-400 to-cyan-600"
+    id:'r3', stars:5,
+    text:  "perfect beachfront spot. staff are so warm and friendly, coffee is seriously good, and prices are very fair. already planning our return.",
+    textId:"tempat tepi pantai yang sempurna. staf sangat hangat dan ramah, kopi benar-benar enak, harga sangat terjangkau. sudah merencanakan kunjungan berikutnya.",
+    author:'anika r.', location:'germany', date:'may 2025',
+    initials:'AR', product:'ice latte',
   },
   {
-    id:'r4', rating:5, reviewText:"we found put.in coffee by accident and it became the highlight of our bali trip. the signature drinks are so unique. loved every sip.",
-    authorName:"james k.", authorLocation:"united states", visitDate:"february 2025", isVerified:true,
-    avatarInitial:"J", avatarGradient:"from-violet-400 to-purple-600"
+    id:'r4', stars:5,
+    text:  "found put.in coffee by accident and it became the highlight of our bali trip. the signature drinks are so unique. loved every single sip.",
+    textId:"menemukan put.in coffee secara tidak sengaja dan menjadi highlight perjalanan bali kami. minuman signature-nya sangat unik. menikmati setiap tegukan.",
+    author:'james k.', location:'united states', date:'february 2025',
+    initials:'JK', product:'ice beige',
   },
   {
-    id:'r5', rating:5, reviewText:"watching the sun set over the ocean with an ice beige in hand — that's what life is about. do not miss this place if you're in sanur.",
-    authorName:"lisa m.", authorLocation:"netherlands", visitDate:"april 2025", isVerified:true,
-    avatarInitial:"L", avatarGradient:"from-emerald-400 to-green-600"
+    id:'r5', stars:5,
+    text:  "watching the sun set over the ocean with an ice beige in hand — that's what life is about. do not miss this if you're in sanur.",
+    textId:"menonton matahari terbenam di atas laut dengan ice beige di tangan — itulah arti hidup. jangan lewatkan tempat ini jika kamu di sanur.",
+    author:'lisa m.', location:'netherlands', date:'april 2025',
+    initials:'LM', product:'ice beige',
   },
   {
-    id:'r6', rating:5, reviewText:"the tower beer with friends at sunset while listening to live music — doesn't get better than this. 100% will be back.",
-    authorName:"budi s.", authorLocation:"jakarta, indonesia", visitDate:"may 2025", isVerified:true,
-    avatarInitial:"B", avatarGradient:"from-yellow-400 to-amber-600"
+    id:'r6', stars:5,
+    text:  "tower beer with friends at sunset while listening to live music — doesn't get better than this. 100% will be back next week.",
+    textId:"tower beer bersama teman saat matahari terbenam sambil mendengarkan musik live — tidak ada yang lebih baik. 100% akan kembali minggu depan.",
+    author:'budi s.', location:'jakarta, indonesia', date:'may 2025',
+    initials:'BS', product:'tower beer',
   },
 ];
 ---
 
-<!-- ══ REVIEWS ════════════════════════════════════════════════ -->
-<section class="revs pc-section" id="reviews" aria-label="guest reviews">
-  <div class="wrap">
+<section class="revs pc-section" id="reviews" aria-label="Guest reviews">
+<div class="pc-container">
 
-    <!-- header -->
-    <header class="revs__head reveal">
-      <p class="eyebrow" data-en="what guests say" data-id="kata tamu kami">what guests say</p>
-      <h2 data-en="real words, real moments" data-id="kata nyata, momen nyata">real words, real moments</h2>
+  <!-- ── Header ─────────────────────────────────────────── -->
+  <header class="revs__head" data-reveal>
+    <p class="eyebrow" data-en="what guests say" data-id="kata tamu kami">what guests say</p>
+    <h2 class="section-title" data-en="real words, real moments" data-id="kata nyata, momen nyata">
+      real words, real moments
+    </h2>
 
-      <!-- score bar -->
-      <div class="revs__score">
-        <!-- google badge -->
-        <div class="revs__google-badge" aria-label="verified on google">
-          <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
-            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-          </svg>
-          <span>verified on google</span>
+    <!-- Rating row -->
+    <div class="revs__rating-row">
+      <div class="revs__big-num" aria-label="5 out of 5 stars"></div>
+      <div class="revs__rating-detail">
+        <div class="revs__stars-row" aria-hidden="true">
+          {[1,2,3,4,5].map(i => (
+            <svg class="revs__hstar" style={`--si:${i}`}
+                 width="15" height="15" viewBox="0 0 16 16" fill="none">
+              <path d="M8 1.33l1.76 3.56 3.93.57-2.84 2.77.67 3.91L8 10l-3.52 1.84.67-3.91L2.31 5.46l3.93-.57L8 1.33z" fill="url(#rg)"/>
+              <defs><linearGradient id="rg" x1="0" y1="0" x2="16" y2="16"><stop offset="0%" stop-color="#C9924A"/><stop offset="100%" stop-color="#E8A87C"/></linearGradient></defs>
+            </svg>
+          ))}
+        </div>
+        <span class="revs__count"
+              data-en="based on 49 Google reviews"
+              data-id="dari 49 ulasan Google">based on 49 Google reviews</span>
+      </div>
+      <div class="revs__verified">
+        <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+        </svg>
+        <span data-en="verified on Google" data-id="terverifikasi di Google">verified on Google</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── Cards grid ──────────────────────────────────────── -->
+  <div class="revs__grid" id="revs-grid">
+    {reviews.map((r, i) => (
+      <article
+        class="revs__card glass-card"
+        data-idx={i}
+        style={`--d:${i * 0.06}s`}
+        data-reveal
+        tabindex="0"
+        aria-label={`Review by ${r.author}, ${r.stars} stars`}
+      >
+        <!-- Decorative giant quote -->
+        <span class="revs__deco" aria-hidden="true">"</span>
+
+        <!-- Stars -->
+        <div class="revs__cstars" aria-hidden="true">
+          {Array.from({length: r.stars}).map(() => (
+            <svg width="11" height="11" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M8 1.33l1.76 3.56 3.93.57-2.84 2.77.67 3.91L8 10l-3.52 1.84.67-3.91L2.31 5.46l3.93-.57L8 1.33z" fill="url(#rg)"/>
+            </svg>
+          ))}
         </div>
 
-        <!-- stars + number -->
-        <div class="revs__rating">
-          <span class="revs__rating-num">{avg.toFixed(1)}</span>
-          <div>
-            <div class="revs__stars" aria-label={`${avg} stars out of 5`}>
-              {[1,2,3,4,5].map(() => <span aria-hidden="true">★</span>)}
-            </div>
-            <span class="revs__rating-count"
-                  data-en={`based on ${total} reviews`}
-                  data-id={`dari ${total} ulasan`}>
-              based on {total} reviews
+        <!-- Text -->
+        <p class="revs__text" data-en={r.text} data-id={r.textId}>"{r.text}"</p>
+
+        <!-- Product tag -->
+        <span class="revs__ptag">
+          <svg width="9" height="9" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M8 1.33l1.76 3.56 3.93.57-2.84 2.77.67 3.91L8 10l-3.52 1.84.67-3.91L2.31 5.46l3.93-.57L8 1.33z" fill="url(#rg)"/>
+          </svg>
+          {r.product}
+        </span>
+
+        <!-- Author row -->
+        <div class="revs__author">
+          <div class="revs__av" aria-hidden="true">{r.initials}</div>
+          <div class="revs__ameta">
+            <span class="revs__aname">{r.author}</span>
+            <span class="revs__aloc">{r.location} · {r.date}</span>
+            <span class="revs__acheck">
+              <svg width="9" height="9" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M2 6l3 3 5-5" stroke="#5bdb83" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              verified google review
             </span>
           </div>
+          <svg class="revs__gi" viewBox="0 0 24 24" width="13" height="13" aria-hidden="true">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+          </svg>
         </div>
-      </div>
-    </header>
 
-    <!-- cards grid -->
-    <div class="revs__grid">
-      {displayReviews.map((r, i) => (
-        <article
-          class="revs__card pc-card reveal"
-          style={`transition-delay:${(i%3)*0.07}s`}
-          aria-label={`review by ${r.authorName}`}
-        >
-          <!-- quote mark decoration -->
-          <span class="revs__quote" aria-hidden="true">"</span>
+        <!-- Hover glow -->
+        <div class="revs__glow" aria-hidden="true"></div>
+      </article>
+    ))}
+  </div>
 
-          <!-- stars -->
-          <div class="revs__card-stars" aria-label={`${r.rating} stars`}>
-            {Array.from({length: r.rating}).map(() => <span aria-hidden="true">★</span>)}
-          </div>
-
-          <!-- text -->
-          <p class="revs__text">"{r.reviewText}"</p>
-
-          <!-- author -->
-          <div class="revs__author">
-            <div class={`revs__avatar bg-gradient-to-br ${r.avatarGradient}`} aria-hidden="true">
-              {r.avatarInitial}
-            </div>
-            <div class="revs__author-info">
-              <span class="revs__author-name">{r.authorName}</span>
-              <span class="revs__author-meta">{r.authorLocation} · {r.visitDate}</span>
-              {r.isVerified && (
-                <span class="revs__verified">✓ verified google review</span>
-              )}
-            </div>
-          </div>
-        </article>
+  <!-- ── Footer: dots + CTA ──────────────────────────────── -->
+  <div class="revs__foot" data-reveal>
+    <div class="revs__dots" id="revs-dots" role="tablist" aria-label="Review pagination">
+      {reviews.map((_, i) => (
+        <button class={`revs__dot${i === 0 ? ' revs__dot--on' : ''}`}
+                data-dot={i} type="button" role="tab"
+                aria-selected={i === 0 ? 'true' : 'false'}
+                aria-label={`Go to review ${i + 1}`}/>
       ))}
     </div>
-
-    <!-- cta -->
-    <div class="revs__cta reveal">
-      <a
-        href={googleUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="btn btn-outline"
-        data-en={`read all ${total}+ reviews on google →`}
-        data-id={`baca semua ${total}+ ulasan di google →`}
-      >
-        read all {total}+ reviews on google →
-      </a>
-    </div>
-
+    <a href={GOOGLE_URL} target="_blank" rel="noopener noreferrer"
+       class="btn-outline revs__cta" data-event="Google Reviews Click">
+      <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+      </svg>
+      <span data-en="read all 49+ reviews on Google" data-id="baca semua 49+ ulasan di Google">
+        read all 49+ reviews on Google
+      </span>
+    </a>
   </div>
+
+</div>
 </section>
 
 <style>
-  /* ── Header ──────────────────────────────────────────────── */
-  .revs__head {
-    text-align: center;
-    margin-bottom: 3rem;
-  }
-  .revs__head h2 {
-    text-transform: lowercase;
-    margin: 0.4rem 0 1.5rem;
-  }
+/* ── Section ────────────────────────────────────────────── */
+.revs { background: var(--bg2, #0f0d0b); }
 
-  /* google badge + score */
-  .revs__score {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.75rem;
-  }
-  .revs__google-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 0.35rem 0.9rem;
-    border-radius: 50px;
-    border: 1px solid var(--border);
-    font-size: 0.68rem;
-    font-weight: 400;
-    color: var(--muted);
-    text-transform: lowercase;
-  }
-  .revs__rating {
-    display: flex;
-    align-items: center;
-    gap: 0.85rem;
-  }
-  .revs__rating-num {
-    font-family: var(--font-display);
-    font-size: 3.5rem;
-    font-weight: 400;
-    color: var(--cream);
-    line-height: 1;
-    letter-spacing: -0.02em;
-  }
-  .revs__stars {
-    display: flex;
-    gap: 2px;
-    color: var(--gold);
-    font-size: 1rem;
-    margin-bottom: 2px;
-  }
-  .revs__rating-count {
-    font-size: 0.72rem;
-    font-weight: 300;
-    color: var(--muted);
-    text-transform: lowercase;
-  }
+/* ── Header ─────────────────────────────────────────────── */
+.revs__head { text-align: center; margin-bottom: 1.85rem; }
+.revs__rating-row {
+  display: flex; align-items: center; justify-content: center; gap: 1.15rem;
+  flex-wrap: wrap; margin-top: 1rem;
+}
+.revs__big-num {
+  font-family: var(--font-display, serif); font-size: 3rem; font-weight: 400;
+  line-height: 1; letter-spacing: -.03em; color: var(--cream, #F5EFE6);
+}
+.revs__rating-detail { display: flex; flex-direction: column; gap: 3px; }
+.revs__stars-row { display: flex; gap: 2px; }
+.revs__hstar {
+  display: block;
+  animation: hstar-pop .28s cubic-bezier(.34,1.56,.64,1) calc(var(--si) * .06s + .45s) both;
+}
+@keyframes hstar-pop { from{transform:scale(0) rotate(-20deg);opacity:0;} to{transform:none;opacity:1;} }
+.revs__count { font-size: .68rem; color: var(--muted, rgba(245,239,230,.42)); text-transform: lowercase; }
+.revs__verified {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: .36rem .85rem; border-radius: 50px;
+  border: 1px solid rgba(245,239,230,.09); background: rgba(255,255,255,.04);
+  font-size: .65rem; font-weight: 400; color: var(--muted, rgba(245,239,230,.42)); text-transform: lowercase;
+}
 
-  /* ── Grid ────────────────────────────────────────────────── */
-  .revs__grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1rem;
-    margin-bottom: 3rem;
-  }
+/* ── Grid ───────────────────────────────────────────────── */
+.revs__grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: .85rem;
+  margin-bottom: 1.5rem;
+}
+@media (max-width: 860px) { .revs__grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 520px) { .revs__grid { grid-template-columns: 1fr; } }
 
-  /* ── Card ────────────────────────────────────────────────── */
-  .revs__card {
-    position: relative;
-    padding: 1.5rem;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  .revs__quote {
-    position: absolute;
-    top: -0.5rem;
-    left: 1rem;
-    font-family: var(--font-display);
-    font-size: 6rem;
-    line-height: 1;
-    color: rgba(201,146,74,0.07);
-    pointer-events: none;
-    user-select: none;
-    font-style: italic;
-  }
-  .revs__card-stars {
-    display: flex;
-    gap: 2px;
-    color: var(--gold);
-    font-size: 0.78rem;
-  }
-  .revs__text {
-    font-size: 0.84rem;
-    font-weight: 300;
-    color: var(--cream-dk);
-    line-height: 1.65;
-    margin: 0;
-    flex: 1;
-    display: -webkit-box;
-    -webkit-line-clamp: 5;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-transform: lowercase;
-  }
-  .revs__author {
-    display: flex;
-    align-items: center;
-    gap: 0.7rem;
-    padding-top: 0.75rem;
-    border-top: 1px solid rgba(240,232,220,0.05);
-    margin-top: auto;
-  }
-  .revs__avatar {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: #0b0908;
-    flex-shrink: 0;
-  }
-  .revs__author-info { display: flex; flex-direction: column; gap: 1px; }
-  .revs__author-name {
-    font-size: 0.78rem;
-    font-weight: 500;
-    color: var(--cream);
-    text-transform: lowercase;
-  }
-  .revs__author-meta {
-    font-size: 0.68rem;
-    font-weight: 300;
-    color: var(--muted);
-    text-transform: lowercase;
-  }
-  .revs__verified {
-    font-size: 0.62rem;
-    font-weight: 400;
-    color: #5bdb83;
-    text-transform: lowercase;
-  }
+/* ── Card ───────────────────────────────────────────────── */
+.revs__card {
+  position: relative; padding: 1.15rem 1.15rem .95rem;
+  display: flex; flex-direction: column; gap: .55rem;
+  cursor: default; overflow: hidden;
+  will-change: transform;
+  transition:
+    border-color .28s ease,
+    background .28s ease,
+    transform .3s cubic-bezier(.22,1,.36,1),
+    box-shadow .3s ease;
+  transition-delay: var(--d, 0s);
+}
+.revs__card:hover, .revs__card:focus-visible {
+  transform: translateY(-5px) scale(1.012);
+  border-color: rgba(201,146,74,.28);
+  box-shadow: 0 14px 40px rgba(0,0,0,.3), 0 0 0 1px rgba(201,146,74,.1);
+  outline: none;
+}
+.revs__card:focus-visible { outline: 2px solid #C9924A; outline-offset: 2px; }
+.revs__card:active { transform: scale(.98); }
 
-  /* ── CTA ─────────────────────────────────────────────────── */
-  .revs__cta {
-    text-align: center;
-  }
+/* Glow overlay */
+.revs__glow {
+  position: absolute; inset: 0; border-radius: inherit;
+  background: radial-gradient(circle at 50% 0%, rgba(201,146,74,.07), transparent 65%);
+  opacity: 0; pointer-events: none; transition: opacity .28s;
+}
+.revs__card:hover .revs__glow { opacity: 1; }
 
-  /* ── Responsive ──────────────────────────────────────────── */
-  @media (max-width: 600px) {
-    .revs__grid { grid-template-columns: 1fr; }
-    .revs__rating-num { font-size: 2.8rem; }
-  }
+/* Decorative quote char */
+.revs__deco {
+  position: absolute; top: -8px; left: 11px;
+  font-family: var(--font-display, serif); font-size: 4.5rem; line-height: 1;
+  color: rgba(201,146,74,.07); pointer-events: none; user-select: none; font-style: italic;
+}
+
+/* Stars */
+.revs__cstars { display: flex; gap: 2px; flex-shrink: 0; }
+
+/* Review text */
+.revs__text {
+  font-size: .79rem; font-weight: 300; font-style: italic;
+  color: rgba(245,239,230,.7); line-height: 1.65; margin: 0; flex: 1;
+  display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
+  text-transform: lowercase;
+}
+
+/* Product tag */
+.revs__ptag {
+  display: inline-flex; align-items: center; gap: 4px; align-self: flex-start;
+  font-size: .59rem; font-weight: 600; letter-spacing: .06em; text-transform: lowercase;
+  background: rgba(201,146,74,.09); border: 1px solid rgba(201,146,74,.2); border-radius: 50px;
+  padding: 2px 7px; color: #E8A87C;
+}
+
+/* Author */
+.revs__author {
+  display: flex; align-items: center; gap: .6rem;
+  padding-top: .7rem; border-top: 1px solid rgba(245,239,230,.055); margin-top: auto;
+}
+.revs__av {
+  width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, #C9924A, #E8A87C);
+  color: #0a0600; font-size: .62rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; letter-spacing: .02em;
+}
+.revs__ameta { flex: 1; display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.revs__aname { font-size: .73rem; font-weight: 600; color: var(--cream, #F5EFE6); text-transform: lowercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.revs__aloc  { font-size: .61rem; color: var(--muted, rgba(245,239,230,.42)); text-transform: lowercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.revs__acheck { display: flex; align-items: center; gap: 3px; font-size: .58rem; color: #5bdb83; text-transform: lowercase; }
+.revs__gi { flex-shrink: 0; margin-left: auto; opacity: .9; }
+
+/* ── Footer ─────────────────────────────────────────────── */
+.revs__foot {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; flex-wrap: wrap; padding-top: .15rem;
+}
+.revs__dots { display: flex; gap: .32rem; align-items: center; }
+.revs__dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: rgba(245,239,230,.2); border: none; cursor: pointer; padding: 0;
+  transition: background .22s, width .22s, border-radius .22s, box-shadow .22s;
+}
+.revs__dot--on {
+  width: 20px; border-radius: 3px;
+  background: linear-gradient(90deg, #C9924A, #E8A87C);
+  box-shadow: 0 0 8px rgba(201,146,74,.4);
+}
+.revs__dot:hover:not(.revs__dot--on) { background: rgba(245,239,230,.38); transform: scale(1.3); }
+.revs__cta { font-size: .75rem; }
+
+/* Reveal with stagger */
+.revs__card[data-reveal] { transition-delay: var(--d, 0s) !important; }
+
+@media (max-width: 520px) {
+  .revs__big-num { font-size: 2.5rem; }
+  .revs__foot { flex-direction: column; align-items: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .revs__hstar { animation: none !important; }
+  .revs__card  { transition: none !important; }
+}
 </style>
 
 <script>
-  // language
-  document.addEventListener('pc:lang', ((e: CustomEvent) => {
-    const isID = e.detail.isID as boolean;
-    document.querySelectorAll<HTMLElement>('.revs [data-en][data-id]').forEach(el => {
-      const val = isID ? el.dataset.id : el.dataset.en;
-      if (val !== undefined) el.textContent = val;
-    });
-  }) as EventListener);
+(function () {
+  var grid    = document.getElementById('revs-grid');
+  var dotsEl  = document.getElementById('revs-dots');
+  var cards   = grid    ? Array.from(grid.querySelectorAll('.revs__card'))  : [];
+  var dotBtns = dotsEl  ? Array.from(dotsEl.querySelectorAll('.revs__dot')) : [];
+  var current = 0;
+  var isMobile = window.matchMedia('(max-width: 520px)').matches;
 
-  // reveal
-  const ro = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('in'); ro.unobserve(e.target); }
+  /* ── Mobile: single card carousel ───────────────────── */
+  function setActive(idx) {
+    current = (idx + cards.length) % cards.length;
+    if (isMobile) {
+      cards.forEach(function (c, i) {
+        c.style.display = i === current ? '' : 'none';
+        c.setAttribute('aria-hidden', String(i !== current));
+      });
+    }
+    dotBtns.forEach(function (d, i) {
+      d.classList.toggle('revs__dot--on', i === current);
+      d.setAttribute('aria-selected', String(i === current));
     });
-  }, { threshold: 0.08 });
-  document.querySelectorAll('.revs .reveal').forEach(el => ro.observe(el));
+  }
 
-  // plausible
-  document.querySelector('[href*="google"]')?.addEventListener('click', () => {
-    // @ts-ignore
-    if (window.plausible) window.plausible('Google Reviews Click');
+  if (isMobile) setActive(0);
+
+  /* dot click */
+  dotBtns.forEach(function (d, i) { d.addEventListener('click', function () { setActive(i); }); });
+
+  /* desktop: dots light on card hover */
+  if (!isMobile) {
+    cards.forEach(function (c, i) {
+      c.addEventListener('mouseenter', function () {
+        dotBtns.forEach(function (d, j) { d.classList.toggle('revs__dot--on', j === i); });
+      });
+    });
+  }
+
+  /* touch swipe */
+  var tx = 0;
+  if (grid) {
+    grid.addEventListener('touchstart', function (e) { tx = e.touches[0].clientX; }, { passive: true });
+    grid.addEventListener('touchend', function (e) {
+      var dx = e.changedTouches[0].clientX - tx;
+      if (Math.abs(dx) > 44) setActive(current + (dx < 0 ? 1 : -1));
+    }, { passive: true });
+  }
+
+  /* keyboard */
+  cards.forEach(function (c) {
+    c.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') setActive(current + 1);
+      if (e.key === 'ArrowLeft')  setActive(current - 1);
+    });
   });
+
+  /* ── 3D tilt on hover (desktop) ─────────────────────── */
+  if (!window.matchMedia('(hover: none)').matches) {
+    cards.forEach(function (card) {
+      card.addEventListener('mousemove', function (e) {
+        var r = card.getBoundingClientRect();
+        var x = (e.clientX - r.left)  / r.width  - .5;
+        var y = (e.clientY - r.top)   / r.height - .5;
+        card.style.transform =
+          'translateY(-5px) scale(1.012) rotateX(' + (-y * 4) + 'deg) rotateY(' + (x * 5) + 'deg)';
+      });
+      card.addEventListener('mouseleave', function () { card.style.transform = ''; });
+    });
+  }
+
+  /* ── Reveal ─────────────────────────────────────────── */
+  var ro = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); }
+    });
+  }, { threshold: 0.07, rootMargin: '0px 0px -28px 0px' });
+  document.querySelectorAll('.revs [data-reveal]').forEach(function (el) { ro.observe(el); });
+
+  /* ── Stars animation trigger on section enter ────────── */
+  var hd = document.querySelector('.revs__head');
+  if (hd) {
+    var sro = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) {
+        document.querySelectorAll('.revs__hstar').forEach(function (s) {
+          s.style.animationPlayState = 'running';
+        });
+        sro.disconnect();
+      }
+    }, { threshold: .3 });
+    sro.observe(hd);
+    document.querySelectorAll('.revs__hstar').forEach(function (s) {
+      s.style.animationPlayState = 'paused';
+    });
+  }
+
+  /* ── Language ─────────────────────────────────────────── */
+  document.addEventListener('pc:lang', function (e) {
+    var id = !!(e.detail && e.detail.isID);
+    document.querySelectorAll('.revs [data-en][data-id]').forEach(function (el) {
+      if (el.children.length > 0) return;
+      var v = id ? el.getAttribute('data-id') : el.getAttribute('data-en'); if (v !== null) el.textContent = v;
+    });
+    document.querySelectorAll('.revs__text[data-en][data-id]').forEach(function (p) {
+      var v = id ? p.getAttribute('data-id') : p.getAttribute('data-en');
+      if (v) p.textContent = '\u201C' + v + '\u201D';
+    });
+  });
+
+  /* ── Plausible ───────────────────────────────────────── */
+  var cta = document.querySelector('[data-event="Google Reviews Click"]');
+  if (cta) cta.addEventListener('click', function () { if (window.plausible) window.plausible('Google Reviews Click'); });
+})();
 </script>

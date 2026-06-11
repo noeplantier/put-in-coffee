@@ -1,342 +1,636 @@
 ---
-// src/components/Location.astro
-// put.in coffee · Location section · Interactive Leaflet map · EN / ID
-// Coordinates: Pantai Biaung, Denpasar, Bali — GPS: -8.7344, 115.2529
+// src/components/Location.astro  ·  put.in coffee  ·  v2
+// Instagram + WhatsApp + TikTok · Leaflet interactive map · WITA live clock · EN/ID
+// GPS: -8.7344, 115.2529 — Pantai Biaung, Denpasar, Bali
 ---
 
-<section class="loc pc-section" id="location" aria-label="Find us">
-  <div class="pc-container">
+<!-- Leaflet CSS — lazy loaded -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" media="print" onload="this.media='all'"/>
 
-    <div class="loc__layout">
+<section class="loc pc-section" id="location" aria-label="Find us — come visit put.in coffee">
+<div class="pc-container">
+<div class="loc__layout">
 
-      <!-- LEFT: info panel -->
-      <div class="loc__panel">
+  <!-- ═══ LEFT: info panel ════════════════════════════════ -->
+  <div class="loc__panel">
 
-        <header data-reveal>
-          <p class="eyebrow" data-en="find us" data-id="temukan kami">find us</p>
-          <h2 class="section-title" data-en="come visit us<br>on the shore" data-id="kunjungi kami<br>di tepi pantai">
-            come visit us<br>on the shore
-          </h2>
-        </header>
+    <header data-reveal>
+      <p class="eyebrow" data-en="find us" data-id="temukan kami">find us</p>
+      <h2 class="section-title"
+          data-en="come visit us<br>on the shore"
+          data-id="kunjungi kami<br>di tepi pantai">
+        come visit us<br>on the shore
+      </h2>
+    </header>
 
-        <!-- Real-time status -->
-        <div class="loc__status glass-card" data-reveal id="loc-status">
-          <div class="loc__status-row">
-            <div class="loc__status-pill" id="loc-pill">
-              <span class="loc__status-dot" id="loc-dot"></span>
-              <span class="loc__status-text" id="loc-text"
-                    data-open-en="open now" data-open-id="buka sekarang"
-                    data-closed-en="closed" data-closed-id="tutup">—</span>
-            </div>
-            <div class="loc__clock-group">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/>
-                <path d="M12 7v5l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              </svg>
-              <span class="loc__clock" id="loc-clock">—</span>
-              <span class="loc__tz">WITA</span>
-            </div>
-          </div>
-          <p class="loc__next" id="loc-next"></p>
+    <!-- Live status + clock -->
+    <div class="loc__status glass-card" id="loc-status" data-reveal>
+      <div class="loc__status-row">
+        <div class="loc__status-left">
+          <span class="loc__dot" id="loc-dot"></span>
+          <span class="loc__status-txt" id="loc-txt"
+                data-open-en="open now" data-open-id="buka sekarang"
+                data-closed-en="closed" data-closed-id="tutup">—</span>
         </div>
-
-        <!-- Contact items -->
-        <div class="loc__contacts" data-stagger>
-          {[
-            {
-              svg: `<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="12" cy="9" r="2.5" stroke="currentColor" stroke-width="1.4" fill="none"/>`,
-              en: 'Jl. Pantai Biaung, Sanur, Denpasar, Bali 80228',
-              id_: 'Jl. Pantai Biaung, Sanur, Denpasar, Bali 80228',
-              label: { en: 'address', id_: 'alamat' }, href: null
-            },
-            {
-              svg: `<path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.09-1.26a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z" stroke="currentColor" stroke-width="1.4" fill="none"/>`,
-              en: '+62 819-1633-4989', id_: '+62 819-1633-4989',
-              label: { en: 'phone', id_: 'telepon' }, href: 'tel:+6281916334989'
-            },
-            {
-              svg: `<rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M16 11.37A4 4 0 1112.63 8" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/>`,
-              en: 'put.in.coffee', id_: 'put.in.coffee',
-              label: { en: 'instagram', id_: 'instagram' }, href: 'https://www.instagram.com/put.in.coffee/'
-            },
-          ].map(item => (
-            <div class="loc__contact-item glass-card">
-              <div class="loc__contact-icon" aria-hidden="true">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" set:html={item.svg}/>
-              </div>
-              <div class="loc__contact-body">
-                <span class="loc__contact-label" data-en={item.label.en} data-id={item.label.id_}>{item.label.en}</span>
-                {item.href
-                  ? <a href={item.href} class="loc__contact-val loc__contact-link">{item.en}</a>
-                  : <span class="loc__contact-val" data-en={item.en} data-id={item.id_}>{item.en}</span>
-                }
-              </div>
-            </div>
-          ))}
+        <div class="loc__clock-row">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M12 7v5l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <span class="loc__clock" id="loc-clock">—</span>
+          <span class="loc__tz">WITA</span>
         </div>
+      </div>
+      <p class="loc__next" id="loc-next"></p>
+    </div>
 
-        <!-- Hours -->
-        <div class="loc__hours glass-card" data-reveal>
-          <p class="loc__hours-head" data-en="opening hours" data-id="jam buka">opening hours</p>
-          <div class="loc__hours-rows">
-            {[
-              { en:'Mon – Fri',            id_:'Sen – Jumat',      time:'6:00 AM – 12:00 AM', hi:true  },
-              { en:'Fri – Sun',            id_:'Jumat – Minggu',   time:'12:00 PM – 3:00 AM', hi:true  },
-              { en:'Kitchen closes',       id_:'Dapur tutup',      time:'9:30 PM',             hi:false },
-              { en:'Live Music · Sun',     id_:'Musik Live · Min', time:'7:00 PM – 9:00 PM',  hi:false },
-            ].map(h => (
-              <div class={`loc__hours-row${h.hi ? ' loc__hours-row--hi' : ''}`}>
-                <span data-en={h.en} data-id={h.id_}>{h.en}</span>
-                <span class="loc__hours-time">{h.time}</span>
-              </div>
-            ))}
-          </div>
+    <!-- Contact links: Instagram · WhatsApp · TikTok -->
+    <div class="loc__contacts" data-stagger>
+
+      <!-- Instagram -->
+      <a href="https://www.instagram.com/put.in.coffee/"
+         target="_blank" rel="noopener noreferrer"
+         class="loc__contact glass-card loc__contact--ig"
+         aria-label="Instagram @put.in.coffee">
+        <div class="loc__contact-icon" aria-hidden="true">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+            <rect x="2" y="2" width="20" height="20" rx="5.5" stroke="url(#ig-g)" stroke-width="1.7" fill="none"/>
+            <circle cx="12" cy="12" r="4.5" stroke="url(#ig-g)" stroke-width="1.7" fill="none"/>
+            <circle cx="17.5" cy="6.5" r="1.3" fill="#E07A5F"/>
+            <defs>
+              <linearGradient id="ig-g" x1="2" y1="22" x2="22" y2="2" gradientUnits="userSpaceOnUse">
+                <stop offset="0%"   stop-color="#F58529"/>
+                <stop offset="50%"  stop-color="#DD2A7B"/>
+                <stop offset="100%" stop-color="#8134AF"/>
+              </linearGradient>
+            </defs>
+          </svg>
         </div>
+        <div class="loc__contact-body">
+          <span class="loc__contact-label" data-en="instagram" data-id="instagram">instagram</span>
+          <span class="loc__contact-val">@put.in.coffee</span>
+        </div>
+        <span class="loc__contact-arrow" aria-hidden="true">↗</span>
+      </a>
 
-        <!-- Directions CTA -->
-        <a href="https://www.google.com/maps/place/put.in+coffee+and+beer/data=!4m2!3m1!1s0x0:0x70829e134ab3dd00?sa=X&ved=1t:2428&ictx=111"
-           target="_blank" rel="noopener noreferrer"
-           class="btn-primary loc__cta" data-event="Maps Click"
-           data-reveal
-           data-en="get directions" data-id="dapatkan arah">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+      <!-- WhatsApp -->
+      <a href="https://wa.me/6281916334989"
+         target="_blank" rel="noopener noreferrer"
+         class="loc__contact glass-card loc__contact--wa"
+         aria-label="WhatsApp +62 819-1633-4989">
+        <div class="loc__contact-icon" aria-hidden="true">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+            <path d="M21 12a9 9 0 01-9 9H5l-2 2V12a9 9 0 119 0z"
+                  stroke="#25D366" stroke-width="1.7" fill="none"/>
+            <path d="M8.5 10.5c.2-.8 1-1.5 1.5-1.5.4 0 .7.2.9.5l.8 1.6c.1.3 0 .6-.2.8l-.5.6c.3.7.8 1.3 1.4 1.7l.7-.4c.3-.2.6-.1.8.1l1.4 1c.3.2.4.6.2.9-.4.6-1.1 1.2-1.8 1.2-2 0-4.7-3-4.7-5"
+                  fill="#25D366"/>
+          </svg>
+        </div>
+        <div class="loc__contact-body">
+          <span class="loc__contact-label" data-en="whatsapp" data-id="whatsapp">whatsapp</span>
+          <span class="loc__contact-val">+62 819-1633-4989</span>
+        </div>
+        <span class="loc__contact-arrow" aria-hidden="true">↗</span>
+      </a>
+
+      <!-- TikTok -->
+      <a href="https://www.tiktok.com/@put.in_coffee"
+         target="_blank" rel="noopener noreferrer"
+         class="loc__contact glass-card loc__contact--tt"
+         aria-label="TikTok @put.in_coffee">
+        <div class="loc__contact-icon" aria-hidden="true">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+            <path d="M9 12a4 4 0 104 4V4a5 5 0 005 5"
+                  stroke="currentColor" stroke-width="1.7" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
+        <div class="loc__contact-body">
+          <span class="loc__contact-label" data-en="tiktok" data-id="tiktok">tiktok</span>
+          <span class="loc__contact-val">@put.in_coffee</span>
+        </div>
+        <span class="loc__contact-arrow" aria-hidden="true">↗</span>
+      </a>
+
+      <!-- Address -->
+      <div class="loc__contact glass-card loc__contact--addr">
+        <div class="loc__contact-icon" aria-hidden="true">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"
+                  stroke="currentColor" stroke-width="1.5" fill="none"/>
             <circle cx="12" cy="9" r="2.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
           </svg>
-          get directions
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="loc__cta-arrow">
-            <path d="M7 17L17 7M17 7H7M17 7v10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </a>
-
-      </div><!-- /.loc__panel -->
-
-      <!-- RIGHT: interactive map -->
-      <div class="loc__map-wrap" data-reveal="scale">
-        <div id="loc-map" class="loc__map" role="img" aria-label="put.in coffee location on map"></div>
-        <noscript>
-          <a href="https://www.google.com/maps/place/put.in+coffee+and+beer/" target="_blank" rel="noopener" class="loc__map-noscript">
-            Open in Google Maps →
-          </a>
-        </noscript>
-        <!-- Gradient border overlay -->
-        <div class="loc__map-border" aria-hidden="true"></div>
+        </div>
+        <div class="loc__contact-body">
+          <span class="loc__contact-label" data-en="address" data-id="alamat">address</span>
+          <span class="loc__contact-val"
+                data-en="Jl. Pantai Biaung, Sanur, Denpasar, Bali 80228"
+                data-id="Jl. Pantai Biaung, Sanur, Denpasar, Bali 80228">
+            Jl. Pantai Biaung, Sanur, Denpasar, Bali 80228
+          </span>
+        </div>
       </div>
 
+    </div><!-- /.loc__contacts -->
+
+    <!-- Opening hours -->
+    <div class="loc__hours glass-card" data-reveal>
+      <p class="loc__hours-head"
+         data-en="opening hours" data-id="jam buka">opening hours</p>
+      <div class="loc__hours-rows">
+        <div class="loc__hours-row loc__hours-row--hi">
+          <span data-en="Mon – Fri" data-id="Sen – Jumat">Mon – Fri</span>
+          <span class="loc__hours-time">6:00 AM – 12:00 AM</span>
+        </div>
+        <div class="loc__hours-row loc__hours-row--hi">
+          <span data-en="Fri – Sun" data-id="Jumat – Minggu">Fri – Sun</span>
+          <span class="loc__hours-time">12:00 PM – 3:00 AM</span>
+        </div>
+        <div class="loc__hours-row">
+          <span data-en="Kitchen closes" data-id="Dapur tutup">Kitchen closes</span>
+          <span class="loc__hours-time">9:30 PM</span>
+        </div>
+        <div class="loc__hours-row">
+          <span data-en="Live Music · Sun" data-id="Musik Live · Min">Live Music · Sun</span>
+          <span class="loc__hours-time">7:00 – 9:00 PM</span>
+        </div>
+      </div>
     </div>
-  </div>
+
+    <!-- Get directions CTA -->
+    <a href="https://www.google.com/maps/place/put.in+coffee+and+beer/data=!4m2!3m1!1s0x0:0x70829e134ab3dd00?sa=X&ved=1t:2428&ictx=111"
+       target="_blank" rel="noopener noreferrer"
+       class="btn-primary loc__cta"
+       data-event="Maps Click"
+       data-reveal
+       data-en="get directions" data-id="dapatkan arah">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"
+              stroke="currentColor" stroke-width="1.5" fill="none"/>
+        <circle cx="12" cy="9" r="2.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
+      </svg>
+      get directions
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="loc__cta-arr">
+        <path d="M7 17L17 7M17 7H7M17 7v10"
+              stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+
+  </div><!-- /.loc__panel -->
+
+  <!-- ═══ RIGHT: interactive Leaflet map ═════════════════ -->
+  <div class="loc__map-wrap" data-reveal="scale">
+
+    <!-- Map controls overlay -->
+    <div class="loc__map-controls" aria-hidden="true">
+      <button class="loc__zoom-btn" id="loc-zoom-in"  type="button" aria-label="Zoom in"  title="Zoom in">+</button>
+      <button class="loc__zoom-btn" id="loc-zoom-out" type="button" aria-label="Zoom out" title="Zoom out">−</button>
+    </div>
+
+    <!-- Map container -->
+    <div id="loc-map" class="loc__map"
+         role="img" aria-label="put.in coffee interactive location map — Pantai Biaung, Denpasar, Bali"></div>
+
+    <!-- Gradient border -->
+    <div class="loc__map-border" aria-hidden="true"></div>
+
+    <!-- Loading state -->
+    <div class="loc__map-loader" id="loc-loader" aria-label="Loading map" role="status">
+      <div class="loc__loader-ring"></div>
+      <span>loading map</span>
+    </div>
+
+    <!-- No-JS fallback -->
+    <noscript>
+      <a href="https://www.google.com/maps/place/put.in+coffee+and+beer"
+         target="_blank" rel="noopener" class="loc__noscript">
+        Open in Google Maps →
+      </a>
+    </noscript>
+
+  </div><!-- /.loc__map-wrap -->
+
+</div>
+</div>
 </section>
 
-<!-- Leaflet JS — loaded lazily when section enters view -->
-<script>
-(function () {
-  var LAT  = -8.7344;
-  var LNG  = 115.2529;
-  var MAPS = 'https://www.google.com/maps/place/put.in+coffee+and+beer/data=!4m2!3m1!1s0x0:0x70829e134ab3dd00?sa=X&ved=1t:2428&ictx=111';
-
-  /* ── WITA real-time clock ──────────────────────────────── */
-  var SCHEDULE = [
-    { days:[1,2,3,4], open:6,  close:24 },
-    { days:[5],       open:6,  close:27 },
-    { days:[6,0],     open:12, close:27 },
-  ];
-  function isOpen(now) {
-    var w = new Date(now.getTime() + 8*3600000);
-    var d = w.getUTCDay(), h = w.getUTCHours() + w.getUTCMinutes()/60;
-    for (var i=0;i<SCHEDULE.length;i++) {
-      var s=SCHEDULE[i];
-      if(s.days.indexOf(d)===-1) continue;
-      if(h>=s.open && h<s.close) return true;
-      if(s.close>24 && h<(s.close-24)) return true;
-    }
-    var prev=(d+6)%7;
-    for(var j=0;j<SCHEDULE.length;j++){
-      var ps=SCHEDULE[j];
-      if(ps.days.indexOf(prev)===-1||ps.close<=24) continue;
-      if(h<(ps.close-24)) return true;
-    }
-    return false;
-  }
-  function closesAt(now) {
-    var w = new Date(now.getTime() + 8*3600000);
-    var d = w.getUTCDay(), h = w.getUTCHours() + w.getUTCMinutes()/60;
-    for(var i=0;i<SCHEDULE.length;i++){
-      var s=SCHEDULE[i];
-      if(s.days.indexOf(d)===-1) continue;
-      if(h>=s.open){
-        var ch=s.close>24?s.close-24:s.close;
-        var ap=ch>=12?'PM':'AM';
-        var h12=ch%12||12;
-        return h12+':00 '+ap;
-      }
-    }
-    return null;
-  }
-  function updateClock() {
-    var now  = new Date();
-    var wita = new Date(now.getTime()+8*3600000);
-    var h=wita.getUTCHours(),m=wita.getUTCMinutes();
-    var ap=h>=12?'PM':'AM',h12=h%12||12;
-    var mStr=(m<10?'0':'')+m;
-    var clkEl=document.getElementById('loc-clock');
-    if(clkEl) clkEl.textContent=h12+':'+mStr+' '+ap;
-    var open=isOpen(now);
-    var dotEl=document.getElementById('loc-dot');
-    var txtEl=document.getElementById('loc-text');
-    var nextEl=document.getElementById('loc-next');
-    var isID=document.documentElement.lang==='id';
-    if(dotEl) dotEl.className='loc__status-dot '+(open?'open':'closed');
-    if(txtEl){
-      txtEl.className='loc__status-text '+(open?'open':'closed');
-      txtEl.textContent=open?(isID?txtEl.getAttribute('data-open-id'):txtEl.getAttribute('data-open-en')):(isID?txtEl.getAttribute('data-closed-id'):txtEl.getAttribute('data-closed-en'));
-    }
-    if(nextEl&&open){
-      var ct=closesAt(now);
-      nextEl.textContent=ct?(isID?'tutup pukul '+ct:'closes at '+ct):'';
-    }
-  }
-
-  /* ── Leaflet map ──────────────────────────────────────── */
-  var mapLoaded=false;
-  function initMap(){
-    if(!window.L||mapLoaded) return;
-    mapLoaded=true;
-    var L=window.L;
-    var mapEl=document.getElementById('loc-map');
-    if(!mapEl) return;
-    var map=L.map('loc-map',{center:[LAT,LNG],zoom:16,zoomControl:true,scrollWheelZoom:false,attributionControl:true});
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{
-      attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
-      subdomains:'abcd',maxZoom:20
-    }).addTo(map);
-    // Custom pin SVG
-    var pinHtml='<svg xmlns="http://www.w3.org/2000/svg" width="44" height="56" viewBox="0 0 44 56"><defs><filter id="ps"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="rgba(0,0,0,0.5)"/></filter><linearGradient id="pg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#C9924A"/><stop offset="100%" stop-color="#E8A87C"/></linearGradient></defs><path d="M22 2C13.16 2 6 9.16 6 18c0 13 16 36 16 36s16-23 16-36C38 9.16 30.84 2 22 2z" fill="url(#pg)" filter="url(#ps)"/><circle cx="22" cy="18" r="8" fill="rgba(10,9,6,0.7)"/><circle cx="22" cy="18" r="5" fill="#E8A87C"/></svg>';
-    var icon=L.divIcon({html:pinHtml,iconSize:[44,56],iconAnchor:[22,56],popupAnchor:[0,-58],className:''});
-    var marker=L.marker([LAT,LNG],{icon:icon}).addTo(map);
-    var popup='<div style="padding:6px 2px;min-width:190px;">'
-      +'<div style="font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:linear-gradient(135deg,#C9924A,#E8A87C);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px;">put.in coffee</div>'
-      +'<div style="font-size:.78rem;color:rgba(245,239,230,0.65);line-height:1.5;margin-bottom:10px;">Jl. Pantai Biaung, Sanur<br>Denpasar, Bali 80228</div>'
-      +'<a href="'+MAPS+'" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:50px;background:linear-gradient(135deg,#C9924A,#E8A87C);color:#0a0600;font-size:.72rem;font-weight:700;text-decoration:none;text-transform:lowercase;">get directions ↗</a>'
-      +'</div>';
-    marker.bindPopup(popup,{maxWidth:240,closeButton:true});
-    setTimeout(function(){marker.openPopup();},500);
-    L.circle([LAT,LNG],{radius:85,color:'#C9924A',fillColor:'#E8A87C',fillOpacity:.06,weight:1,opacity:.3}).addTo(map);
-  }
-
-  document.addEventListener('DOMContentLoaded',function(){
-    updateClock();
-    setInterval(updateClock,30000);
-
-    // Lazy-load Leaflet
-    var section=document.getElementById('location');
-    if(!section) return;
-    var obs=new IntersectionObserver(function(entries){
-      if(entries[0].isIntersecting){
-        obs.disconnect();
-        if(window.L){ initMap(); return; }
-        var s=document.createElement('script');
-        s.src='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';
-        s.integrity='sha512-BwHfrr4c9kmRkLw6iXFdzcdWV/PGkVgiIyIWLLlTSXzWQzxuSg4DiQUCpauz/EWjgk5TYQqX/kvn9pG1NpYfqg==';
-        s.crossOrigin='anonymous';
-        s.onload=initMap;
-        document.head.appendChild(s);
-      }
-    },{threshold:0.15});
-    obs.observe(section);
-
-    // Maps CTA tracking
-    var mapsBtn=document.querySelector('[data-event="Maps Click"]');
-    if(mapsBtn) mapsBtn.addEventListener('click',function(){if(window.plausible) window.plausible('Maps Click');});
-
-    // Language updates
-    document.addEventListener('pc:lang',function(){updateClock();});
-  });
-})();
-</script>
-
 <style>
-/* ── Section ──────────────────────────────────────────────── */
-.loc { background: var(--bg); }
+/* ── Section ──────────────────────────────────────────── */
+.loc { background: var(--bg, #0a0906); }
 
-/* ── Layout: 2 columns ────────────────────────────────────── */
+/* ── 2-column layout ──────────────────────────────────── */
 .loc__layout {
   display: grid;
-  grid-template-columns: 1fr 1.3fr;
+  grid-template-columns: 1fr 1.35fr;
   gap: 3rem;
   align-items: start;
 }
 @media (max-width: 900px) { .loc__layout { grid-template-columns: 1fr; gap: 2rem; } }
 
-/* ── Panel ────────────────────────────────────────────────── */
-.loc__panel { display: flex; flex-direction: column; gap: 1.25rem; }
+/* ── Panel ────────────────────────────────────────────── */
+.loc__panel { display: flex; flex-direction: column; gap: 1.15rem; }
 
-/* Status card */
-.loc__status { padding: 1rem 1.25rem; display: flex; flex-direction: column; gap: .4rem; }
-.loc__status-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
-.loc__status-pill { display: flex; align-items: center; gap: .5rem; }
-.loc__status-dot {
-  width: 8px; height: 8px; border-radius: 50%; background: rgba(245,239,230,.3);
-  transition: background .4s;
+/* ── Status card ──────────────────────────────────────── */
+.loc__status { padding: .95rem 1.2rem; display: flex; flex-direction: column; gap: .35rem; }
+.loc__status-row { display: flex; align-items: center; justify-content: space-between; gap: .75rem; }
+.loc__status-left { display: flex; align-items: center; gap: .45rem; }
+
+/* live dot */
+.loc__dot {
+  width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+  background: rgba(245,239,230,.25); transition: background .4s, box-shadow .4s;
 }
-.loc__status-dot.open   { background: #5bdb83; box-shadow: 0 0 8px rgba(91,219,131,.55); animation: pulse-dot 2.5s ease-in-out infinite; }
-.loc__status-dot.closed { background: #555; }
-@keyframes pulse-dot { 0%,100%{box-shadow:0 0 5px rgba(91,219,131,.4);}50%{box-shadow:0 0 12px rgba(91,219,131,.75);} }
-.loc__status-text { font-size: .78rem; font-weight: 600; text-transform: lowercase; color: var(--muted-hi); transition: color .3s; }
-.loc__status-text.open   { color: #5bdb83; }
-.loc__status-text.closed { color: var(--muted); }
-.loc__clock-group { display: flex; align-items: center; gap: .3rem; color: var(--muted-hi); }
-.loc__clock { font-family: var(--font-display); font-style: italic; font-size: .9rem; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.loc__tz { font-size: .6rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
-.loc__next { font-size: .7rem; color: var(--muted); padding-top: .1rem; }
+.loc__dot.open   { background: #5bdb83; box-shadow: 0 0 8px rgba(91,219,131,.6); animation: ldot 2.5s ease-in-out infinite; }
+.loc__dot.closed { background: #555; }
+@keyframes ldot { 0%,100%{box-shadow:0 0 5px rgba(91,219,131,.4);} 50%{box-shadow:0 0 12px rgba(91,219,131,.75);} }
 
-/* Contacts */
+.loc__status-txt {
+  font-size: .78rem; font-weight: 600; text-transform: lowercase;
+  color: var(--muted-hi, rgba(245,239,230,.62)); transition: color .3s;
+}
+.loc__status-txt.open   { color: #5bdb83; }
+.loc__status-txt.closed { color: var(--muted, rgba(245,239,230,.42)); }
+
+/* clock */
+.loc__clock-row { display: flex; align-items: center; gap: .3rem; color: var(--muted, rgba(245,239,230,.42)); }
+.loc__clock {
+  font-family: var(--font-display, serif); font-style: italic; font-size: .9rem;
+  background: linear-gradient(135deg, #C9924A, #E8A87C);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.loc__tz { font-size: .58rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted, rgba(245,239,230,.42)); }
+.loc__next { font-size: .68rem; color: var(--muted, rgba(245,239,230,.42)); }
+
+/* ── Contact items ────────────────────────────────────── */
 .loc__contacts { display: flex; flex-direction: column; gap: .5rem; }
-.loc__contact-item {
-  display: flex; align-items: center; gap: .85rem; padding: .9rem 1.1rem;
-  cursor: default;
+
+.loc__contact {
+  display: flex; align-items: center; gap: .8rem; padding: .85rem 1rem;
+  text-decoration: none; cursor: pointer;
+  transition: border-color .22s, background .22s, transform .2s;
 }
+.loc__contact:hover { transform: translateX(3px); }
+.loc__contact--addr { cursor: default; }
+.loc__contact--addr:hover { transform: none; }
+
+/* hover accent colours */
+.loc__contact--ig:hover  { border-color: rgba(221,42,123,.3); background: rgba(221,42,123,.05); }
+.loc__contact--wa:hover  { border-color: rgba(37,211,102,.28); background: rgba(37,211,102,.05); }
+.loc__contact--tt:hover  { border-color: rgba(255,255,255,.18); background: rgba(255,255,255,.04); }
+.loc__contact--addr:hover{ border-color: rgba(201,146,74,.18); }
+
 .loc__contact-icon {
   width: 36px; height: 36px; flex-shrink: 0; border-radius: 10px;
-  background: linear-gradient(135deg, rgba(201,146,74,.1), rgba(232,168,124,.1));
-  border: 1px solid rgba(201,146,74,.18);
+  background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07);
   display: flex; align-items: center; justify-content: center;
-  color: var(--g-to);
+  color: rgba(245,239,230,.55); transition: background .22s;
 }
-.loc__contact-body { display: flex; flex-direction: column; gap: 2px; }
-.loc__contact-label { font-size: .6rem; letter-spacing: .1em; text-transform: uppercase; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.loc__contact-val { font-size: .83rem; color: var(--cream); }
-.loc__contact-link { text-decoration: none; transition: color .2s; }
-.loc__contact-link:hover { color: var(--g-to); }
+.loc__contact--ig .loc__contact-icon  { background: rgba(221,42,123,.07); border-color: rgba(221,42,123,.15); }
+.loc__contact--wa .loc__contact-icon  { background: rgba(37,211,102,.07); border-color: rgba(37,211,102,.15); color: #25D366; }
+.loc__contact--tt .loc__contact-icon  { background: rgba(255,255,255,.05); border-color: rgba(255,255,255,.1); }
+.loc__contact--addr .loc__contact-icon{ background: rgba(201,146,74,.07); border-color: rgba(201,146,74,.15); color: #C9924A; }
 
-/* Hours */
-.loc__hours { padding: 1.1rem 1.25rem; }
-.loc__hours-head { font-size: .6rem; letter-spacing: .14em; text-transform: uppercase; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: .75rem; }
-.loc__hours-rows { display: flex; flex-direction: column; gap: .5rem; }
-.loc__hours-row { display: flex; justify-content: space-between; align-items: baseline; gap: .5rem; font-size: .83rem; color: var(--muted); }
-.loc__hours-row--hi { color: var(--cream); }
-.loc__hours-time { font-family: var(--font-display); font-style: italic; font-size: .83rem; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.loc__contact-body { display: flex; flex-direction: column; gap: 1px; flex: 1; min-width: 0; }
+.loc__contact-label {
+  font-size: .58rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+  background: linear-gradient(135deg, #C9924A, #E8A87C);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.loc__contact-val {
+  font-size: .82rem; color: var(--cream, #F5EFE6);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.loc__contact-arrow {
+  font-size: .85rem; color: rgba(245,239,230,.25); flex-shrink: 0;
+  transition: transform .18s, color .18s;
+}
+.loc__contact:hover .loc__contact-arrow { transform: translate(2px,-2px); color: rgba(245,239,230,.6); }
 
-/* CTA */
+/* ── Hours ────────────────────────────────────────────── */
+.loc__hours { padding: 1rem 1.2rem; }
+.loc__hours-head {
+  font-size: .58rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+  background: linear-gradient(135deg, #C9924A, #E8A87C);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  margin-bottom: .7rem;
+}
+.loc__hours-rows { display: flex; flex-direction: column; gap: .48rem; }
+.loc__hours-row {
+  display: flex; justify-content: space-between; align-items: baseline; gap: .5rem;
+  font-size: .8rem; color: var(--muted, rgba(245,239,230,.42));
+}
+.loc__hours-row--hi { color: var(--cream, #F5EFE6); }
+.loc__hours-time {
+  font-family: var(--font-display, serif); font-style: italic; font-size: .8rem;
+  background: linear-gradient(135deg, #C9924A, #E8A87C);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  flex-shrink: 0;
+}
+
+/* ── CTA ──────────────────────────────────────────────── */
 .loc__cta { align-self: flex-start; }
-.loc__cta-arrow { transition: transform .2s; }
-.loc__cta:hover .loc__cta-arrow { transform: translate(2px, -2px); }
+.loc__cta-arr { transition: transform .2s; }
+.loc__cta:hover .loc__cta-arr { transform: translate(2px,-2px); }
 
-/* Map */
+/* ── Map wrapper ──────────────────────────────────────── */
 .loc__map-wrap {
-  position: relative; border-radius: var(--radius-lg); overflow: hidden;
-  height: 520px;
+  position: relative; border-radius: 20px; overflow: hidden;
+  height: 520px; background: var(--bg2, #0f0d0b);
 }
-@media (max-width: 900px) { .loc__map-wrap { height: 340px; } }
-.loc__map { width: 100%; height: 100%; background: var(--bg2); }
-/* Gradient border overlay — top & left only */
+@media (max-width: 900px) { .loc__map-wrap { height: 360px; } }
+@media (max-width: 540px) { .loc__map-wrap { height: 280px; } }
+
+.loc__map { width: 100%; height: 100%; }
+
+/* Gradient border inset */
 .loc__map-border {
-  position: absolute; inset: 0; border-radius: var(--radius-lg);
-  pointer-events: none;
-  box-shadow: inset 0 0 0 1px rgba(201,146,74,.2),
-              inset 0 0 60px rgba(201,146,74,.04);
+  position: absolute; inset: 0; border-radius: 20px; pointer-events: none;
+  box-shadow:
+    inset 0 0 0 1px rgba(201,146,74,.2),
+    inset 0 0 60px rgba(201,146,74,.04);
 }
-.loc__map-noscript {
+
+/* Custom zoom buttons */
+.loc__map-controls {
+  position: absolute; top: 12px; right: 12px; z-index: 500;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.loc__zoom-btn {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: rgba(14,13,11,.88); border: 1px solid rgba(245,239,230,.12);
+  color: rgba(245,239,230,.7); font-size: 1.1rem; font-weight: 300;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: background .18s, color .18s, border-color .18s;
+  backdrop-filter: blur(8px);
+}
+.loc__zoom-btn:hover { background: rgba(201,146,74,.12); color: #E8A87C; border-color: rgba(201,146,74,.3); }
+
+/* Loader overlay */
+.loc__map-loader {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: .65rem;
+  background: var(--bg2, #0f0d0b); z-index: 490; pointer-events: none;
+  transition: opacity .4s;
+}
+.loc__map-loader.hidden { opacity: 0; pointer-events: none; }
+.loc__loader-ring {
+  width: 32px; height: 32px; border-radius: 50%;
+  border: 2px solid rgba(245,239,230,.07);
+  border-top-color: #C9924A;
+  animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loc__map-loader span {
+  font-size: .68rem; letter-spacing: .1em; text-transform: lowercase;
+  color: var(--muted, rgba(245,239,230,.42));
+}
+
+/* No-JS fallback */
+.loc__noscript {
   position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-  background: var(--bg2); color: var(--g-to); text-decoration: none; font-size: .9rem;
+  background: var(--bg2, #0f0d0b); color: #E8A87C; text-decoration: none;
+  font-size: .9rem; text-transform: lowercase;
+}
+
+/* ── Leaflet dark overrides ────────────────────────────── */
+.leaflet-container  { background: var(--bg2, #0f0d0b) !important; }
+.leaflet-control-attribution { background: rgba(10,9,6,.7) !important; color: rgba(245,239,230,.22) !important; font-size: .5rem !important; }
+.leaflet-control-attribution a { color: rgba(201,146,74,.45) !important; }
+.leaflet-control-zoom { display: none !important; } /* hidden — custom buttons used */
+.leaflet-popup-content-wrapper { background: #1c1712 !important; border: 1px solid rgba(201,146,74,.22) !important; border-radius: 14px !important; box-shadow: 0 10px 44px rgba(0,0,0,.6) !important; color: var(--cream, #F5EFE6) !important; }
+.leaflet-popup-tip { background: #1c1712 !important; }
+.leaflet-popup-close-button { color: rgba(245,239,230,.32) !important; font-size: 16px !important; }
+.leaflet-popup-close-button:hover { color: var(--cream, #F5EFE6) !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .loc__dot  { animation: none !important; }
+  .loc__loader-ring { animation: none !important; }
 }
 </style>
+
+<script>
+(function () {
+  var LAT   = -8.7344;
+  var LNG   = 115.2529;
+  var MAPS  = 'https://www.google.com/maps/place/put.in+coffee+and+beer/data=!4m2!3m1!1s0x0:0x70829e134ab3dd00?sa=X&ved=1t:2428&ictx=111';
+
+  /* ════════════════════════════════════════════════════════
+     WITA REAL-TIME CLOCK
+  ════════════════════════════════════════════════════════ */
+  var SCH = [
+    { days:[1,2,3,4], open:6,  close:24 },
+    { days:[5],       open:6,  close:27 },
+    { days:[6,0],     open:12, close:27 },
+  ];
+
+  function isOpen(now) {
+    var w=new Date(now.getTime()+8*3600000), d=w.getUTCDay(), h=w.getUTCHours()+w.getUTCMinutes()/60;
+    for(var i=0;i<SCH.length;i++){
+      var s=SCH[i]; if(s.days.indexOf(d)===-1) continue;
+      if(h>=s.open&&h<s.close) return true;
+      if(s.close>24&&h<(s.close-24)) return true;
+    }
+    var prev=(d+6)%7;
+    for(var j=0;j<SCH.length;j++){
+      var ps=SCH[j]; if(ps.days.indexOf(prev)===-1||ps.close<=24) continue;
+      if(h<(ps.close-24)) return true;
+    }
+    return false;
+  }
+
+  function closesAt(now) {
+    var w=new Date(now.getTime()+8*3600000), d=w.getUTCDay(), h=w.getUTCHours()+w.getUTCMinutes()/60;
+    for(var i=0;i<SCH.length;i++){
+      var s=SCH[i]; if(s.days.indexOf(d)===-1) continue;
+      if(h>=s.open){ var ch=s.close>24?s.close-24:s.close; return (ch%12||12)+':00 '+(ch>=12?'PM':'AM'); }
+    }
+    return null;
+  }
+
+  function updateClock() {
+    var now=new Date(), w=new Date(now.getTime()+8*3600000);
+    var h=w.getUTCHours(), m=w.getUTCMinutes(), ap=h>=12?'PM':'AM', h12=h%12||12;
+    var clk=document.getElementById('loc-clock');
+    if(clk) clk.textContent=h12+':'+(m<10?'0'+m:m)+' '+ap;
+    var open=isOpen(now), isID=document.documentElement.lang==='id';
+    var dot=document.getElementById('loc-dot');
+    var txt=document.getElementById('loc-txt');
+    var nxt=document.getElementById('loc-next');
+    if(dot) dot.className='loc__dot '+(open?'open':'closed');
+    if(txt){
+      txt.className='loc__status-txt '+(open?'open':'closed');
+      txt.textContent=open?(isID?txt.getAttribute('data-open-id'):txt.getAttribute('data-open-en')):(isID?txt.getAttribute('data-closed-id'):txt.getAttribute('data-closed-en'));
+    }
+    if(nxt){
+      if(open){ var ct=closesAt(now); nxt.textContent=ct?(isID?'tutup pukul '+ct:'closes at '+ct):''; }
+      else nxt.textContent='';
+    }
+  }
+
+  /* ════════════════════════════════════════════════════════
+     LEAFLET MAP
+  ════════════════════════════════════════════════════════ */
+  var mapInst=null, mapLoaded=false;
+
+  function initMap() {
+    if(!window.L||mapLoaded) return;
+    mapLoaded=true;
+    var L=window.L;
+    var el=document.getElementById('loc-map');
+    if(!el) return;
+
+    mapInst=L.map('loc-map',{
+      center:[LAT,LNG], zoom:16,
+      zoomControl:false,           // custom buttons
+      scrollWheelZoom:false,
+      doubleClickZoom:true,
+      attributionControl:true,
+    });
+
+    /* CARTO Dark Matter tiles */
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{
+      attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
+      subdomains:'abcd', maxZoom:20,
+    }).addTo(mapInst);
+
+    /* Gradient SVG pin */
+    var pinSVG=[
+      '<svg xmlns="http://www.w3.org/2000/svg" width="46" height="58" viewBox="0 0 46 58">',
+      '<defs>',
+      '<filter id="drop"><feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="rgba(0,0,0,.55)"/></filter>',
+      '<linearGradient id="pg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#C9924A"/><stop offset="100%" stop-color="#E8A87C"/></linearGradient>',
+      '</defs>',
+      '<path d="M23 2C13.6 2 6 9.6 6 19c0 13.5 17 37 17 37s17-23.5 17-37C40 9.6 32.4 2 23 2z" fill="url(#pg)" filter="url(#drop)"/>',
+      '<circle cx="23" cy="19" r="9" fill="rgba(10,9,6,0.72)"/>',
+      '<circle cx="23" cy="19" r="5.5" fill="#E8A87C"/>',
+      '<circle cx="23" cy="19" r="2" fill="rgba(10,9,6,0.9)"/>',
+      '</svg>',
+    ].join('');
+    var icon=L.divIcon({html:pinSVG,iconSize:[46,58],iconAnchor:[23,58],popupAnchor:[0,-60],className:''});
+    var marker=L.marker([LAT,LNG],{icon:icon}).addTo(mapInst);
+
+    /* Pulse ring */
+    L.circle([LAT,LNG],{
+      radius:90,color:'#C9924A',fillColor:'#E8A87C',
+      fillOpacity:.05,weight:1,opacity:.28,
+    }).addTo(mapInst);
+
+    /* Popup */
+    var popup=[
+      '<div style="padding:6px 2px;min-width:200px">',
+      '<div style="font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;',
+      'background:linear-gradient(135deg,#C9924A,#E8A87C);-webkit-background-clip:text;',
+      '-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:7px">put.in coffee</div>',
+      '<div style="font-size:.76rem;color:rgba(245,239,230,0.62);line-height:1.55;margin-bottom:10px">',
+      'Jl. Pantai Biaung, Sanur<br>Denpasar, Bali 80228<br>',
+      '<span style="color:rgba(91,219,131,0.8);font-size:.68rem">● open daily from 6am</span></div>',
+      '<div style="display:flex;gap:6px">',
+      '<a href="'+MAPS+'" target="_blank" rel="noopener" ',
+      'style="flex:1;display:inline-flex;align-items:center;justify-content:center;gap:4px;padding:6px 10px;',
+      'border-radius:50px;background:linear-gradient(135deg,#C9924A,#E8A87C);color:#0a0600;',
+      'font-size:.7rem;font-weight:700;text-decoration:none;text-transform:lowercase">',
+      'directions ↗</a>',
+      '<a href="https://wa.me/6281916334989" target="_blank" rel="noopener" ',
+      'style="display:inline-flex;align-items:center;justify-content:center;width:34px;height:32px;',
+      'border-radius:50px;background:rgba(37,211,102,.12);border:1px solid rgba(37,211,102,.25);',
+      'font-size:.85rem;text-decoration:none" aria-label="WhatsApp">',
+      '<svg width="14" height="14" viewBox="0 0 24 24" fill="none">',
+      '<path d="M21 12a9 9 0 01-9 9H5l-2 2V12a9 9 0 119 0z" stroke="#25D366" stroke-width="1.6" fill="none"/>',
+      '</svg></a>',
+      '</div>',
+      '</div>',
+    ].join('');
+    marker.bindPopup(popup,{maxWidth:250,closeButton:true,className:'loc-popup'});
+    /* open popup after short delay */
+    setTimeout(function(){marker.openPopup();},600);
+
+    /* Custom zoom buttons wired to map */
+    var zIn =document.getElementById('loc-zoom-in');
+    var zOut=document.getElementById('loc-zoom-out');
+    if(zIn)  zIn.addEventListener('click',  function(){ mapInst.zoomIn();  });
+    if(zOut) zOut.addEventListener('click', function(){ mapInst.zoomOut(); });
+
+    /* Tap on map → open popup */
+    mapInst.on('click', function(){ marker.openPopup(); });
+
+    /* Hide loader */
+    mapInst.whenReady(function(){
+      var loader=document.getElementById('loc-loader');
+      if(loader){
+        loader.classList.add('hidden');
+        setTimeout(function(){ loader.style.display='none'; }, 450);
+      }
+    });
+  }
+
+  /* ════════════════════════════════════════════════════════
+     LAZY LOAD LEAFLET
+  ════════════════════════════════════════════════════════ */
+  function loadLeaflet() {
+    if(window.L){ initMap(); return; }
+    var s=document.createElement('script');
+    s.src='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';
+    s.integrity='sha512-BwHfrr4c9kmRkLw6iXFdzcdWV/PGkVgiIyIWLLlTSXzWQzxuSg4DiQUCpauz/EWjgk5TYQqX/kvn9pG1NpYfqg==';
+    s.crossOrigin='anonymous';
+    s.onload=initMap;
+    document.head.appendChild(s);
+  }
+
+  /* ════════════════════════════════════════════════════════
+     BOOT
+  ════════════════════════════════════════════════════════ */
+  document.addEventListener('DOMContentLoaded', function () {
+    updateClock();
+    setInterval(updateClock, 30000);
+
+    /* Lazy-load map on section enter */
+    var sec=document.getElementById('location');
+    if(sec){
+      var obs=new IntersectionObserver(function(entries){
+        if(entries[0].isIntersecting){ obs.disconnect(); loadLeaflet(); }
+      },{ threshold:0.1 });
+      obs.observe(sec);
+    }
+
+    /* Maps CTA → Plausible */
+    var mapsBtn=document.querySelector('[data-event="Maps Click"]');
+    if(mapsBtn) mapsBtn.addEventListener('click', function(){ if(window.plausible) window.plausible('Maps Click'); });
+
+    /* Language */
+    document.addEventListener('pc:lang', function(){ updateClock(); });
+    document.addEventListener('pc:lang', function(e){
+      var id=!!(e.detail&&e.detail.isID);
+      document.querySelectorAll('.loc [data-en][data-id]').forEach(function(el){
+        if(el.children.length>0) return;
+        var v=id?el.getAttribute('data-id'):el.getAttribute('data-en'); if(v!==null) el.textContent=v;
+      });
+      var h2=document.querySelector('.loc h2[data-en][data-id]');
+      if(h2){var raw=id?h2.getAttribute('data-id'):h2.getAttribute('data-en');if(raw)h2.innerHTML=raw;}
+    });
+
+    /* Reveal observer */
+    var ro=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target);} });
+    },{ threshold:0.08, rootMargin:'0px 0px -30px 0px' });
+    document.querySelectorAll('.loc [data-reveal], .loc [data-stagger]').forEach(function(el){ ro.observe(el); });
+
+    /* Stagger children */
+    var stag=document.querySelector('.loc__contacts[data-stagger]');
+    if(stag){
+      var sro=new IntersectionObserver(function(entries){
+        if(entries[0].isIntersecting){
+          Array.from(stag.children).forEach(function(c,i){
+            setTimeout(function(){ c.style.opacity='1'; c.style.transform='none'; }, i*80);
+          });
+          sro.disconnect();
+        }
+      },{ threshold:0.1 });
+      /* set initial state */
+      Array.from(stag.children).forEach(function(c){
+        c.style.opacity='0'; c.style.transform='translateX(-14px)';
+        c.style.transition='opacity .45s ease, transform .45s ease';
+      });
+      sro.observe(stag);
+    }
+  });
+})();
+</script>

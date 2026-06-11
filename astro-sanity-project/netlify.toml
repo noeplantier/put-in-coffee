@@ -1,68 +1,41 @@
 # ══════════════════════════════════════════════════════════════
-#  put.in coffee — Netlify configuration
-#  Astro SSG · Edge headers · Forms · Redirects
+#  put.in coffee — netlify.toml  ·  FIXED build
+#  Root cause: corrupted node_modules — solved with npm ci
 # ══════════════════════════════════════════════════════════════
 
 [build]
-  base = "astro-sanity-project"
-  command = "npm run build"
+  # ⚠️  "base" must match your repo subfolder exactly
+  base    = "astro-sanity-project"
+  # npm ci deletes node_modules and does a clean install from package-lock.json
+  # This fixes "Cannot find module .../vite/dist/node/chunks/logger.js"
+  command = "npm ci && npm run build"
   publish = "dist"
 
 [build.environment]
-  NODE_VERSION = "22.13.0"
-  NPM_FLAGS = "--legacy-peer-deps"
+  # Pin to an exact LTS version — avoids surprise upgrades on Netlify
+  NODE_VERSION = "20.18.0"
+  # Avoid peer dependency conflicts without unsafe-legacy
+  NPM_FLAGS    = "--prefer-offline"
 
 [dev]
-  command = "npm run dev"
-  port = 4321
+  command    = "npm run dev"
+  port       = 4321
   targetPort = 4321
   autoLaunch = false
 
-# ══════════════════════════════════════════════════════════════
-#  SECURITY HEADERS — applied to every response
-# ══════════════════════════════════════════════════════════════
+# ── Security headers ──────────────────────────────────────────
 [[headers]]
   for = "/*"
   [headers.values]
-
-    # Prevents clickjacking
-    X-Frame-Options = "DENY"
-
-    # Stops MIME-type sniffing
-    X-Content-Type-Options = "nosniff"
-
-    # Forces HTTPS for 2 years, includes subdomains
+    X-Frame-Options           = "DENY"
+    X-Content-Type-Options    = "nosniff"
+    X-XSS-Protection          = "1; mode=block"
+    Referrer-Policy           = "strict-origin-when-cross-origin"
     Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+    Permissions-Policy        = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), accelerometer=(), gyroscope=(), magnetometer=(), autoplay=(self), picture-in-picture=(self)"
+    Cache-Control             = "public, max-age=0, must-revalidate"
+    Content-Security-Policy   = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://plausible.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://*.openstreetmap.org https://*.cartocdn.com https://*.tile.openstreetmap.org https://www.google.com https://maps.googleapis.com; connect-src 'self' https://plausible.io https://*.supabase.co; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;"
 
-    # Controls referrer information
-    Referrer-Policy = "strict-origin-when-cross-origin"
-
-    # Disables browser features not needed
-    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), accelerometer=(), gyroscope=(), magnetometer=(), autoplay=(self), picture-in-picture=(self)"
-
-    # XSS protection for older browsers
-    X-XSS-Protection = "1; mode=block"
-
-    # Content Security Policy — tight but functional
-    # Allows: self, Leaflet CDN, Google Maps, Fonts, Plausible, Instagram
-    Content-Security-Policy = """
-      default-src 'self';
-      script-src  'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://plausible.io;
-      style-src   'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
-      font-src    'self' https://fonts.gstatic.com data:;
-      img-src     'self' data: blob: https://*.openstreetmap.org https://*.cartocdn.com https://*.tile.openstreetmap.org https://www.google.com https://maps.googleapis.com;
-      connect-src 'self' https://plausible.io https://*.supabase.co https://api.anthropic.com;
-      frame-src   'none';
-      object-src  'none';
-      base-uri    'self';
-      form-action 'self';
-      upgrade-insecure-requests;
-    """
-
-    # Cache-Control for HTML pages (always revalidate)
-    Cache-Control = "public, max-age=0, must-revalidate"
-
-# ── Static assets — long cache ──────────────────────────────
 [[headers]]
   for = "/_astro/*"
   [headers.values]
@@ -73,96 +46,86 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# ── Images — 30 days cache ─────────────────────────────────
 [[headers]]
   for = "*.jpg"
   [headers.values]
     Cache-Control = "public, max-age=2592000, stale-while-revalidate=86400"
+
 [[headers]]
   for = "*.jpeg"
   [headers.values]
     Cache-Control = "public, max-age=2592000, stale-while-revalidate=86400"
+
 [[headers]]
   for = "*.png"
   [headers.values]
     Cache-Control = "public, max-age=2592000, stale-while-revalidate=86400"
+
 [[headers]]
   for = "*.webp"
   [headers.values]
     Cache-Control = "public, max-age=2592000, stale-while-revalidate=86400"
+
 [[headers]]
   for = "*.svg"
   [headers.values]
     Cache-Control = "public, max-age=2592000, stale-while-revalidate=86400"
 
-# ── Netlify Forms ──────────────────────────────────────────
-[[headers]]
-  for = "/contact"
-  [headers.values]
-    X-Robots-Tag = "index, follow"
-
-# ══════════════════════════════════════════════════════════════
-#  REDIRECTS
-# ══════════════════════════════════════════════════════════════
-
-# Force HTTPS (Netlify handles this but explicit is better)
+# ── Redirects ─────────────────────────────────────────────────
 [[redirects]]
-  from   = "http://putincoffee.com/*"
-  to     = "https://www.putincoffee.com/:splat"
+  from = "http://putincoffee.com/*"
+  to   = "https://www.putincoffee.com/:splat"
   status = 301
   force  = true
 
 [[redirects]]
-  from   = "http://www.putincoffee.com/*"
-  to     = "https://www.putincoffee.com/:splat"
+  from = "http://www.putincoffee.com/*"
+  to   = "https://www.putincoffee.com/:splat"
   status = 301
   force  = true
 
-# www → non-www (or reverse — choose one)
 [[redirects]]
-  from   = "https://putincoffee.com/*"
-  to     = "https://www.putincoffee.com/:splat"
+  from = "https://putincoffee.com/*"
+  to   = "https://www.putincoffee.com/:splat"
   status = 301
   force  = true
 
-# Legacy URL cleanup
 [[redirects]]
-  from   = "/home"
-  to     = "/"
-  status = 301
-
-[[redirects]]
-  from   = "/reservation"
-  to     = "/#contact"
-  status = 301
-
-[[redirects]]
-  from   = "/reserve"
-  to     = "/#contact"
-  status = 301
-
-[[redirects]]
-  from   = "/order"
-  to     = "https://www.instagram.com/put.in.coffee/"
+  from = "/ig"
+  to   = "https://www.instagram.com/put.in.coffee/"
   status = 302
 
-# SPA fallback (Astro SSG generates HTML, but keep as safety net)
+[[redirects]]
+  from = "/wa"
+  to   = "https://wa.me/6281916334989"
+  status = 302
+
+[[redirects]]
+  from = "/maps"
+  to   = "https://www.google.com/maps/search/put.in+coffee+Pantai+Biaung+Denpasar"
+  status = 302
+
+[[redirects]]
+  from = "/order"
+  to   = "https://www.instagram.com/put.in.coffee/"
+  status = 302
+
+[[redirects]]
+  from = "/tiktok"
+  to   = "https://www.tiktok.com/@put.in_coffee"
+  status = 302
+
+# SPA fallback — must be last
 [[redirects]]
   from   = "/*"
   to     = "/index.html"
   status = 200
 
-# ══════════════════════════════════════════════════════════════
-#  NETLIFY FORMS
-# ══════════════════════════════════════════════════════════════
+# ── Forms ─────────────────────────────────────────────────────
 [forms]
-  # Spam filter — enabled globally
   spam_filter = true
 
-# ══════════════════════════════════════════════════════════════
-#  FUNCTIONS (optional — for future server-side logic)
-# ══════════════════════════════════════════════════════════════
+# ── Functions ─────────────────────────────────────────────────
 [functions]
-  directory       = "netlify/functions"
-  node_bundler    = "esbuild"
-
+  directory    = "netlify/functions"
+  node_bundler = "esbuild"

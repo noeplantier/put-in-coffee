@@ -1,63 +1,41 @@
-// put.in coffee — Astro build configuration for Netlify
-
+// astro.config.mjs  ·  put.in coffee
 import { defineConfig } from 'astro/config';
-import netlify from '@astrojs/netlify';
 
 export default defineConfig({
-  // ── Output mode ──────────────────────────────────────────
+  // Pure static site — no server, served from CDN
   output: 'static',
 
-  // ── Site URL (required for sitemap + canonical links) ────
+  // Canonical URL (used for sitemap + og:url)
   site: 'https://www.putincoffee.com',
 
-  // ── Build options ────────────────────────────────────────
+  // Build
   build: {
     inlineStylesheets: 'auto',
     assets: '_astro',
     format: 'file',
   },
 
-  // ── Vite (bundler) config ─────────────────────────────────
+  // Vite
   vite: {
     build: {
-      minify: 'terser',
-      terserOptions: {
-        compress: {
-          drop_console: true,
-        },
-      },
-      rollupOptions: {
-        output: {
-          manualChunks: {
-            vendor: ['astro'],
-          },
-        },
-      },
+      chunkSizeWarningLimit: 1000,
     },
-    ssr: {
-      external: ['sharp'],
+    esbuild: {
+      // Strip console.* in production
+      drop: ['console', 'debugger'],
     },
   },
 
-  // ── Integrations ──────────────────────────────────────────
-  integrations: [],
-
-  // ── Markdown ──────────────────────────────────────────────
-  markdown: {
-    shikiConfig: {
-      theme: 'github-dark',
+  // Image
+  image: {
+    service: {
+      entrypoint: 'astro/assets/services/sharp',
     },
   },
 
-  // ── Dev server ────────────────────────────────────────────
+  // Dev server
   server: {
     port: 4321,
     host: true,
-  },
-
-  // ── Prefetch (improves perceived navigation speed) ────────
-  prefetch: {
-    prefetchAll: false,
-    defaultStrategy: 'hover',
   },
 });

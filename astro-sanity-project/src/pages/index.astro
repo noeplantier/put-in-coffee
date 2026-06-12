@@ -312,9 +312,9 @@ const aboutStats = [
           <p class="footer__tagline" data-en="Where the ocean meets espresso. Beachfront specialty coffee on Pantai Biaung, Denpasar, Bali." data-id="Di mana lautan bertemu espresso. Kopi spesial di tepi pantai Pantai Biaung, Denpasar, Bali.">Where the ocean meets espresso. Beachfront specialty coffee on Pantai Biaung, Denpasar, Bali.</p>
           <div class="footer__socials">
             {[
-              { href:settings.instagramUrl??'#', label:'Instagram', svg:`<rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>` },
+              { href:'https://www.instagram.com/put.in.coffee/', label:'Instagram', svg:`<rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>` },
                 { href:`https://wa.me/${(settings.whatsapp??'+62 819-1633-4989').replace(/\s/g,'')}`, label:'WhatsApp', svg:`<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" stroke-width="1.4" fill="none"/>` },
-              { href:settings.tiktokUrl??'#', label:'TikTok', svg:`<path d="M9 12a4 4 0 104 4V4a5 5 0 005 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/>` },
+              { href:'https://www.tiktok.com/@put.in_coffee', svg:`<path d="M9 12a4 4 0 104 4V4a5 5 0 005 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/>` },
             ].map(s => (
               <a href={s.href} target="_blank" rel="noopener" aria-label={s.label} class="footer__social-btn">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" set:html={s.svg}/>
@@ -335,8 +335,8 @@ const aboutStats = [
           <ul>
             <li><a href={`tel:${settings.phone}`} class="footer__link">{settings.phone??'+62 819-1633-4989'}</a></li>
             <li><a href={`https://wa.me/${(settings.whatsapp??'+62 819-1633-4989').replace(/\s/g,'')}`} target="_blank" rel="noopener" class="footer__link">WhatsApp</a></li>
-            <li><a href={settings.instagramUrl??'#'} target="_blank" rel="noopener" class="footer__link">Instagram</a></li>
-            <li><a href={settings.tiktokUrl??'#'} target="_blank" rel="noopener" class="footer__link">TikTok</a></li>
+            <li><a href='https://www.instagram.com/put.in.coffee/' target="_blank" rel="noopener" class="footer__link">Instagram</a></li>
+            <li><a href='https://www.tiktok.com/@put.in_coffee' target="_blank" rel="noopener" class="footer__link">TikTok</a></li>
           </ul>
         </div>
       </div>

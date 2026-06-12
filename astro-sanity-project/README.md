@@ -155,7 +155,7 @@ SANITY_API_TOKEN      = your_read_only_token
 PUBLIC_CLOUDINARY_CLOUD_NAME = your_cloud_name
 PUBLIC_PLAUSIBLE_DOMAIN      = putincoffee.com
 PUBLIC_SITE_URL              = https://putincoffee.com
-PUBLIC_WHATSAPP_NUMBER       = 628123456789
+PUBLIC_WHATSAPP_NUMBER       = 6281916334989
 PUBLIC_EMAIL                 = hello@putincoffee.com
 ```
 

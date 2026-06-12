@@ -680,7 +680,7 @@ textarea.res__input { resize: none; line-height: 1.6; }
       var today = new Date(now.getTime() + 8 * 3600000).getUTCDay();
       var todayHours = '';
       if ([1,2,3,4].indexOf(today) !== -1) todayHours = isID ? '06.00 – 24.00 · setiap hari' : '6am – midnight · daily';
-      else todayHours = isID ? '12.00 – 03.00 · akhir pekan' : '12pm – 3am · weekend';
+      else todayHours = isID ? '12.00 – 11.00 · akhir pekan' : '12am – 11pm · weekend';
       hoursEl.textContent = todayHours;
     }
   }

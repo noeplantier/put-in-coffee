@@ -57,7 +57,7 @@ const reviews = [
   <!-- ── Header ─────────────────────────────────────────── -->
   <header class="revs__head" data-reveal>
     <p class="eyebrow" data-en="what guests say" data-id="kata tamu kami">what guests say</p>
-    <h2 class="section-title" data-en="real words, real moments" data-id="kata nyata, momen nyata">
+    <h2 class="section-title" data-en="real words, real moments" data-id="kata nyata, momen nyata" style="font-family: var(--font-body, 'Jost', sans-serif); font-style: normal;">
       real words, real moments
     </h2>
 
@@ -183,7 +183,7 @@ const reviews = [
 .revs { background: var(--bg2, #0f0d0b); }
 
 /* ── Header ─────────────────────────────────────────────── */
-.revs__head { text-align: center; margin-bottom: 1.85rem; }
+.revs__head { font-family: var(--font-body, 'Jost', sans-serif); text-align: center; margin-bottom: 1.85rem; }
 .revs__rating-row {
   display: flex; align-items: center; justify-content: center; gap: 1.15rem;
   flex-wrap: wrap; margin-top: 1rem;
@@ -249,7 +249,7 @@ const reviews = [
 .revs__deco {
   position: absolute; top: -8px; left: 11px;
   font-family: var(--font-display, serif); font-size: 4.5rem; line-height: 1;
-  color: rgba(201,146,74,.07); pointer-events: none; user-select: none; font-style: italic;
+  color: rgba(201,146,74,.07); pointer-events: none; user-select: none; 
 }
 
 /* Stars */
@@ -257,7 +257,8 @@ const reviews = [
 
 /* Review text */
 .revs__text {
-  font-size: .79rem; font-weight: 300; font-style: italic;
+  font-size: .79rem; font-weight: 300; 
+  font-family: var(--font-body, 'Jost', sans-serif);
   color: rgba(245,239,230,.7); line-height: 1.65; margin: 0; flex: 1;
   display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
   text-transform: lowercase;

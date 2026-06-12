@@ -14,10 +14,11 @@
         <p class="eyebrow res__reveal"
            data-en="get in touch" data-id="hubungi kami">get in touch</p>
 
-        <h2 class="res__title res__reveal">
-          <span data-en="reserve your" data-id="pesan meja anda">reserve your</span><br>
-          <em data-en="slice of paradise" data-id="surga tepi pantai">slice of paradise</em>
-        </h2>
+            <h2 class="res__title res__reveal">
+              <span data-en="reserve your" data-id="pesan meja anda">reserve your</span><br>
+              <span data-en="slice of paradise" data-id="surga tepi pantai">slice of paradise</span>
+            </h2>
+
 
         <p class="res__sub res__reveal"
            data-en="sunrise coffee, romantic sunset dinners, or a private beach event — we'll make every moment count at pantai biaung."
@@ -287,18 +288,8 @@
                 <circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.6" fill="none"/>
                 <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/>
               </svg>
-              <span class="res__btn-text" data-en="send via instagram DM" data-id="kirim via instagram DM">send via instagram DM</span>
+              <span class="res__btn-text" data-en="send DM" data-id="kirim via instagram DM">send via instagram DM</span>
             </button>
-
-            <!-- Secondary: Netlify form fallback -->
-            <button type="submit" id="res-submit" class="res__btn-secondary">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M22 2L11 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M22 2L15 22l-4-9-9-4 20-7z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              <span class="res__btn-text" data-en="send reservation" data-id="kirim reservasi">send reservation</span>
-            </button>
-          </div>
 
           <p class="res__note"
              data-en="we reply within 2 hours · free · no credit card needed"
@@ -370,12 +361,12 @@
 /* ── Title ──────────────────────────────────────────────────── */
 .res__title {
   font-size: clamp(1.7rem, 3.5vw, 2.4rem);
-  font-weight: 400; text-transform: lowercase;
+  font-weight: 400; 
   color: var(--cream, #F0E8DC);
   margin: 0 0 1rem; line-height: 1.2;
 }
 .res__title em {
-  font-style: italic; font-weight: 400;
+   font-weight: 400;
   background: linear-gradient(135deg, var(--gold-lt, #E8C97A), var(--gold, #C9924A));
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
@@ -507,7 +498,7 @@
   -webkit-backdrop-filter: blur(10px);
 }
 .res__form-title {
-  font-family: var(--font-display, serif);
+  font-family: var( Jost, serif);
   font-size: 1.25rem; font-weight: 500;
   color: var(--cream); margin: 0 0 1.5rem; text-transform: lowercase;
 }
